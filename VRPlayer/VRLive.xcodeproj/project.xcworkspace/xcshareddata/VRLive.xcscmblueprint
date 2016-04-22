@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "B08D9286450ED8054EC15E9B1AD8823C3B19E8CC",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "B08D9286450ED8054EC15E9B1AD8823C3B19E8CC" : 0,
+    "E67F01F9F968AE77A86D5227840E5CC9AFFD2705" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "4E7DA90B-1218-4FA2-A02C-BFB64AE430A9",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "B08D9286450ED8054EC15E9B1AD8823C3B19E8CC" : "VRPlayer\/",
+    "E67F01F9F968AE77A86D5227840E5CC9AFFD2705" : "VRPlayer\/GamePlay\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "VRLive",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "VRPlayer\/VRLive.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/super626\/VRPlayer",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B08D9286450ED8054EC15E9B1AD8823C3B19E8CC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/gameplay3d\/GamePlay",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E67F01F9F968AE77A86D5227840E5CC9AFFD2705"
+    }
+  ]
+}

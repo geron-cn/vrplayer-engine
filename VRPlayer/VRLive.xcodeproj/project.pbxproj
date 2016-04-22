@@ -18,13 +18,12 @@
 		3E8E25481CBA920700A62A62 /* videostate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E252A1CB9FD5100A62A62 /* videostate.cpp */; };
 		3E8E25491CBA920D00A62A62 /* videoplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E25281CB9FD5100A62A62 /* videoplayer.cpp */; };
 		3E8E254A1CBA921100A62A62 /* libavwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E25261CB9FD5100A62A62 /* libavwrapper.cpp */; };
-		3E8E256B1CBC92BB00A62A62 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8E25641CBC92BB00A62A62 /* libavcodec.a */; };
-		3E8E256C1CBC92BB00A62A62 /* libavdevice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8E25651CBC92BB00A62A62 /* libavdevice.a */; };
-		3E8E256D1CBC92BB00A62A62 /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8E25661CBC92BB00A62A62 /* libavfilter.a */; };
-		3E8E256E1CBC92BB00A62A62 /* libavformat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8E25671CBC92BB00A62A62 /* libavformat.a */; };
-		3E8E256F1CBC92BB00A62A62 /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8E25681CBC92BB00A62A62 /* libavutil.a */; };
-		3E8E25701CBC92BB00A62A62 /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8E25691CBC92BB00A62A62 /* libswresample.a */; };
-		3E8E25711CBC92BB00A62A62 /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8E256A1CBC92BB00A62A62 /* libswscale.a */; };
+		3EB48AA41CC9F73800051958 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48A9E1CC9F73800051958 /* libavcodec.a */; };
+		3EB48AA51CC9F73800051958 /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48A9F1CC9F73800051958 /* libavfilter.a */; };
+		3EB48AA61CC9F73800051958 /* libavformat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48AA01CC9F73800051958 /* libavformat.a */; };
+		3EB48AA71CC9F73800051958 /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48AA11CC9F73800051958 /* libavutil.a */; };
+		3EB48AA81CC9F73800051958 /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48AA21CC9F73800051958 /* libswresample.a */; };
+		3EB48AA91CC9F73800051958 /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48AA31CC9F73800051958 /* libswscale.a */; };
 		3EC3AB1E1CC4F21E0025C9C3 /* ALMovieAudioFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3AB1C1CC4F21E0025C9C3 /* ALMovieAudioFactory.cpp */; };
 		3EC3AB1F1CC4F21E0025C9C3 /* ALMovieAudioFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3AB1C1CC4F21E0025C9C3 /* ALMovieAudioFactory.cpp */; };
 		3EC3AB201CC5C6F40025C9C3 /* audiodecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E25231CB9FD5100A62A62 /* audiodecoder.cpp */; };
@@ -93,13 +92,12 @@
 		3E8E25291CB9FD5100A62A62 /* videoplayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = videoplayer.hpp; sourceTree = "<group>"; };
 		3E8E252A1CB9FD5100A62A62 /* videostate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = videostate.cpp; sourceTree = "<group>"; };
 		3E8E252B1CB9FD5100A62A62 /* videostate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = videostate.hpp; sourceTree = "<group>"; };
-		3E8E25641CBC92BB00A62A62 /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = ffmpeg/mac/lib/libavcodec.a; sourceTree = "<group>"; };
-		3E8E25651CBC92BB00A62A62 /* libavdevice.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavdevice.a; path = ffmpeg/mac/lib/libavdevice.a; sourceTree = "<group>"; };
-		3E8E25661CBC92BB00A62A62 /* libavfilter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavfilter.a; path = ffmpeg/mac/lib/libavfilter.a; sourceTree = "<group>"; };
-		3E8E25671CBC92BB00A62A62 /* libavformat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavformat.a; path = ffmpeg/mac/lib/libavformat.a; sourceTree = "<group>"; };
-		3E8E25681CBC92BB00A62A62 /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavutil.a; path = ffmpeg/mac/lib/libavutil.a; sourceTree = "<group>"; };
-		3E8E25691CBC92BB00A62A62 /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = ffmpeg/mac/lib/libswresample.a; sourceTree = "<group>"; };
-		3E8E256A1CBC92BB00A62A62 /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = ffmpeg/mac/lib/libswscale.a; sourceTree = "<group>"; };
+		3EB48A9E1CC9F73800051958 /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = ffmpeg/ios/lib/libavcodec.a; sourceTree = "<group>"; };
+		3EB48A9F1CC9F73800051958 /* libavfilter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavfilter.a; path = ffmpeg/ios/lib/libavfilter.a; sourceTree = "<group>"; };
+		3EB48AA01CC9F73800051958 /* libavformat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavformat.a; path = ffmpeg/ios/lib/libavformat.a; sourceTree = "<group>"; };
+		3EB48AA11CC9F73800051958 /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavutil.a; path = ffmpeg/ios/lib/libavutil.a; sourceTree = "<group>"; };
+		3EB48AA21CC9F73800051958 /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = ffmpeg/ios/lib/libswresample.a; sourceTree = "<group>"; };
+		3EB48AA31CC9F73800051958 /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = ffmpeg/ios/lib/libswscale.a; sourceTree = "<group>"; };
 		3EC3AB1C1CC4F21E0025C9C3 /* ALMovieAudioFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ALMovieAudioFactory.cpp; sourceTree = "<group>"; };
 		3EC3AB1D1CC4F21E0025C9C3 /* ALMovieAudioFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMovieAudioFactory.h; sourceTree = "<group>"; };
 		42049B5216ADBB61005DD1F9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
@@ -138,13 +136,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3E8E256B1CBC92BB00A62A62 /* libavcodec.a in Frameworks */,
-				3E8E256C1CBC92BB00A62A62 /* libavdevice.a in Frameworks */,
-				3E8E256D1CBC92BB00A62A62 /* libavfilter.a in Frameworks */,
-				3E8E256E1CBC92BB00A62A62 /* libavformat.a in Frameworks */,
-				3E8E256F1CBC92BB00A62A62 /* libavutil.a in Frameworks */,
-				3E8E25701CBC92BB00A62A62 /* libswresample.a in Frameworks */,
-				3E8E25711CBC92BB00A62A62 /* libswscale.a in Frameworks */,
 				435FC4281A539A9C003D4E9C /* libgameplay.a in Frameworks */,
 				435FC4261A539A8D003D4E9C /* libgameplay-deps.a in Frameworks */,
 				421090FA1829A5AE00761E40 /* GameKit.framework in Frameworks */,
@@ -160,6 +151,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EB48AA41CC9F73800051958 /* libavcodec.a in Frameworks */,
+				3EB48AA51CC9F73800051958 /* libavfilter.a in Frameworks */,
+				3EB48AA61CC9F73800051958 /* libavformat.a in Frameworks */,
+				3EB48AA71CC9F73800051958 /* libavutil.a in Frameworks */,
+				3EB48AA81CC9F73800051958 /* libswresample.a in Frameworks */,
+				3EB48AA91CC9F73800051958 /* libswscale.a in Frameworks */,
 				435FC42C1A539B4E003D4E9C /* libgameplay.a in Frameworks */,
 				435FC42A1A539B31003D4E9C /* libgameplay-deps.a in Frameworks */,
 				42049B5816ADBB61005DD1F9 /* CoreMotion.framework in Frameworks */,
@@ -202,13 +199,12 @@
 		42C932BF1491A0DB0098216A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3E8E25641CBC92BB00A62A62 /* libavcodec.a */,
-				3E8E25651CBC92BB00A62A62 /* libavdevice.a */,
-				3E8E25661CBC92BB00A62A62 /* libavfilter.a */,
-				3E8E25671CBC92BB00A62A62 /* libavformat.a */,
-				3E8E25681CBC92BB00A62A62 /* libavutil.a */,
-				3E8E25691CBC92BB00A62A62 /* libswresample.a */,
-				3E8E256A1CBC92BB00A62A62 /* libswscale.a */,
+				3EB48A9E1CC9F73800051958 /* libavcodec.a */,
+				3EB48A9F1CC9F73800051958 /* libavfilter.a */,
+				3EB48AA01CC9F73800051958 /* libavformat.a */,
+				3EB48AA11CC9F73800051958 /* libavutil.a */,
+				3EB48AA21CC9F73800051958 /* libswresample.a */,
+				3EB48AA31CC9F73800051958 /* libswscale.a */,
 				5BC4E77F150F879E00CBE1C0 /* gameplay.xcodeproj */,
 				5BC4E849150F911D00CBE1C0 /* shaders */,
 				5B61613914CCC3560073B857 /* iOS */,

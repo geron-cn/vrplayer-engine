@@ -1,7 +1,10 @@
 #FFmpeg
 #OpenALSoft
 
-.DS_Store
+*.DS_Store
+*/DerivedData
+tools/products
+
 # Compiled Object files
 *.slo
 *.lo
@@ -30,3 +33,4 @@
 *.exe
 *.out
 *.app
+

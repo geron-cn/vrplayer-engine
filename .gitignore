@@ -1,7 +1,7 @@
-FFmpeg
+#FFmpeg
+#OpenALSoft
 
-OpenALSoft
-
+.DS_Store
 # Compiled Object files
 *.slo
 *.lo

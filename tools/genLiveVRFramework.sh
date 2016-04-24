@@ -1,3 +1,5 @@
+SCRIPURL=$(cd `dirname $0`; pwd)
+cd $SCRIPURL/../VRLiveFramework
 FRAMEWORK=VRLiveFramework
 SCHEMENAME=VRLiveFramework
 BUILD=build

@@ -70,7 +70,14 @@ bool VRPlayer::playVideo (const std::string& resourceName)
 /// Get the current playback time position in the video, in seconds
 double VRPlayer::getCurrentTime()
 {
-    return 0.0;
+    Video::VideoPlayer* video = nullptr;
+    GETVIDEOSTATE(_playerObj, video);
+    if(video == nullptr)
+    {
+        GP_WARN("videostate is not initialized! ");
+        return 0.0;
+    }
+    return video->getCurrentTime();
 }
 
 /// Get the duration of the video in seconds

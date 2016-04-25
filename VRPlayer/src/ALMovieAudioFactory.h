@@ -1,10 +1,10 @@
 #ifndef AL_MOVIE_AUDIO_FACTORY_H
 #define AL_MOVIE_AUDIO_FACTORY_H
 
-#include <thread>
+//#include <thread>
 #include "audiofactory.hpp"
-#include "gameplay.h"
-#include <condition_variable>
+#include "openal/al.h"
+#include "openal/alc.h"
 #include <mutex>
 
 class ALMovieAudioFactory : public Video::MovieAudioFactory
@@ -17,7 +17,7 @@ class ALMovieAudioFactory : public Video::MovieAudioFactory
 class ALMovieAudioDecoder : public Video::MovieAudioDecoder
 {
 public:
-#define NUM_BUFFERS 4096
+    
     virtual void adjustAudioSettings(AVSampleFormat& sampleFormat, uint64_t& channelLayout, int& sampleRate) override;
 
     virtual void setupFormat() override;
@@ -28,10 +28,16 @@ public:
     // set listener's orientation
     void setListenerOrientation(float vec[6]);
 
-    //set audio source position
+    // set audio source position
     void setSourcePosition(float x, float y, float z);
+    
+    // set audio speed
     void setSourceVelocity(float x, float y, float z);
-
+    
+    // set audio's gain, 1.0 is the loudest
+    void  setSourceGain(float voiceL);
+    float getSourceGain() const;
+    
     ALMovieAudioDecoder(Video::VideoState* videoState);
     ~ALMovieAudioDecoder();
 
@@ -42,15 +48,13 @@ private:
 
     ALuint _sourceId;
     ALuint _bufferId;
-
+    
+#define BUFFER_SIZE 4096
+    unsigned char stream[BUFFER_SIZE];
     std::thread  _audioThread;
-    std::thread  _playAudioThread;
-    std::mutex   _audioBufferMutex;
-    std::condition_variable _audioBufferCond;
     ALCcontext *_context;
     ALCdevice *_device;
-    ALenum _alformat;
-    //ALuint _buffers[NUM_BUFFERS];
+    ALenum     _alformat;
 };
 
 

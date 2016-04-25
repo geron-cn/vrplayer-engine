@@ -1,5 +1,4 @@
 #include "audiodecoder.hpp"
-#include "gameplay.h"
 
 
 extern "C"
@@ -33,7 +32,7 @@ namespace
 {
     void fail(const std::string &str)
     {
-        GP_WARN(str.c_str());
+        throw std::runtime_error(str);
     }
 
     const double AUDIO_DIFF_AVG_NB = 20;
@@ -109,13 +108,15 @@ void MovieAudioDecoder::setupFormat()
     }
 }
 
+    
+#define SAMPLE_CORRECTION_MAX_DIFF 0.1
 int MovieAudioDecoder::synchronize_audio()
 {
     if(mVideoState->av_sync_type == AV_SYNC_AUDIO_MASTER)
         return 0;
-
+    
     int sample_skip = 0;
-
+    
     // accumulate the clock difference
     double diff = mVideoState->get_master_clock() - mVideoState->get_audio_clock();
     mAudioDiffAccum = diff + mAudioDiffAvgCoef * mAudioDiffAccum;
@@ -123,18 +124,37 @@ int MovieAudioDecoder::synchronize_audio()
         mAudioDiffAvgCount++;
     else
     {
-        double avg_diff = mAudioDiffAccum * (1.0 - mAudioDiffAvgCoef);
-        if(fabs(avg_diff) >= mAudioDiffThreshold)
+        if(!(fabs(diff) < 10))//mAudioDiffThreshold))
         {
-            int n = av_get_bytes_per_sample(mOutputSampleFormat) *
-                    av_get_channel_layout_nb_channels(mOutputChannelLayout);
-            sample_skip = ((int)(diff * mAVStream->codec->sample_rate) * n);
+            /* Difference is TOO big; reset diff stuff */
+            mAudioDiffAccum = 0.0;
+            return 0;
+            
         }
+        
+        double avg_diff = mAudioDiffAccum * (1.0 - mAudioDiffAvgCoef);
+        if(fabs(avg_diff) < mAudioDiffThreshold)
+            return 0;
+        
+        /* Constrain the per-update difference to avoid exceedingly large skips */
+        if(!(diff <= SAMPLE_CORRECTION_MAX_DIFF))
+            diff = SAMPLE_CORRECTION_MAX_DIFF;
+        else if(!(diff >= -SAMPLE_CORRECTION_MAX_DIFF))
+            diff = -SAMPLE_CORRECTION_MAX_DIFF;
+        //int n = av_get_bytes_per_sample(mOutputSampleFormat) * av_get_channel_layout_nb_channels(mOutputChannelLayout);
+        sample_skip = ((int)(diff * mAVStream->codec->sample_rate));
+        //        printf("skiped: %d \n", sample_skip);
+        //        return (int)(diff*movState->audio.st->codec->sample_rate);
+        //
+        //        {
+        //            int n = av_get_bytes_per_sample(mOutputSampleFormat) *
+        //                    av_get_channel_layout_nb_channels(mOutputChannelLayout);
+        //            sample_skip = ((int)(diff * mAVStream->codec->sample_rate) * n);
+        //        }
     }
-
-    return 0;//sample_skip;
+    return sample_skip;
 }
-
+    
 int MovieAudioDecoder::audio_decode_frame(AVFrame *frame, int &sample_skip)
 {
     AVPacket *pkt = &mPacket;
@@ -182,6 +202,7 @@ int MovieAudioDecoder::audio_decode_frame(AVFrame *frame, int &sample_skip)
             else
                 mFrameData = &frame->data[0];
 
+            auto clockdiff= (double)frame->nb_samples / (double)mAVStream->codec->sample_rate;
             mAudioClock += (double)frame->nb_samples /
                            (double)mAVStream->codec->sample_rate;
 

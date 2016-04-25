@@ -1,3 +1,12 @@
+#FFmpeg
+#OpenALSoft
+
+*.DS_Store
+*/DerivedData
+tools/products
+GamePlay/gameplay/build
+*.swp
+
 # Compiled Object files
 *.slo
 *.lo
@@ -19,10 +28,11 @@
 # Compiled Static libraries
 *.lai
 *.la
-*.a
-*.lib
+#*.a
+#*.lib
 
 # Executables
 *.exe
 *.out
 *.app
+

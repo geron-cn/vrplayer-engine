@@ -18,6 +18,10 @@
 		3E8E25481CBA920700A62A62 /* videostate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E252A1CB9FD5100A62A62 /* videostate.cpp */; };
 		3E8E25491CBA920D00A62A62 /* videoplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E25281CB9FD5100A62A62 /* videoplayer.cpp */; };
 		3E8E254A1CBA921100A62A62 /* libavwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E25261CB9FD5100A62A62 /* libavwrapper.cpp */; };
+		3E9B93541CCC78240070A7AB /* alffplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B93531CCC78240070A7AB /* alffplay.cpp */; };
+		3E9B93551CCC78240070A7AB /* alffplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B93531CCC78240070A7AB /* alffplay.cpp */; };
+		3E9B935E1CCC91190070A7AB /* VRPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B935D1CCC91190070A7AB /* VRPlayer.cpp */; };
+		3E9B935F1CCC91190070A7AB /* VRPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B935D1CCC91190070A7AB /* VRPlayer.cpp */; };
 		3EB48AA41CC9F73800051958 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48A9E1CC9F73800051958 /* libavcodec.a */; };
 		3EB48AA51CC9F73800051958 /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48A9F1CC9F73800051958 /* libavfilter.a */; };
 		3EB48AA61CC9F73800051958 /* libavformat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48AA01CC9F73800051958 /* libavformat.a */; };
@@ -90,6 +94,9 @@
 		3E8E25291CB9FD5100A62A62 /* videoplayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = videoplayer.hpp; sourceTree = "<group>"; };
 		3E8E252A1CB9FD5100A62A62 /* videostate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = videostate.cpp; sourceTree = "<group>"; };
 		3E8E252B1CB9FD5100A62A62 /* videostate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = videostate.hpp; sourceTree = "<group>"; };
+		3E9B93531CCC78240070A7AB /* alffplay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = alffplay.cpp; sourceTree = "<group>"; };
+		3E9B935C1CCC8D720070A7AB /* VRPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VRPlayer.h; sourceTree = "<group>"; };
+		3E9B935D1CCC91190070A7AB /* VRPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VRPlayer.cpp; sourceTree = "<group>"; };
 		3EB48A9E1CC9F73800051958 /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = ffmpeg/ios/lib/libavcodec.a; sourceTree = "<group>"; };
 		3EB48A9F1CC9F73800051958 /* libavfilter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavfilter.a; path = ffmpeg/ios/lib/libavfilter.a; sourceTree = "<group>"; };
 		3EB48AA01CC9F73800051958 /* libavformat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavformat.a; path = ffmpeg/ios/lib/libavformat.a; sourceTree = "<group>"; };
@@ -212,6 +219,9 @@
 		42C932C61491A0DB0098216A /* src */ = {
 			isa = PBXGroup;
 			children = (
+				3E9B935D1CCC91190070A7AB /* VRPlayer.cpp */,
+				3E9B935C1CCC8D720070A7AB /* VRPlayer.h */,
+				3E9B93531CCC78240070A7AB /* alffplay.cpp */,
 				3EC3AB1C1CC4F21E0025C9C3 /* ALMovieAudioFactory.cpp */,
 				3EC3AB1D1CC4F21E0025C9C3 /* ALMovieAudioFactory.h */,
 				3E8E25231CB9FD5100A62A62 /* audiodecoder.cpp */,
@@ -422,11 +432,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E9B935E1CCC91190070A7AB /* VRPlayer.cpp in Sources */,
 				42C932F11491A5160098216A /* VRGame.cpp in Sources */,
 				3E8E252C1CB9FD5100A62A62 /* audiodecoder.cpp in Sources */,
 				3E8E252D1CB9FD5100A62A62 /* libavwrapper.cpp in Sources */,
 				3E8E252F1CB9FD5100A62A62 /* videostate.cpp in Sources */,
 				3E56601B1CB65CE70079FD0E /* SphereVideoSurround.cpp in Sources */,
+				3E9B93541CCC78240070A7AB /* alffplay.cpp in Sources */,
 				3E8E252E1CB9FD5100A62A62 /* videoplayer.cpp in Sources */,
 				3E5660161CB615690079FD0E /* StereoRender.cpp in Sources */,
 				3EC3AB1E1CC4F21E0025C9C3 /* ALMovieAudioFactory.cpp in Sources */,
@@ -437,11 +449,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E9B935F1CCC91190070A7AB /* VRPlayer.cpp in Sources */,
 				3E8E254A1CBA921100A62A62 /* libavwrapper.cpp in Sources */,
 				3EC3AB201CC5C6F40025C9C3 /* audiodecoder.cpp in Sources */,
 				5B61611614CCC24C0073B857 /* VRGame.cpp in Sources */,
 				3E56601C1CB65CEB0079FD0E /* SphereVideoSurround.cpp in Sources */,
 				3E5660181CB6156C0079FD0E /* StereoRender.cpp in Sources */,
+				3E9B93551CCC78240070A7AB /* alffplay.cpp in Sources */,
 				3E8E25491CBA920D00A62A62 /* videoplayer.cpp in Sources */,
 				3E8E25481CBA920700A62A62 /* videostate.cpp in Sources */,
 				3EC3AB1F1CC4F21E0025C9C3 /* ALMovieAudioFactory.cpp in Sources */,

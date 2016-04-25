@@ -29,6 +29,7 @@ public:
     
     void setVREnabled(bool enable) { _isVREnabled = enable; }
 
+    SphereVideoSurround* getSphereVideoSurround() const { return _videoSurround; }
 protected:
     
     void updateHeadRotation();

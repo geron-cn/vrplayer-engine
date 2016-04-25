@@ -7,6 +7,9 @@ tools/products
 GamePlay/gameplay/build
 *.swp
 *.xcuserstate
+*.d
+*.class
+*.apk
 
 # Compiled Object files
 *.slo

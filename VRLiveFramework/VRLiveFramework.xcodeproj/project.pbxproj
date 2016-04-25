@@ -32,6 +32,8 @@
 		C52B4A861CCA5F9400E2AE1F /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A801CCA5F9400E2AE1F /* libswresample.a */; };
 		C52B4A871CCA5F9400E2AE1F /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A811CCA5F9400E2AE1F /* libswscale.a */; };
 		C52B4A881CCA5FCE00E2AE1F /* libgameplay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A7B1CCA5F7200E2AE1F /* libgameplay.a */; };
+		C5D899A31CCDF57100D59C2E /* VRPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C5D899A11CCDF57100D59C2E /* VRPlayer.cpp */; };
+		C5D899A41CCDF57100D59C2E /* VRPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = C5D899A21CCDF57100D59C2E /* VRPlayer.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +88,8 @@
 		C52B4A7F1CCA5F9400E2AE1F /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavutil.a; path = ../VRPlayer/ffmpeg/ios/lib/libavutil.a; sourceTree = "<group>"; };
 		C52B4A801CCA5F9400E2AE1F /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = ../VRPlayer/ffmpeg/ios/lib/libswresample.a; sourceTree = "<group>"; };
 		C52B4A811CCA5F9400E2AE1F /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = ../VRPlayer/ffmpeg/ios/lib/libswscale.a; sourceTree = "<group>"; };
+		C5D899A11CCDF57100D59C2E /* VRPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VRPlayer.cpp; sourceTree = "<group>"; };
+		C5D899A21CCDF57100D59C2E /* VRPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VRPlayer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,7 +114,7 @@
 		C51297AA1CCA1414001BB778 = {
 			isa = PBXGroup;
 			children = (
-				C52B4A231CCA19B000E2AE1F /* src */,
+				C52B4A231CCA19B000E2AE1F /* VRLive */,
 				C52B4A221CCA19A000E2AE1F /* libs */,
 				C51297B61CCA1414001BB778 /* VRLiveFramework */,
 				C51297B51CCA1414001BB778 /* Products */,
@@ -128,6 +132,8 @@
 		C51297B61CCA1414001BB778 /* VRLiveFramework */ = {
 			isa = PBXGroup;
 			children = (
+				C5D899A11CCDF57100D59C2E /* VRPlayer.cpp */,
+				C5D899A21CCDF57100D59C2E /* VRPlayer.h */,
 				C51297B91CCA1414001BB778 /* Info.plist */,
 			);
 			path = VRLiveFramework;
@@ -148,7 +154,7 @@
 			name = libs;
 			sourceTree = "<group>";
 		};
-		C52B4A231CCA19B000E2AE1F /* src */ = {
+		C52B4A231CCA19B000E2AE1F /* VRLive */ = {
 			isa = PBXGroup;
 			children = (
 				C52B4A4F1CCA5EF800E2AE1F /* ALMovieAudioFactory.cpp */,
@@ -169,7 +175,7 @@
 				C52B4A5E1CCA5EF800E2AE1F /* VRGame.cpp */,
 				C52B4A5F1CCA5EF800E2AE1F /* VRGame.h */,
 			);
-			name = src;
+			name = VRLive;
 			sourceTree = "<group>";
 		};
 		C52B4A741CCA5F7200E2AE1F /* Products */ = {
@@ -197,6 +203,7 @@
 				C52B4A6C1CCA5EF800E2AE1F /* videoplayer.hpp in Headers */,
 				C52B4A641CCA5EF800E2AE1F /* audiofactory.hpp in Headers */,
 				C52B4A671CCA5EF800E2AE1F /* SphereVideoSurround.h in Headers */,
+				C5D899A41CCDF57100D59C2E /* VRPlayer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +304,7 @@
 				C52B4A601CCA5EF800E2AE1F /* ALMovieAudioFactory.cpp in Sources */,
 				C52B4A6D1CCA5EF800E2AE1F /* videostate.cpp in Sources */,
 				C52B4A621CCA5EF800E2AE1F /* audiodecoder.cpp in Sources */,
+				C5D899A31CCDF57100D59C2E /* VRPlayer.cpp in Sources */,
 				C52B4A6F1CCA5EF800E2AE1F /* VRGame.cpp in Sources */,
 				C52B4A6B1CCA5EF800E2AE1F /* videoplayer.cpp in Sources */,
 				C52B4A681CCA5EF800E2AE1F /* StereoRender.cpp in Sources */,

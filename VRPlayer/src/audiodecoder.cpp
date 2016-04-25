@@ -32,7 +32,7 @@ namespace
 {
     void fail(const std::string &str)
     {
-        throw std::runtime_error(str);
+        GP_WARN(str.c_str());
     }
 
     const double AUDIO_DIFF_AVG_NB = 20;
@@ -202,7 +202,6 @@ int MovieAudioDecoder::audio_decode_frame(AVFrame *frame, int &sample_skip)
             else
                 mFrameData = &frame->data[0];
 
-            auto clockdiff= (double)frame->nb_samples / (double)mAVStream->codec->sample_rate;
             mAudioClock += (double)frame->nb_samples /
                            (double)mAVStream->codec->sample_rate;
 

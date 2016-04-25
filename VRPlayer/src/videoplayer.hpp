@@ -62,7 +62,7 @@ namespace Video
 
         gameplay::Texture* getTexture();
 
-        
+        MovieAudioFactory* getAudioFactory() const {return mAudioFactory.get();}
     private:
         VideoState* mState;
 

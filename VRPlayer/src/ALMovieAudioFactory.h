@@ -3,8 +3,8 @@
 
 //#include <thread>
 #include "audiofactory.hpp"
-#include "openal/al.h"
-#include "openal/alc.h"
+//#include "openal/al.h"
+//#include "openal/alc.h"
 #include <mutex>
 
 class ALMovieAudioFactory : public Video::MovieAudioFactory

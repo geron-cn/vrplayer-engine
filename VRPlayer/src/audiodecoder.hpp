@@ -10,19 +10,25 @@
 #include <memory>
 #include "gameplay.h"
 
-extern "C"
-{
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
     #include "libavutil/avutil.h"
     #include "libavcodec/avcodec.h"
     #include "libavformat/avformat.h"
-    
-#include <libswresample/swresample.h>
+    #include "libswresample/swresample.h"
 
     #if AV_VERSION_INT(52, 2, 0) <= AV_VERSION_INT(LIBAVUTIL_VERSION_MAJOR, \
         LIBAVUTIL_VERSION_MINOR, LIBAVUTIL_VERSION_MICRO)
         #include <libavutil/channel_layout.h>
     #endif
+    
+#ifdef __cplusplus
 }
+#endif
+
 
 #ifdef _WIN32
 #ifndef __GNUC__

@@ -2,8 +2,16 @@
 
 #include <stdexcept>
 #include <chrono>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include "libavutil/samplefmt.h"
 #include <libswresample/swresample.h>
+#ifdef __cplusplus
+}
+#endif
+        
 #include "videostate.hpp"
 
 std::shared_ptr<Video::MovieAudioDecoder> ALMovieAudioFactory::createDecoder(Video::VideoState* videoState)
@@ -23,40 +31,12 @@ void ALMovieAudioDecoder::adjustAudioSettings(AVSampleFormat& sampleFormat, uint
         printf("could not create buffers!\n");
         return;
     }
-    //// get al format 
-    //switch (mAVStream->codec->sample_fmt)
-    //{
-    //case AV_SAMPLE_FMT_U8P:
-    //    if(mAVStream->codec->channels == 1)
-    //        _alformat = AL_FORMAT_MONO8;
-    //    else if (mAVStream->codec->channels == 2)
-    //        _alformat = AL_FORMAT_STEREO8;
-    //case AV_SAMPLE_FMT_S16:
-    //case  AV_SAMPLE_FMT_S16P:
-    //    if(mAVStream->codec->channels == 1)
-    //        _alformat = AL_FORMAT_MONO16;
-    //    else if (mAVStream->codec->channels == 2)
-    //        _alformat = AL_FORMAT_STEREO16;
-    //case AV_SAMPLE_FMT_FLTP:
-    //    //alformat = AL_FORMAT_STEREO_FLOAT32;
-    //default:
-    //    break;
-    //}
-    //
-    //if (!_alformat) {
-    //    printf("OpenAL can't open this format of sound.\n");
-    //    return;
-    //}
-
-    /*auto dataSize = av_samples_get_buffer_size(NULL, self->mAVStream->codec->channels,
-        decodedFrame->nb_samples, self->mAVStream->codec->sample_fmt, 1); */   //@TODO need use datadize to limit bufflen
     alGenSources(1, &_sourceId);
     alSourcei(_sourceId, AL_LOOPING, AL_FALSE);
     alSourcef(_sourceId, AL_SOURCE_TYPE, AL_STREAMING);
     alSourcef(_sourceId, AL_GAIN, 1.0f);
     
-    _audioThread = std::thread(std::bind(&ALMovieAudioDecoder::audioPlay_thread, this));
-   // updateQueueBufferData();
+    _audioThread = std::thread(std::bind(&ALMovieAudioDecoder::audioPlay_thread, this), false);
 }
 
 ALMovieAudioDecoder::ALMovieAudioDecoder(Video::VideoState* videoState)
@@ -65,14 +45,37 @@ ALMovieAudioDecoder::ALMovieAudioDecoder(Video::VideoState* videoState)
     , _device(nullptr)
     , _context(nullptr)
 {
+    _device = alcOpenDevice(NULL);
+    if(!_device)
+    {
+        fprintf(stderr, "OpenAL: could not open device - exiting\n");
+        return;
+    }
+    _context = alcCreateContext(_device, NULL);
+    if(!_context)
+    {
+        fprintf(stderr, "OpenAL: could not create context - exiting\n");
+        return;
+    }
+    if(alcMakeContextCurrent(_context) == ALC_FALSE)
+    {
+        fprintf(stderr, "OpenAL: could not make context current - exiting\n");
+        return;
+    }
 }
 
 ALMovieAudioDecoder::~ALMovieAudioDecoder()
 {
-    //delete our source  
     updateQueueBufferData();
-    alDeleteSources(1, &_sourceId);
-    
+    if(_sourceId != 0)
+        alDeleteSources(1, &_sourceId);
+    alcMakeContextCurrent(NULL);
+    if(_context != nullptr)
+    {
+        alcDestroyContext(_context);
+    }
+    if(_device != nullptr)
+        alcCloseDevice(_device);
 }
 
 void ALMovieAudioDecoder::setListenerPosition(float x, float y, float z)
@@ -95,14 +98,22 @@ void ALMovieAudioDecoder::setSourceVelocity(float x, float y, float z)
     alSource3f(_sourceId, AL_VELOCITY, x, y, z);
 }
 
-#define BUFFER_SIZE 4096
-unsigned char stream[BUFFER_SIZE];
-#define MIN(X, Y) (((X)<(Y))? (X) : (Y) )
-#define MAX(X, Y) (((X)<(Y))? (Y) : (X) )
+void ALMovieAudioDecoder::setSourceGain(float voiceL)
+{
+    alSourcef(_sourceId, AL_GAIN, voiceL);
+}
+
+float ALMovieAudioDecoder::getSourceGain() const
+{
+    ALfloat gain = 0.0f;
+    alGetSourcef(_sourceId, AL_GAIN, &gain);
+    return gain;
+}
+
 void ALMovieAudioDecoder::audioPlay_thread()
 {
-    bool buffered = false;
     ALint queued = 0;
+    int readedSize = 0;
     while (true)
     {
         if (mVideoState->mPaused)
@@ -118,7 +129,6 @@ void ALMovieAudioDecoder::audioPlay_thread()
             continue;
         }
         
-        int readedSize = 0;
         auto frame = mFrame;
         readedSize = read(stream, BUFFER_SIZE);
         if (readedSize > 0)
@@ -134,33 +144,14 @@ void ALMovieAudioDecoder::audioPlay_thread()
             }
 
             alGenBuffers(1, &_bufferId);
-            //                 if (alGetError() != AL_NO_ERROR)
-            //                 {
-            //                     printf("Error generate buffering :(\n");
-            //                     // return ;
-            //                 }
             alBufferData(_bufferId, AL_FORMAT_STEREO16, stream, readedSize/*audioFrame->linesize[0]*/, frame->sample_rate);
-            //                 if (alGetError() != AL_NO_ERROR)
-            //                 {
-            //                     printf( "Error assign buffering :(\n");
-            //                    // return ;
-            //                 }
             alSourceQueueBuffers(_sourceId, 1, &_bufferId);
-            //                 if (alGetError() != AL_NO_ERROR)
-            //                 {
-            //                     printf( "Error queueing buffers :(\n");
-            //                     //return ;
-            //                 }
-            
             updateQueueBufferData();
             ALenum err2 = alGetError();
             if (err2 != AL_NO_ERROR)
             {
                 printf("Error play buffers and release buffers:(\n");
-                //return ;
             }
-
-           // std::this_thread::sleep_for(std::chrono::milliseconds(20));
         }
     }
 }
@@ -168,7 +159,7 @@ void ALMovieAudioDecoder::audioPlay_thread()
 bool ALMovieAudioDecoder::updateQueueBufferData()
 {
     ALint state = 0;
-    int processed = 0;// , queued = 0;
+    int processed = 0;
     alGetSourcei(_sourceId, AL_SOURCE_STATE, &state);
     if (state != AL_PLAYING)
     {
@@ -177,13 +168,10 @@ bool ALMovieAudioDecoder::updateQueueBufferData()
     }
 
     alGetSourcei(_sourceId, AL_BUFFERS_PROCESSED, &processed);
-    //alGetSourcei(_sourceId, AL_BUFFERS_QUEUED, &queued);
     while (processed--)
     {
         ALuint bufferId;
-        auto b = _audioBufferMutex.try_lock();
         alSourceUnqueueBuffers(_sourceId, 1, &bufferId);
-        _audioBufferMutex.unlock();
         alDeleteBuffers(1, &bufferId);
     }
     return true;
@@ -199,7 +187,7 @@ void ALMovieAudioDecoder::setupFormat()
 
     int inputSampleRate = mAVStream->codec->sample_rate;
 
-    mOutputSampleRate = inputSampleRate;//  44100;
+    mOutputSampleRate = inputSampleRate;//  44100 48000;
     mOutputSampleFormat = AV_SAMPLE_FMT_S16;
     mOutputChannelLayout = AV_CH_LAYOUT_STEREO;
     if (inputSampleFormat != mOutputSampleFormat

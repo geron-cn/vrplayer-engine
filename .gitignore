@@ -6,6 +6,7 @@
 tools/products
 GamePlay/gameplay/build
 *.swp
+*.xcuserstate
 
 # Compiled Object files
 *.slo

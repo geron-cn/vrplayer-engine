@@ -33,7 +33,7 @@
 		C52B4A871CCA5F9400E2AE1F /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A811CCA5F9400E2AE1F /* libswscale.a */; };
 		C52B4A881CCA5FCE00E2AE1F /* libgameplay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A7B1CCA5F7200E2AE1F /* libgameplay.a */; };
 		C5D899A31CCDF57100D59C2E /* VRPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C5D899A11CCDF57100D59C2E /* VRPlayer.cpp */; };
-		C5D899A41CCDF57100D59C2E /* VRPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = C5D899A21CCDF57100D59C2E /* VRPlayer.h */; };
+		C5D899A41CCDF57100D59C2E /* VRPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = C5D899A21CCDF57100D59C2E /* VRPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -194,6 +194,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5D899A41CCDF57100D59C2E /* VRPlayer.h in Headers */,
 				C52B4A701CCA5EF800E2AE1F /* VRGame.h in Headers */,
 				C52B4A6A1CCA5EF800E2AE1F /* videodefs.hpp in Headers */,
 				C52B4A631CCA5EF800E2AE1F /* audiodecoder.hpp in Headers */,
@@ -203,7 +204,6 @@
 				C52B4A6C1CCA5EF800E2AE1F /* videoplayer.hpp in Headers */,
 				C52B4A641CCA5EF800E2AE1F /* audiofactory.hpp in Headers */,
 				C52B4A671CCA5EF800E2AE1F /* SphereVideoSurround.h in Headers */,
-				C5D899A41CCDF57100D59C2E /* VRPlayer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

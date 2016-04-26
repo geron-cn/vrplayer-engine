@@ -29,6 +29,7 @@ public:
      */
     void touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
     
+    StereoRender* getSteroRender() const { return _stereoRender;}
     
 protected:
 

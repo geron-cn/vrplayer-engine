@@ -58,7 +58,7 @@ bool SphereVideoSurround::initialize(Scene* scene)
     scene->addNode(_sphere);
     
     _player = new Video::VideoPlayer();
-    _player->setAudioFactory(new ALMovieAudioFactory());
+    _player->setAudioFactory(new Video::ALMovieAudioFactory());
 //    setVideoURL("http://124.207.19.118:80/beijing-test/manifest.m3u8");
 //    setVideoURL("http://qjdl.bravocloud.com.cn/android/android-12_05_15_comikazi_v01.mp4");
 //    setVideoURL("2.ts");

@@ -32,6 +32,14 @@
 		C52B4A861CCA5F9400E2AE1F /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A801CCA5F9400E2AE1F /* libswresample.a */; };
 		C52B4A871CCA5F9400E2AE1F /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A811CCA5F9400E2AE1F /* libswscale.a */; };
 		C52B4A881CCA5FCE00E2AE1F /* libgameplay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A7B1CCA5F7200E2AE1F /* libgameplay.a */; };
+		C5D899A31CCDF57100D59C2E /* VRPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C5D899A11CCDF57100D59C2E /* VRPlayer.cpp */; };
+		C5D899A41CCDF57100D59C2E /* VRPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = C5D899A21CCDF57100D59C2E /* VRPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C5D899F41CCE649D00D59C2E /* Game.h in Headers */ = {isa = PBXBuildFile; fileRef = C5D899F31CCE649D00D59C2E /* Game.h */; };
+		C5D899FC1CCE69D900D59C2E /* al.h in Headers */ = {isa = PBXBuildFile; fileRef = C5D899FA1CCE69D900D59C2E /* al.h */; };
+		C5D899FD1CCE69D900D59C2E /* alc.h in Headers */ = {isa = PBXBuildFile; fileRef = C5D899FB1CCE69D900D59C2E /* alc.h */; };
+		C5D899FF1CCE6A5400D59C2E /* AudioBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = C5D899FE1CCE6A5400D59C2E /* AudioBuffer.h */; };
+		C5D89A011CCE6A5B00D59C2E /* AudioSource.h in Headers */ = {isa = PBXBuildFile; fileRef = C5D89A001CCE6A5B00D59C2E /* AudioSource.h */; };
+		C5D89A031CCE6A6B00D59C2E /* AudioController.h in Headers */ = {isa = PBXBuildFile; fileRef = C5D89A021CCE6A6B00D59C2E /* AudioController.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +94,14 @@
 		C52B4A7F1CCA5F9400E2AE1F /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavutil.a; path = ../VRPlayer/ffmpeg/ios/lib/libavutil.a; sourceTree = "<group>"; };
 		C52B4A801CCA5F9400E2AE1F /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = ../VRPlayer/ffmpeg/ios/lib/libswresample.a; sourceTree = "<group>"; };
 		C52B4A811CCA5F9400E2AE1F /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = ../VRPlayer/ffmpeg/ios/lib/libswscale.a; sourceTree = "<group>"; };
+		C5D899A11CCDF57100D59C2E /* VRPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VRPlayer.cpp; sourceTree = "<group>"; };
+		C5D899A21CCDF57100D59C2E /* VRPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VRPlayer.h; sourceTree = "<group>"; };
+		C5D899F31CCE649D00D59C2E /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Game.h; path = ../GamePlay/gameplay/src/Game.h; sourceTree = "<group>"; };
+		C5D899FA1CCE69D900D59C2E /* al.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = al.h; path = "../GamePlay/external-deps/include/AL/al.h"; sourceTree = "<group>"; };
+		C5D899FB1CCE69D900D59C2E /* alc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = alc.h; path = "../GamePlay/external-deps/include/AL/alc.h"; sourceTree = "<group>"; };
+		C5D899FE1CCE6A5400D59C2E /* AudioBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AudioBuffer.h; path = ../GamePlay/gameplay/src/AudioBuffer.h; sourceTree = "<group>"; };
+		C5D89A001CCE6A5B00D59C2E /* AudioSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AudioSource.h; path = ../GamePlay/gameplay/src/AudioSource.h; sourceTree = "<group>"; };
+		C5D89A021CCE6A6B00D59C2E /* AudioController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AudioController.h; path = ../GamePlay/gameplay/src/AudioController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,7 +126,8 @@
 		C51297AA1CCA1414001BB778 = {
 			isa = PBXGroup;
 			children = (
-				C52B4A231CCA19B000E2AE1F /* src */,
+				C5D899F51CCE64A700D59C2E /* OtherHeaders */,
+				C52B4A231CCA19B000E2AE1F /* VRLive */,
 				C52B4A221CCA19A000E2AE1F /* libs */,
 				C51297B61CCA1414001BB778 /* VRLiveFramework */,
 				C51297B51CCA1414001BB778 /* Products */,
@@ -128,6 +145,8 @@
 		C51297B61CCA1414001BB778 /* VRLiveFramework */ = {
 			isa = PBXGroup;
 			children = (
+				C5D899A11CCDF57100D59C2E /* VRPlayer.cpp */,
+				C5D899A21CCDF57100D59C2E /* VRPlayer.h */,
 				C51297B91CCA1414001BB778 /* Info.plist */,
 			);
 			path = VRLiveFramework;
@@ -148,7 +167,7 @@
 			name = libs;
 			sourceTree = "<group>";
 		};
-		C52B4A231CCA19B000E2AE1F /* src */ = {
+		C52B4A231CCA19B000E2AE1F /* VRLive */ = {
 			isa = PBXGroup;
 			children = (
 				C52B4A4F1CCA5EF800E2AE1F /* ALMovieAudioFactory.cpp */,
@@ -169,7 +188,7 @@
 				C52B4A5E1CCA5EF800E2AE1F /* VRGame.cpp */,
 				C52B4A5F1CCA5EF800E2AE1F /* VRGame.h */,
 			);
-			name = src;
+			name = VRLive;
 			sourceTree = "<group>";
 		};
 		C52B4A741CCA5F7200E2AE1F /* Products */ = {
@@ -181,6 +200,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C5D899F51CCE64A700D59C2E /* OtherHeaders */ = {
+			isa = PBXGroup;
+			children = (
+				C5D89A021CCE6A6B00D59C2E /* AudioController.h */,
+				C5D89A001CCE6A5B00D59C2E /* AudioSource.h */,
+				C5D899FE1CCE6A5400D59C2E /* AudioBuffer.h */,
+				C5D899FA1CCE69D900D59C2E /* al.h */,
+				C5D899FB1CCE69D900D59C2E /* alc.h */,
+				C5D899F31CCE649D00D59C2E /* Game.h */,
+			);
+			name = OtherHeaders;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -188,6 +220,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5D899A41CCDF57100D59C2E /* VRPlayer.h in Headers */,
+				C5D89A031CCE6A6B00D59C2E /* AudioController.h in Headers */,
+				C5D89A011CCE6A5B00D59C2E /* AudioSource.h in Headers */,
+				C5D899FF1CCE6A5400D59C2E /* AudioBuffer.h in Headers */,
+				C5D899FC1CCE69D900D59C2E /* al.h in Headers */,
+				C5D899FD1CCE69D900D59C2E /* alc.h in Headers */,
+				C5D899F41CCE649D00D59C2E /* Game.h in Headers */,
 				C52B4A701CCA5EF800E2AE1F /* VRGame.h in Headers */,
 				C52B4A6A1CCA5EF800E2AE1F /* videodefs.hpp in Headers */,
 				C52B4A631CCA5EF800E2AE1F /* audiodecoder.hpp in Headers */,
@@ -297,6 +336,7 @@
 				C52B4A601CCA5EF800E2AE1F /* ALMovieAudioFactory.cpp in Sources */,
 				C52B4A6D1CCA5EF800E2AE1F /* videostate.cpp in Sources */,
 				C52B4A621CCA5EF800E2AE1F /* audiodecoder.cpp in Sources */,
+				C5D899A31CCDF57100D59C2E /* VRPlayer.cpp in Sources */,
 				C52B4A6F1CCA5EF800E2AE1F /* VRGame.cpp in Sources */,
 				C52B4A6B1CCA5EF800E2AE1F /* videoplayer.cpp in Sources */,
 				C52B4A681CCA5EF800E2AE1F /* StereoRender.cpp in Sources */,
@@ -413,7 +453,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../VRPlayer/ffmpeg/include",
-					"$(PROJECT_DIR)/../GamePlay/external-deps/include/**",
+					"$(PROJECT_DIR)/../GamePlay/external-deps/include",
 					"$(PROJECT_DIR)/../GamePlay/gameplay/src",
 				);
 				INFOPLIST_FILE = VRLiveFramework/Info.plist;
@@ -461,7 +501,7 @@
 				"GCC_WARN_64_TO_32_BIT_CONVERSION[arch=*64]" = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../VRPlayer/ffmpeg/include",
-					"$(PROJECT_DIR)/../GamePlay/external-deps/include/**",
+					"$(PROJECT_DIR)/../GamePlay/external-deps/include",
 					"$(PROJECT_DIR)/../GamePlay/gameplay/src",
 				);
 				INFOPLIST_FILE = VRLiveFramework/Info.plist;

@@ -512,7 +512,6 @@
 		6290E04C18223DDD00A28FB9 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6290E04B18223DDD00A28FB9 /* GameKit.framework */; };
 		BD2636E516CF5B7400CFE15F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2636DF16CF5B7400CFE15F /* CoreMotion.framework */; };
 		BD2636E616CF5B7400CFE15F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2636E016CF5B7400CFE15F /* Foundation.framework */; };
-		BD2636E716CF5B7400CFE15F /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2636E116CF5B7400CFE15F /* OpenAL.framework */; };
 		BD2636E816CF5B7400CFE15F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2636E216CF5B7400CFE15F /* OpenGLES.framework */; };
 		BD2636E916CF5B7400CFE15F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2636E316CF5B7400CFE15F /* QuartzCore.framework */; };
 		BD2636EA16CF5B7400CFE15F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2636E416CF5B7400CFE15F /* UIKit.framework */; };
@@ -1080,7 +1079,6 @@
 				6290E04A18223DCC00A28FB9 /* GameKit.framework in Frameworks */,
 				BD2636E516CF5B7400CFE15F /* CoreMotion.framework in Frameworks */,
 				BD2636E616CF5B7400CFE15F /* Foundation.framework in Frameworks */,
-				BD2636E716CF5B7400CFE15F /* OpenAL.framework in Frameworks */,
 				BD2636E816CF5B7400CFE15F /* OpenGLES.framework in Frameworks */,
 				BD2636E916CF5B7400CFE15F /* QuartzCore.framework in Frameworks */,
 				BD2636EA16CF5B7400CFE15F /* UIKit.framework in Frameworks */,

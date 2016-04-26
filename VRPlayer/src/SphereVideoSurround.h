@@ -26,6 +26,8 @@ public:
     
     bool setVideoURL(const std::string& url);
 
+
+    Video::VideoPlayer* getVideoPlayer() const {return _player;}
 protected:
     
     void finalize();

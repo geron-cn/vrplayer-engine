@@ -161,9 +161,10 @@ int MovieAudioDecoder::audio_decode_frame(AVFrame *frame, int &sample_skip)
 
     for(;;)
     {
+        int got_frame = -1;
         while(pkt->size > 0)
         {
-            int len1, got_frame;
+            int len1;
 
             len1 = avcodec_decode_audio4(mAVStream->codec, frame, &got_frame, pkt);
             if(len1 < 0) break;
@@ -209,7 +210,8 @@ int MovieAudioDecoder::audio_decode_frame(AVFrame *frame, int &sample_skip)
             return frame->nb_samples * av_get_channel_layout_nb_channels(mOutputChannelLayout) *
                    av_get_bytes_per_sample(mOutputSampleFormat);
         }
-        av_free_packet(pkt);
+        if(got_frame >0)
+            av_free_packet(pkt);
 
         /* next packet */
         if(mVideoState->audioq.get(pkt, mVideoState) < 0)

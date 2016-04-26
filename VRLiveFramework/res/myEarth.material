@@ -1,0 +1,49 @@
+material textured
+{
+    u_worldViewProjectionMatrix = WORLD_VIEW_PROJECTION_MATRIX
+    
+    sampler u_diffuseTexture
+    {
+        mipmap = false
+        wrapS = CLAMP
+        wrapT = CLAMP
+        minFilter = LINEAR
+        magFilter = LINEAR
+    }
+
+    renderState
+    {
+        cullFace = true
+        depthTest = false
+        depthWrite = false
+        blend = false
+    }
+    
+    technique
+    {
+        pass 
+        {
+            vertexShader = res/shaders/vrvideo.vert
+            fragmentShader = res/shaders/vrvideo.frag
+        }
+    }
+}
+
+material 01___Default : textured
+{
+    sampler u_diffuseTexture
+    {
+        path = black.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+    technique
+    {
+        pass 
+        {
+            //defines = SPECULAR
+        }
+    }
+}
+

@@ -59,6 +59,9 @@ private:
      * Draws the scene each frame.
      */
     bool drawScene(Node* node);
+    
+    Form* _activeForm;
+    static const char LOGO_PNG_DATA[524289]; // 256*256*4*2 + 1
 
     Scene* _scene;
     StereoRender* _stereoRender;

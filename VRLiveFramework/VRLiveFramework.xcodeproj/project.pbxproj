@@ -25,13 +25,11 @@
 		C52B4A6F1CCA5EF800E2AE1F /* VRGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C52B4A5E1CCA5EF800E2AE1F /* VRGame.cpp */; };
 		C52B4A701CCA5EF800E2AE1F /* VRGame.h in Headers */ = {isa = PBXBuildFile; fileRef = C52B4A5F1CCA5EF800E2AE1F /* VRGame.h */; };
 		C52B4A721CCA5F2700E2AE1F /* libgameplay-deps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A711CCA5F2700E2AE1F /* libgameplay-deps.a */; };
-		C52B4A821CCA5F9400E2AE1F /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A7C1CCA5F9400E2AE1F /* libavcodec.a */; };
 		C52B4A831CCA5F9400E2AE1F /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A7D1CCA5F9400E2AE1F /* libavfilter.a */; };
 		C52B4A841CCA5F9400E2AE1F /* libavformat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A7E1CCA5F9400E2AE1F /* libavformat.a */; };
 		C52B4A851CCA5F9400E2AE1F /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A7F1CCA5F9400E2AE1F /* libavutil.a */; };
 		C52B4A861CCA5F9400E2AE1F /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A801CCA5F9400E2AE1F /* libswresample.a */; };
 		C52B4A871CCA5F9400E2AE1F /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A811CCA5F9400E2AE1F /* libswscale.a */; };
-		C52B4A881CCA5FCE00E2AE1F /* libgameplay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C52B4A7B1CCA5F7200E2AE1F /* libgameplay.a */; };
 		C5D899A31CCDF57100D59C2E /* VRPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C5D899A11CCDF57100D59C2E /* VRPlayer.cpp */; };
 		C5D899A41CCDF57100D59C2E /* VRPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = C5D899A21CCDF57100D59C2E /* VRPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C5D899F41CCE649D00D59C2E /* Game.h in Headers */ = {isa = PBXBuildFile; fileRef = C5D899F31CCE649D00D59C2E /* Game.h */; };
@@ -41,26 +39,28 @@
 		C5D89A011CCE6A5B00D59C2E /* AudioSource.h in Headers */ = {isa = PBXBuildFile; fileRef = C5D89A001CCE6A5B00D59C2E /* AudioSource.h */; };
 		C5D89A031CCE6A6B00D59C2E /* AudioController.h in Headers */ = {isa = PBXBuildFile; fileRef = C5D89A021CCE6A6B00D59C2E /* AudioController.h */; };
 		C5D89AFD1CCF1E7F00D59C2E /* res in Resources */ = {isa = PBXBuildFile; fileRef = C5D89AFC1CCF1E7F00D59C2E /* res */; };
+		C5FEE74F1CD0644E0001057A /* libgameplay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FEE74C1CD0643D0001057A /* libgameplay.a */; };
+		C5FEE7511CD0671F0001057A /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FEE7501CD0671F0001057A /* libavcodec.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C52B4A781CCA5F7200E2AE1F /* PBXContainerItemProxy */ = {
+		C5FEE7491CD0643D0001057A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C52B4A731CCA5F7200E2AE1F /* gameplay.xcodeproj */;
+			containerPortal = C5FEE7441CD0643D0001057A /* gameplay.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4234D99A14686C52003031B3;
 			remoteInfo = "gameplay-macosx";
 		};
-		C52B4A7A1CCA5F7200E2AE1F /* PBXContainerItemProxy */ = {
+		C5FEE74B1CD0643D0001057A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C52B4A731CCA5F7200E2AE1F /* gameplay.xcodeproj */;
+			containerPortal = C5FEE7441CD0643D0001057A /* gameplay.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 5B04C5CA14BFCFE100EB0071;
 			remoteInfo = "gameplay-ios";
 		};
-		C52B4A891CCA5FDB00E2AE1F /* PBXContainerItemProxy */ = {
+		C5FEE74D1CD064460001057A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C52B4A731CCA5F7200E2AE1F /* gameplay.xcodeproj */;
+			containerPortal = C5FEE7441CD0643D0001057A /* gameplay.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 5B04C52B14BFCFE100EB0071;
 			remoteInfo = "gameplay-ios";
@@ -88,8 +88,6 @@
 		C52B4A5E1CCA5EF800E2AE1F /* VRGame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VRGame.cpp; path = ../VRPlayer/src/VRGame.cpp; sourceTree = "<group>"; };
 		C52B4A5F1CCA5EF800E2AE1F /* VRGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VRGame.h; path = ../VRPlayer/src/VRGame.h; sourceTree = "<group>"; };
 		C52B4A711CCA5F2700E2AE1F /* libgameplay-deps.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgameplay-deps.a"; path = "../GamePlay/external-deps/lib/ios/x86/libgameplay-deps.a"; sourceTree = "<group>"; };
-		C52B4A731CCA5F7200E2AE1F /* gameplay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gameplay.xcodeproj; path = ../GamePlay/gameplay/gameplay.xcodeproj; sourceTree = "<group>"; };
-		C52B4A7C1CCA5F9400E2AE1F /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = ../VRPlayer/ffmpeg/ios/lib/libavcodec.a; sourceTree = "<group>"; };
 		C52B4A7D1CCA5F9400E2AE1F /* libavfilter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavfilter.a; path = ../VRPlayer/ffmpeg/ios/lib/libavfilter.a; sourceTree = "<group>"; };
 		C52B4A7E1CCA5F9400E2AE1F /* libavformat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavformat.a; path = ../VRPlayer/ffmpeg/ios/lib/libavformat.a; sourceTree = "<group>"; };
 		C52B4A7F1CCA5F9400E2AE1F /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavutil.a; path = ../VRPlayer/ffmpeg/ios/lib/libavutil.a; sourceTree = "<group>"; };
@@ -111,6 +109,8 @@
 		C5D89AD41CCF142E00D59C2E /* sphere.gpb */ = {isa = PBXFileReference; lastKnownFileType = file; path = sphere.gpb; sourceTree = "<group>"; };
 		C5D89AD51CCF142E00D59C2E /* ui */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ui; sourceTree = "<group>"; };
 		C5D89AFC1CCF1E7F00D59C2E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
+		C5FEE7441CD0643D0001057A /* gameplay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gameplay.xcodeproj; path = ../GamePlay/gameplay/gameplay.xcodeproj; sourceTree = "<group>"; };
+		C5FEE7501CD0671F0001057A /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = ../VRPlayer/ffmpeg/ios/lib/libavcodec.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,12 +118,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C52B4A881CCA5FCE00E2AE1F /* libgameplay.a in Frameworks */,
+				C5FEE74F1CD0644E0001057A /* libgameplay.a in Frameworks */,
 				C52B4A851CCA5F9400E2AE1F /* libavutil.a in Frameworks */,
 				C52B4A871CCA5F9400E2AE1F /* libswscale.a in Frameworks */,
+				C5FEE7511CD0671F0001057A /* libavcodec.a in Frameworks */,
 				C52B4A831CCA5F9400E2AE1F /* libavfilter.a in Frameworks */,
 				C52B4A721CCA5F2700E2AE1F /* libgameplay-deps.a in Frameworks */,
-				C52B4A821CCA5F9400E2AE1F /* libavcodec.a in Frameworks */,
 				C52B4A861CCA5F9400E2AE1F /* libswresample.a in Frameworks */,
 				C52B4A841CCA5F9400E2AE1F /* libavformat.a in Frameworks */,
 			);
@@ -166,13 +166,13 @@
 		C52B4A221CCA19A000E2AE1F /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				C52B4A7C1CCA5F9400E2AE1F /* libavcodec.a */,
+				C5FEE7441CD0643D0001057A /* gameplay.xcodeproj */,
 				C52B4A7D1CCA5F9400E2AE1F /* libavfilter.a */,
 				C52B4A7E1CCA5F9400E2AE1F /* libavformat.a */,
+				C5FEE7501CD0671F0001057A /* libavcodec.a */,
 				C52B4A7F1CCA5F9400E2AE1F /* libavutil.a */,
 				C52B4A801CCA5F9400E2AE1F /* libswresample.a */,
 				C52B4A811CCA5F9400E2AE1F /* libswscale.a */,
-				C52B4A731CCA5F7200E2AE1F /* gameplay.xcodeproj */,
 				C52B4A711CCA5F2700E2AE1F /* libgameplay-deps.a */,
 			);
 			name = libs;
@@ -202,15 +202,6 @@
 			name = VRLive;
 			sourceTree = "<group>";
 		};
-		C52B4A741CCA5F7200E2AE1F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C52B4A791CCA5F7200E2AE1F /* libgameplay.a */,
-				C52B4A7B1CCA5F7200E2AE1F /* libgameplay.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		C5D899F51CCE64A700D59C2E /* OtherHeaders */ = {
 			isa = PBXGroup;
 			children = (
@@ -236,6 +227,15 @@
 				C5D89AD51CCF142E00D59C2E /* ui */,
 			);
 			path = res;
+			sourceTree = "<group>";
+		};
+		C5FEE7451CD0643D0001057A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C5FEE74A1CD0643D0001057A /* libgameplay.a */,
+				C5FEE74C1CD0643D0001057A /* libgameplay.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,7 +279,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				C52B4A8A1CCA5FDB00E2AE1F /* PBXTargetDependency */,
+				C5FEE74E1CD064460001057A /* PBXTargetDependency */,
 			);
 			name = VRLiveFramework;
 			productName = VRLiveFramework;
@@ -313,8 +313,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = C52B4A741CCA5F7200E2AE1F /* Products */;
-					ProjectRef = C52B4A731CCA5F7200E2AE1F /* gameplay.xcodeproj */;
+					ProductGroup = C5FEE7451CD0643D0001057A /* Products */;
+					ProjectRef = C5FEE7441CD0643D0001057A /* gameplay.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -325,18 +325,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		C52B4A791CCA5F7200E2AE1F /* libgameplay.a */ = {
+		C5FEE74A1CD0643D0001057A /* libgameplay.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libgameplay.a;
-			remoteRef = C52B4A781CCA5F7200E2AE1F /* PBXContainerItemProxy */;
+			remoteRef = C5FEE7491CD0643D0001057A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C52B4A7B1CCA5F7200E2AE1F /* libgameplay.a */ = {
+		C5FEE74C1CD0643D0001057A /* libgameplay.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libgameplay.a;
-			remoteRef = C52B4A7A1CCA5F7200E2AE1F /* PBXContainerItemProxy */;
+			remoteRef = C5FEE74B1CD0643D0001057A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -372,10 +372,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C52B4A8A1CCA5FDB00E2AE1F /* PBXTargetDependency */ = {
+		C5FEE74E1CD064460001057A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "gameplay-ios";
-			targetProxy = C52B4A891CCA5FDB00E2AE1F /* PBXContainerItemProxy */;
+			targetProxy = C5FEE74D1CD064460001057A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -491,11 +491,13 @@
 					"$(PROJECT_DIR)/../VRPlayer/ffmpeg/ios/lib",
 					"$(PROJECT_DIR)/../GamePlay/gameplay/build/Release-iphonesimulator",
 					"$(PROJECT_DIR)/../FamePlay/external-deps/lib/ios/x86",
+					"$(PROJECT_DIR)/lib/arm",
+					"$(PROJECT_DIR)/lib/x86",
+					"$(PROJECT_DIR)/lib",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/../VRPlayer/ffmpeg/ios/lib",
-					"$(PROJECT_DIR)/../GamePlay/gameplay/build/Release-iphoneos",
 					"$(PROJECT_DIR)/../GamePlay/external-deps/lib/ios/arm",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = (
@@ -513,6 +515,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "arm64 armv7s armv7 i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -538,19 +541,17 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/../VRPlayer/ffmpeg/ios/lib",
-					"$(PROJECT_DIR)/gameplay/gameplay/build/Release-iphonesimulator",
-					"$(PROJECT_DIR)/gameplay/external-deps/lib/ios/x86",
+					"$(PROJECT_DIR)/lib/arm",
+					"$(PROJECT_DIR)/lib/x86",
+					"$(PROJECT_DIR)/lib",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = (
-					"$(inherited)",
 					"$(PROJECT_DIR)/../VRPlayer/ffmpeg/ios/lib",
-					"$(PROJECT_DIR)/../GamePlay/gameplay/build/Release-iphoneos",
 					"$(PROJECT_DIR)/../GamePlay/external-deps/lib/ios/arm",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = (
-					"$(inherited)",
 					"$(PROJECT_DIR)/../VRPlayer/ffmpeg/ios/lib",
-					"$(PROJECT_DIR)/../GamePlay/gameplay/build/Release-iphonesimulator",
+					"$(inherited)",
 					"$(PROJECT_DIR)/../GamePlay/external-deps/lib/ios/x86",
 				);
 				MACH_O_TYPE = staticlib;
@@ -562,6 +563,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "arm64 armv7s armv7 i386 x86_64";
 			};
 			name = Release;
 		};

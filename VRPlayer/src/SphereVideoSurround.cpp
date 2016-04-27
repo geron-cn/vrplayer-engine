@@ -1,4 +1,4 @@
-#include "SphereVideoSurround.h"
+ #include "SphereVideoSurround.h"
 #include "ALMovieAudioFactory.h"
 #include "SpriteBatch.h"
 #include "ScreenDisplayer.h"
@@ -25,7 +25,11 @@ LIBAVFORMAT_VERSION_MINOR, LIBAVFORMAT_VERSION_MICRO)
     
 }
 
-SphereVideoSurround::SphereVideoSurround(): _sphere(nullptr), _player(nullptr), _sampler(nullptr)
+SphereVideoSurround::SphereVideoSurround()
+    : _sphere(nullptr)
+    , _player(nullptr)
+    , _sampler(nullptr)
+    , _logoTexture(nullptr)
 {
 }
 
@@ -39,26 +43,14 @@ void SphereVideoSurround::finalize()
     SAFE_RELEASE(_sphere);
     SAFE_DELETE(_player);
     SAFE_RELEASE(_sampler);
+    SAFE_RELEASE(_logoTexture);
 }
 
 void SphereVideoSurround::drawSplash(void* param)
 {
     Game::getInstance()->clear(Game::ClearFlags::CLEAR_COLOR_DEPTH, Vector4(0, 0, 0, 1), 1.0f, 0);
     
-    
-    unsigned char data[262144];
-    char rgbaChar[2];
-    int rgbaInt;
-    for (int i=0; i < 262144; i++)
-    {
-        rgbaChar[0] = LOGO_PNG_DATA[i*2];
-        rgbaChar[1] = LOGO_PNG_DATA[i*2 +1];
-        sscanf(rgbaChar,"%x",&rgbaInt);
-        data[i] = rgbaInt;
-    }
-    Texture* texture = Texture::create(Texture::Format::RGBA, 256, 256, data);
-    SpriteBatch* batch = SpriteBatch::create(texture);
-    SAFE_RELEASE(texture);
+    SpriteBatch* batch = SpriteBatch::create(_logoTexture);
     batch->start();
     batch->draw(Game::getInstance()->getWidth() * 0.5f,
                 Game::getInstance()->getHeight() * 0.5f, 0.0f,
@@ -71,7 +63,20 @@ bool SphereVideoSurround::initialize(Scene* scene)
 {
     finalize();
     
-    
+    if(_logoTexture == nullptr)
+    {
+        unsigned char data[262144]; // 256 * 256 * 4
+        char rgbaChar[2];
+        int rgbaInt;
+        for (int i=0; i < 262144; i++)
+        {
+            rgbaChar[0] = LOGO_PNG_DATA[i*2];
+            rgbaChar[1] = LOGO_PNG_DATA[i*2 +1];
+            sscanf(rgbaChar,"%x",&rgbaInt);
+            data[i] = rgbaInt;
+        }
+        _logoTexture = Texture::create(Texture::Format::RGBA, 256, 256, data);
+    }
     displayScreen(this, &SphereVideoSurround::drawSplash, NULL, 1000L);
     
 
@@ -88,11 +93,11 @@ bool SphereVideoSurround::initialize(Scene* scene)
     
     _player = new Video::VideoPlayer();
     _player->setAudioFactory(new Video::ALMovieAudioFactory());
-    setVideoURL("http://124.207.19.118:80/beijing-test/manifest.m3u8");
+//    setVideoURL("http://124.207.19.118:80/beijing-test/manifest.m3u8");
 //    setVideoURL("http://qjdl.bravocloud.com.cn/android/android-12_05_15_comikazi_v01.mp4");
 //    setVideoURL("2.ts");
 //    setVideoURL("http://qjdldown.bravovcloud.com.cn/live/test.m3u8");
- //     setVideoURL(Game::getInstance()->getLiveURL());
+      setVideoURL(Game::getInstance()->getLiveURL());
 //    setVideoURL("http://gotye-live-10022.ufile.ucloud.com.cn/08fc0f4a-5120-43dd-98f2-424660dd263c.mp4?k=52d00265544a4faf&t=1461064771");
 //    setVideoURL("http://qjdlplay.bravovcloud.com.cn/live/test.m3u8");
     

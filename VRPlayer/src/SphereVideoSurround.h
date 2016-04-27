@@ -34,8 +34,6 @@ protected:
     void finalize();
 
 private:
-
-    void drawSplash(void* param);
     
     Node* _sphere;
     

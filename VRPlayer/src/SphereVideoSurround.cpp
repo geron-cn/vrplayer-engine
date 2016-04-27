@@ -44,19 +44,6 @@ void SphereVideoSurround::finalize()
     SAFE_RELEASE(_sampler);
 }
 
-void SphereVideoSurround::drawSplash(void* param)
-{
-//    Game::getInstance()->clear(Game::ClearFlags::CLEAR_COLOR_DEPTH, Vector4(0, 0, 0, 1), 1.0f, 0);
-//    
-//    SpriteBatch* batch = SpriteBatch::create(_logoTexture);
-//    batch->start();
-//    batch->draw(Game::getInstance()->getWidth() * 0.5f,
-//                Game::getInstance()->getHeight() * 0.5f, 0.0f,
-//                512.0f, 512.0f, 0.0f, 1.0f, 1.0f, 0.0f, Vector4::one(), true);
-//    batch->finish();
-//    SAFE_DELETE(batch);
-}
-
 bool SphereVideoSurround::initialize(Scene* scene)
 {
     finalize();

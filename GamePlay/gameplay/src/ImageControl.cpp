@@ -63,6 +63,14 @@ const char* ImageControl::getTypeName() const
     return "ImageControl";
 }
 
+void ImageControl::setTexture(Texture* texture)
+{
+    SAFE_DELETE(_batch);
+    _batch = SpriteBatch::create(texture);
+    _tw = 1.0f / texture->getWidth();
+    _th = 1.0f / texture->getHeight();
+}
+
 void ImageControl::setImage(const char* path)
 {
     SAFE_DELETE(_batch);

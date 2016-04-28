@@ -28,12 +28,15 @@ public:
 
 
     Video::VideoPlayer* getVideoPlayer() const {return _player;}
+
 protected:
     
     void finalize();
 
 private:
 
+    void drawSplash(void* param);
+    
     Node* _sphere;
     
     Video::VideoPlayer* _player;

@@ -75,19 +75,26 @@ bool SphereVideoSurround::initialize(Scene* scene)
     
 //    _player = new Video::VideoPlayer();
 //    _player->setAudioFactory(new Video::ALMovieAudioFactory());
-    setVideoURL("http://124.207.19.118:80/beijing-test/manifest.m3u8");
+//    setVideoURL("http://124.207.19.118:80/beijing-test/manifest.m3u8");
 //    setVideoURL("http://qjdl.bravocloud.com.cn/android/android-12_05_15_comikazi_v01.mp4");
 //    setVideoURL("2.ts");
 //    setVideoURL("http://qjdldown.bravovcloud.com.cn/live/test.m3u8");
-//      setVideoURL(Game::getInstance()->getLiveURL());
+      setVideoURL(Game::getInstance()->getLiveURL());
 //    setVideoURL("http://gotye-live-10022.ufile.ucloud.com.cn/08fc0f4a-5120-43dd-98f2-424660dd263c.mp4?k=52d00265544a4faf&t=1461064771");
 //    setVideoURL("http://qjdlplay.bravovcloud.com.cn/live/test.m3u8");
     
     return true;
 }
 
+
+double remaining_time =  REFRESH_RATE;
 bool SphereVideoSurround::setVideoURL(const std::string& url)
 {
+    if(_videoState != nullptr)
+    {
+        vrliveff::do_exit(_videoState);
+        _videoState = nullptr;
+    }
     _videoState = vrliveff::init_videostate(url.c_str());
     
     _dstTextureW = Game::getInstance()->getWidth();
@@ -101,7 +108,6 @@ bool SphereVideoSurround::setVideoURL(const std::string& url)
 }
 
 
-double remaining_time =  REFRESH_RATE;
 void SphereVideoSurround::render(Camera* camera)
 {
     remaining_time = REFRESH_RATE;
@@ -137,12 +143,12 @@ void SphereVideoSurround::render(Camera* camera)
             
             if (_texture == nullptr)
             {
-                _texture = gameplay::Texture::create(gameplay::Texture::Format::RGB888,
+                _texture = gameplay::Texture::create(gameplay::Texture::Format::RGB,
                                                      _dstTextureW, _dstTextureW, (unsigned char*)dst_data[0]);
             }
             else
             {
-                _texture->setData(dst_data[0]);
+                _texture->setData((unsigned char*)dst_data[0]);
             }
             av_freep(&dst_data[0]);
             av_frame_unref(vrliveff::customRenderFrame->frame);

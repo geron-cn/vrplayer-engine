@@ -93,6 +93,7 @@ void VRGame::render(float elapsedTime)
     if(LOGON_VISITED == -1 && _stereoRender)
     {
         _stereoRender->render(_scene);
+        
     }
 }
 

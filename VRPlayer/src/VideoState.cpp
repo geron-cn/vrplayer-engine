@@ -962,7 +962,7 @@ namespace vrliveff
             printf("\n");
         SDL_Quit();
         av_log(NULL, AV_LOG_QUIET, "%s", "");
-        exit(0);
+        //exit(0);
     }
     
     static void sigterm_handler(int sig)

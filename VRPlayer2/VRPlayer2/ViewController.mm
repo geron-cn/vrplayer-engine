@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "vr/VRPlayer.h"
 
 //#include "../VRLiveFramework.framework/Headers/VRPlayer.h"
 
@@ -19,8 +19,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    vrlive::VRPlayer*  player = new vrlive::VRPlayer();
-//    player->playVideo("http://gotye-live-10022.ufile.ucloud.com.cn/08fc0f4a-5120-43dd-98f2-424660dd263c.mp4?k=52d00265544a4faf&t=1461064771");
+
+    VRPlayer* player = new VRPlayer();
+    UIView* view1 = (__bridge UIView*)player->initialize();
+    [self.view addSubview:view1];
     // Do any additional setup after loading the view, typically from a nib.
 }
 

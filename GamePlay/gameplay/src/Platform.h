@@ -42,6 +42,10 @@ public:
      * @script{ignore}
      */
     static Platform* create(Game* game);
+    
+    static void* initView(float x, float y, float width, float height);
+    
+    static void finalize();
 
     /**
      * Begins processing the platform messages.

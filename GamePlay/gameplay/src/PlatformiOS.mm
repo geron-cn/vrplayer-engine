@@ -38,11 +38,13 @@ extern const int WINDOW_SCALE = [[UIScreen mainScreen] scale];
 int __argc = 0;
 char** __argv = 0;
 
-@class AppDelegate;
-@class View;
+@class VRLiveAppDelegate;
+@class VRLiveAppDelegate2;
+@class VRLiveView;
 
-static AppDelegate *__appDelegate = NULL;
-static View* __view = NULL;
+static VRLiveAppDelegate2* __appDelegate = NULL;
+//static AppDelegate *__appDelegate = NULL;
+static VRLiveView* __view = NULL;
 
 class TouchPoint
 {
@@ -85,7 +87,7 @@ double getMachTimeInMilliseconds();
 int getKey(unichar keyCode);
 int getUnicode(int key);
 
-@interface View : UIView <UIKeyInput>
+@interface VRLiveView : UIView <UIKeyInput>
 {
     EAGLContext* context;
     CADisplayLink* displayLink;
@@ -125,12 +127,12 @@ int getUnicode(int key);
 - (BOOL)dismissKeyboard;
 @end
 
-@interface View (Private)
+@interface VRLiveView (Private)
 - (BOOL)createFramebuffer;
 - (void)deleteFramebuffer;
 @end
 
-@implementation View
+@implementation VRLiveView
 
 @synthesize updating;
 @synthesize context;
@@ -877,14 +879,14 @@ int getUnicode(int key);
 @end
 
 
-@interface ViewController : UIViewController
+@interface VRLiveViewController : UIViewController
 - (void)startUpdating;
 - (void)stopUpdating;
 - (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController;
 @end
 
 
-@implementation ViewController 
+@implementation VRLiveViewController
 
 - (id)init 
 {
@@ -908,10 +910,10 @@ int getUnicode(int key);
 #pragma mark - View lifecycle
 - (void)loadView
 {
-    self.view = [[[View alloc] init] autorelease];
+    self.view = [[[VRLiveView alloc] init] autorelease];
     if(__view == nil) 
     {
-        __view = (View*)self.view;
+        __view = (VRLiveView*)self.view;
     }
 }
 
@@ -945,12 +947,12 @@ int getUnicode(int key);
 
 - (void)startUpdating 
 {
-    [(View*)self.view startUpdating];
+    [(VRLiveView*)self.view startUpdating];
 }
 
 - (void)stopUpdating 
 {
-    [(View*)self.view stopUpdating];
+    [(VRLiveView*)self.view stopUpdating];
 }
 
 - (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController
@@ -959,14 +961,140 @@ int getUnicode(int key);
 }
 @end
 
+@interface VRLiveAppDelegate2 : NSObject
+{
+    VRLiveViewController* viewController;
+    CMMotionManager *motionManager;
+}
+@property (nonatomic, retain) VRLiveViewController *viewController;
+@end
+
+@implementation VRLiveAppDelegate2
+@synthesize viewController;
+-(void)initialize
+{
+    __appDelegate = self;
+    motionManager = [[CMMotionManager alloc] init];
+    if([motionManager isAccelerometerAvailable] == YES)
+    {
+        motionManager.accelerometerUpdateInterval = 1 / 40.0;    // 40Hz
+        [motionManager startAccelerometerUpdates];
+    }
+    if([motionManager isGyroAvailable] == YES)
+    {
+        motionManager.gyroUpdateInterval = 1 / 40.0;    // 40Hz
+        [motionManager startGyroUpdates];
+    }
+    bool dev = motionManager.isDeviceMotionActive;
+    if (motionManager.isDeviceMotionAvailable && !motionManager.isDeviceMotionActive)
+    {
+        [motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical];
+    }
+    viewController = [[VRLiveViewController alloc] init];
+}
+
+- (void)finalize
+{
+    [viewController release];
+    [motionManager release];
+    viewController = nullptr;
+    motionManager = nullptr;
+    __appDelegate = nullptr;
+    [self release];
+}
+
+- (void)getAccelerometerPitch:(float*)pitch roll:(float*)roll
+{
+    float p = 0.0f;
+    float r = 0.0f;
+    CMAccelerometerData* accelerometerData = motionManager.accelerometerData;
+    if(accelerometerData != nil)
+    {
+        float tx, ty, tz;
+        
+        switch ([[UIApplication sharedApplication] statusBarOrientation])
+        {
+            case UIInterfaceOrientationLandscapeRight:
+                tx = -accelerometerData.acceleration.y;
+                ty = accelerometerData.acceleration.x;
+                break;
+                
+            case UIInterfaceOrientationLandscapeLeft:
+                tx = accelerometerData.acceleration.y;
+                ty = -accelerometerData.acceleration.x;
+                break;
+                
+            case UIInterfaceOrientationPortraitUpsideDown:
+                tx = -accelerometerData.acceleration.y;
+                ty = -accelerometerData.acceleration.x;
+                break;
+                
+            case UIInterfaceOrientationPortrait:
+                tx = accelerometerData.acceleration.x;
+                ty = accelerometerData.acceleration.y;
+                break;
+        }
+        tz = accelerometerData.acceleration.z;
+        
+        p = atan(ty / sqrt(tx * tx + tz * tz)) * 180.0f * M_1_PI;
+        r = atan(tx / sqrt(ty * ty + tz * tz)) * 180.0f * M_1_PI;
+    }
+    
+    if(pitch != NULL)
+        *pitch = p;
+    if(roll != NULL)
+        *roll = r;
+}
+
+- (void)getRawAccelX:(float*)x Y:(float*)y Z:(float*)z
+{
+    CMAccelerometerData* accelerometerData = motionManager.accelerometerData;
+    if(accelerometerData != nil)
+    {
+        *x = -9.81f * accelerometerData.acceleration.x;
+        *y = -9.81f * accelerometerData.acceleration.y;
+        *z = -9.81f * accelerometerData.acceleration.z;
+    }
+}
+
+- (void)getRawGyroX:(float*)x Y:(float*)y Z:(float*)z
+{
+    CMGyroData* gyroData = motionManager.gyroData;
+    if(gyroData != nil)
+    {
+        *x = gyroData.rotationRate.x;
+        *y = gyroData.rotationRate.y;
+        *z = gyroData.rotationRate.z;
+    }
+}
+
+- (CMRotationMatrix)getRawGyroMatrix
+{
+    CMAttitude *attitude = motionManager.deviceMotion.attitude;
+    CMRotationMatrix mat = attitude.rotationMatrix;
+    
+    return mat;
+}
+
+- (void)stopUpdating
+{
+    [viewController stopUpdating];
+}
+
+- (void)startUpdating
+{
+    [viewController startUpdating];
+}
+
+@end
 
 @interface AppDelegate : UIApplication <UIApplicationDelegate>
 {
     UIWindow* window;
-    ViewController* viewController;
+    VRLiveViewController* viewController;
     CMMotionManager *motionManager;
 }
-@property (nonatomic, retain) ViewController *viewController;
+@property (nonatomic, retain) VRLiveViewController *viewController;
 @end
 
 
@@ -976,7 +1104,7 @@ int getUnicode(int key);
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
-    __appDelegate = self;
+//    __appDelegate = self;
     [UIApplication sharedApplication].statusBarHidden = YES;
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 
@@ -998,7 +1126,7 @@ int getUnicode(int key);
     }
     
     window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    viewController = [[ViewController alloc] init];
+    viewController = [[VRLiveViewController alloc] init];
     [window setRootViewController:viewController];
     [window makeKeyAndVisible];
     
@@ -1497,6 +1625,29 @@ Platform::Platform(Game* game) : _game(game)
 
 Platform::~Platform()
 {
+}
+    
+void* Platform::initView(float x, float y, float width, float height)
+{
+    VRLiveAppDelegate2* app = [VRLiveAppDelegate2 alloc];
+    [app initiaize];
+    CGRect rect;
+    rect.origin.x = x;
+    rect.origin.y = y;
+    rect.size.width = width;
+    rect.size.height = height;
+    [__view setFrame: rect];
+    __appDelegate = app;
+    return (void*)app.viewController;
+}
+    
+void Platform::finalize()
+{
+    if (__appDelegate)
+    {
+        [__appDelegate finalize];
+        __appDelegate = nullptr;
+    }
 }
 
 Platform* Platform::create(Game* game)

@@ -11,12 +11,6 @@
 		3E5660181CB6156C0079FD0E /* StereoRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E5660141CB615690079FD0E /* StereoRender.cpp */; };
 		3E56601B1CB65CE70079FD0E /* SphereVideoSurround.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E5660191CB65CE70079FD0E /* SphereVideoSurround.cpp */; };
 		3E56601C1CB65CEB0079FD0E /* SphereVideoSurround.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E5660191CB65CE70079FD0E /* SphereVideoSurround.cpp */; };
-		3EB48AA41CC9F73800051958 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48A9E1CC9F73800051958 /* libavcodec.a */; };
-		3EB48AA51CC9F73800051958 /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48A9F1CC9F73800051958 /* libavfilter.a */; };
-		3EB48AA61CC9F73800051958 /* libavformat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48AA01CC9F73800051958 /* libavformat.a */; };
-		3EB48AA71CC9F73800051958 /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48AA11CC9F73800051958 /* libavutil.a */; };
-		3EB48AA81CC9F73800051958 /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48AA21CC9F73800051958 /* libswresample.a */; };
-		3EB48AA91CC9F73800051958 /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB48AA31CC9F73800051958 /* libswscale.a */; };
 		3EB48AAB1CCA00D000051958 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EB48AAA1CCA00D000051958 /* Images.xcassets */; };
 		3ECCA7911CD85CF80001787E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECCA7901CD85CF80001787E /* AudioToolbox.framework */; };
 		3ECCA7931CD85D1D0001787E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECCA7921CD85D1D0001787E /* CoreGraphics.framework */; };
@@ -37,7 +31,6 @@
 		42C9331D1491A6750098216A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C9331C1491A6750098216A /* QuartzCore.framework */; };
 		435FC4261A539A8D003D4E9C /* libgameplay-deps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 435FC4251A539A8D003D4E9C /* libgameplay-deps.a */; };
 		435FC4281A539A9C003D4E9C /* libgameplay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 435FC4271A539A9C003D4E9C /* libgameplay.a */; };
-		435FC42A1A539B31003D4E9C /* libgameplay-deps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 435FC4291A539B31003D4E9C /* libgameplay-deps.a */; };
 		435FC42C1A539B4E003D4E9C /* libgameplay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 435FC42B1A539B4E003D4E9C /* libgameplay.a */; };
 		5B61611614CCC24C0073B857 /* VRGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42C932EF1491A5160098216A /* VRGame.cpp */; };
 		5B61612714CCC24C0073B857 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 42C932F21491A53E0098216A /* res */; };
@@ -45,7 +38,6 @@
 		C5C166BD1CD4FA4C0085801D /* VideoState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C5C166B81CD4F6950085801D /* VideoState.cpp */; };
 		C5C166C01CD518E40085801D /* cmdutils.c in Sources */ = {isa = PBXBuildFile; fileRef = C5C166BE1CD518E40085801D /* cmdutils.c */; };
 		C5C166C11CD518EC0085801D /* cmdutils.c in Sources */ = {isa = PBXBuildFile; fileRef = C5C166BE1CD518E40085801D /* cmdutils.c */; };
-		C5EF0E401CD59EB2008B66B1 /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5EF0E3F1CD59EB2008B66B1 /* libSDL2.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,12 +69,6 @@
 		3E5660151CB615690079FD0E /* StereoRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StereoRender.h; sourceTree = "<group>"; };
 		3E5660191CB65CE70079FD0E /* SphereVideoSurround.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SphereVideoSurround.cpp; sourceTree = "<group>"; };
 		3E56601A1CB65CE70079FD0E /* SphereVideoSurround.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SphereVideoSurround.h; sourceTree = "<group>"; };
-		3EB48A9E1CC9F73800051958 /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = ffmpeg/ios/lib/libavcodec.a; sourceTree = "<group>"; };
-		3EB48A9F1CC9F73800051958 /* libavfilter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavfilter.a; path = ffmpeg/ios/lib/libavfilter.a; sourceTree = "<group>"; };
-		3EB48AA01CC9F73800051958 /* libavformat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavformat.a; path = ffmpeg/ios/lib/libavformat.a; sourceTree = "<group>"; };
-		3EB48AA11CC9F73800051958 /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavutil.a; path = ffmpeg/ios/lib/libavutil.a; sourceTree = "<group>"; };
-		3EB48AA21CC9F73800051958 /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = ffmpeg/ios/lib/libswresample.a; sourceTree = "<group>"; };
-		3EB48AA31CC9F73800051958 /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = ffmpeg/ios/lib/libswscale.a; sourceTree = "<group>"; };
 		3EB48AAA1CCA00D000051958 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "VRLive-ios/Images.xcassets"; sourceTree = "<group>"; };
 		3ECCA7901CD85CF80001787E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		3ECCA7921CD85D1D0001787E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
@@ -117,7 +103,6 @@
 		C5C166B91CD4F6950085801D /* VideoState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VideoState.hpp; sourceTree = "<group>"; };
 		C5C166BE1CD518E40085801D /* cmdutils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cmdutils.c; sourceTree = "<group>"; };
 		C5C166BF1CD518E40085801D /* cmdutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmdutils.h; sourceTree = "<group>"; };
-		C5EF0E3F1CD59EB2008B66B1 /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = sdl2/ios/lib/libSDL2.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,15 +126,7 @@
 			files = (
 				3ECCA7931CD85D1D0001787E /* CoreGraphics.framework in Frameworks */,
 				3ECCA7911CD85CF80001787E /* AudioToolbox.framework in Frameworks */,
-				C5EF0E401CD59EB2008B66B1 /* libSDL2.a in Frameworks */,
-				3EB48AA41CC9F73800051958 /* libavcodec.a in Frameworks */,
-				3EB48AA51CC9F73800051958 /* libavfilter.a in Frameworks */,
-				3EB48AA61CC9F73800051958 /* libavformat.a in Frameworks */,
-				3EB48AA71CC9F73800051958 /* libavutil.a in Frameworks */,
-				3EB48AA81CC9F73800051958 /* libswresample.a in Frameworks */,
-				3EB48AA91CC9F73800051958 /* libswscale.a in Frameworks */,
 				435FC42C1A539B4E003D4E9C /* libgameplay.a in Frameworks */,
-				435FC42A1A539B31003D4E9C /* libgameplay-deps.a in Frameworks */,
 				42049B5816ADBB61005DD1F9 /* CoreMotion.framework in Frameworks */,
 				42049B5916ADBB61005DD1F9 /* Foundation.framework in Frameworks */,
 				421090FC1829A5BF00761E40 /* GameKit.framework in Frameworks */,
@@ -191,13 +168,6 @@
 			children = (
 				3ECCA7921CD85D1D0001787E /* CoreGraphics.framework */,
 				3ECCA7901CD85CF80001787E /* AudioToolbox.framework */,
-				C5EF0E3F1CD59EB2008B66B1 /* libSDL2.a */,
-				3EB48A9E1CC9F73800051958 /* libavcodec.a */,
-				3EB48A9F1CC9F73800051958 /* libavfilter.a */,
-				3EB48AA01CC9F73800051958 /* libavformat.a */,
-				3EB48AA11CC9F73800051958 /* libavutil.a */,
-				3EB48AA21CC9F73800051958 /* libswresample.a */,
-				3EB48AA31CC9F73800051958 /* libswscale.a */,
 				5BC4E77F150F879E00CBE1C0 /* gameplay.xcodeproj */,
 				5BC4E849150F911D00CBE1C0 /* shaders */,
 				5B61613914CCC3560073B857 /* iOS */,

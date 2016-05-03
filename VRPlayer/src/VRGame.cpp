@@ -48,7 +48,7 @@ void VRGame::initialize()
     _activeForm->setSize(winW , winH);
     
     ImageControl* image = ImageControl::create("image", theme->getStyle("Image"));
-    image->setTexture(logoTexture);
+//    image->setTexture(logoTexture);
     image->setWidth(logoW);
     image->setHeight(logoH);
     _activeForm->setEnabled(true);

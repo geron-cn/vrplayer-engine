@@ -39,10 +39,7 @@
 		435FC42C1A539B4E003D4E9C /* libgameplay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 435FC42B1A539B4E003D4E9C /* libgameplay.a */; };
 		5B61611614CCC24C0073B857 /* VRGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42C932EF1491A5160098216A /* VRGame.cpp */; };
 		5B61612714CCC24C0073B857 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 42C932F21491A53E0098216A /* res */; };
-		C5C166BA1CD4F6950085801D /* VideoState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C5C166B81CD4F6950085801D /* VideoState.cpp */; };
-		C5C166BD1CD4FA4C0085801D /* VideoState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C5C166B81CD4F6950085801D /* VideoState.cpp */; };
-		C5C166C01CD518E40085801D /* cmdutils.c in Sources */ = {isa = PBXBuildFile; fileRef = C5C166BE1CD518E40085801D /* cmdutils.c */; };
-		C5C166C11CD518EC0085801D /* cmdutils.c in Sources */ = {isa = PBXBuildFile; fileRef = C5C166BE1CD518E40085801D /* cmdutils.c */; };
+		C59C25011CD8429F003C435B /* VideoState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C59C25001CD8429F003C435B /* VideoState.cpp */; };
 		C5C166C31CD51C900085801D /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C166C21CD51C900085801D /* AudioToolbox.framework */; };
 		C5EF0E401CD59EB2008B66B1 /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5EF0E3F1CD59EB2008B66B1 /* libSDL2.a */; };
 		C5EF0E421CD5AFB3008B66B1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5EF0E411CD5AFB3008B66B1 /* CoreGraphics.framework */; };
@@ -111,10 +108,8 @@
 		5B61612E14CCC24D0073B857 /* VRLive-ios.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VRLive-ios.plist"; sourceTree = "<group>"; };
 		5BC4E77F150F879E00CBE1C0 /* gameplay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gameplay.xcodeproj; path = ../GamePlay/gameplay/gameplay.xcodeproj; sourceTree = SOURCE_ROOT; };
 		5BC4E849150F911D00CBE1C0 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = text; name = shaders; path = ../GamePlay/gameplay/res/shaders; sourceTree = SOURCE_ROOT; };
-		C5C166B81CD4F6950085801D /* VideoState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoState.cpp; sourceTree = "<group>"; };
+		C59C25001CD8429F003C435B /* VideoState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoState.cpp; sourceTree = "<group>"; };
 		C5C166B91CD4F6950085801D /* VideoState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VideoState.hpp; sourceTree = "<group>"; };
-		C5C166BE1CD518E40085801D /* cmdutils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cmdutils.c; sourceTree = "<group>"; };
-		C5C166BF1CD518E40085801D /* cmdutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmdutils.h; sourceTree = "<group>"; };
 		C5C166C21CD51C900085801D /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		C5C166C51CD538940085801D /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
 		C5EF0E3F1CD59EB2008B66B1 /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = sdl2/ios/lib/libSDL2.a; sourceTree = "<group>"; };
@@ -211,15 +206,13 @@
 		42C932C61491A0DB0098216A /* src */ = {
 			isa = PBXGroup;
 			children = (
-				C5C166BE1CD518E40085801D /* cmdutils.c */,
-				C5C166BF1CD518E40085801D /* cmdutils.h */,
+				C59C25001CD8429F003C435B /* VideoState.cpp */,
 				3E5660191CB65CE70079FD0E /* SphereVideoSurround.cpp */,
 				3E56601A1CB65CE70079FD0E /* SphereVideoSurround.h */,
 				3E5660141CB615690079FD0E /* StereoRender.cpp */,
 				3E5660151CB615690079FD0E /* StereoRender.h */,
 				42C932EF1491A5160098216A /* VRGame.cpp */,
 				42C932F01491A5160098216A /* VRGame.h */,
-				C5C166B81CD4F6950085801D /* VideoState.cpp */,
 				C5C166B91CD4F6950085801D /* VideoState.hpp */,
 			);
 			path = src;
@@ -414,11 +407,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5C166BA1CD4F6950085801D /* VideoState.cpp in Sources */,
 				42C932F11491A5160098216A /* VRGame.cpp in Sources */,
 				3E56601B1CB65CE70079FD0E /* SphereVideoSurround.cpp in Sources */,
-				C5C166C01CD518E40085801D /* cmdutils.c in Sources */,
 				3E5660161CB615690079FD0E /* StereoRender.cpp in Sources */,
+				C59C25011CD8429F003C435B /* VideoState.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,8 +419,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B61611614CCC24C0073B857 /* VRGame.cpp in Sources */,
-				C5C166BD1CD4FA4C0085801D /* VideoState.cpp in Sources */,
-				C5C166C11CD518EC0085801D /* cmdutils.c in Sources */,
 				3E56601C1CB65CEB0079FD0E /* SphereVideoSurround.cpp in Sources */,
 				3E5660181CB6156C0079FD0E /* StereoRender.cpp in Sources */,
 			);

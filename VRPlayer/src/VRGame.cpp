@@ -14,7 +14,7 @@ VRGame::VRGame()
 void VRGame::initialize()
 {
     // Load game scene from file
-    _scene = Scene::create();//
+    _scene = Scene::create();
     
     float near = 0.1f;
     float far = 400.f;
@@ -90,10 +90,9 @@ void VRGame::render(float elapsedTime)
         LOGON_VISITED = -1;
     }
     
-    if(LOGON_VISITED == -1)
+    if(LOGON_VISITED == -1 && _stereoRender)
     {
-        if (_stereoRender)
-            _stereoRender->render(_scene);
+        _stereoRender->render(_scene);
         
     }
 }

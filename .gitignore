@@ -2,9 +2,9 @@
 #OpenALSoft
 
 *.DS_Store
-*/DerivedData
+*DerivedData
 tools/products
-GamePlay/gameplay/build
+*build
 *.swp
 *.xcuserstate
 *.d

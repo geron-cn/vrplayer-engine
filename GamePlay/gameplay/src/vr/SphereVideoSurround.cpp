@@ -79,9 +79,9 @@ bool SphereVideoSurround::initialize(Scene* scene)
 //    setVideoURL("http://qjdl.bravocloud.com.cn/android/android-12_05_15_comikazi_v01.mp4");
 //    setVideoURL("2.ts");
 //    setVideoURL("http://qjdldown.bravovcloud.com.cn/live/test.m3u8");
-      setVideoURL(Game::getInstance()->getLiveURL());
+//      setVideoURL(Game::getInstance()->getLiveURL());
 //    setVideoURL("http://gotye-live-10022.ufile.ucloud.com.cn/08fc0f4a-5120-43dd-98f2-424660dd263c.mp4?k=52d00265544a4faf&t=1461064771");
-//    setVideoURL("http://qjdlplay.bravovcloud.com.cn/live/test.m3u8");
+    setVideoURL("http://qjdlplay.bravovcloud.com.cn/live/test.m3u8");
     
     return true;
 }
@@ -134,9 +134,11 @@ void SphereVideoSurround::render(Camera* camera)
                                            _dstTextureW, _dstTextureH,
                                            AV_PIX_FMT_RGB24, vrliveff::sws_flags, NULL, NULL, NULL);
             if (_videoState->img_convert_ctx == NULL) {
-                printf( "Cannot initialize the conversion context\n");
+                GP_WARN( "Cannot initialize the conversion context\n");
                 return;
             }
+            static std::vector<uint8_t> data;
+            data.resize(_dstTextureW * _dstTextureH * 3);
             sws_scale(_videoState->img_convert_ctx, src_frame->data, src_frame->linesize,
                       0, src_frame->height, dst_data, dst_linesize);
 

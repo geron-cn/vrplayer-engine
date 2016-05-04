@@ -2,7 +2,7 @@
 #include "StereoRender.h"
 
 // Declare our game instance
-VRGame game;
+//VRGame game;
 
 VRGame::VRGame()
     : _scene(NULL)

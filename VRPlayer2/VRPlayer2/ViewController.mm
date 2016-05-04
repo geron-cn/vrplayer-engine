@@ -7,9 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "vr/VRPlayer.h"
 
-//#include "../VRLiveFramework.framework/Headers/VRPlayer.h"
 
 @interface ViewController ()
 
@@ -20,9 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    VRPlayer* player = new VRPlayer();
-    UIView* view1 = (__bridge UIView*)player->initialize();
-    [self.view addSubview:view1];
+    
     // Do any additional setup after loading the view, typically from a nib.
 }
 

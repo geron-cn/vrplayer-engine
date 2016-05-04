@@ -142,6 +142,11 @@ int getUnicode(int key);
     return [CAEAGLLayer class];
 }
 
+-(void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+}
+
 - (id) initWithFrame:(CGRect)frame
 {
     if ((self = [super initWithFrame:frame]))
@@ -948,6 +953,17 @@ int getUnicode(int key);
 - (void)startUpdating 
 {
     [(VRLiveView*)self.view startUpdating];
+    float width = self.view.frame.size.width;
+    float height = self.view.frame.size.height;
+    if (width == 0 || height == 0)
+    {
+        if (width == 0)
+            width = [[UIScreen mainScreen] bounds].size.width;
+        if (height == 0)
+            height = [[UIScreen mainScreen] bounds].size.height;
+        self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, width, height);
+    }
+    
 }
 
 - (void)stopUpdating 
@@ -971,6 +987,7 @@ int getUnicode(int key);
 
 @implementation VRLiveAppDelegate2
 @synthesize viewController;
+
 -(void)initialize
 {
     __appDelegate = self;
@@ -991,6 +1008,34 @@ int getUnicode(int key);
         [motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical];
     }
     viewController = [[VRLiveViewController alloc] init];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillResignActive:)
+                                                 name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidEnterBackground:)
+                                                 name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillEnterForeground:)
+                                                 name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidBecomeActive:)
+                                                 name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillTerminate:)
+                                                 name:UIApplicationWillTerminateNotification object:nil];
+}
+
+- (CGSize)getDisplayViewSize
+{
+    if (__view)
+    {
+        CGSize size =__view.frame.size;
+        size.width *= WINDOW_SCALE;
+        size.height *= WINDOW_SCALE;
+        return size;
+    }
+    return CGSizeMake(0, 0);
 }
 
 - (void)finalize
@@ -1086,9 +1131,34 @@ int getUnicode(int key);
     [viewController startUpdating];
 }
 
+- (void)applicationWillResignActive:(UIApplication*)application
+{
+    [viewController stopUpdating];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication*)application
+{
+    [viewController stopUpdating];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication*)application
+{
+    [viewController startUpdating];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication*)application
+{
+    [viewController startUpdating];
+}
+
+- (void)applicationWillTerminate:(UIApplication*)application
+{
+    [viewController stopUpdating];
+}
+
 @end
 
-@interface AppDelegate : UIApplication <UIApplicationDelegate>
+@interface VRLiveAppDelegate : UIApplication <UIApplicationDelegate>
 {
     UIWindow* window;
     VRLiveViewController* viewController;
@@ -1098,7 +1168,7 @@ int getUnicode(int key);
 @end
 
 
-@implementation AppDelegate
+@implementation VRLiveAppDelegate
 
 @synthesize viewController;
 
@@ -1627,17 +1697,31 @@ Platform::~Platform()
 {
 }
     
-void* Platform::initView(float x, float y, float width, float height)
+void Platform::setViewSize(int x, int y, int width, int height)
+{
+    if (__view)
+    {
+        CGRect rect;
+        if (width == 0)
+            width = WINDOW_WIDTH/WINDOW_SCALE; //[[UIScreen mainScreen] bounds].size.height;
+        if (height == 0)
+            height = WINDOW_HEIGHT/WINDOW_SCALE;//[[UIScreen mainScreen] bounds].size.width;
+        
+        rect.origin.x = x;
+        rect.origin.y = y;
+        rect.size.width = width;
+        rect.size.height = height;
+        [__view setFrame: rect];
+    }
+}
+
+    
+void* Platform::initView()
 {
     VRLiveAppDelegate2* app = [VRLiveAppDelegate2 alloc];
-    [app initiaize];
-    CGRect rect;
-    rect.origin.x = x;
-    rect.origin.y = y;
-    rect.size.width = width;
-    rect.size.height = height;
-    [__view setFrame: rect];
+    [app initialize];
     __appDelegate = app;
+    
     return (void*)app.viewController;
 }
     
@@ -1656,11 +1740,21 @@ Platform* Platform::create(Game* game)
     return platform;
 }
 
+Vector2 Platform::getDisplayViewSize()
+{
+    if (__appDelegate)
+    {
+        CGSize size = [__appDelegate getDisplayViewSize];
+        return Vector2(size.width, size.height);
+    }
+    return Vector2::zero();
+}
+    
 int Platform::enterMessagePump()
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    [AppDelegate load];
-    UIApplicationMain(0, nil, NSStringFromClass([AppDelegate class]), NSStringFromClass([AppDelegate class]));
+    [VRLiveAppDelegate load];
+    UIApplicationMain(0, nil, NSStringFromClass([VRLiveAppDelegate class]), NSStringFromClass([VRLiveAppDelegate class]));
     [pool release];
     return EXIT_SUCCESS;
 }
@@ -1680,6 +1774,10 @@ bool Platform::canExit()
 
 unsigned int Platform::getDisplayWidth()
 {
+    Vector2 size = getDisplayViewSize();
+    if (size.x)
+        return size.x;
+    
 #ifdef NSFoundationVersionNumber_iOS_7_1
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
     {
@@ -1696,6 +1794,10 @@ unsigned int Platform::getDisplayWidth()
 
 unsigned int Platform::getDisplayHeight()
 {
+    Vector2 size = getDisplayViewSize();
+    if (size.y)
+        return size.y;
+    
 #ifdef NSFoundationVersionNumber_iOS_7_1
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
     {

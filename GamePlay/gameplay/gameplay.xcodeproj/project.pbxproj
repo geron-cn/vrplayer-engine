@@ -23,6 +23,9 @@
 		3ECCA7D91CD878570001787E /* StereoRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCA7D41CD878570001787E /* StereoRender.cpp */; };
 		3ECCA7E01CD879140001787E /* VideoState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCA7DE1CD879140001787E /* VideoState.cpp */; };
 		3ECCA7E11CD879140001787E /* VideoState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCA7DE1CD879140001787E /* VideoState.cpp */; };
+		3ECCA7F41CD88C530001787E /* VRPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCA7F21CD88C530001787E /* VRPlayer.cpp */; };
+		3ECCA7F51CD890BE0001787E /* VRPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCA7F21CD88C530001787E /* VRPlayer.cpp */; };
+		3ECCA7F71CD897280001787E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECCA7F61CD897280001787E /* AudioToolbox.framework */; };
 		4204EC411A2EB8310074FCE9 /* TileSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4204EC3F1A2EB8310074FCE9 /* TileSet.cpp */; };
 		4204EC421A2EB8310074FCE9 /* TileSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4204EC3F1A2EB8310074FCE9 /* TileSet.cpp */; };
 		4204EC451A2F878C0074FCE9 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4204EC441A2F878C0074FCE9 /* Sprite.cpp */; };
@@ -552,6 +555,9 @@
 		3ECCA7D51CD878570001787E /* StereoRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StereoRender.h; path = src/vr/StereoRender.h; sourceTree = SOURCE_ROOT; };
 		3ECCA7DE1CD879140001787E /* VideoState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VideoState.cpp; path = src/vr/VideoState.cpp; sourceTree = SOURCE_ROOT; };
 		3ECCA7DF1CD879140001787E /* VideoState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = VideoState.hpp; path = src/vr/VideoState.hpp; sourceTree = SOURCE_ROOT; };
+		3ECCA7F21CD88C530001787E /* VRPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VRPlayer.cpp; path = src/vr/VRPlayer.cpp; sourceTree = SOURCE_ROOT; };
+		3ECCA7F31CD88C530001787E /* VRPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VRPlayer.h; path = src/vr/VRPlayer.h; sourceTree = SOURCE_ROOT; };
+		3ECCA7F61CD897280001787E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		4204EC3F1A2EB8310074FCE9 /* TileSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileSet.cpp; path = src/TileSet.cpp; sourceTree = SOURCE_ROOT; };
 		4204EC401A2EB8310074FCE9 /* TileSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TileSet.h; path = src/TileSet.h; sourceTree = SOURCE_ROOT; };
 		4204EC431A2F70BA0074FCE9 /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = src/Sprite.h; sourceTree = SOURCE_ROOT; };
@@ -1108,6 +1114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ECCA7F71CD897280001787E /* AudioToolbox.framework in Frameworks */,
 				3ECCA7B91CD8711A0001787E /* libSDL2.a in Frameworks */,
 				3ECCA79C1CD86D300001787E /* libavcodec.a in Frameworks */,
 				3ECCA79D1CD86D300001787E /* libavfilter.a in Frameworks */,
@@ -1131,6 +1138,8 @@
 		3ECCA7A41CD86E660001787E /* vr */ = {
 			isa = PBXGroup;
 			children = (
+				3ECCA7F21CD88C530001787E /* VRPlayer.cpp */,
+				3ECCA7F31CD88C530001787E /* VRPlayer.h */,
 				3ECCA7DE1CD879140001787E /* VideoState.cpp */,
 				3ECCA7DF1CD879140001787E /* VideoState.hpp */,
 				3ECCA7D21CD878570001787E /* SphereVideoSurround.cpp */,
@@ -1712,6 +1721,7 @@
 		5B04C5FD14BFE52300EB0071 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				3ECCA7F61CD897280001787E /* AudioToolbox.framework */,
 				3ECCA7A21CD86D590001787E /* libSDL2.a */,
 				3ECCA7961CD86D300001787E /* libavcodec.a */,
 				3ECCA7971CD86D300001787E /* libavfilter.a */,
@@ -2022,6 +2032,7 @@
 				42CC55781809A4EF00AAD8AD /* AIMessage.cpp in Sources */,
 				424F33B81A60C28600395438 /* lua_RadioButton.cpp in Sources */,
 				424F33061A60C28600395438 /* lua_AIController.cpp in Sources */,
+				3ECCA7F41CD88C530001787E /* VRPlayer.cpp in Sources */,
 				424F338A1A60C28600395438 /* lua_PhysicsCollisionObjectCollisionListener.cpp in Sources */,
 				424F33C21A60C28600395438 /* lua_RenderStateStateBlock.cpp in Sources */,
 				42CC594A1809A4EF00AAD8AD /* PhysicsGenericConstraint.cpp in Sources */,
@@ -2282,6 +2293,7 @@
 				42CC55791809A4EF00AAD8AD /* AIMessage.cpp in Sources */,
 				424F33B91A60C28600395438 /* lua_RadioButton.cpp in Sources */,
 				424F33071A60C28600395438 /* lua_AIController.cpp in Sources */,
+				3ECCA7F51CD890BE0001787E /* VRPlayer.cpp in Sources */,
 				424F338B1A60C28600395438 /* lua_PhysicsCollisionObjectCollisionListener.cpp in Sources */,
 				424F33C31A60C28600395438 /* lua_RenderStateStateBlock.cpp in Sources */,
 				42CC594B1809A4EF00AAD8AD /* PhysicsGenericConstraint.cpp in Sources */,

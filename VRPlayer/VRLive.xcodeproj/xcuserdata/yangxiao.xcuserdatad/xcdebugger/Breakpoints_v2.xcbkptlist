@@ -63,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "994"
             endingLineNumber = "994"
-            landmarkName = "-application:didFinishLaunchingWithOptions:"
+            landmarkName = "-initialize"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

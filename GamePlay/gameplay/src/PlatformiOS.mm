@@ -38,11 +38,13 @@ extern const int WINDOW_SCALE = [[UIScreen mainScreen] scale];
 int __argc = 0;
 char** __argv = 0;
 
-@class AppDelegate;
-@class View;
+@class VRLiveAppDelegate;
+@class VRLiveAppDelegate2;
+@class VRLiveView;
 
-static AppDelegate *__appDelegate = NULL;
-static View* __view = NULL;
+static VRLiveAppDelegate2* __appDelegate = NULL;
+//static AppDelegate *__appDelegate = NULL;
+static VRLiveView* __view = NULL;
 
 class TouchPoint
 {
@@ -85,7 +87,7 @@ double getMachTimeInMilliseconds();
 int getKey(unichar keyCode);
 int getUnicode(int key);
 
-@interface View : UIView <UIKeyInput>
+@interface VRLiveView : UIView <UIKeyInput>
 {
     EAGLContext* context;
     CADisplayLink* displayLink;
@@ -125,12 +127,12 @@ int getUnicode(int key);
 - (BOOL)dismissKeyboard;
 @end
 
-@interface View (Private)
+@interface VRLiveView (Private)
 - (BOOL)createFramebuffer;
 - (void)deleteFramebuffer;
 @end
 
-@implementation View
+@implementation VRLiveView
 
 @synthesize updating;
 @synthesize context;
@@ -138,6 +140,11 @@ int getUnicode(int key);
 + (Class) layerClass
 {
     return [CAEAGLLayer class];
+}
+
+-(void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
 }
 
 - (id) initWithFrame:(CGRect)frame
@@ -211,8 +218,11 @@ int getUnicode(int key);
 
 - (void) dealloc
 {
-    if (game)
-        game->exit();
+//    if (game)
+//        game->exit();
+    
+    game = nil;
+    [self stopUpdating];
     [self deleteFramebuffer];
     
     if ([EAGLContext currentContext] == context)
@@ -220,7 +230,9 @@ int getUnicode(int key);
         [EAGLContext setCurrentContext:nil];
     }
     [context release];
-    [super dealloc];
+    context = nullptr;
+    __view = NULL;
+//    [super dealloc];
 }
 
 - (BOOL)canBecomeFirstResponder 
@@ -877,14 +889,14 @@ int getUnicode(int key);
 @end
 
 
-@interface ViewController : UIViewController
+@interface VRLiveViewController : UIViewController
 - (void)startUpdating;
 - (void)stopUpdating;
 - (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController;
 @end
 
 
-@implementation ViewController 
+@implementation VRLiveViewController
 
 - (id)init 
 {
@@ -896,6 +908,8 @@ int getUnicode(int key);
 
 - (void)dealloc 
 {
+    if (__view)
+    [__view release];
     __view = nil;
     [super dealloc];
 }
@@ -908,10 +922,10 @@ int getUnicode(int key);
 #pragma mark - View lifecycle
 - (void)loadView
 {
-    self.view = [[[View alloc] init] autorelease];
-    if(__view == nil) 
+    self.view = [[[VRLiveView alloc] init] autorelease];
+    if(__view == nil)
     {
-        __view = (View*)self.view;
+        __view = (VRLiveView*)self.view;
     }
 }
 
@@ -945,12 +959,23 @@ int getUnicode(int key);
 
 - (void)startUpdating 
 {
-    [(View*)self.view startUpdating];
+    [(VRLiveView*)self.view startUpdating];
+    float width = self.view.frame.size.width;
+    float height = self.view.frame.size.height;
+    if (width == 0 || height == 0)
+    {
+        if (width == 0)
+            width = [[UIScreen mainScreen] bounds].size.width;
+        if (height == 0)
+            height = [[UIScreen mainScreen] bounds].size.height;
+        self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, width, height);
+    }
+    
 }
 
 - (void)stopUpdating 
 {
-    [(View*)self.view stopUpdating];
+    [(VRLiveView*)self.view stopUpdating];
 }
 
 - (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController
@@ -959,24 +984,208 @@ int getUnicode(int key);
 }
 @end
 
-
-@interface AppDelegate : UIApplication <UIApplicationDelegate>
+@interface VRLiveAppDelegate2 : NSObject
 {
-    UIWindow* window;
-    ViewController* viewController;
+    VRLiveViewController* viewController;
     CMMotionManager *motionManager;
 }
-@property (nonatomic, retain) ViewController *viewController;
+@property (nonatomic, retain) VRLiveViewController *viewController;
+@end
+
+@implementation VRLiveAppDelegate2
+@synthesize viewController;
+
+-(void)dealloc {
+    
+}
+
+-(void)initialize
+{
+    __appDelegate = self;
+    motionManager = [[CMMotionManager alloc] init];
+    if([motionManager isAccelerometerAvailable] == YES)
+    {
+        motionManager.accelerometerUpdateInterval = 1 / 40.0;    // 40Hz
+        [motionManager startAccelerometerUpdates];
+    }
+    if([motionManager isGyroAvailable] == YES)
+    {
+        motionManager.gyroUpdateInterval = 1 / 40.0;    // 40Hz
+        [motionManager startGyroUpdates];
+    }
+    bool dev = motionManager.isDeviceMotionActive;
+    if (motionManager.isDeviceMotionAvailable && !motionManager.isDeviceMotionActive)
+    {
+        [motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical];
+    }
+    viewController = [[VRLiveViewController alloc] init];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillResignActive:)
+                                                 name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillEnterForeground:)
+                                                 name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidBecomeActive:)
+                                                 name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillTerminate:)
+                                                 name:UIApplicationWillTerminateNotification object:nil];
+}
+
+- (CGSize)getDisplayViewSize
+{
+    if (__view)
+    {
+        CGSize size =__view.frame.size;
+        size.width *= WINDOW_SCALE;
+        size.height *= WINDOW_SCALE;
+        return size;
+    }
+    return CGSizeMake(0, 0);
+}
+
+- (void)finalize
+{
+    [viewController release];
+    [motionManager release];
+    viewController = nullptr;
+    motionManager = nullptr;
+    __appDelegate = nullptr;
+    [self release];
+}
+
+- (void)getAccelerometerPitch:(float*)pitch roll:(float*)roll
+{
+    float p = 0.0f;
+    float r = 0.0f;
+    CMAccelerometerData* accelerometerData = motionManager.accelerometerData;
+    if(accelerometerData != nil)
+    {
+        float tx, ty, tz;
+        
+        switch ([[UIApplication sharedApplication] statusBarOrientation])
+        {
+            case UIInterfaceOrientationLandscapeRight:
+                tx = -accelerometerData.acceleration.y;
+                ty = accelerometerData.acceleration.x;
+                break;
+                
+            case UIInterfaceOrientationLandscapeLeft:
+                tx = accelerometerData.acceleration.y;
+                ty = -accelerometerData.acceleration.x;
+                break;
+                
+            case UIInterfaceOrientationPortraitUpsideDown:
+                tx = -accelerometerData.acceleration.y;
+                ty = -accelerometerData.acceleration.x;
+                break;
+                
+            case UIInterfaceOrientationPortrait:
+                tx = accelerometerData.acceleration.x;
+                ty = accelerometerData.acceleration.y;
+                break;
+        }
+        tz = accelerometerData.acceleration.z;
+        
+        p = atan(ty / sqrt(tx * tx + tz * tz)) * 180.0f * M_1_PI;
+        r = atan(tx / sqrt(ty * ty + tz * tz)) * 180.0f * M_1_PI;
+    }
+    
+    if(pitch != NULL)
+        *pitch = p;
+    if(roll != NULL)
+        *roll = r;
+}
+
+- (void)getRawAccelX:(float*)x Y:(float*)y Z:(float*)z
+{
+    CMAccelerometerData* accelerometerData = motionManager.accelerometerData;
+    if(accelerometerData != nil)
+    {
+        *x = -9.81f * accelerometerData.acceleration.x;
+        *y = -9.81f * accelerometerData.acceleration.y;
+        *z = -9.81f * accelerometerData.acceleration.z;
+    }
+}
+
+- (void)getRawGyroX:(float*)x Y:(float*)y Z:(float*)z
+{
+    CMGyroData* gyroData = motionManager.gyroData;
+    if(gyroData != nil)
+    {
+        *x = gyroData.rotationRate.x;
+        *y = gyroData.rotationRate.y;
+        *z = gyroData.rotationRate.z;
+    }
+}
+
+- (CMRotationMatrix)getRawGyroMatrix
+{
+    CMAttitude *attitude = motionManager.deviceMotion.attitude;
+    CMRotationMatrix mat = attitude.rotationMatrix;
+    
+    return mat;
+}
+
+- (void)stopUpdating
+{
+    [viewController stopUpdating];
+}
+
+- (void)startUpdating
+{
+    [viewController startUpdating];
+}
+
+- (void)applicationWillResignActive:(UIApplication*)application
+{
+    [viewController stopUpdating];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication*)application
+{
+    [viewController stopUpdating];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication*)application
+{
+    [viewController startUpdating];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication*)application
+{
+    [viewController startUpdating];
+}
+
+- (void)applicationWillTerminate:(UIApplication*)application
+{
+    [viewController stopUpdating];
+}
+
+@end
+
+@interface VRLiveAppDelegate : UIApplication <UIApplicationDelegate>
+{
+    UIWindow* window;
+    VRLiveViewController* viewController;
+    CMMotionManager *motionManager;
+}
+@property (nonatomic, retain) VRLiveViewController *viewController;
 @end
 
 
-@implementation AppDelegate
+@implementation VRLiveAppDelegate
 
 @synthesize viewController;
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
-    __appDelegate = self;
+//    __appDelegate = self;
     [UIApplication sharedApplication].statusBarHidden = YES;
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 
@@ -998,7 +1207,7 @@ int getUnicode(int key);
     }
     
     window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    viewController = [[ViewController alloc] init];
+    viewController = [[VRLiveViewController alloc] init];
     [window setRootViewController:viewController];
     [window makeKeyAndVisible];
     
@@ -1491,6 +1700,7 @@ extern int strcmpnocase(const char* s1, const char* s2)
     return strcasecmp(s1, s2);
 }
 
+static NSAutoreleasePool* __pool = NULL;
 Platform::Platform(Game* game) : _game(game)
 {
 }
@@ -1498,18 +1708,71 @@ Platform::Platform(Game* game) : _game(game)
 Platform::~Platform()
 {
 }
+    
+void* Platform::initView()
+{
+    finalize();
+    
+//    __pool = [[NSAutoreleasePool alloc] init];
+    
+    VRLiveAppDelegate2* app = [VRLiveAppDelegate2 alloc];
+    [app initialize];
+    __appDelegate = app;
+    
+    return (void*)app.viewController;
+}
+    
+void Platform::finalize()
+{
+    if (__appDelegate)
+    {
+        [__appDelegate finalize];
+        __appDelegate = nullptr;
+    }
+    if (Game::getInstance())
+    {
+        Game::getInstance()->shutdown();
+    }
+//    if (__pool)
+//    {
+//        [__pool release];
+//        __pool = NULL;
+//    }
+}
 
+void  Platform::startUpdating()
+{
+    if (__appDelegate)
+        [__appDelegate startUpdating];
+}
+    
+void  Platform::stopUpdating()
+{
+    if (__appDelegate)
+        [__appDelegate stopUpdating];
+}
+    
 Platform* Platform::create(Game* game)
 {
     Platform* platform = new Platform(game);
     return platform;
 }
 
+Vector2 Platform::getDisplayViewSize()
+{
+    if (__appDelegate)
+    {
+        CGSize size = [__appDelegate getDisplayViewSize];
+        return Vector2(size.width, size.height);
+    }
+    return Vector2::zero();
+}
+    
 int Platform::enterMessagePump()
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    [AppDelegate load];
-    UIApplicationMain(0, nil, NSStringFromClass([AppDelegate class]), NSStringFromClass([AppDelegate class]));
+    [VRLiveAppDelegate load];
+    UIApplicationMain(0, nil, NSStringFromClass([VRLiveAppDelegate class]), NSStringFromClass([VRLiveAppDelegate class]));
     [pool release];
     return EXIT_SUCCESS;
 }
@@ -1517,9 +1780,9 @@ int Platform::enterMessagePump()
 void Platform::signalShutdown() 
 {
     // Cannot 'exit' an iOS Application
-    assert(false);
+//    assert(false);
     [__view stopUpdating];
-    exit(0);
+//    exit(0);
 }
 
 bool Platform::canExit()
@@ -1529,6 +1792,10 @@ bool Platform::canExit()
 
 unsigned int Platform::getDisplayWidth()
 {
+    Vector2 size = getDisplayViewSize();
+    if (size.x)
+        return size.x;
+    
 #ifdef NSFoundationVersionNumber_iOS_7_1
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
     {
@@ -1545,6 +1812,10 @@ unsigned int Platform::getDisplayWidth()
 
 unsigned int Platform::getDisplayHeight()
 {
+    Vector2 size = getDisplayViewSize();
+    if (size.y)
+        return size.y;
+    
 #ifdef NSFoundationVersionNumber_iOS_7_1
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
     {

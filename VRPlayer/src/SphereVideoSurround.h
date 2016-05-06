@@ -2,10 +2,14 @@
 #define SphereVideoSurround_H_
 
 #include "gameplay.h"
-#include "videoplayer.hpp"
+//#include "VideoState.hpp"
+//#include "videoplayer.hpp"
 
 using namespace gameplay;
 
+namespace vrliveff{
+    class VideoState;
+}
 /**
  * Stereo Render.
  */
@@ -27,7 +31,7 @@ public:
     bool setVideoURL(const std::string& url);
 
 
-    Video::VideoPlayer* getVideoPlayer() const {return _player;}
+//    Video::VideoPlayer* getVideoPlayer() const {return _player;}
 
 protected:
     
@@ -37,7 +41,11 @@ private:
     
     Node* _sphere;
     
-    Video::VideoPlayer* _player;
+    Texture*  _texture;
+    int       _dstTextureW;
+    int       _dstTextureH;
+    vrliveff::VideoState* _videoState;
+//    Video::VideoPlayer* _player;
     gameplay::Texture::Sampler* _sampler;
     
 };

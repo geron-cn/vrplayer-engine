@@ -35,9 +35,6 @@ public:
      */
     static ImageControl* create(const char* id, Theme::Style* style = NULL);
 
-    
-    void setTexture(Texture* texture);
-
     /**
      * Extends ScriptTarget::getTypeName() to return the type name of this class.
      *

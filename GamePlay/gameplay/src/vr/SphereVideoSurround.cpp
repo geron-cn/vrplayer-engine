@@ -174,7 +174,7 @@ void SphereVideoSurround::render(Camera* camera)
         && (!_videoState->paused || _videoState->force_refresh))
     {
         vrliveff::video_refresh(_videoState, &remaining_time);
-
+        
         //if (_player)
         //{
 //        _player->update();
@@ -215,24 +215,23 @@ void SphereVideoSurround::render(Camera* camera)
                 GP_WARN( "Cannot initialize the conversion context\n");
                 return;
             }
-            static std::vector<uint8_t> data;
-            data.resize(_dstTextureW * _dstTextureH * 3);
-            uint8_t *dst = &data[0];
+            av_image_alloc(dst_data, dst_linesize, _dstTextureW, _dstTextureH, AV_PIX_FMT_RGB24, 1);
             dst_linesize[0] = _dstTextureW * 3;
             
             sws_scale(_videoState->img_convert_ctx, src_frame->data, src_frame->linesize,
-                      0, src_frame->height, &dst, dst_linesize);
+                      0, src_frame->height, dst_data, dst_linesize);
 
             
             if (_texture == nullptr)
             {
                 _texture = gameplay::Texture::create(gameplay::Texture::Format::RGB,
-                                                     _dstTextureW, _dstTextureH, (unsigned char*)dst);
+                                                     _dstTextureW, _dstTextureH, (unsigned char*)dst_data[0]);
             }
             else
             {
-                _texture->setData((unsigned char*)dst);
+                _texture->setData((unsigned char*)dst_data[0]);
             }
+            av_freep(&dst_data[0]);
             av_frame_unref(vrliveff::customRenderFrame->frame);
         }
         if (_sampler == nullptr || _sampler->getTexture() != _texture)

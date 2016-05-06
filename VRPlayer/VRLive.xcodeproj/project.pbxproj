@@ -206,7 +206,6 @@
 		42C932C61491A0DB0098216A /* src */ = {
 			isa = PBXGroup;
 			children = (
-				C59C25001CD8429F003C435B /* VideoState.cpp */,
 				3E5660191CB65CE70079FD0E /* SphereVideoSurround.cpp */,
 				3E56601A1CB65CE70079FD0E /* SphereVideoSurround.h */,
 				3E5660141CB615690079FD0E /* StereoRender.cpp */,
@@ -214,6 +213,7 @@
 				42C932EF1491A5160098216A /* VRGame.cpp */,
 				42C932F01491A5160098216A /* VRGame.h */,
 				C5C166B91CD4F6950085801D /* VideoState.hpp */,
+				C59C25001CD8429F003C435B /* VideoState.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";

@@ -340,6 +340,11 @@ FIX(0.50000*224.0/255.0) * b1 + (ONE_HALF << shift) - 1) >> (SCALEBITS + shift))
 (((FIX(0.50000*224.0/255.0) * r1 - FIX(0.41869*224.0/255.0) * g1 -           \
 FIX(0.08131*224.0/255.0) * b1 + (ONE_HALF << shift) - 1) >> (SCALEBITS + shift)) + 128)
     
+//void do_exit(VideoState *is);
+//VideoState* init_videostate(const char* input_filename);
+//void video_refresh(void *opaque, double *remaining_time);
+//extern Frame* customRenderFrame = nullptr;
+    
     
 #ifdef main
 #undef main

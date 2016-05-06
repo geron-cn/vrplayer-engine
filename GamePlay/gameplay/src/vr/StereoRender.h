@@ -36,11 +36,14 @@ protected:
     void finalize();
 
     bool drawScene(Node* node);
+    
+    void setEyeFov(float fov);
 
 private:
 
     Camera* _eyeL; //left eye
     Camera* _eyeR; //right eye
+    float _eyeFov;
     
     Node* _head;
     SphereVideoSurround* _videoSurround;

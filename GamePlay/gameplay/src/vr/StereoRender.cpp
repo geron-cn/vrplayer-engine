@@ -3,7 +3,7 @@
 #include "VRPlayer.h"
 
 StereoRender::StereoRender()
-    : _eyeL(nullptr), _eyeR(nullptr), _head(nullptr), _videoSurround(nullptr)
+    : _eyeL(nullptr), _eyeR(nullptr), _head(nullptr), _videoSurround(nullptr), _eyeFov(40)
 {
 }
 
@@ -72,6 +72,8 @@ bool StereoRender::initialize(Node* parent, Scene* scene)
     Matrix::createLookAt(pos, pos + Vector3(0, 0, -focusLen),  Vector3::unitY(), &rotation);
     eyeRNode->setRotation(rotation);
     
+    setEyeFov(_eyeFov);
+    
     //correct method
     /*
     float eyeSep = 0.064f / 2.f;
@@ -118,6 +120,60 @@ bool StereoRender::initialize(Node* parent, Scene* scene)
 */
     
     return true;
+}
+
+void StereoRender::setEyeFov(float fov)
+{
+    if (_eyeL == nullptr || _eyeR == nullptr)
+    {
+        return;
+    }
+    float fovs[] = { tanf(MATH_DEG_TO_RAD(fov)), tanf(MATH_DEG_TO_RAD(fov)), tanf(MATH_DEG_TO_RAD(fov)), tanf(MATH_DEG_TO_RAD(fov))};//up, down, left, right
+    
+    float zNear = 0.01f;
+    float zFar = 1000.f;
+    float handednessScale = -1;
+    
+    float pxscale = 2.0 / ( fovs[2] + fovs[3] );
+    float pxoffset = ( fovs[2] - fovs[3] ) * pxscale * 0.5;
+    float pyscale = 2.0 / ( fovs[0] + fovs[1] );
+    float pyoffset = ( fovs[0] - fovs[1] ) * pyscale * 0.5;
+    float scale[2], offset[2];
+    scale[0] = 2.0 / ( fovs[2] + fovs[3] );
+    offset[0] = ( fovs[2] - fovs[3] ) * pxscale * 0.5;
+    scale[1] = 2.0 / ( fovs[0] + fovs[1] );
+    offset[1] = ( fovs[0] - fovs[1] ) * pyscale * 0.5;
+    
+    gameplay::Matrix mat;
+    // X result, map clip edges to [-w,+w]
+    mat.m[ 0 * 4 + 0 ] = scale[ 0 ];
+    mat.m[ 0 * 4 + 1 ] = 0.0;
+    mat.m[ 0 * 4 + 2 ] = offset[ 0 ] * handednessScale;
+    mat.m[ 0 * 4 + 3 ] = 0.0;
+    
+    // Y result, map clip edges to [-w,+w]
+    // Y offset is negated because this proj matrix transforms from world coords with Y=up,
+    // but the NDC scaling has Y=down (thanks D3D?)
+    mat.m[ 1 * 4 + 0 ] = 0.0;
+    mat.m[ 1 * 4 + 1 ] = scale[ 1 ];
+    mat.m[ 1 * 4 + 2 ] = - offset[ 1 ] * handednessScale;
+    mat.m[ 1 * 4 + 3 ] = 0.0;
+    
+    // Z result (up to the app)
+    mat.m[ 2 * 4 + 0 ] = 0.0;
+    mat.m[ 2 * 4 + 1 ] = 0.0;
+    mat.m[ 2 * 4 + 2 ] = zFar / ( zNear - zFar ) * - handednessScale;
+    mat.m[ 2 * 4 + 3 ] = ( zFar * zNear ) / ( zNear - zFar );
+    
+    // W result (= Z in)
+    mat.m[ 3 * 4 + 0 ] = 0.0;
+    mat.m[ 3 * 4 + 1 ] = 0.0;
+    mat.m[ 3 * 4 + 2 ] = handednessScale;
+    mat.m[ 3 * 4 + 3 ] = 0.0;
+    
+    mat.transpose();
+    _eyeL->setProjectionMatrix(mat);
+    _eyeR->setProjectionMatrix(mat);
 }
 
 void StereoRender::updateHeadRotation()

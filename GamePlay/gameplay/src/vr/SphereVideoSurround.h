@@ -50,10 +50,11 @@ protected:
 private:
     
     Node* _sphere;
-    
+    std::vector<uint8_t> _data;
     Texture*  _texture;
     int       _dstTextureW;
     int       _dstTextureH;
+    int       _previewPts;
     vrliveff::VideoState* _videoState;
 //    Video::VideoPlayer* _player;
     gameplay::Texture::Sampler* _sampler;

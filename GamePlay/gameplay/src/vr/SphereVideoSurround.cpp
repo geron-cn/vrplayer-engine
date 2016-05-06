@@ -178,13 +178,15 @@ void SphereVideoSurround::render(Camera* camera)
         //if (_player)
         //{
 //        _player->update();
-//
+        
         if(vrliveff::customRenderFrame != nullptr)
         {
             auto src_frame = vrliveff::customRenderFrame->frame;
-            if(src_frame->data[0] == nullptr)
+            if( src_frame->data[0] == nullptr || _previewPts == src_frame->pts)
                 return;
-            uint8_t *dst_data[4];
+            
+            _previewPts = src_frame->pts;
+            
             int dst_linesize[4] = {0, 0, 0, 0};
             if (_dstTextureH == 0 || _dstTextureW == 0)
             {
@@ -199,12 +201,14 @@ void SphereVideoSurround::render(Camera* camera)
                 {
                     _dstTextureH = s_maxTextureSize;
                     _dstTextureW = (int)(((float)s_maxTextureSize / codecHeight) * codecWidth);
+                    
                 }
                 else
                 {
                     _dstTextureW = codecWidth;
                     _dstTextureH = codecHeight;
                 }
+                _data.resize(_dstTextureW * _dstTextureH * 3);
             }
             
             _videoState->img_convert_ctx = sws_getCachedContext(_videoState->img_convert_ctx,
@@ -215,25 +219,26 @@ void SphereVideoSurround::render(Camera* camera)
                 GP_WARN( "Cannot initialize the conversion context\n");
                 return;
             }
-            av_image_alloc(dst_data, dst_linesize, _dstTextureW, _dstTextureH, AV_PIX_FMT_RGB24, 1);
+            uint8_t *dst = &_data[0];
             dst_linesize[0] = _dstTextureW * 3;
             
             sws_scale(_videoState->img_convert_ctx, src_frame->data, src_frame->linesize,
-                      0, src_frame->height, dst_data, dst_linesize);
+                      0, src_frame->height, &dst, dst_linesize);
 
             
             if (_texture == nullptr)
             {
                 _texture = gameplay::Texture::create(gameplay::Texture::Format::RGB,
-                                                     _dstTextureW, _dstTextureH, (unsigned char*)dst_data[0]);
+                                                     _dstTextureW, _dstTextureH, (unsigned char*)dst);
             }
             else
             {
-                _texture->setData((unsigned char*)dst_data[0]);
+                _texture->setData((unsigned char*)dst);
             }
-            av_freep(&dst_data[0]);
             av_frame_unref(vrliveff::customRenderFrame->frame);
         }
+        
+        
         if (_sampler == nullptr || _sampler->getTexture() != _texture)
         {
             if (_texture)

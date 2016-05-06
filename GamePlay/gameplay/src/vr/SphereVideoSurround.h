@@ -15,6 +15,7 @@ namespace vrliveff{
  */
 class SphereVideoSurround: public Ref
 {
+    friend class VRPlayer;
 public:
 
     /**
@@ -30,6 +31,15 @@ public:
     
     bool setVideoURL(const std::string& url);
 
+    double getVideoDuration() const;
+    
+    bool isPause() const;
+    
+    void pause(bool pause);
+    
+    double getCurrentPos() const;
+    
+    bool seek(double pos);
 
 //    Video::VideoPlayer* getVideoPlayer() const {return _player;}
 

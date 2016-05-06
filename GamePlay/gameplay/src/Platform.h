@@ -44,9 +44,7 @@ public:
     static Platform* create(Game* game);
     
     static void* initView();
-    
-    static void setViewSize(int x, int y, int width, int height);
-    
+        
     static void finalize();
     
     static void startUpdating();

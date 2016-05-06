@@ -26,6 +26,8 @@
 		3ECCA7F41CD88C530001787E /* VRPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCA7F21CD88C530001787E /* VRPlayer.cpp */; };
 		3ECCA7F51CD890BE0001787E /* VRPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCA7F21CD88C530001787E /* VRPlayer.cpp */; };
 		3ECCA7F71CD897280001787E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECCA7F61CD897280001787E /* AudioToolbox.framework */; };
+		3ECCA80A1CDA0DCC0001787E /* VRPlayerIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCA8091CDA0DCC0001787E /* VRPlayerIOS.mm */; };
+		3ECCA80C1CDAD6FC0001787E /* VRPlayerIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCA8091CDA0DCC0001787E /* VRPlayerIOS.mm */; };
 		4204EC411A2EB8310074FCE9 /* TileSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4204EC3F1A2EB8310074FCE9 /* TileSet.cpp */; };
 		4204EC421A2EB8310074FCE9 /* TileSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4204EC3F1A2EB8310074FCE9 /* TileSet.cpp */; };
 		4204EC451A2F878C0074FCE9 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4204EC441A2F878C0074FCE9 /* Sprite.cpp */; };
@@ -558,6 +560,8 @@
 		3ECCA7F21CD88C530001787E /* VRPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VRPlayer.cpp; path = src/vr/VRPlayer.cpp; sourceTree = SOURCE_ROOT; };
 		3ECCA7F31CD88C530001787E /* VRPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VRPlayer.h; path = src/vr/VRPlayer.h; sourceTree = SOURCE_ROOT; };
 		3ECCA7F61CD897280001787E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		3ECCA8081CDA0DCC0001787E /* VRPlayerIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VRPlayerIOS.h; path = src/vr/VRPlayerIOS.h; sourceTree = SOURCE_ROOT; };
+		3ECCA8091CDA0DCC0001787E /* VRPlayerIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = VRPlayerIOS.mm; path = src/vr/VRPlayerIOS.mm; sourceTree = SOURCE_ROOT; };
 		4204EC3F1A2EB8310074FCE9 /* TileSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileSet.cpp; path = src/TileSet.cpp; sourceTree = SOURCE_ROOT; };
 		4204EC401A2EB8310074FCE9 /* TileSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TileSet.h; path = src/TileSet.h; sourceTree = SOURCE_ROOT; };
 		4204EC431A2F70BA0074FCE9 /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = src/Sprite.h; sourceTree = SOURCE_ROOT; };
@@ -1138,6 +1142,8 @@
 		3ECCA7A41CD86E660001787E /* vr */ = {
 			isa = PBXGroup;
 			children = (
+				3ECCA8081CDA0DCC0001787E /* VRPlayerIOS.h */,
+				3ECCA8091CDA0DCC0001787E /* VRPlayerIOS.mm */,
 				3ECCA7F21CD88C530001787E /* VRPlayer.cpp */,
 				3ECCA7F31CD88C530001787E /* VRPlayer.h */,
 				3ECCA7DE1CD879140001787E /* VideoState.cpp */,
@@ -2054,6 +2060,7 @@
 				42CC59461809A4EF00AAD8AD /* PhysicsFixedConstraint.cpp in Sources */,
 				424F334C1A60C28600395438 /* lua_Frustum.cpp in Sources */,
 				424F33EE1A60C28600395438 /* lua_ThemeStyle.cpp in Sources */,
+				3ECCA80A1CDA0DCC0001787E /* VRPlayerIOS.mm in Sources */,
 				424F33321A60C28600395438 /* lua_CheckBox.cpp in Sources */,
 				424F331E1A60C28600395438 /* lua_AudioBuffer.cpp in Sources */,
 				424F33161A60C28600395438 /* lua_AnimationClipListener.cpp in Sources */,
@@ -2315,6 +2322,7 @@
 				42CC59471809A4EF00AAD8AD /* PhysicsFixedConstraint.cpp in Sources */,
 				424F334D1A60C28600395438 /* lua_Frustum.cpp in Sources */,
 				424F33EF1A60C28600395438 /* lua_ThemeStyle.cpp in Sources */,
+				3ECCA80C1CDAD6FC0001787E /* VRPlayerIOS.mm in Sources */,
 				424F33331A60C28600395438 /* lua_CheckBox.cpp in Sources */,
 				424F331F1A60C28600395438 /* lua_AudioBuffer.cpp in Sources */,
 				424F33171A60C28600395438 /* lua_AnimationClipListener.cpp in Sources */,
@@ -2443,6 +2451,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
@@ -2504,6 +2513,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

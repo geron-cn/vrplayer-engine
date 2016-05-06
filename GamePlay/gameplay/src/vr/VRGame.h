@@ -66,6 +66,8 @@ private:
     Scene* _scene;
     StereoRender* _stereoRender;
     gameplay::Form*             _messageForm;
+    
+    std::string  _videoURL;
 };
 
 #endif

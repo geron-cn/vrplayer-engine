@@ -287,6 +287,7 @@ void Game::shutdown()
         SAFE_DELETE(_properties);
 
 		_state = UNINITIALIZED;
+        _initialized = false;
     }
 }
 

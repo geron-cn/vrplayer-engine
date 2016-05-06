@@ -1,9 +1,9 @@
 #include "StereoRender.h"
 #include "SphereVideoSurround.h"
-
+#include "VRPlayer.h"
 
 StereoRender::StereoRender()
-    : _eyeL(nullptr), _eyeR(nullptr), _head(nullptr), _isVREnabled(true), _videoSurround(nullptr)
+    : _eyeL(nullptr), _eyeR(nullptr), _head(nullptr), _videoSurround(nullptr)
 {
 }
 
@@ -127,12 +127,19 @@ void StereoRender::updateHeadRotation()
     _head->setRotation(headview);
 }
 
+bool StereoRender::setVideoURL(const char* url)
+{
+    if (_videoSurround)
+        return _videoSurround->setVideoURL(url);
+    return false;
+}
+
 void StereoRender::render(Scene* scene)
 {
     if (Game::getInstance()->hasAccelerometer())
         updateHeadRotation();
     
-    if (_isVREnabled)
+    if (VRPlayer::getInstance()->isVREnabled())
     {
         auto oldCamera = scene->getActiveCamera();
         auto game = Game::getInstance();

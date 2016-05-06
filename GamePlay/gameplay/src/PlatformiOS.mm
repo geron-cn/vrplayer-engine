@@ -218,8 +218,11 @@ int getUnicode(int key);
 
 - (void) dealloc
 {
-    if (game)
-        game->exit();
+//    if (game)
+//        game->exit();
+    
+    game = nil;
+    [self stopUpdating];
     [self deleteFramebuffer];
     
     if ([EAGLContext currentContext] == context)
@@ -227,7 +230,9 @@ int getUnicode(int key);
         [EAGLContext setCurrentContext:nil];
     }
     [context release];
-    [super dealloc];
+    context = nullptr;
+    __view = NULL;
+//    [super dealloc];
 }
 
 - (BOOL)canBecomeFirstResponder 
@@ -903,6 +908,8 @@ int getUnicode(int key);
 
 - (void)dealloc 
 {
+    if (__view)
+    [__view release];
     __view = nil;
     [super dealloc];
 }
@@ -916,7 +923,7 @@ int getUnicode(int key);
 - (void)loadView
 {
     self.view = [[[VRLiveView alloc] init] autorelease];
-    if(__view == nil) 
+    if(__view == nil)
     {
         __view = (VRLiveView*)self.view;
     }
@@ -988,6 +995,10 @@ int getUnicode(int key);
 @implementation VRLiveAppDelegate2
 @synthesize viewController;
 
+-(void)dealloc {
+    
+}
+
 -(void)initialize
 {
     __appDelegate = self;
@@ -1014,7 +1025,7 @@ int getUnicode(int key);
                                                  name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(applicationDidEnterBackground:)
-                                                 name:UIApplicationDidBecomeActiveNotification object:nil];
+                                                 name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(applicationWillEnterForeground:)
                                                  name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -1689,6 +1700,7 @@ extern int strcmpnocase(const char* s1, const char* s2)
     return strcasecmp(s1, s2);
 }
 
+static NSAutoreleasePool* __pool = NULL;
 Platform::Platform(Game* game) : _game(game)
 {
 }
@@ -1697,27 +1709,12 @@ Platform::~Platform()
 {
 }
     
-void Platform::setViewSize(int x, int y, int width, int height)
-{
-    if (__view)
-    {
-        CGRect rect;
-        if (width == 0)
-            width = WINDOW_WIDTH/WINDOW_SCALE; //[[UIScreen mainScreen] bounds].size.height;
-        if (height == 0)
-            height = WINDOW_HEIGHT/WINDOW_SCALE;//[[UIScreen mainScreen] bounds].size.width;
-        
-        rect.origin.x = x;
-        rect.origin.y = y;
-        rect.size.width = width;
-        rect.size.height = height;
-        [__view setFrame: rect];
-    }
-}
-
-    
 void* Platform::initView()
 {
+    finalize();
+    
+//    __pool = [[NSAutoreleasePool alloc] init];
+    
     VRLiveAppDelegate2* app = [VRLiveAppDelegate2 alloc];
     [app initialize];
     __appDelegate = app;
@@ -1732,8 +1729,29 @@ void Platform::finalize()
         [__appDelegate finalize];
         __appDelegate = nullptr;
     }
+    if (Game::getInstance())
+    {
+        Game::getInstance()->shutdown();
+    }
+//    if (__pool)
+//    {
+//        [__pool release];
+//        __pool = NULL;
+//    }
 }
 
+void  Platform::startUpdating()
+{
+    if (__appDelegate)
+        [__appDelegate startUpdating];
+}
+    
+void  Platform::stopUpdating()
+{
+    if (__appDelegate)
+        [__appDelegate stopUpdating];
+}
+    
 Platform* Platform::create(Game* game)
 {
     Platform* platform = new Platform(game);
@@ -1762,9 +1780,9 @@ int Platform::enterMessagePump()
 void Platform::signalShutdown() 
 {
     // Cannot 'exit' an iOS Application
-    assert(false);
+//    assert(false);
     [__view stopUpdating];
-    exit(0);
+//    exit(0);
 }
 
 bool Platform::canExit()

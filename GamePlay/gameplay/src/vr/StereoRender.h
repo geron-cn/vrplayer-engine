@@ -25,11 +25,10 @@ public:
     
     void render(Scene* scene);
     
-    bool isVREnabled() const { return _isVREnabled; }
+    bool setVideoURL(const char* url);
     
-    void setVREnabled(bool enable) { _isVREnabled = enable; }
-
-    SphereVideoSurround* getSphereVideoSurround() const { return _videoSurround; }
+    SphereVideoSurround* getVideoSurround() const { return _videoSurround; }
+    
 protected:
     
     void updateHeadRotation();
@@ -44,7 +43,6 @@ private:
     Camera* _eyeR; //right eye
     
     Node* _head;
-    bool _isVREnabled;
     SphereVideoSurround* _videoSurround;
 };
 

@@ -10,10 +10,13 @@
 
 
 @interface ViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *back;
 
 @end
 
 @implementation ViewController
+- (IBAction)back:(id)sender {
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

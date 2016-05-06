@@ -42,6 +42,16 @@ public:
      * @script{ignore}
      */
     static Platform* create(Game* game);
+    
+    static void* initView();
+        
+    static void finalize();
+    
+    static void startUpdating();
+    
+    static void stopUpdating();
+    
+    static Vector2 getDisplayViewSize();
 
     /**
      * Begins processing the platform messages.

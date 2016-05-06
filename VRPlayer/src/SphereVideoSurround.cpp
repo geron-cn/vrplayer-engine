@@ -144,7 +144,7 @@ void SphereVideoSurround::render(Camera* camera)
             if (_texture == nullptr)
             {
                 _texture = gameplay::Texture::create(gameplay::Texture::Format::RGB,
-                                                     _dstTextureW, _dstTextureW, (unsigned char*)dst_data[0]);
+                                                     _dstTextureW, _dstTextureH, (unsigned char*)dst_data[0]);
             }
             else
             {

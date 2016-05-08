@@ -751,6 +751,7 @@ namespace vrliveff
         rect->h = FFMAX(height, 1);
     }
     
+    static std::function<void(AVFrame* )> renderFunc = nullptr;
     static Frame* customRenderFrame = nullptr;
     static void video_image_display(VideoState *is)
     {
@@ -758,7 +759,13 @@ namespace vrliveff
         Frame *sp = NULL;
         int i;
         vp = frame_queue_peek(&is->pictq);
-        customRenderFrame = vp;
+        if(renderFunc != nullptr)
+        {
+            renderFunc(vp->frame);
+            av_frame_unref(vp->frame);
+        }
+        
+        //customRenderFrame = vp;
         
         //        if (vp->bmp) {
         //            if (is->subtitle_st) {

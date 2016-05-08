@@ -10,6 +10,7 @@ using namespace gameplay;
 namespace vrliveff{
     class VideoState;
 }
+class AVFrame;
 /**
  * Stereo Render.
  */
@@ -41,6 +42,7 @@ public:
     
     bool seek(double pos);
 
+    void renderAVFrame(AVFrame *avframe);
 //    Video::VideoPlayer* getVideoPlayer() const {return _player;}
 
 protected:

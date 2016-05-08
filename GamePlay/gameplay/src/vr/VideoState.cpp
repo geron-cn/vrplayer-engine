@@ -762,8 +762,8 @@ namespace vrliveff
         if(renderFunc != nullptr)
         {
             renderFunc(vp->frame);
-            av_frame_unref(vp->frame);
         }
+        av_frame_unref(vp->frame);
         
         //customRenderFrame = vp;
         

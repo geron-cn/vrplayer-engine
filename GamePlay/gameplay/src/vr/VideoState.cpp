@@ -752,7 +752,6 @@ namespace vrliveff
     }
     
     static std::function<void(AVFrame* )> renderFunc = nullptr;
-    static Frame* customRenderFrame = nullptr;
     static void video_image_display(VideoState *is)
     {
         Frame *vp = NULL;

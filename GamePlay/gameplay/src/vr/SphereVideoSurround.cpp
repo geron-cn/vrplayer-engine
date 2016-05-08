@@ -97,7 +97,6 @@ bool SphereVideoSurround::setVideoURL(const std::string& url)
     {
         vrliveff::do_exit(_videoState);
         _videoState = nullptr;
-        vrliveff::customRenderFrame = nullptr;
     }
     if (url.empty())
         return false;

@@ -56,6 +56,7 @@ void SphereVideoSurround::finalize()
     SAFE_RELEASE(_sphere);
     //    SAFE_DELETE(_player);
     SAFE_RELEASE(_sampler);
+    SAFE_RELEASE(_texture);
 }
 
 bool SphereVideoSurround::initialize(Scene* scene)

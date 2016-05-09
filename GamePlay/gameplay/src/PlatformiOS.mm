@@ -968,6 +968,12 @@ int getUnicode(int key);
             width = [[UIScreen mainScreen] bounds].size.width;
         if (height == 0)
             height = [[UIScreen mainScreen] bounds].size.height;
+        if (height > width)
+        {
+            float tmp = width;
+            width = height;
+            height = tmp;
+        }
         self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, width, height);
     }
     

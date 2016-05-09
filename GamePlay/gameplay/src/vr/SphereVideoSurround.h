@@ -10,6 +10,7 @@ using namespace gameplay;
 namespace vrliveff{
     class VideoState;
 }
+class AVFrame;
 /**
  * Stereo Render.
  */
@@ -41,6 +42,7 @@ public:
     
     bool seek(double pos);
 
+    void renderAVFrame(AVFrame *avframe);
 //    Video::VideoPlayer* getVideoPlayer() const {return _player;}
 
 protected:
@@ -50,10 +52,11 @@ protected:
 private:
     
     Node* _sphere;
-    
+    std::vector<uint8_t> _data;
     Texture*  _texture;
     int       _dstTextureW;
     int       _dstTextureH;
+    int       _previewPts;
     vrliveff::VideoState* _videoState;
 //    Video::VideoPlayer* _player;
     gameplay::Texture::Sampler* _sampler;

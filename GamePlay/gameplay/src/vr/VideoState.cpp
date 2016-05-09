@@ -456,12 +456,12 @@ namespace vrliveff
     static void frame_queue_unref_item(Frame *vp)
     {
         //@sdl2
-        //        int i;
-        //        for (i = 0; i < vp->sub.num_rects; i++) {
-        //            av_freep(&vp->subrects[i]->data[0]);
-        //            av_freep(&vp->subrects[i]);
-        //        }
-        //        av_freep(&vp->subrects);
+//                int i;
+//                for (i = 0; i < vp->sub.num_rects; i++) {
+//                    av_freep(&vp->subrects[i]->data[0]);
+//                    av_freep(&vp->subrects[i]);
+//                }
+//                av_freep(&vp->subrects);
         av_frame_unref(vp->frame);
         avsubtitle_free(&vp->sub);
     }
@@ -751,14 +751,20 @@ namespace vrliveff
         rect->h = FFMAX(height, 1);
     }
     
-    static Frame* customRenderFrame = nullptr;
+    static std::function<void(AVFrame* )> renderFunc = nullptr;
     static void video_image_display(VideoState *is)
     {
         Frame *vp = NULL;
         Frame *sp = NULL;
         int i;
         vp = frame_queue_peek(&is->pictq);
-        customRenderFrame = vp;
+        if(renderFunc != nullptr)
+        {
+            renderFunc(vp->frame);
+        }
+        av_frame_unref(vp->frame);
+        
+        //customRenderFrame = vp;
         
         //        if (vp->bmp) {
         //            if (is->subtitle_st) {
@@ -1472,7 +1478,7 @@ namespace vrliveff
                 else if (is->audio_st)
                     av_diff = get_master_clock(is) - get_clock(&is->audclk);
                 av_log(NULL, AV_LOG_INFO,
-                       "%7.2f %s:%7.3f fd=%4d aq=%5dKB vq=%5dKB sq=%5dB f=%PRId64/%PRId64   \n",
+                       "%7.2f %s:%7.3f fd=%4d aq=%5dKB vq=%5dKB sq=%5dB f=%lld/%lld   \n",
                        get_master_clock(is),
                        (is->audio_st && is->video_st) ? "A-V" : (is->video_st ? "M-V" : (is->audio_st ? "M-A" : "   ")),
                        av_diff,
@@ -1621,6 +1627,8 @@ namespace vrliveff
         //#endif
         //            /* update the bitmap content */
         //            //        SDL_UnlockYUVOverlay(vp->bmp);
+        if(vp->frame != nullptr)
+            av_frame_unref(vp->frame);
         av_frame_move_ref(vp->frame, src_frame);;
         // av_frame_copy_props(vp->frame, src_frame);
         //av_frame_copy_props(vp->frame, src_frame);
@@ -3595,8 +3603,8 @@ last_filter = filt_ctx;                                                  \
         
         //        init_opts();
         
-        signal(SIGINT , sigterm_handler); /* Interrupt (ANSI).    */
-        signal(SIGTERM, sigterm_handler); /* Termination (ANSI).  */
+        //signal(SIGINT , sigterm_handler); /* Interrupt (ANSI).    */
+        //signal(SIGTERM, sigterm_handler); /* Termination (ANSI).  */
         //
         //        show_banner(argc, argv, options);
         //
@@ -3637,7 +3645,7 @@ last_filter = filt_ctx;                                                  \
         //        
         //        SDL_EventState(SDL_ACTIVEEVENT, SDL_IGNORE);
         //        SDL_EventState(SDL_SYSWMEVENT, SDL_IGNORE);
-        SDL_EventState(SDL_USEREVENT, SDL_IGNORE);
+        //SDL_EventState(SDL_USEREVENT, SDL_IGNORE);
         //        
         //        SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
         //        

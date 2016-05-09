@@ -73,7 +73,7 @@ SCRIP_DIR=$(cd `dirname $0`; pwd)
 PRODUCT_DIR=$SCRIP_DIR/products/android
 FF_TOOLCHAIN_PATH=${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.9
 FF_BUILD_ROOT=$PRODUCT_DIR
-FF_ANDROID_PLATFORM=android-9
+FF_ANDROID_PLATFORM=android-21
 FF_GCC_VER=4.8
 FF_GCC_64_VER=4.9
 

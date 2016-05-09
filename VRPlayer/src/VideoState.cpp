@@ -11,19 +11,10 @@
 
 
 #include "VideoState.hpp"
+#include "Base.h"
 
 namespace vrliveff
 {
-    
-#ifdef __cplusplus
-    extern "C" {
-#endif
-        
-#include "cmdutils.h"
-        
-#ifdef __cplusplus
-    }
-#endif
     
     /* options specified by the user */
     static AVInputFormat *file_iformat;
@@ -35,8 +26,8 @@ namespace vrliveff
     static int default_height = 480;
     static int screen_width  = 0;
     static int screen_height = 0;
-    static int audio_disable;
-    static int video_disable;
+    static int audio_disable = 0;
+    static int video_disable = 0;
     static int subtitle_disable;
     static const char* wanted_stream_spec[AVMEDIA_TYPE_NB] = {0};
     static int seek_by_bytes = -1;
@@ -76,10 +67,17 @@ namespace vrliveff
     static AVPacket flush_pkt;
 
     
-    static SDL_Window* window = nullptr;
-    static SDL_Renderer *renderer = nullptr;
-    static SDL_Texture *texture = nullptr;
+    //static SDL_Window* window = nullptr;
+    //static SDL_Renderer *renderer = nullptr;
+    //static SDL_Texture *texture = nullptr;
     //static SDL_Surface *screen = nullptr;
+    
+#ifdef __ANDROID__
+    typedef int64_t __int64;
+    #define INT64_MAX 9223372036854775807LL
+    #define INT64_MIN -INT64_MAX-1
+#endif
+    
     
 #if CONFIG_AVFILTER
     static int opt_add_vfilter(void *optctx, const char *opt, const char *arg)
@@ -89,6 +87,108 @@ namespace vrliveff
         return 0;
     }
 #endif
+    // cmd utils
+    
+    AVDictionary *sws_dict;
+    AVDictionary *swr_opts;
+    AVDictionary *format_opts, *codec_opts, *resample_opts;
+    
+    void uninit_opts(void)
+    {
+        av_dict_free(&swr_opts);
+        av_dict_free(&sws_dict);
+        av_dict_free(&format_opts);
+        av_dict_free(&codec_opts);
+        av_dict_free(&resample_opts);
+    }
+    
+    int check_stream_specifier(AVFormatContext *s, AVStream *st, const char *spec)
+    {
+        int ret = avformat_match_stream_specifier(s, st, spec);
+        if (ret < 0)
+            av_log(s, AV_LOG_ERROR, "Invalid stream specifier: %s.\n", spec);
+        return ret;
+    }
+    
+    AVDictionary *filter_codec_opts(AVDictionary *opts, enum AVCodecID codec_id,
+                                    AVFormatContext *s, AVStream *st, AVCodec *codec)
+    {
+        AVDictionary    *ret = NULL;
+        AVDictionaryEntry *t = NULL;
+        int            flags = s->oformat ? AV_OPT_FLAG_ENCODING_PARAM
+        : AV_OPT_FLAG_DECODING_PARAM;
+        char          prefix = 0;
+        const AVClass    *cc = avcodec_get_class();
+        
+        if (!codec)
+            codec            = s->oformat ? avcodec_find_encoder(codec_id)
+            : avcodec_find_decoder(codec_id);
+        
+        switch (st->codec->codec_type) {
+            case AVMEDIA_TYPE_VIDEO:
+                prefix  = 'v';
+                flags  |= AV_OPT_FLAG_VIDEO_PARAM;
+                break;
+            case AVMEDIA_TYPE_AUDIO:
+                prefix  = 'a';
+                flags  |= AV_OPT_FLAG_AUDIO_PARAM;
+                break;
+            case AVMEDIA_TYPE_SUBTITLE:
+                prefix  = 's';
+                flags  |= AV_OPT_FLAG_SUBTITLE_PARAM;
+                break;
+        }
+        
+        while (t = av_dict_get(opts, "", t, AV_DICT_IGNORE_SUFFIX)) {
+            char *p = strchr(t->key, ':');
+            
+            /* check stream specification in opt name */
+            if (p)
+                switch (check_stream_specifier(s, st, p + 1)) {
+                    case  1: *p = 0; break;
+                    case  0:         continue;
+                    //default:         exit_program(1);
+                }
+            
+            if (av_opt_find(&cc, t->key, NULL, flags, AV_OPT_SEARCH_FAKE_OBJ) ||
+                !codec ||
+                (codec->priv_class &&
+                 av_opt_find(&codec->priv_class, t->key, NULL, flags,
+                             AV_OPT_SEARCH_FAKE_OBJ)))
+                av_dict_set(&ret, t->key, t->value, 0);
+            else if (t->key[0] == prefix &&
+                     av_opt_find(&cc, t->key + 1, NULL, flags,
+                                 AV_OPT_SEARCH_FAKE_OBJ))
+                av_dict_set(&ret, t->key + 1, t->value, 0);
+            
+            if (p)
+                *p = ':';
+        }
+        return ret;
+    }
+    
+    AVDictionary **setup_find_stream_info_opts(AVFormatContext *s,
+                                               AVDictionary *codec_opts)
+    {
+        int i;
+        AVDictionary **opts;
+        
+        if (!s->nb_streams)
+            return NULL;
+        opts = (AVDictionary**) av_mallocz_array(s->nb_streams, sizeof(*opts));
+        if (!opts) {
+            av_log(NULL, AV_LOG_ERROR,
+                   "Could not alloc memory for stream options.\n");
+            return NULL;
+        }
+        for (i = 0; i < s->nb_streams; i++)
+            opts[i] = filter_codec_opts(codec_opts, s->streams[i]->codec->codec_id,
+                                        s, s->streams[i], NULL);
+        return opts;
+    }
+    
+    
+    // end cmd utils
     
     static inline
     int cmp_audio_fmts(enum AVSampleFormat fmt1, int64_t channel_count1,
@@ -710,151 +810,151 @@ namespace vrliveff
         return a < 0 ? a%b + b : a%b;
     }
     
-    static void video_audio_display(VideoState *s)
-    {
-        int i, i_start, x, y1, y, ys, delay, n, nb_display_channels;
-        int ch, channels, h, h2, bgcolor, fgcolor;
-        int64_t time_diff;
-        int rdft_bits, nb_freq;
-        
-        for (rdft_bits = 1; (1 << rdft_bits) < 2 * s->height; rdft_bits++)
-            ;
-        nb_freq = 1 << (rdft_bits - 1);
-        
-        /* compute display index : center on currently output samples */
-        channels = s->audio_tgt.channels;
-        nb_display_channels = channels;
-        if (!s->paused) {
-            int data_used= s->show_mode == VideoState::SHOW_MODE_WAVES ? s->width : (2*nb_freq);
-            n = 2 * channels;
-            delay = s->audio_write_buf_size;
-            delay /= n;
-            
-            /* to be more precise, we take into account the time spent since
-             the last buffer computation */
-            if (audio_callback_time) {
-                time_diff = av_gettime_relative() - audio_callback_time;
-                delay -= (time_diff * s->audio_tgt.freq) / 1000000;
-            }
-            
-            delay += 2 * data_used;
-            if (delay < data_used)
-                delay = data_used;
-            
-            i_start= x = compute_mod(s->sample_array_index - delay * channels, SAMPLE_ARRAY_SIZE);
-            if (s->show_mode == VideoState::SHOW_MODE_WAVES) {
-                h = INT_MIN;
-                for (i = 0; i < 1000; i += channels) {
-                    int idx = (SAMPLE_ARRAY_SIZE + x - i) % SAMPLE_ARRAY_SIZE;
-                    int a = s->sample_array[idx];
-                    int b = s->sample_array[(idx + 4 * channels) % SAMPLE_ARRAY_SIZE];
-                    int c = s->sample_array[(idx + 5 * channels) % SAMPLE_ARRAY_SIZE];
-                    int d = s->sample_array[(idx + 9 * channels) % SAMPLE_ARRAY_SIZE];
-                    int score = a - d;
-                    if (h < score && (b ^ c) < 0) {
-                        h = score;
-                        i_start = idx;
-                    }
-                }
-            }
-            
-            s->last_i_start = i_start;
-        } else {
-            i_start = s->last_i_start;
-        }
-        
-        //bgcolor = SDL_MapRGB(screen->format, 0x00, 0x00, 0x00);
-        bgcolor = ARGB(0xff, 0x00, 0x00, 0x00);
-        if (s->show_mode == VideoState::SHOW_MODE_WAVES) {
-            //fill_rectangle(screen,
-             //              s->xleft, s->ytop, s->width, s->height,
-             //              bgcolor, 0);
-            
-            fgcolor = ARGB(0xff, 0xff, 0xff, 0xff);
-            
-            /* total height for one channel */
-            h = s->height / nb_display_channels;
-            /* graph height / 2 */
-            h2 = (h * 9) / 20;
-            for (ch = 0; ch < nb_display_channels; ch++) {
-                i = i_start + ch;
-                y1 = s->ytop + ch * h + (h / 2); /* position of center line */
-                for (x = 0; x < s->width; x++) {
-                    y = (s->sample_array[i] * h2) >> 15;
-                    if (y < 0) {
-                        y = -y;
-                        ys = y1 - y;
-                    } else {
-                        ys = y1;
-                    }
-//                    fill_rectangle(screen,
-//                                   s->xleft + x, ys, 1, y,
-//                                   fgcolor, 0);
-                    i += channels;
-                    if (i >= SAMPLE_ARRAY_SIZE)
-                        i -= SAMPLE_ARRAY_SIZE;
-                }
-            }
-            
-            fgcolor = ARGB(0xff, 0x00, 0x00, 0xff);
-            
-            for (ch = 1; ch < nb_display_channels; ch++) {
-                y = s->ytop + ch * h;
-//                fill_rectangle(screen,
-//                               s->xleft, y, s->width, 1,
-//                               fgcolor, 0);
-            }
-            //SDL_UpdateRect(screen, s->xleft, s->ytop, s->width, s->height);
-        } else {
-            nb_display_channels= FFMIN(nb_display_channels, 2);
-            if (rdft_bits != s->rdft_bits) {
-                av_rdft_end(s->rdft);
-                av_free(s->rdft_data);
-                s->rdft = av_rdft_init(rdft_bits, DFT_R2C);
-                s->rdft_bits = rdft_bits;
-                s->rdft_data = (FFTSample*)av_malloc_array(nb_freq, 4 *sizeof(*s->rdft_data));
-            }
-            if (!s->rdft || !s->rdft_data){
-                av_log(NULL, AV_LOG_ERROR, "Failed to allocate buffers for RDFT, switching to waves display\n");
-                s->show_mode = VideoState::SHOW_MODE_WAVES;
-            } else {
-                FFTSample *data[2];
-                for (ch = 0; ch < nb_display_channels; ch++) {
-                    data[ch] = s->rdft_data + 2 * nb_freq * ch;
-                    i = i_start + ch;
-                    for (x = 0; x < 2 * nb_freq; x++) {
-                        double w = (x-nb_freq) * (1.0 / nb_freq);
-                        data[ch][x] = s->sample_array[i] * (1.0 - w * w);
-                        i += channels;
-                        if (i >= SAMPLE_ARRAY_SIZE)
-                            i -= SAMPLE_ARRAY_SIZE;
-                    }
-                    av_rdft_calc(s->rdft, data[ch]);
-                }
-                /* Least efficient way to do this, we should of course
-                 * directly access it but it is more than fast enough. */
-                for (y = 0; y < s->height; y++) {
-                    double w = 1 / sqrt(nb_freq);
-                    int a = sqrt(w * hypot(data[0][2 * y + 0], data[0][2 * y + 1]));
-                    int b = (nb_display_channels == 2 ) ? sqrt(w * hypot(data[1][2 * y + 0], data[1][2 * y + 1]))
-                    : a;
-                    a = FFMIN(a, 255);
-                    b = FFMIN(b, 255);
-                    fgcolor = ARGB(0xff, a, b, (a + b) / 2);
-                    
-//                    fill_rectangle(screen,
-//                                   s->xpos, s->height-y, 1, 1,
-//                                   fgcolor, 0);
-                }
-            }
-            //SDL_UpdateRect(screen, s->xpos, s->ytop, 1, s->height);
-            if (!s->paused)
-                s->xpos++;
-            if (s->xpos >= s->width)
-                s->xpos= s->xleft;
-        }
-        SDL_RenderPresent(renderer);
-    }
+//    static void video_audio_display(VideoState *s)
+//    {
+//        int i, i_start, x, y1, y, ys, delay, n, nb_display_channels;
+//        int ch, channels, h, h2, bgcolor, fgcolor;
+//        int64_t time_diff;
+//        int rdft_bits, nb_freq;
+//        
+//        for (rdft_bits = 1; (1 << rdft_bits) < 2 * s->height; rdft_bits++)
+//            ;
+//        nb_freq = 1 << (rdft_bits - 1);
+//        
+//        /* compute display index : center on currently output samples */
+//        channels = s->audio_tgt.channels;
+//        nb_display_channels = channels;
+//        if (!s->paused) {
+//            int data_used= s->show_mode == VideoState::SHOW_MODE_WAVES ? s->width : (2*nb_freq);
+//            n = 2 * channels;
+//            delay = s->audio_write_buf_size;
+//            delay /= n;
+//            
+//            /* to be more precise, we take into account the time spent since
+//             the last buffer computation */
+//            if (audio_callback_time) {
+//                time_diff = av_gettime_relative() - audio_callback_time;
+//                delay -= (time_diff * s->audio_tgt.freq) / 1000000;
+//            }
+//            
+//            delay += 2 * data_used;
+//            if (delay < data_used)
+//                delay = data_used;
+//            
+//            i_start= x = compute_mod(s->sample_array_index - delay * channels, SAMPLE_ARRAY_SIZE);
+//            if (s->show_mode == VideoState::SHOW_MODE_WAVES) {
+//                h = INT_MIN;
+//                for (i = 0; i < 1000; i += channels) {
+//                    int idx = (SAMPLE_ARRAY_SIZE + x - i) % SAMPLE_ARRAY_SIZE;
+//                    int a = s->sample_array[idx];
+//                    int b = s->sample_array[(idx + 4 * channels) % SAMPLE_ARRAY_SIZE];
+//                    int c = s->sample_array[(idx + 5 * channels) % SAMPLE_ARRAY_SIZE];
+//                    int d = s->sample_array[(idx + 9 * channels) % SAMPLE_ARRAY_SIZE];
+//                    int score = a - d;
+//                    if (h < score && (b ^ c) < 0) {
+//                        h = score;
+//                        i_start = idx;
+//                    }
+//                }
+//            }
+//            
+//            s->last_i_start = i_start;
+//        } else {
+//            i_start = s->last_i_start;
+//        }
+//        
+//        //bgcolor = SDL_MapRGB(screen->format, 0x00, 0x00, 0x00);
+//        bgcolor = ARGB(0xff, 0x00, 0x00, 0x00);
+//        if (s->show_mode == VideoState::SHOW_MODE_WAVES) {
+//            //fill_rectangle(screen,
+//             //              s->xleft, s->ytop, s->width, s->height,
+//             //              bgcolor, 0);
+//            
+//            fgcolor = ARGB(0xff, 0xff, 0xff, 0xff);
+//            
+//            /* total height for one channel */
+//            h = s->height / nb_display_channels;
+//            /* graph height / 2 */
+//            h2 = (h * 9) / 20;
+//            for (ch = 0; ch < nb_display_channels; ch++) {
+//                i = i_start + ch;
+//                y1 = s->ytop + ch * h + (h / 2); /* position of center line */
+//                for (x = 0; x < s->width; x++) {
+//                    y = (s->sample_array[i] * h2) >> 15;
+//                    if (y < 0) {
+//                        y = -y;
+//                        ys = y1 - y;
+//                    } else {
+//                        ys = y1;
+//                    }
+////                    fill_rectangle(screen,
+////                                   s->xleft + x, ys, 1, y,
+////                                   fgcolor, 0);
+//                    i += channels;
+//                    if (i >= SAMPLE_ARRAY_SIZE)
+//                        i -= SAMPLE_ARRAY_SIZE;
+//                }
+//            }
+//            
+//            fgcolor = ARGB(0xff, 0x00, 0x00, 0xff);
+//            
+//            for (ch = 1; ch < nb_display_channels; ch++) {
+//                y = s->ytop + ch * h;
+////                fill_rectangle(screen,
+////                               s->xleft, y, s->width, 1,
+////                               fgcolor, 0);
+//            }
+//            //SDL_UpdateRect(screen, s->xleft, s->ytop, s->width, s->height);
+//        } else {
+//            nb_display_channels= FFMIN(nb_display_channels, 2);
+//            if (rdft_bits != s->rdft_bits) {
+//                av_rdft_end(s->rdft);
+//                av_free(s->rdft_data);
+//                s->rdft = av_rdft_init(rdft_bits, DFT_R2C);
+//                s->rdft_bits = rdft_bits;
+//                s->rdft_data = (FFTSample*)av_malloc_array(nb_freq, 4 *sizeof(*s->rdft_data));
+//            }
+//            if (!s->rdft || !s->rdft_data){
+//                av_log(NULL, AV_LOG_ERROR, "Failed to allocate buffers for RDFT, switching to waves display\n");
+//                s->show_mode = VideoState::SHOW_MODE_WAVES;
+//            } else {
+//                FFTSample *data[2];
+//                for (ch = 0; ch < nb_display_channels; ch++) {
+//                    data[ch] = s->rdft_data + 2 * nb_freq * ch;
+//                    i = i_start + ch;
+//                    for (x = 0; x < 2 * nb_freq; x++) {
+//                        double w = (x-nb_freq) * (1.0 / nb_freq);
+//                        data[ch][x] = s->sample_array[i] * (1.0 - w * w);
+//                        i += channels;
+//                        if (i >= SAMPLE_ARRAY_SIZE)
+//                            i -= SAMPLE_ARRAY_SIZE;
+//                    }
+//                    av_rdft_calc(s->rdft, data[ch]);
+//                }
+//                /* Least efficient way to do this, we should of course
+//                 * directly access it but it is more than fast enough. */
+//                for (y = 0; y < s->height; y++) {
+//                    double w = 1 / sqrt(nb_freq);
+//                    int a = sqrt(w * hypot(data[0][2 * y + 0], data[0][2 * y + 1]));
+//                    int b = (nb_display_channels == 2 ) ? sqrt(w * hypot(data[1][2 * y + 0], data[1][2 * y + 1]))
+//                    : a;
+//                    a = FFMIN(a, 255);
+//                    b = FFMIN(b, 255);
+//                    fgcolor = ARGB(0xff, a, b, (a + b) / 2);
+//                    
+////                    fill_rectangle(screen,
+////                                   s->xpos, s->height-y, 1, 1,
+////                                   fgcolor, 0);
+//                }
+//            }
+//            //SDL_UpdateRect(screen, s->xpos, s->ytop, 1, s->height);
+//            if (!s->paused)
+//                s->xpos++;
+//            if (s->xpos >= s->width)
+//                s->xpos= s->xleft;
+//        }
+//        SDL_RenderPresent(renderer);
+//    }
     
     static void stream_component_close(VideoState *is, int stream_index)
     {
@@ -947,7 +1047,7 @@ namespace vrliveff
         av_free(is);
     }
     
-    static void do_exit(VideoState *is)
+    void do_exit(VideoState *is)
     {
         if (is) {
             stream_close(is);
@@ -978,55 +1078,55 @@ namespace vrliveff
         default_height = rect.h;
     }
     
-    static int video_open(VideoState *is, int force_set_video_mode, Frame *vp)
-    {
-        int flags = SDL_RENDERER_SOFTWARE | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED;
-        int w,h;
-        
-        if (is_full_screen) flags |= SDL_WINDOW_FULLSCREEN;
-        else                flags |= SDL_WINDOW_RESIZABLE;
-        
-        if (vp && vp->width)
-            set_default_window_size(vp->width, vp->height, vp->sar);
-        
-        if (is_full_screen && fs_screen_width) {
-            w = fs_screen_width;
-            h = fs_screen_height;
-        } else if (!is_full_screen && screen_width) {
-            w = screen_width;
-            h = screen_height;
-        } else {
-            w = default_width;
-            h = default_height;
-        }
-        
-        w = FFMIN(16383, w);
-//        if (screen && is->width == screen->w && screen->w == w
-//            && is->height== screen->h && screen->h == h && !force_set_video_mode)
-//            return 0;
-        if(window == nullptr)
-        {
-            if (!window_title)
-                window_title = input_filename;
-            window = SDL_CreateWindow(window_title,
-                                      SDL_WINDOWPOS_UNDEFINED,
-                                      SDL_WINDOWPOS_UNDEFINED,
-                                      w,  h,
-                                      SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
-            //http://stackoverflow.com/questions/36381339/cannot-get-opengl-es2-to-display-anything for opengl
-            renderer = SDL_CreateRenderer(window, -1, flags);
-        }
+//    static int video_open(VideoState *is, int force_set_video_mode, Frame *vp)
+//    {
+//        int flags = SDL_RENDERER_SOFTWARE | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED;
+//        int w,h;
 //        
-//        if (!screen) {
-//            av_log(NULL, AV_LOG_FATAL, "SDL: could not set video mode - exiting\n");
-//            do_exit(is);
+//        if (is_full_screen) flags |= SDL_WINDOW_FULLSCREEN;
+//        else                flags |= SDL_WINDOW_RESIZABLE;
+//        
+//        if (vp && vp->width)
+//            set_default_window_size(vp->width, vp->height, vp->sar);
+//        
+//        if (is_full_screen && fs_screen_width) {
+//            w = fs_screen_width;
+//            h = fs_screen_height;
+//        } else if (!is_full_screen && screen_width) {
+//            w = screen_width;
+//            h = screen_height;
+//        } else {
+//            w = default_width;
+//            h = default_height;
 //        }
-        
-        is->width  = w;
-        is->height = h;
-        
-        return 0;
-    }
+//        
+//        w = FFMIN(16383, w);
+////        if (screen && is->width == screen->w && screen->w == w
+////            && is->height== screen->h && screen->h == h && !force_set_video_mode)
+////            return 0;
+//        if(window == nullptr)
+//        {
+//            if (!window_title)
+//                window_title = input_filename;
+//            window = SDL_CreateWindow(window_title,
+//                                      SDL_WINDOWPOS_UNDEFINED,
+//                                      SDL_WINDOWPOS_UNDEFINED,
+//                                      w,  h,
+//                                      SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+//            //http://stackoverflow.com/questions/36381339/cannot-get-opengl-es2-to-display-anything for opengl
+//            renderer = SDL_CreateRenderer(window, -1, flags);
+//        }
+////        
+////        if (!screen) {
+////            av_log(NULL, AV_LOG_FATAL, "SDL: could not set video mode - exiting\n");
+////            do_exit(is);
+////        }
+//        
+//        is->width  = w;
+//        is->height = h;
+//        
+//        return 0;
+//    }
     
     /* display the current picture, if any */
     static void video_display(VideoState *is)
@@ -1243,7 +1343,7 @@ namespace vrliveff
     }
     
     /* called to display each frame */
-    static void video_refresh(void *opaque, double *remaining_time)
+     void video_refresh(void *opaque, double *remaining_time)
     {
         VideoState *is = (VideoState*)opaque;
         double time;
@@ -1379,17 +1479,17 @@ namespace vrliveff
                     av_diff = get_master_clock(is) - get_clock(&is->vidclk);
                 else if (is->audio_st)
                     av_diff = get_master_clock(is) - get_clock(&is->audclk);
-                av_log(NULL, AV_LOG_INFO,
-                       "%7.2f %s:%7.3f fd=%4d aq=%5dKB vq=%5dKB sq=%5dB f=%PRId64/%PRId64   \n",
-                       get_master_clock(is),
-                       (is->audio_st && is->video_st) ? "A-V" : (is->video_st ? "M-V" : (is->audio_st ? "M-A" : "   ")),
-                       av_diff,
-                       is->frame_drops_early + is->frame_drops_late,
-                       aqsize / 1024,
-                       vqsize / 1024,
-                       sqsize,
-                       is->video_st ? is->video_st->codec->pts_correction_num_faulty_dts : 0,
-                       is->video_st ? is->video_st->codec->pts_correction_num_faulty_pts : 0);
+//                av_log(NULL, AV_LOG_INFO,
+//                       "%7.2f %s:%7.3f fd=%4d aq=%5dKB vq=%5dKB sq=%5dB f=%PRId64/%PRId64   \n",
+//                       get_master_clock(is),
+//                       (is->audio_st && is->video_st) ? "A-V" : (is->video_st ? "M-V" : (is->audio_st ? "M-A" : "   ")),
+//                       av_diff,
+//                       is->frame_drops_early + is->frame_drops_late,
+//                       aqsize / 1024,
+//                       vqsize / 1024,
+//                       sqsize,
+//                       is->video_st ? is->video_st->codec->pts_correction_num_faulty_dts : 0,
+//                       is->video_st ? is->video_st->codec->pts_correction_num_faulty_pts : 0);
                 fflush(stdout);
                 last_time = cur_time;
             }
@@ -1748,9 +1848,9 @@ last_filter = filt_ctx;                                                  \
                        is->audio_filter_src.freq, av_get_sample_fmt_name(is->audio_filter_src.fmt),
                        is->audio_filter_src.channels,
                        1, is->audio_filter_src.freq);
-        if (is->audio_filter_src.channel_layout)
-            snprintf(asrc_args + ret, sizeof(asrc_args) - ret,
-                     ":channel_layout=0x%"PRIx64,  is->audio_filter_src.channel_layout);
+//        if (is->audio_filter_src.channel_layout)
+//            snprintf(asrc_args + ret, sizeof(asrc_args) - ret,
+//                     ":channel_layout=0x%"PRIx64,  is->audio_filter_src.channel_layout);
         
         ret = avfilter_graph_create_filter(&filt_asrc,
                                            avfilter_get_by_name("abuffer"), "ffplay_abuffer",
@@ -2568,7 +2668,7 @@ last_filter = filt_ctx;                                                  \
         }
         err = avformat_open_input(&ic, is->filename, is->iformat, &format_opts);
         if (err < 0) {
-            print_error(is->filename, err);
+           // print_error(is->filename, err);
             ret = -1;
             goto fail;
         }
@@ -2855,6 +2955,7 @@ last_filter = filt_ctx;                                                  \
         if (!is)
             return NULL;
         is->filename = av_strdup(filename);
+        GP_WARN("iopen scream begin ", is->filename);
         if (!is->filename)
             goto fail;
         is->iformat = iformat;
@@ -2876,6 +2977,8 @@ last_filter = filt_ctx;                                                  \
         
         if (!(is->continue_read_thread = SDL_CreateCond())) {
             av_log(NULL, AV_LOG_FATAL, "SDL_CreateCond(): %s\n", SDL_GetError());
+            GP_WARN("SDL_CreateCond scream begin ", is->filename);
+
             goto fail;
         }
         
@@ -2890,6 +2993,7 @@ last_filter = filt_ctx;                                                  \
         if (!is->read_tid) {
             av_log(NULL, AV_LOG_FATAL, "SDL_CreateThread(): %s\n", SDL_GetError());
         fail:
+            GP_WARN("iopen scream failed ", is->filename);
             stream_close(is);
             return NULL;
         }
@@ -2984,7 +3088,7 @@ last_filter = filt_ctx;                                                  \
             is->pictq.queue[i].reallocate = 1;
 #endif
         is_full_screen = !is_full_screen;
-        video_open(is, 1, NULL);
+       // video_open(is, 1, NULL);
     }
     
     static void toggle_audio_display(VideoState *is)
@@ -3301,6 +3405,18 @@ last_filter = filt_ctx;                                                  \
         return 0;
     }
     
+    int64_t parse_time_or_die(const char *context, const char *timestr,
+                              int is_duration)
+    {
+        int64_t us;
+        if (av_parse_time(&us, timestr, is_duration) < 0) {
+            av_log(NULL, AV_LOG_FATAL, "Invalid %s specification for %s: %s\n",
+                   is_duration ? "duration" : "date", context, timestr);
+            //exit_program(1);
+        }
+        return us;
+    }
+    
     static int opt_seek(void *optctx, const char *opt, const char *arg)
     {
         start_time = parse_time_or_die(opt, arg, 1);
@@ -3469,11 +3585,11 @@ last_filter = filt_ctx;                                                  \
         return 1;
     }
 
-    VideoState* init_videostate(const char* input_filename)
+    static VideoState* init_videostate(const char* input_filename)
     {
         int flags;
         VideoState *is;
-        char dummy_videodriver[] = "SDL_VIDEODRIVER=dummy";
+        //char dummy_videodriver[] = "SDL_VIDEODRIVER=dummy";
         
         av_log_set_flags(AV_LOG_SKIP_REPEATED);
         
@@ -3488,11 +3604,11 @@ last_filter = filt_ctx;                                                  \
         av_register_all();
         
         avformat_network_init();
+         GP_WARN(" ffmpeg inited ");
+//        init_opts();
         
-        init_opts();
-        
-        signal(SIGINT , sigterm_handler); /* Interrupt (ANSI).    */
-        signal(SIGTERM, sigterm_handler); /* Termination (ANSI).  */
+//        signal(SIGINT , sigterm_handler); /* Interrupt (ANSI).    */
+//        signal(SIGTERM, sigterm_handler); /* Termination (ANSI).  */
 //        
 //        show_banner(argc, argv, options);
 //        
@@ -3511,20 +3627,22 @@ last_filter = filt_ctx;                                                  \
         }
         SDL_SetMainReady();
         
-        flags = /*SDL_INIT_VIDEO |*/ SDL_INIT_AUDIO | SDL_INIT_TIMER;
+        flags = /*SDL_INIT_VIDEO |*/ SDL_INIT_AUDIO ;//| SDL_INIT_TIMER;
         if (audio_disable)
             flags &= ~SDL_INIT_AUDIO;
 //        if (display_disable)
 //            SDL_putenv(dummy_videodriver); /* For the event queue, we always need a video driver. */
 #if !defined(_WIN32) && !defined(__APPLE__)
-        flags |= SDL_INIT_TIMER SDL_INIT_EVENTTHREAD; /* Not supported on Windows or Mac OS X */
+        flags |= SDL_INIT_EVENTS; /* Not supported on Windows or Mac OS X */
 #endif
+        GP_WARN("begin init sdl failed ");
         if (SDL_Init(flags)) {
+            GP_WARN(SDL_GetError());
             av_log(NULL, AV_LOG_FATAL, "Could not initialize SDL - %s\n", SDL_GetError());
             av_log(NULL, AV_LOG_FATAL, "(Did you set the DISPLAY variable?)\n");
-            exit(1);
+            return nullptr;
         }
-        
+        GP_WARN("init sdl successed ", SDL_GetError());
 //        if (!display_disable) {
 //            const SDL_VideoInfo *vi = SDL_GetVideoInfo();
 //            fs_screen_width = vi->current_w;
@@ -3533,7 +3651,7 @@ last_filter = filt_ctx;                                                  \
 //        
 //        SDL_EventState(SDL_ACTIVEEVENT, SDL_IGNORE);
 //        SDL_EventState(SDL_SYSWMEVENT, SDL_IGNORE);
-        SDL_EventState(SDL_USEREVENT, SDL_IGNORE);
+//        SDL_EventState(SDL_USEREVENT, SDL_IGNORE);
 //        
 //        SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 //        
@@ -3544,9 +3662,9 @@ last_filter = filt_ctx;                                                  \
         
         av_init_packet(&flush_pkt);
         flush_pkt.data = (uint8_t *)&flush_pkt;
-        
+        GP_WARN("iopen scream begin ", SDL_GetError());
         is = stream_open(input_filename, file_iformat);
-        
+         GP_WARN("iopen scream successed ", SDL_GetError());
         return is;
 //        if (!is) {
 //            av_log(NULL, AV_LOG_FATAL, "Failed to initialize VideoState!\n");

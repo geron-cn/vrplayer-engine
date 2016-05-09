@@ -253,6 +253,7 @@ void Game::shutdown()
 
 		// Shutdown scripting system first so that any objects allocated in script are released before our subsystems are released
 		_scriptController->finalize();
+        SAFE_DELETE(_scriptController);
 
         unsigned int gamepadCount = Gamepad::getGamepadCount();
         for (unsigned int i = 0; i < gamepadCount; i++)

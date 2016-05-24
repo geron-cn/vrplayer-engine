@@ -30,7 +30,7 @@
 
 - (IBAction)play:(id)sender {
     NSString* url = self.url.text;
-    
+    url = @"http://qjdlplay.bravovcloud.com.cn/live/test.m3u8";
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"vrplayer" bundle:nil];
     MyPlayerViewController *vc = (MyPlayerViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MyPlayerViewController"];
     

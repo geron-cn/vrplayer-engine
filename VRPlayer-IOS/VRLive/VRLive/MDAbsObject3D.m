@@ -110,7 +110,7 @@ static int sPositionDataSize = 3;
 }
 
 - (void)loadObj{
-    generateSphere(18,75,150,self);
+    generateSphere(18,40,80,self);
 }
 
 #define ES_PI  (3.14159265f)

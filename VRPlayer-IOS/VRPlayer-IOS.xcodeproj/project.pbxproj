@@ -351,6 +351,7 @@
 				3ECF6D781CF3F0980043B22F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

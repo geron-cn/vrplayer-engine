@@ -44,6 +44,8 @@
 - (BOOL)isPlaying;
 - (BOOL)isMuted;
 - (void)setMuted: (BOOL)muted;
+- (CMTime)duration;
+- (CMTime)currentTime;
 
 //vr control
 - (BOOL)isVRMode;

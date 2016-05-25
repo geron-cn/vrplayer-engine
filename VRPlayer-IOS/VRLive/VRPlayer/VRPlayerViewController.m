@@ -28,6 +28,11 @@
     self.mURL = nil;
 }
 
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+}
+
 - (void) initWithURL:(NSURL*)url{
     self.mURL = url;
     [self initPlayer];
@@ -39,7 +44,8 @@
     self.videoPlayerView = nil;
     
     // video player
-    self.videoPlayerView = [[VIMVideoPlayerView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)];
+//    self.videoPlayerView = [[VIMVideoPlayerView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)];
+    self.videoPlayerView = [[VIMVideoPlayerView alloc] initWithFrame:self.view.bounds];
     self.videoPlayerView.translatesAutoresizingMaskIntoConstraints = NO;
     self.videoPlayerView.delegate = self;
     [self.videoPlayerView setVideoFillMode:AVLayerVideoGravityResizeAspect];
@@ -202,17 +208,18 @@
     }
 }
 
+- (CMTime)duration
+{
+    return self.videoPlayerView.player.player.currentItem.duration;
+}
+- (CMTime)currentTime
+{
+    return self.videoPlayerView.player.player.currentTime;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(BOOL)shouldAutorotate{
-    return NO;
-}
-
--(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
-    return UIInterfaceOrientationLandscapeRight;
 }
 
 @end

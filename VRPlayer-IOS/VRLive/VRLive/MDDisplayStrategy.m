@@ -63,6 +63,10 @@
 -(void) on{
     [self setVisibleSize:1];
 }
+-(void)resize:(CGRect)frame{
+    self.bounds = frame;
+    [self setVisibleSize:1];
+}
 @end
 
 #pragma mark MDGlassStrategy
@@ -71,6 +75,10 @@
 
 @implementation MDGlassStrategy
 -(void) on{
+    [self setVisibleSize:2];
+}
+-(void)resize:(CGRect)frame{
+    self.bounds = frame;
     [self setVisibleSize:2];
 }
 @end

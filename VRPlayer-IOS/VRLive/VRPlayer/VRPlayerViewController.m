@@ -5,6 +5,7 @@
 #import "MDVRLibrary.h"
 
 @interface VRPlayerViewController()<VIMVideoPlayerViewDelegate>{
+    CGRect videoframe;
 }
 @property (nonatomic, strong) VIMVideoPlayerView *videoPlayerView;
 @property (nonatomic, strong) MDVRLibrary* vrLibrary;
@@ -31,6 +32,21 @@
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
+    if (self.vrLibrary != nil)
+    {
+        CGRect frame = self.view.frame;//self.vrLibrary.bounds;
+        //self.videoPlayerView.frame;
+        if (videoframe.origin.x != frame.origin.x || videoframe.origin.y != frame.origin.y || videoframe.size.width != frame.size.width || videoframe.size.height != frame.size.height)
+        {
+            videoframe = frame;
+            NSLog(@"viewDidLayoutSubviews @", NSStringFromCGRect(frame));
+            if (self.vrLibrary != nil)
+            {
+                [self.vrLibrary resize];
+            }
+        }
+        
+    }
 }
 
 - (void) initWithURL:(NSURL*)url{
@@ -46,13 +62,13 @@
     // video player
 //    self.videoPlayerView = [[VIMVideoPlayerView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)];
     self.videoPlayerView = [[VIMVideoPlayerView alloc] initWithFrame:self.view.bounds];
-    self.videoPlayerView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.videoPlayerView.translatesAutoresizingMaskIntoConstraints = YES;
     self.videoPlayerView.delegate = self;
     [self.videoPlayerView setVideoFillMode:AVLayerVideoGravityResizeAspect];
     [self.videoPlayerView.player enableTimeUpdates];
     [self.videoPlayerView.player enableAirplay];
     
-    AVPlayerItem *playerItem = [[AVPlayerItem alloc] initWithURL:self.mURL];
+    AVPlayerItem* playerItem = [[AVPlayerItem alloc] initWithURL:self.mURL];
     [self.videoPlayerView.player setPlayerItem:playerItem];
     [self.videoPlayerView.player play];
     
@@ -67,6 +83,7 @@
     [config pinchEnabled:true];
     
     self.vrLibrary = [config build];
+    videoframe = self.view.frame;
 }
 
 - (void)play

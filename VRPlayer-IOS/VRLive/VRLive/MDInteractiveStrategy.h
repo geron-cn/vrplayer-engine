@@ -12,4 +12,5 @@
 @interface MDInteractiveStrategyManager : MDModeManager
 @property(nonatomic,weak) NSArray* dirctors;
 -(void) handleDragDistX:(float)distX distY:(float)distY;
+-(void) reset;
 @end

@@ -55,6 +55,22 @@
     
 }
 
+- (CGRect)bounds
+{
+    return self.displayStrategyManager.bounds;
+}
+
+- (void)resize
+{
+    if (self.displayStrategyManager != nil)
+    {
+        self.displayStrategyManager.bounds = self.parentView.bounds;
+        [self.displayStrategyManager resize: self.displayStrategyManager.bounds];
+        [self.interactiveStrategyManager reset];
+        [self.interactiveStrategyManager resize:self.displayStrategyManager.bounds];
+    }
+}
+
 - (void) addDisplay:(UIViewController*)viewController view:(UIView*)parentView{
     MDGLKViewController* glkViewController = [[MDGLKViewController alloc] init];
     

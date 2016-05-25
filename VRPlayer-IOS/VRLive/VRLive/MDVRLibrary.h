@@ -48,6 +48,8 @@ typedef NS_ENUM(NSInteger, MDModeDisplay) {
 - (void) switchDisplayMode:(MDModeDisplay)displayMode;
 - (void) switchDisplayMode;
 - (MDModeDisplay) getDisplayMdoe;
+- (void)resize;
+- (CGRect)bounds;
 @end
 
 @protocol IMDDestroyable <NSObject>

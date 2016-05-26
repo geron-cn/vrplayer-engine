@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E8D7C611CF6EF8300EF5F9D /* logo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8D7C5F1CF6DC2300EF5F9D /* logo.m */; };
 		3ECF6DBC1CF3F46D0043B22F /* GLUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA11CF3F46D0043B22F /* GLUtil.m */; };
 		3ECF6DBD1CF3F46D0043B22F /* MD360Director.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA31CF3F46D0043B22F /* MD360Director.m */; };
 		3ECF6DBE1CF3F46D0043B22F /* MD360Program.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA51CF3F46D0043B22F /* MD360Program.m */; };
@@ -53,6 +54,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3E8D7C5F1CF6DC2300EF5F9D /* logo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = logo.m; path = VRPlayer/logo.m; sourceTree = "<group>"; };
+		3E8D7C601CF6EB3F00EF5F9D /* logo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = logo.h; path = VRPlayer/logo.h; sourceTree = "<group>"; };
 		3ECF6D8E1CF3F3C90043B22F /* libVRLive.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVRLive.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECF6DA01CF3F46D0043B22F /* GLUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLUtil.h; sourceTree = "<group>"; };
 		3ECF6DA11CF3F46D0043B22F /* GLUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLUtil.m; sourceTree = "<group>"; };
@@ -258,6 +261,8 @@
 		3ECF6E041CF4210C0043B22F /* VRPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				3E8D7C601CF6EB3F00EF5F9D /* logo.h */,
+				3E8D7C5F1CF6DC2300EF5F9D /* logo.m */,
 				3ECF6E051CF4211A0043B22F /* VRPlayerViewController.h */,
 				3ECF6E061CF4211A0043B22F /* VRPlayerViewController.m */,
 			);
@@ -338,6 +343,7 @@
 				3ECF6E021CF3FB650043B22F /* AFURLSessionManager.m in Sources */,
 				3ECF6DFE1CF3FB650043B22F /* AFNetworkReachabilityManager.m in Sources */,
 				3ECF6DE71CF3FB570043B22F /* AFAutoPurgingImageCache.m in Sources */,
+				3E8D7C611CF6EF8300EF5F9D /* logo.m in Sources */,
 				3ECF6DCF1CF3FAF60043B22F /* VIMVideoPlayer.m in Sources */,
 				3ECF6DD01CF3FAF60043B22F /* VIMVideoPlayerView.m in Sources */,
 				3ECF6E011CF3FB650043B22F /* AFURLResponseSerialization.m in Sources */,

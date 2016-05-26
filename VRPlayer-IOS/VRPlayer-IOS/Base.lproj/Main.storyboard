@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -24,40 +23,38 @@
                                     <action selector="btn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4Qq-Tb-MPj"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="http://gotye-live-10022.ufile.ucloud.com.cn/08fc0f4a-5120-43dd-98f2-424660dd263c.mp4?k=52d00265544a4faf&amp;t=1461064771" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rIe-VB-BCl">
-                                <rect key="frame" x="16" y="96" width="288" height="200"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="hda-GO-3Hf"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hbi-4Q-U6Y">
-                                <rect key="frame" x="128" y="343" width="63" height="57"/>
+                                <rect key="frame" x="128.5" y="213" width="63" height="57"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="57" id="Knt-IC-Gwe"/>
-                                    <constraint firstAttribute="width" constant="63" id="c2D-7K-oqg"/>
+                                    <constraint firstAttribute="width" constant="63" id="7qb-1m-48L"/>
+                                    <constraint firstAttribute="height" constant="57" id="p4J-9F-PBU"/>
                                 </constraints>
                                 <state key="normal" title="Play"/>
                                 <connections>
                                     <action selector="play:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kFF-Xl-GxE"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="http://gotye-live-10022.ufile.ucloud.com.cn/08fc0f4a-5120-43dd-98f2-424660dd263c.mp4?k=52d00265544a4faf&amp;t=1461064771" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rIe-VB-BCl">
+                                <rect key="frame" x="16" y="47" width="288" height="116"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="116" id="WRS-4y-Lj6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="rIe-VB-BCl" secondAttribute="trailing" id="00Q-jm-yyW"/>
-                            <constraint firstItem="rIe-VB-BCl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="6I1-vC-moz"/>
-                            <constraint firstItem="Hbi-4Q-U6Y" firstAttribute="top" secondItem="rIe-VB-BCl" secondAttribute="bottom" constant="47" id="8OH-hW-Eta"/>
+                            <constraint firstItem="rIe-VB-BCl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="2dU-fD-vVf"/>
                             <constraint firstItem="EFv-FD-jxM" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="AYc-KN-cGY"/>
-                            <constraint firstItem="rIe-VB-BCl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="P0t-Fl-PcG"/>
+                            <constraint firstItem="Hbi-4Q-U6Y" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Anf-hQ-Xgo"/>
                             <constraint firstAttribute="trailing" secondItem="EFv-FD-jxM" secondAttribute="trailing" id="Tm8-Y4-fuR"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="EFv-FD-jxM" secondAttribute="bottom" id="US2-WD-O8x"/>
-                            <constraint firstItem="rIe-VB-BCl" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="76" id="bSU-fe-sQD"/>
+                            <constraint firstAttribute="trailing" secondItem="rIe-VB-BCl" secondAttribute="trailing" constant="16" id="c0R-j0-qJe"/>
                             <constraint firstItem="EFv-FD-jxM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gCC-62-E2a"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Hbi-4Q-U6Y" secondAttribute="bottom" constant="168" id="pzS-J5-IwH"/>
-                            <constraint firstItem="Hbi-4Q-U6Y" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sW8-QV-2wQ"/>
+                            <constraint firstItem="rIe-VB-BCl" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="27" id="iyW-yx-4lq"/>
+                            <constraint firstItem="Hbi-4Q-U6Y" firstAttribute="top" secondItem="rIe-VB-BCl" secondAttribute="bottom" constant="50" id="q7W-a9-yp4"/>
                         </constraints>
                     </view>
                     <connections>

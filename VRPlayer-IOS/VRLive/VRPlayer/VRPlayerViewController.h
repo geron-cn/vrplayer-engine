@@ -57,4 +57,7 @@
 - (void)setEyeDistance: (float)distance;
 - (float)getEyeDistance;
 
+//
+- (void)AdvertisementOff;
+
 @end

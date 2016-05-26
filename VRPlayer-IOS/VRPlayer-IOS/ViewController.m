@@ -31,6 +31,7 @@
 - (IBAction)play:(id)sender {
     NSString* url = self.url.text;
 //    url = @"http://qjdlplay.bravovcloud.com.cn/live/test.m3u8";
+    url = @"http://vodinput.oss-cn-hangzhou.aliyuncs.com/vid/qiyiguo/NBA_1.mp4?Expires=1464314557&OSSAccessKeyId=CzI71iLDHKQ9R1C1&Signature=Y5rdNMu6ObsThxRINipdNxldDg0%3D";
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"vrplayer" bundle:nil];
     MyPlayerViewController *vc = (MyPlayerViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MyPlayerViewController"];
     

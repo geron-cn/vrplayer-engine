@@ -27,8 +27,18 @@
 
 #pragma mark MDVRLibrary
 @implementation MDVRLibrary
+static float sphereRadius = 100;
 + (MDVRConfiguration*) createConfig{
     return [[MDVRConfiguration alloc]init];
+}
+
++ (void)setSphereRadius:(float)radius
+{
+    sphereRadius = radius;
+}
++ (float)getSphereRadius
+{
+    return sphereRadius;
 }
 
 - (instancetype)init {

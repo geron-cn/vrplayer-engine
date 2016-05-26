@@ -8,6 +8,7 @@
 
 #import "MDAbsObject3D.h"
 #import "GLUtil.h"
+#import "MDVRLibrary.h"
 
 static int sPositionDataSize = 3;
 @implementation MDAbsObject3D
@@ -110,7 +111,7 @@ static int sPositionDataSize = 3;
 }
 
 - (void)loadObj{
-    generateSphere(18,40,80,self);
+    generateSphere([MDVRLibrary getSphereRadius],40,80,self);
 }
 
 #define ES_PI  (3.14159265f)

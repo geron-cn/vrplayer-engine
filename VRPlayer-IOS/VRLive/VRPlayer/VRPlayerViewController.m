@@ -234,6 +234,15 @@
     return self.videoPlayerView.player.player.currentTime;
 }
 
+- (void)setEyeDistance: (float)distance
+{
+    [MDVRLibrary setSphereRadius:distance];
+}
+- (float)getEyeDistance
+{
+    return [MDVRLibrary getSphereRadius];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

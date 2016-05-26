@@ -53,4 +53,8 @@
 - (BOOL)isMotionControl;
 - (void)setMotionControl: (BOOL)useMotionSensor;
 
+//
+- (void)setEyeDistance: (float)distance;
+- (float)getEyeDistance;
+
 @end

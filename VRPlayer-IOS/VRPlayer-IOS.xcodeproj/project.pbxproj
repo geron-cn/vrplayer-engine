@@ -7,20 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E8D7C691CF8355200EF5F9D /* libVRLive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8D7C681CF8354800EF5F9D /* libVRLive.a */; };
 		3ECF6D641CF3F0980043B22F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6D631CF3F0980043B22F /* main.m */; };
 		3ECF6D671CF3F0980043B22F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6D661CF3F0980043B22F /* AppDelegate.m */; };
 		3ECF6D6A1CF3F0980043B22F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6D691CF3F0980043B22F /* ViewController.m */; };
 		3ECF6D6D1CF3F0980043B22F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ECF6D6B1CF3F0980043B22F /* Main.storyboard */; };
 		3ECF6D6F1CF3F0980043B22F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ECF6D6E1CF3F0980043B22F /* Assets.xcassets */; };
 		3ECF6D721CF3F0980043B22F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ECF6D701CF3F0980043B22F /* LaunchScreen.storyboard */; };
-		3ECF6E031CF3FC640043B22F /* libVRLive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECF6D9F1CF3F4550043B22F /* libVRLive.a */; };
 		3ECF6E091CF43E4E0043B22F /* vrplayer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ECF6E081CF43E4E0043B22F /* vrplayer.storyboard */; };
+		95F5F4DD1CF54B0E0083E2F5 /* QGVideoPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F5F4DB1CF54B0E0083E2F5 /* QGVideoPlayViewController.m */; };
+		95F5F4DE1CF54B0E0083E2F5 /* QGVideoPlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95F5F4DC1CF54B0E0083E2F5 /* QGVideoPlayViewController.xib */; };
+		95F5F4E71CF581550083E2F5 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F5F4E51CF581550083E2F5 /* TestViewController.m */; };
+		95F5F4E81CF581550083E2F5 /* TestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95F5F4E61CF581550083E2F5 /* TestViewController.xib */; };
+		95F5F4F91CF5C4810083E2F5 /* FeThreeDotGlowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F5F4F81CF5C4810083E2F5 /* FeThreeDotGlowViewController.m */; };
+		95F5F4FC1CF5C49B0083E2F5 /* FeThreeDotGlow.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F5F4FB1CF5C49B0083E2F5 /* FeThreeDotGlow.m */; };
+		95F5F4FF1CF5C5050083E2F5 /* UIColor+flat.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F5F4FE1CF5C5050083E2F5 /* UIColor+flat.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3ECF6D9E1CF3F4550043B22F /* PBXContainerItemProxy */ = {
+		3E8D7C671CF8354800EF5F9D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 3ECF6D9A1CF3F4540043B22F /* VRLive.xcodeproj */;
+			containerPortal = 3E8D7C631CF8354800EF5F9D /* VRLive.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 3ECF6D8E1CF3F3C90043B22F;
 			remoteInfo = VRLive;
@@ -28,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3E8D7C631CF8354800EF5F9D /* VRLive.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VRLive.xcodeproj; path = VRLive/VRLive.xcodeproj; sourceTree = "<group>"; };
 		3ECF6D5F1CF3F0980043B22F /* VRPlayer-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VRPlayer-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECF6D631CF3F0980043B22F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3ECF6D651CF3F0980043B22F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -38,8 +46,19 @@
 		3ECF6D6E1CF3F0980043B22F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3ECF6D711CF3F0980043B22F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3ECF6D731CF3F0980043B22F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3ECF6D9A1CF3F4540043B22F /* VRLive.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VRLive.xcodeproj; path = VRLive/VRLive.xcodeproj; sourceTree = "<group>"; };
 		3ECF6E081CF43E4E0043B22F /* vrplayer.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = vrplayer.storyboard; sourceTree = "<group>"; };
+		95F5F4DA1CF54B0E0083E2F5 /* QGVideoPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QGVideoPlayViewController.h; sourceTree = "<group>"; };
+		95F5F4DB1CF54B0E0083E2F5 /* QGVideoPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QGVideoPlayViewController.m; sourceTree = "<group>"; };
+		95F5F4DC1CF54B0E0083E2F5 /* QGVideoPlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QGVideoPlayViewController.xib; sourceTree = "<group>"; };
+		95F5F4E41CF581550083E2F5 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		95F5F4E51CF581550083E2F5 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		95F5F4E61CF581550083E2F5 /* TestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestViewController.xib; sourceTree = "<group>"; };
+		95F5F4F71CF5C4810083E2F5 /* FeThreeDotGlowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeThreeDotGlowViewController.h; sourceTree = "<group>"; };
+		95F5F4F81CF5C4810083E2F5 /* FeThreeDotGlowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeThreeDotGlowViewController.m; sourceTree = "<group>"; };
+		95F5F4FA1CF5C49B0083E2F5 /* FeThreeDotGlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeThreeDotGlow.h; sourceTree = "<group>"; };
+		95F5F4FB1CF5C49B0083E2F5 /* FeThreeDotGlow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeThreeDotGlow.m; sourceTree = "<group>"; };
+		95F5F4FD1CF5C5050083E2F5 /* UIColor+flat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+flat.h"; sourceTree = "<group>"; };
+		95F5F4FE1CF5C5050083E2F5 /* UIColor+flat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+flat.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,19 +66,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3ECF6E031CF3FC640043B22F /* libVRLive.a in Frameworks */,
+				3E8D7C691CF8355200EF5F9D /* libVRLive.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E8D7C641CF8354800EF5F9D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3E8D7C681CF8354800EF5F9D /* libVRLive.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		3ECF6D561CF3F0980043B22F = {
 			isa = PBXGroup;
 			children = (
-				3ECF6D9A1CF3F4540043B22F /* VRLive.xcodeproj */,
 				3ECF6D611CF3F0980043B22F /* VRPlayer-IOS */,
 				3ECF6D601CF3F0980043B22F /* Products */,
+				3E8D7C631CF8354800EF5F9D /* VRLive.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,6 +101,15 @@
 		3ECF6D611CF3F0980043B22F /* VRPlayer-IOS */ = {
 			isa = PBXGroup;
 			children = (
+				95F5F4FD1CF5C5050083E2F5 /* UIColor+flat.h */,
+				95F5F4FE1CF5C5050083E2F5 /* UIColor+flat.m */,
+				95F5F4FA1CF5C49B0083E2F5 /* FeThreeDotGlow.h */,
+				95F5F4FB1CF5C49B0083E2F5 /* FeThreeDotGlow.m */,
+				95F5F4F71CF5C4810083E2F5 /* FeThreeDotGlowViewController.h */,
+				95F5F4F81CF5C4810083E2F5 /* FeThreeDotGlowViewController.m */,
+				95F5F4DA1CF54B0E0083E2F5 /* QGVideoPlayViewController.h */,
+				95F5F4DB1CF54B0E0083E2F5 /* QGVideoPlayViewController.m */,
+				95F5F4DC1CF54B0E0083E2F5 /* QGVideoPlayViewController.xib */,
 				3ECF6E081CF43E4E0043B22F /* vrplayer.storyboard */,
 				3ECF6D651CF3F0980043B22F /* AppDelegate.h */,
 				3ECF6D661CF3F0980043B22F /* AppDelegate.m */,
@@ -84,6 +120,9 @@
 				3ECF6D701CF3F0980043B22F /* LaunchScreen.storyboard */,
 				3ECF6D731CF3F0980043B22F /* Info.plist */,
 				3ECF6D621CF3F0980043B22F /* Supporting Files */,
+				95F5F4E41CF581550083E2F5 /* TestViewController.h */,
+				95F5F4E51CF581550083E2F5 /* TestViewController.m */,
+				95F5F4E61CF581550083E2F5 /* TestViewController.xib */,
 			);
 			path = "VRPlayer-IOS";
 			sourceTree = "<group>";
@@ -94,14 +133,6 @@
 				3ECF6D631CF3F0980043B22F /* main.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		3ECF6D9B1CF3F4540043B22F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3ECF6D9F1CF3F4550043B22F /* libVRLive.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,8 +183,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 3ECF6D9B1CF3F4540043B22F /* Products */;
-					ProjectRef = 3ECF6D9A1CF3F4540043B22F /* VRLive.xcodeproj */;
+					ProductGroup = 3E8D7C641CF8354800EF5F9D /* Products */;
+					ProjectRef = 3E8D7C631CF8354800EF5F9D /* VRLive.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -164,11 +195,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		3ECF6D9F1CF3F4550043B22F /* libVRLive.a */ = {
+		3E8D7C681CF8354800EF5F9D /* libVRLive.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libVRLive.a;
-			remoteRef = 3ECF6D9E1CF3F4550043B22F /* PBXContainerItemProxy */;
+			remoteRef = 3E8D7C671CF8354800EF5F9D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -178,9 +209,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95F5F4DE1CF54B0E0083E2F5 /* QGVideoPlayViewController.xib in Resources */,
 				3ECF6D721CF3F0980043B22F /* LaunchScreen.storyboard in Resources */,
 				3ECF6E091CF43E4E0043B22F /* vrplayer.storyboard in Resources */,
 				3ECF6D6F1CF3F0980043B22F /* Assets.xcassets in Resources */,
+				95F5F4E81CF581550083E2F5 /* TestViewController.xib in Resources */,
 				3ECF6D6D1CF3F0980043B22F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -192,9 +225,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95F5F4FF1CF5C5050083E2F5 /* UIColor+flat.m in Sources */,
 				3ECF6D6A1CF3F0980043B22F /* ViewController.m in Sources */,
 				3ECF6D671CF3F0980043B22F /* AppDelegate.m in Sources */,
+				95F5F4DD1CF54B0E0083E2F5 /* QGVideoPlayViewController.m in Sources */,
+				95F5F4FC1CF5C49B0083E2F5 /* FeThreeDotGlow.m in Sources */,
+				95F5F4F91CF5C4810083E2F5 /* FeThreeDotGlowViewController.m in Sources */,
 				3ECF6D641CF3F0980043B22F /* main.m in Sources */,
+				95F5F4E71CF581550083E2F5 /* TestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,7 +349,11 @@
 				HEADER_SEARCH_PATHS = VRLive/VRPlayer;
 				INFOPLIST_FILE = "VRPlayer-IOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "LiveVR.VRPlayer-IOS";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VRLive/VRPlayer",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.donglivr.-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -326,7 +368,11 @@
 				HEADER_SEARCH_PATHS = VRLive/VRPlayer;
 				INFOPLIST_FILE = "VRPlayer-IOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "LiveVR.VRPlayer-IOS";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VRLive/VRPlayer",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.donglivr.-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "VRPlayerViewController.h"
+#import "QGVideoPlayViewController.h"
+#import "TestViewController.h"
 
 @interface MyPlayerViewController : VRPlayerViewController
 
@@ -31,13 +33,21 @@
 - (IBAction)play:(id)sender {
     NSString* url = self.url.text;
 //    url = @"http://qjdlplay.bravovcloud.com.cn/live/test.m3u8";
-//    url = @"http://vodinput.oss-cn-hangzhou.aliyuncs.com/vid/qiyiguo/NBA_1.mp4?Expires=1464314557&OSSAccessKeyId=CzI71iLDHKQ9R1C1&Signature=Y5rdNMu6ObsThxRINipdNxldDg0%3D";
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"vrplayer" bundle:nil];
-    MyPlayerViewController *vc = (MyPlayerViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MyPlayerViewController"];
+    url = @"http://vr.donglivr.net/qjdl/qiyiguo/StarWars360/mp4_fhd.mp4";
     
-    [self presentViewController:vc animated:YES completion:^{
-        [vc initWithURL:[NSURL URLWithString:url] ];
-    }];
+    QGVideoPlayViewController *vc = [[QGVideoPlayViewController alloc] initWithNibName:@"QGVideoPlayViewController" bundle:nil url:[NSURL URLWithString:url] videoTitle:@"test"];
+    
+    [self presentViewController:vc animated:YES completion:nil];
+    
+//    TestViewController *vc = [[TestViewController alloc] initWithNibName:@"TestViewController" bundle:nil];
+//    vc.view.frame = self.view.bounds;
+//    NSLog(@"vc.view.frame===%@",NSStringFromCGRect(vc.view.frame));
+//    vc.view.backgroundColor = [UIColor blueColor];
+//    [self.view addSubview:vc.view];
+//    [self addChildViewController:vc];
+//    [vc didMoveToParentViewController:self];
+    
+    
 }
 
 

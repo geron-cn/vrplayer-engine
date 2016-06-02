@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E02F5E01D0016400005A8CA /* libIJKMediaPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E02F5DF1D00162B0005A8CA /* libIJKMediaPlayer.a */; };
 		3E8D7C611CF6EF8300EF5F9D /* logo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8D7C5F1CF6DC2300EF5F9D /* logo.m */; };
 		3ECF6DBC1CF3F46D0043B22F /* GLUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA11CF3F46D0043B22F /* GLUtil.m */; };
 		3ECF6DBD1CF3F46D0043B22F /* MD360Director.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA31CF3F46D0043B22F /* MD360Director.m */; };
@@ -41,6 +42,30 @@
 		3ECF6E071CF4211A0043B22F /* VRPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6E061CF4211A0043B22F /* VRPlayerViewController.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3E02F5DA1D00162B0005A8CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E02F5D41D00162B0005A8CA /* IJKMediaPlayer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E654EA8A1B6B27E600B0F2D0;
+			remoteInfo = IJKMediaFramework;
+		};
+		3E02F5DC1D00162B0005A8CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E02F5D41D00162B0005A8CA /* IJKMediaPlayer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E654EA941B6B27E600B0F2D0;
+			remoteInfo = IJKMediaFrameworkTests;
+		};
+		3E02F5DE1D00162B0005A8CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E02F5D41D00162B0005A8CA /* IJKMediaPlayer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3E02F5691CFF35530005A8CA;
+			remoteInfo = IJKMediaPlayer;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		3ECF6D8C1CF3F3C90043B22F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -54,6 +79,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3E02F5D41D00162B0005A8CA /* IJKMediaPlayer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IJKMediaPlayer.xcodeproj; path = IJKMediaPlayer/ios/IJKMediaPlayer/IJKMediaPlayer.xcodeproj; sourceTree = "<group>"; };
 		3E8D7C5F1CF6DC2300EF5F9D /* logo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = logo.m; path = VRPlayer/logo.m; sourceTree = "<group>"; };
 		3E8D7C601CF6EB3F00EF5F9D /* logo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = logo.h; path = VRPlayer/logo.h; sourceTree = "<group>"; };
 		3ECF6D8E1CF3F3C90043B22F /* libVRLive.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVRLive.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,12 +157,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E02F5E01D0016400005A8CA /* libIJKMediaPlayer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E02F5D51D00162B0005A8CA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3E02F5DB1D00162B0005A8CA /* IJKMediaFramework.framework */,
+				3E02F5DD1D00162B0005A8CA /* IJKMediaFrameworkTests.xctest */,
+				3E02F5DF1D00162B0005A8CA /* libIJKMediaPlayer.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		3ECF6D851CF3F3C90043B22F = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +182,7 @@
 				3ECF6DC91CF3FABF0043B22F /* AFNetworking */,
 				3ECF6D901CF3F3C90043B22F /* VRLive */,
 				3ECF6D8F1CF3F3C90043B22F /* Products */,
+				3E02F5D41D00162B0005A8CA /* IJKMediaPlayer.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -313,12 +351,42 @@
 			mainGroup = 3ECF6D851CF3F3C90043B22F;
 			productRefGroup = 3ECF6D8F1CF3F3C90043B22F /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 3E02F5D51D00162B0005A8CA /* Products */;
+					ProjectRef = 3E02F5D41D00162B0005A8CA /* IJKMediaPlayer.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				3ECF6D8D1CF3F3C90043B22F /* VRLive */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		3E02F5DB1D00162B0005A8CA /* IJKMediaFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = IJKMediaFramework.framework;
+			remoteRef = 3E02F5DA1D00162B0005A8CA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3E02F5DD1D00162B0005A8CA /* IJKMediaFrameworkTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = IJKMediaFrameworkTests.xctest;
+			remoteRef = 3E02F5DC1D00162B0005A8CA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3E02F5DF1D00162B0005A8CA /* libIJKMediaPlayer.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libIJKMediaPlayer.a;
+			remoteRef = 3E02F5DE1D00162B0005A8CA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3ECF6D8A1CF3F3C90043B22F /* Sources */ = {
@@ -453,6 +521,7 @@
 					"VIMVideoPlayer/VIMVideoPlayer-Source",
 					VRPlayer,
 					VRLive,
+					IJKMediaPlayer/ios/IJKMediaPlayer/IJKMediaPlayer,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -468,6 +537,7 @@
 					"VIMVideoPlayer/VIMVideoPlayer-Source",
 					VRPlayer,
 					VRLive,
+					IJKMediaPlayer/ios/IJKMediaPlayer/IJKMediaPlayer,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

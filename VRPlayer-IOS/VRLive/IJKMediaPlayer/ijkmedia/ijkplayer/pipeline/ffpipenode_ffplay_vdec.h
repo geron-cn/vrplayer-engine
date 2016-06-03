@@ -1,9 +1,7 @@
 /*
- * IJKSDLGLView.h
+ * ffpipenode_ffplay_vdec.h
  *
- * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
+ * Copyright (c) 2014 Zhang Rui <bbcallen@gmail.com>
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +20,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#ifndef FFPLAY__FF_FFPIPENODE_FFPLAY_VDEC_H
+#define FFPLAY__FF_FFPIPENODE_FFPLAY_VDEC_H
 
-#include "ijksdl/ijksdl_vout.h"
+#include "../ff_ffpipenode.h"
 
-@interface IJKSDLGLView : NSObject// : UIView
+struct FFPlayer;
 
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
+IJKFF_Pipenode *ffpipenode_create_video_decoder_from_ffplay(struct FFPlayer *ffp);
 
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
-
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
-
-@end
+#endif

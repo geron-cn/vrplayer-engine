@@ -1,9 +1,8 @@
-/*
- * IJKSDLGLView.h
+/*****************************************************************************
+ * ijksdl.h
+ *****************************************************************************
  *
- * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
+ * copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +21,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#ifndef IJKSDL__IJKSDL_H
+#define IJKSDL__IJKSDL_H
 
-#include "ijksdl/ijksdl_vout.h"
+#include "ijksdl_audio.h"
+#include "ijksdl_aout.h"
+#include "ijksdl_class.h"
+#include "ijksdl_error.h"
+#include "ijksdl_log.h"
+#include "ijksdl_misc.h"
+#include "ijksdl_mutex.h"
+#include "ijksdl_thread.h"
+#include "ijksdl_timer.h"
+#include "ijksdl_video.h"
+#include "ijksdl_vout.h"
 
-@interface IJKSDLGLView : NSObject// : UIView
+#include "ffmpeg/ijksdl_vout_overlay_ffmpeg.h"
 
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
-
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
-
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
-
-@end
+#endif

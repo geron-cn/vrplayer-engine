@@ -1,9 +1,5 @@
 /*
- * IJKSDLGLView.h
- *
- * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
+ * copyright (c) 2016 Zhang Rui <bbcallen@gmail.com>
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +18,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#include "internal.h"
 
-#include "ijksdl/ijksdl_vout.h"
+// BT.709, which is the standard for HDTV.
+static const GLfloat g_bt709[] = {
+    1.164,  1.164,  1.164,
+    0.0,   -0.213,  2.112,
+    1.793, -0.533,  0.0,
+};
+const GLfloat *IJK_GLES2_getColorMatrix_bt709()
+{
+    return g_bt709;
+}
 
-@interface IJKSDLGLView : NSObject// : UIView
-
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
-
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
-
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
-
-@end
+static const GLfloat g_bt601[] = {
+    1.164,  1.164, 1.164,
+    0.0,   -0.392, 2.017,
+    1.596, -0.813, 0.0,
+};
+const GLfloat *IJK_GLES2_getColorMatrix_bt601()
+{
+    return g_bt601;
+}

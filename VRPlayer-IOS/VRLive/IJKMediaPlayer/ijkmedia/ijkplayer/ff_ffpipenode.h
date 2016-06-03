@@ -1,9 +1,7 @@
 /*
- * IJKSDLGLView.h
+ * ff_ffpipenode.h
  *
- * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
+ * Copyright (c) 2014 Zhang Rui <bbcallen@gmail.com>
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +20,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#ifndef FFPLAY__FF_FFPIPENODE_H
+#define FFPLAY__FF_FFPIPENODE_H
 
-#include "ijksdl/ijksdl_vout.h"
+#include "ijksdl/ijksdl_mutex.h"
 
-@interface IJKSDLGLView : NSObject// : UIView
+typedef struct IJKFF_Pipenode_Opaque IJKFF_Pipenode_Opaque;
+typedef struct IJKFF_Pipenode IJKFF_Pipenode;
+struct IJKFF_Pipenode {
+    SDL_mutex *mutex;
+    void *opaque;
 
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
+    void (*func_destroy) (IJKFF_Pipenode *node);
+    int  (*func_run_sync)(IJKFF_Pipenode *node);
+    int  (*func_flush)   (IJKFF_Pipenode *node); // optional
+};
 
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
+IJKFF_Pipenode *ffpipenode_alloc(size_t opaque_size);
+void ffpipenode_free(IJKFF_Pipenode *node);
+void ffpipenode_free_p(IJKFF_Pipenode **node);
 
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
+int  ffpipenode_run_sync(IJKFF_Pipenode *node);
+int  ffpipenode_flush(IJKFF_Pipenode *node);
 
-@end
+#endif

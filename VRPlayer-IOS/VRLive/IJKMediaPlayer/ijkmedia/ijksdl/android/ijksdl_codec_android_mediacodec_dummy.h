@@ -1,9 +1,5 @@
 /*
- * IJKSDLGLView.h
- *
- * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
+ * copyright (c) 2014 Zhang Rui <bbcallen@gmail.com>
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#ifndef IJKSDL_ANDROID__ANDROID_CODEC_ANDROID_MEDIACODEC_DUMMY_H
+#define IJKSDL_ANDROID__ANDROID_CODEC_ANDROID_MEDIACODEC_DUMMY_H
 
-#include "ijksdl/ijksdl_vout.h"
+#include "ijksdl_codec_android_mediacodec.h"
 
-@interface IJKSDLGLView : NSObject// : UIView
+SDL_AMediaCodec *SDL_AMediaCodecDummy_create();
 
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
-
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
-
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
-
-@end
+#endif

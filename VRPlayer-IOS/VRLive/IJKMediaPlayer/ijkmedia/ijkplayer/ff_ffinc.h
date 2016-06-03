@@ -1,9 +1,8 @@
 /*
- * IJKSDLGLView.h
+ * ff_ffinc.h
+ *      ffmpeg headers
  *
  * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +21,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#ifndef FFPLAY__FF_FFINC_H
+#define FFPLAY__FF_FFINC_H
 
-#include "ijksdl/ijksdl_vout.h"
+#include <stdbool.h>
+#include <assert.h>
+#include "libavutil/avstring.h"
+#include "libavutil/time.h"
+#include "libavformat/avformat.h"
+#include "libavcodec/avfft.h"
+#include "libswscale/swscale.h"
+#include "libavutil/application.h"
+#include "libavutil/base64.h"
+#include "libavutil/error.h"
+#include "libavutil/opt.h"
+#include "libavutil/version.h"
+#include "libswresample/swresample.h"
 
-@interface IJKSDLGLView : NSObject// : UIView
+#include "ijksdl/ijksdl.h"
 
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
+typedef int (*ijk_inject_callback)(void *opaque, int type, void *data, size_t data_size);
 
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
+#define FFP_OPT_CATEGORY_FORMAT 1
+#define FFP_OPT_CATEGORY_CODEC  2
+#define FFP_OPT_CATEGORY_SWS    3
+#define FFP_OPT_CATEGORY_PLAYER 4
+#define FFP_OPT_CATEGORY_SWR    5
 
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
-
-@end
+#endif

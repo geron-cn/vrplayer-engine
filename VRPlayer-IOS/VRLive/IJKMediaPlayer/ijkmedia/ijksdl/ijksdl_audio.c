@@ -1,9 +1,8 @@
-/*
- * IJKSDLGLView.h
+/*****************************************************************************
+ * ijksdl_audio.c
+ *****************************************************************************
  *
- * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
+ * copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +21,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#include "ijksdl_audio.h"
 
-#include "ijksdl/ijksdl_vout.h"
+void SDL_CalculateAudioSpec(SDL_AudioSpec * spec)
+{
+    switch (spec->format) {
+    case AUDIO_U8:
+        spec->silence = 0x80;
+        break;
+    default:
+        spec->silence = 0x00;
+        break;
+    }
+    spec->size = SDL_AUDIO_BITSIZE(spec->format) / 8;
+    spec->size *= spec->channels;
+    spec->size *= spec->samples;
+}
 
-@interface IJKSDLGLView : NSObject// : UIView
-
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
-
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
-
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
-
-@end
+void SDL_MixAudio(Uint8*       dst,
+                  const Uint8* src,
+                  Uint32       len,
+                  int          volume)
+{
+    // do nothing;
+}

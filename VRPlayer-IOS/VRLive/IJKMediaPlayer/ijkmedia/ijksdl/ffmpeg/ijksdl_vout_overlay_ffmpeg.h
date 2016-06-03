@@ -1,9 +1,8 @@
-/*
- * IJKSDLGLView.h
+/*****************************************************************************
+ * ijksdl_vout_overlay_ffmpeg.h
+ *****************************************************************************
  *
- * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
+ * copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +21,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#ifndef IJKSDL__FFMPEG__IJKSDL_VOUT_OVERLAY_FFMPEG_H
+#define IJKSDL__FFMPEG__IJKSDL_VOUT_OVERLAY_FFMPEG_H
 
-#include "ijksdl/ijksdl_vout.h"
+#include "../ijksdl_stdinc.h"
+#include "../ijksdl_vout.h"
+#include "ijksdl_inc_ffmpeg.h"
 
-@interface IJKSDLGLView : NSObject// : UIView
+// TODO: 9 alignment to speed up memcpy when display
+SDL_VoutOverlay *SDL_VoutFFmpeg_CreateOverlay(int width, int height, int frame_format, SDL_Vout *vout);
 
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
-
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
-
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
-
-@end
+#endif

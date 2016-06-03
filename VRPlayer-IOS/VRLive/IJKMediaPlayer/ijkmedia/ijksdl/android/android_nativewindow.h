@@ -1,9 +1,8 @@
-/*
- * IJKSDLGLView.h
+/*****************************************************************************
+ * android_nativewindow.h
+ *****************************************************************************
  *
- * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
+ * copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +21,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#ifndef IJKSDL_ANDROID__ANDROID_NATIVEWINDOW_H
+#define IJKSDL_ANDROID__ANDROID_NATIVEWINDOW_H
 
-#include "ijksdl/ijksdl_vout.h"
+typedef struct ANativeWindow ANativeWindow;
+typedef struct SDL_VoutOverlay SDL_VoutOverlay;
 
-@interface IJKSDLGLView : NSObject// : UIView
+int SDL_Android_NativeWindow_display_l(ANativeWindow* native_window, SDL_VoutOverlay *overlay);
 
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
-
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
-
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
-
-@end
+#endif

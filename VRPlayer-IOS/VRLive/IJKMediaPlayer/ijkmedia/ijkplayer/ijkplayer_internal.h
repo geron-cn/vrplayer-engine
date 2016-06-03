@@ -1,9 +1,7 @@
 /*
- * IJKSDLGLView.h
+ * ijkplayer_internal.h
  *
  * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +20,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#ifndef IJKPLAYER_ANDROID__IJKPLAYER_INTERNAL_H
+#define IJKPLAYER_ANDROID__IJKPLAYER_INTERNAL_H
 
-#include "ijksdl/ijksdl_vout.h"
+#include <assert.h>
+#include "ijksdl/ijksdl.h"
+#include "ff_fferror.h"
+#include "ff_ffplay.h"
+#include "ijkplayer.h"
 
-@interface IJKSDLGLView : NSObject// : UIView
+struct IjkMediaPlayer {
+    volatile int ref_count;
+    pthread_mutex_t mutex;
+    FFPlayer *ffplayer;
 
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
+    int (*msg_loop)(void*);
+    SDL_Thread *msg_thread;
+    SDL_Thread _msg_thread;
 
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
+    int mp_state;
+    char *data_source;
+    void *weak_thiz;
 
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
+    int restart;
+    int restart_from_beginning;
+    int seek_req;
+    long seek_msec;
+};
 
-@end
+#endif

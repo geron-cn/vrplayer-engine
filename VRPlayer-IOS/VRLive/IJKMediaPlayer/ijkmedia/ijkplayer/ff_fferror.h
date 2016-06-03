@@ -1,9 +1,8 @@
 /*
- * IJKSDLGLView.h
+ * ff_fferror.h
  *
+ * Copyright (c) 2003 Fabrice Bellard
  * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +21,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#ifndef FFPLAY__FF_FFERROR_H
+#define FFPLAY__FF_FFERROR_H
 
-#include "ijksdl/ijksdl_vout.h"
+#define EIJK_FAILED             -1
+#define EIJK_OUT_OF_MEMORY      -2
+#define EIJK_INVALID_STATE      -3
+#define EIJK_NULL_IS_PTR        -4
 
-@interface IJKSDLGLView : NSObject// : UIView
-
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
-
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
-
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
-
-@end
+#endif

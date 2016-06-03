@@ -1,9 +1,5 @@
 /*
- * IJKSDLGLView.h
- *
- * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
+ * Copyright (c) 2015 Zhang Rui <bbcallen@gmail.com>
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +18,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#ifndef FFPLAY__CONFIG_H
+#define FFPLAY__CONFIG_H
 
-#include "ijksdl/ijksdl_vout.h"
+#include "libffmpeg/config.h"
 
-@interface IJKSDLGLView : NSObject// : UIView
+// FIXME: merge filter related code and enable it
+// remove these lines to enable avfilter
+#ifdef CONFIG_AVFILTER
+#undef CONFIG_AVFILTER
+#endif
+#define CONFIG_AVFILTER 0
 
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
+#ifdef FFP_MERGE
+#undef FFP_MERGE
+#endif
 
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
+#ifdef FFP_SUB
+#undef FFP_SUB
+#endif
 
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
+#ifndef FFMPEG_LOG_TAG
+#define FFMPEG_LOG_TAG "IJKFFMPEG"
+#endif
 
-@end
+#endif//FFPLAY__CONFIG_H

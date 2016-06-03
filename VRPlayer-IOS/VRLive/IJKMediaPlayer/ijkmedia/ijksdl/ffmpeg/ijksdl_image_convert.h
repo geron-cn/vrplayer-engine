@@ -1,9 +1,8 @@
 /*
- * IJKSDLGLView.h
+ * ijksdl_ffinc.h
+ *      ffmpeg headers
  *
  * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +21,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#ifndef IJKSDL__FFMPEG__IJKSDL_IMAGE_CONVERT_H
+#define IJKSDL__FFMPEG__IJKSDL_IMAGE_CONVERT_H
 
-#include "ijksdl/ijksdl_vout.h"
+#include <stdint.h>
+#include "ijksdl_inc_ffmpeg.h"
 
-@interface IJKSDLGLView : NSObject// : UIView
+int ijk_image_convert(int width, int height,
+    enum AVPixelFormat dst_format, uint8_t **dst_data, int *dst_linesize,
+    enum AVPixelFormat src_format, const uint8_t **src_data, const int *src_linesize);
 
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
-
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
-
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
-
-@end
+#endif

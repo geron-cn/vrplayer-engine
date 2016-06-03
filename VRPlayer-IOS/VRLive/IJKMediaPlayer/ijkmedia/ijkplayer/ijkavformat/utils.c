@@ -1,9 +1,8 @@
 /*
- * IJKSDLGLView.h
+ * utils.c
  *
+ * Copyright (c) 2003 Fabrice Bellard
  * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +21,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#include <stdlib.h>
+#include "ijkavformat.h"
 
-#include "ijksdl/ijksdl_vout.h"
+static IjkAVInjectCallback s_av_inject_callback = NULL;
 
-@interface IJKSDLGLView : NSObject// : UIView
+IjkAVInjectCallback ijkav_register_inject_callback(IjkAVInjectCallback callback)
+{
+    IjkAVInjectCallback prev_callback = s_av_inject_callback;
+    s_av_inject_callback = callback;
+    return prev_callback;
+}
 
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
-
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
-
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
-
-@end
+IjkAVInjectCallback ijkav_get_inject_callback()
+{
+    return s_av_inject_callback;
+}

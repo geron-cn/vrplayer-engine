@@ -1,9 +1,5 @@
 /*
- * IJKSDLGLView.h
- *
- * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
+ * copyright (c) 2015 Zhang Rui <bbcallen@gmail.com>
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +18,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#ifndef J4AU__android_media_AudioTrack__UTIL__H
+#define J4AU__android_media_AudioTrack__UTIL__H
 
-#include "ijksdl/ijksdl_vout.h"
+#include "j4a/j4a_base.h"
+#include "j4a/class/android/media/AudioTrack.h"
 
-@interface IJKSDLGLView : NSObject// : UIView
+void J4AC_android_media_AudioTrack__setSpeed(JNIEnv *env, jobject thiz, jfloat speed);
+void J4AC_android_media_AudioTrack__setSpeed__catchAll(JNIEnv *env, jobject thiz, jfloat speed);
 
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
+#ifdef J4A_HAVE_SIMPLE__J4AC_android_media_AudioTrack
+#define J4AC_AudioTrack__setSpeed           J4AC_android_media_AudioTrack__setSpeed
+#define J4AC_AudioTrack__setSpeed__catchAll J4AC_android_media_AudioTrack__setSpeed__catchAll
+#endif
 
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
-
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
-
-@end
+#endif

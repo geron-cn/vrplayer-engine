@@ -1,9 +1,7 @@
 /*
- * IJKSDLGLView.h
+ * ijksdl_inc_internal.h
  *
  * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +20,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#ifndef IJKPLAYER__IJKSDL_INC_INTERNAL_H
+#define IJKPLAYER__IJKSDL_INC_INTERNAL_H
 
-#include "ijksdl/ijksdl_vout.h"
+#include <stdint.h>
 
-@interface IJKSDLGLView : NSObject// : UIView
+#include "ijksdl_log.h"
+#include "ijksdl_misc.h"
+#include "ijksdl_stdinc.h"
 
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
+#define SDLTRACE ALOGD
 
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
-
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
-
-@end
+#endif

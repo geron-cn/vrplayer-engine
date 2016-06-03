@@ -1,9 +1,5 @@
 /*
- * IJKSDLGLView.h
- *
- * Copyright (c) 2013 Zhang Rui <bbcallen@gmail.com>
- *
- * based on https://github.com/kolyvan/kxmovie
+ * copyright (c) 2016 Zhang Rui <bbcallen@gmail.com>
  *
  * This file is part of ijkPlayer.
  *
@@ -22,21 +18,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#import <UIKit/UIKit.h>
+#include "ijksdl/gles2/internal.h"
 
-#include "ijksdl/ijksdl_vout.h"
+static const char g_shader[] = IJK_GLES_STRING(
+    precision highp float;
+    varying   highp vec2 vv2_Texcoord;
+    uniform   lowp  sampler2D us2_SamplerX;
 
-@interface IJKSDLGLView : NSObject// : UIView
+    void main()
+    {
+        gl_FragColor = vec4(texture2D(us2_SamplerX, vv2_Texcoord).rgb, 1);
+    }
+);
 
-- (id) initWithFrame:(CGRect)frame;
-- (void) display: (SDL_VoutOverlay *) overlay;
-
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
-
-@property(nonatomic,strong) NSLock  *appActivityLock;
-@property(nonatomic)        CGFloat  fps;
-@property(nonatomic)        CGFloat  scaleFactor;
-@property(nonatomic)        BOOL     shouldShowHudView;
-
-@end
+const char *IJK_GLES2_getFragmentShader_rgb()
+{
+    return g_shader;
+}

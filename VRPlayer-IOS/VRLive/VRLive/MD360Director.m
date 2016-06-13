@@ -79,6 +79,36 @@ static float sNear = 0.7f;
 - (void)initCamera{
     [self updateViewMatrix];
 }
+
+- (GLKMatrix4) getMVPMatrix
+{
+    mModelMatrix = GLKMatrix4Identity;
+    
+    mCurrentRotation = GLKMatrix4Identity;
+    
+    mCurrentRotation = GLKMatrix4Rotate(mCurrentRotation, MD_DEGREES_TO_RADIANS(-mDeltaY), 1.0f, 0.0f, 0.0f);
+    
+    mCurrentRotation = GLKMatrix4Rotate(mCurrentRotation, MD_DEGREES_TO_RADIANS(-mDeltaX + mAngle), 0.0f, 1.0f, 0.0f);
+    
+    mCurrentRotation = GLKMatrix4Multiply(mSensorMatrix, mCurrentRotation);
+    
+    // set the accumulated rotation to the result.
+    mAccumulatedRotation = mCurrentRotation;
+    
+    // Rotate the cube taking the overall rotation into account.
+    mTemporaryMatrix = GLKMatrix4Multiply(mModelMatrix, mAccumulatedRotation);
+    
+    mModelMatrix = mTemporaryMatrix;
+    
+    // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
+    // (which currently contains model * view).
+    mMVMatrix = GLKMatrix4Multiply(mViewMatrix, mModelMatrix);
+    
+    // This multiplies the model view matrix by the projection matrix, and stores the result in the MVP matrix
+    // (which now contains model * view * projection).
+    mMVPMatrix = GLKMatrix4Multiply(mProjectionMatrix, mMVMatrix);
+    return mMVMatrix;
+}
 // static GLfloat  rot = 0.0f;
 - (void) shot:(MD360Program*) program{
     

@@ -33,7 +33,8 @@
 - (IBAction)play:(id)sender {
     NSString* url = self.url.text;
 //    url = @"http://qjdlplay.bravovcloud.com.cn/live/test.m3u8";
-    url = @"http://vr.donglivr.net/qjdl/qiyiguo/StarWars360/mp4_fhd.mp4";
+//    url = @"http://vr.donglivr.net/qjdl/qiyiguo/StarWars360/mp4_fhd.mp4";
+    url = @"http://vr.donglivr.net/qjdl/vrliveroom/liver_idle.mp4";
     
     QGVideoPlayViewController *vc = [[QGVideoPlayViewController alloc] initWithNibName:@"QGVideoPlayViewController" bundle:nil url:[NSURL URLWithString:url] videoTitle:@"test"];
     

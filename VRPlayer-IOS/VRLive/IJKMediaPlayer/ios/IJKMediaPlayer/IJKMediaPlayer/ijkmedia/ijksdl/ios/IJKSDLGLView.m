@@ -26,6 +26,7 @@
 #include "ijksdl/ijksdl_timer.h"
 #include "ijksdl/ios/ijksdl_ios.h"
 #include "ijksdl/ijksdl_gles2.h"
+#include "ijksdl/ijksdl_mutex.h"
 #import "IJKSDLHudViewController.h"
 
 @interface IJKSDLGLView()
@@ -55,15 +56,32 @@
     NSMutableArray *_registeredNotifications;
 
     IJKSDLHudViewController *_hudViewController;
+    
+    //
+    BOOL _hasNewFrame;
+    SDL_VoutOverlay* _overlay;
+    
 }
+
+static IJKSDLGLView* _instance = nil;
 
 + (Class) layerClass
 {
 	return [CAEAGLLayer class];
 }
 
++ (id) instance
+{
+    return _instance;
+}
+
 - (id) initWithFrame:(CGRect)frame
 {
+    _hasNewFrame = NO;
+    _overlay = nil;
+    
+    _instance = self;
+    
     return self;
 }
 
@@ -86,7 +104,6 @@
 {
     IJK_GLES2_Renderer_reset(_renderer);
     IJK_GLES2_Renderer_freeP(&_renderer);
-
 }
 
 - (void)setContentMode:(UIViewContentMode)contentMode
@@ -113,12 +130,44 @@
 
         IJK_GLES2_Renderer_setGravity(_renderer, _rendererGravity, _backingWidth, _backingHeight);
     }
-
+    
     return YES;
 }
 
 - (void)invalidateRenderBuffer
 {
+}
+
+- (void) updateTextureAndProgram: (float[])mvp posbuffer: (void*)pos texbuffer: (void*) tex
+{
+    if (_overlay == nil)
+        return;
+    
+    //update if we have
+    if (_hasNewFrame)
+    {
+        SDL_VoutLockYUVOverlay(_overlay);
+        if (![self setupRenderer:_overlay]) {
+            if (!_overlay && !_renderer) {
+                NSLog(@"IJKSDLGLView: setupDisplay not ready\n");
+            } else {
+                NSLog(@"IJKSDLGLView: setupDisplay failed\n");
+            }
+            return;
+        }
+        
+        if (!IJK_GLES2_Renderer_renderOverlay(_renderer, _overlay))
+            ALOGE("[EGL] IJK_GLES2_render failed\n");
+        
+        SDL_VoutUnlockYUVOverlay(_overlay);
+        _hasNewFrame = NO;
+    }
+    if (_renderer)
+    {
+        IJK_GLES2_Renderer_updateMVP(_renderer, mvp);
+        
+        IJK_GLES2_Renderer_updateVertexAndTex(_renderer, pos, tex);
+    }
 }
 
 - (void)display: (SDL_VoutOverlay *) overlay
@@ -132,18 +181,9 @@
 // NOTE: overlay could be NULl
 - (void)displayInternal: (SDL_VoutOverlay *) overlay
 {
-    if (![self setupRenderer:overlay]) {
-        if (!overlay && !_renderer) {
-            NSLog(@"IJKSDLGLView: setupDisplay not ready\n");
-        } else {
-            NSLog(@"IJKSDLGLView: setupDisplay failed\n");
-        }
-        return;
-    }
-
-    if (!IJK_GLES2_Renderer_renderOverlay(_renderer, overlay))
-        ALOGE("[EGL] IJK_GLES2_render failed\n");
-
+    _overlay = overlay;
+    _hasNewFrame = YES;
+    
 }
 
 - (void)registerApplicationObservers

@@ -32,6 +32,8 @@
 - (void)uploadDataToProgram:(MD360Program*)program;
 
 - (short*) getIndices;
+- (float*) getVertexBuffer;
+- (float*) getTextureBuffer;
 
 @end
 

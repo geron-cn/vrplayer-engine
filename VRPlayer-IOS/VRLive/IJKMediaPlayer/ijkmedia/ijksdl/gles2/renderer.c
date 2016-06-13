@@ -330,6 +330,19 @@ static void IJK_GLES2_Renderer_TexCoords_cropRight(IJK_GLES2_Renderer *renderer,
     renderer->texcoords[7] = 0.0f;
 }
 
+GLboolean IJK_GLES2_Renderer_updateVertexAndTex(IJK_GLES2_Renderer *renderer, void* pos, void* tex)
+{
+    {
+        glVertexAttribPointer(renderer->av4_position, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), pos);   IJK_GLES2_checkError_TRACE("glVertexAttribPointer(av4_position)");
+        glEnableVertexAttribArray(renderer->av4_position);                                              IJK_GLES2_checkError_TRACE("glEnableVertexAttribArray(av4_position)");
+        
+        glVertexAttribPointer(renderer->av2_texcoord, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), tex);   IJK_GLES2_checkError_TRACE("glVertexAttribPointer(av2_texcoord)");
+        glEnableVertexAttribArray(renderer->av2_texcoord);                                              IJK_GLES2_checkError_TRACE("glEnableVertexAttribArray(av2_texcoord)");
+    }
+    
+    return GL_TRUE;
+}
+
 static void IJK_GLES2_Renderer_TexCoords_reloadVertex(IJK_GLES2_Renderer *renderer)
 {
     glVertexAttribPointer(renderer->av2_texcoord, 2, GL_FLOAT, GL_FALSE, 0, renderer->texcoords);   IJK_GLES2_checkError_TRACE("glVertexAttribPointer(av2_texcoord)");
@@ -348,17 +361,27 @@ GLboolean IJK_GLES2_Renderer_use(IJK_GLES2_Renderer *renderer)
     if (!renderer->func_use(renderer))
         return GL_FALSE;
 
-    IJK_GLES_Matrix modelViewProj;
-    IJK_GLES2_loadOrtho(&modelViewProj, -1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
-    glUniformMatrix4fv(renderer->um4_mvp, 1, GL_FALSE, modelViewProj.m);                    IJK_GLES2_checkError_TRACE("glUniformMatrix4fv(um4_mvp)");
+//    IJK_GLES_Matrix modelViewProj;
+//    IJK_GLES2_loadOrtho(&modelViewProj, -1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
+//    glUniformMatrix4fv(renderer->um4_mvp, 1, GL_FALSE, modelViewProj.m);                    IJK_GLES2_checkError_TRACE("glUniformMatrix4fv(um4_mvp)");
 
-    IJK_GLES2_Renderer_TexCoords_reset(renderer);
-    IJK_GLES2_Renderer_TexCoords_reloadVertex(renderer);
-
-    IJK_GLES2_Renderer_Vertices_reset(renderer);
-    IJK_GLES2_Renderer_Vertices_reloadVertex(renderer);
+//    IJK_GLES2_Renderer_TexCoords_reset(renderer);
+//    IJK_GLES2_Renderer_TexCoords_reloadVertex(renderer);
+//
+//    IJK_GLES2_Renderer_Vertices_reset(renderer);
+//    IJK_GLES2_Renderer_Vertices_reloadVertex(renderer);
 
     return GL_TRUE;
+}
+
+GLboolean IJK_GLES2_Renderer_updateMVP(IJK_GLES2_Renderer *renderer, float mvp[])
+{
+    if (renderer)
+    {
+        glUniformMatrix4fv(renderer->um4_mvp, 1, GL_FALSE, mvp);                    IJK_GLES2_checkError_TRACE("glUniformMatrix4fv(um4_mvp)");
+        return GL_TRUE;
+    }
+    return GL_FALSE;
 }
 
 /*
@@ -372,50 +395,50 @@ GLboolean IJK_GLES2_Renderer_renderOverlay(IJK_GLES2_Renderer *renderer, SDL_Vou
     glClear(GL_COLOR_BUFFER_BIT);               IJK_GLES2_checkError_TRACE("glClear");
 
     if (overlay) {
-        GLsizei visible_width  = overlay->w;
-        GLsizei visible_height = overlay->h;
-        if (renderer->frame_width   != visible_width    ||
-            renderer->frame_height  != visible_height   ||
-            renderer->frame_sar_num != overlay->sar_num ||
-            renderer->frame_sar_den != overlay->sar_den) {
-
-            renderer->frame_width   = visible_width;
-            renderer->frame_height  = visible_height;
-            renderer->frame_sar_num = overlay->sar_num;
-            renderer->frame_sar_den = overlay->sar_den;
-            renderer->vertices_changed = 1;
-        }
-
-        if (renderer->vertices_changed) {
-            renderer->vertices_changed = 0;
-
-            IJK_GLES2_Renderer_Vertices_apply(renderer);
-            IJK_GLES2_Renderer_Vertices_reloadVertex(renderer);
-        }
-
-        GLsizei buffer_width   = renderer->func_getBufferWidth(renderer, overlay);
-        if (buffer_width > 0 &&
-            buffer_width > visible_width &&
-            buffer_width != renderer->buffer_width &&
-            visible_width != renderer->visible_width) {
-            renderer->buffer_width  = buffer_width;
-            renderer->visible_width = visible_width;
-
-            GLsizei padding_pixels     = buffer_width - visible_width;
-            GLfloat padding_normalized = ((GLfloat)padding_pixels) / buffer_width;
-            ALOGI("[yuv420p] padding changed: %d - %d = %d (%f)\n",
-                  buffer_width, visible_width,
-                  padding_pixels, padding_normalized);
-            IJK_GLES2_Renderer_TexCoords_reset(renderer);
-            IJK_GLES2_Renderer_TexCoords_cropRight(renderer, padding_normalized);
-            IJK_GLES2_Renderer_TexCoords_reloadVertex(renderer);
-        }
+//        GLsizei visible_width  = overlay->w;
+//        GLsizei visible_height = overlay->h;
+//        if (renderer->frame_width   != visible_width    ||
+//            renderer->frame_height  != visible_height   ||
+//            renderer->frame_sar_num != overlay->sar_num ||
+//            renderer->frame_sar_den != overlay->sar_den) {
+//
+//            renderer->frame_width   = visible_width;
+//            renderer->frame_height  = visible_height;
+//            renderer->frame_sar_num = overlay->sar_num;
+//            renderer->frame_sar_den = overlay->sar_den;
+//            renderer->vertices_changed = 1;
+//        }
+//
+//        if (renderer->vertices_changed) {
+//            renderer->vertices_changed = 0;
+//
+//            IJK_GLES2_Renderer_Vertices_apply(renderer);
+//            IJK_GLES2_Renderer_Vertices_reloadVertex(renderer);
+//        }
+//
+//        GLsizei buffer_width   = renderer->func_getBufferWidth(renderer, overlay);
+//        if (buffer_width > 0 &&
+//            buffer_width > visible_width &&
+//            buffer_width != renderer->buffer_width &&
+//            visible_width != renderer->visible_width) {
+//            renderer->buffer_width  = buffer_width;
+//            renderer->visible_width = visible_width;
+//
+//            GLsizei padding_pixels     = buffer_width - visible_width;
+//            GLfloat padding_normalized = ((GLfloat)padding_pixels) / buffer_width;
+//            ALOGI("[yuv420p] padding changed: %d - %d = %d (%f)\n",
+//                  buffer_width, visible_width,
+//                  padding_pixels, padding_normalized);
+//            IJK_GLES2_Renderer_TexCoords_reset(renderer);
+//            IJK_GLES2_Renderer_TexCoords_cropRight(renderer, padding_normalized);
+//            IJK_GLES2_Renderer_TexCoords_reloadVertex(renderer);
+//        }
         
         if (!renderer->func_uploadTexture(renderer, overlay))
             return GL_FALSE;
     }
 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);      IJK_GLES2_checkError_TRACE("glDrawArrays");
+//    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);      IJK_GLES2_checkError_TRACE("glDrawArrays");
 
     return GL_TRUE;
 }

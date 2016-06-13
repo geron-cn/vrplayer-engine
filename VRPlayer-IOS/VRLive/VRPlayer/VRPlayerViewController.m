@@ -1,4 +1,5 @@
 
+#if 0
 #import "VRPlayerViewController.h"
 #import "VIMVideoPlayerView.h"
 #import "VIMVideoPlayer.h"
@@ -286,3 +287,4 @@ static BOOL   hasAdvertisement = YES;
 }
 
 @end
+#endif

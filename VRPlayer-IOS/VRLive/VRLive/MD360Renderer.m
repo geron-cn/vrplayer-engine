@@ -10,12 +10,14 @@
 #import "MDAbsObject3D.h"
 #import "MD360Program.h"
 #import "GLUtil.h"
+#import "ijkmedia/ijksdl/ios/IJKSDLGLView.h"
 
 @interface MD360Renderer()
 @property (nonatomic,strong) MDAbsObject3D* mObject3D;
 @property (nonatomic,strong) MD360Program* mProgram;
 @property (nonatomic,strong) MD360Texture* mTexture;
 @property (nonatomic,strong) MD360Director* mDirector;
+@property (nonatomic,strong) IJKSDLGLView* mSDLView;
 @end
 
 @implementation MD360Renderer
@@ -34,13 +36,15 @@
 
 - (void)dealloc{
     [self.mObject3D destroy];
-    [self.mProgram destroy];
+//    [self.mProgram destroy];
     [self.mDirector destroy];
+    self.mSDLView = nil;
 }
 
 - (void) setup{
-    self.mProgram = [[MD360Program alloc]init];
+//    self.mProgram = [[MD360Program alloc]init];
     self.mObject3D = [[MDSphere3D alloc]init];
+    self.mSDLView = [IJKSDLGLView instance]; //[[IJKSDLGLView alloc] initWithFrame:CGRectZero];
 }
 
 - (void) rendererOnCreated:(EAGLContext*)context{
@@ -51,11 +55,11 @@
     [GLUtil glCheck:@"glEnable"];
     
     // init
-    [self initProgram];
-    [GLUtil glCheck:@"initProgram"];
-    
-    [self initTexture];
-    [GLUtil glCheck:@"initTexture"];
+//    [self initProgram];
+//    [GLUtil glCheck:@"initProgram"];
+//    
+//    [self initTexture];
+//    [GLUtil glCheck:@"initTexture"];
     
     [self initObject3D];
     [GLUtil glCheck:@"initObject3D"];
@@ -67,7 +71,7 @@
     glViewport(0, 0, width, height);
     
     // update surface
-    [self.mTexture resize:width height:height];
+//    [self.mTexture resize:width height:height];
     
     // Update Projection
     [self.mDirector updateProjection:width height:height];
@@ -81,20 +85,35 @@
     // glClear(GL_COLOR_BUFFER_BIT);
     [GLUtil glCheck:@"glClear"];
     
-    // use
-    [self.mProgram use];
-    [GLUtil glCheck:@"mProgram use"];
+    if (self.mSDLView != nil)
+    {
+        GLKMatrix4 mvp = [self.mDirector getMVPMatrix];
+        [self.mSDLView updateTextureAndProgram:mvp.m posbuffer:[self.mObject3D getVertexBuffer] texbuffer:[self.mObject3D getTextureBuffer]];
+    }
     
-    // update texture
-    [self.mTexture updateTexture:context];
+//    // use
+//    [self.mProgram use];
+//    [GLUtil glCheck:@"mProgram use"];
+//    
+//    // update texture
+////    [self.mTexture updateTexture:context];
+//    
+//    // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
+//    glUniform1i(self.mProgram.mTextureUniformHandle, 0);
+//    [GLUtil glCheck:@"glUniform1i mTextureUniformHandle"];
+//    
+//    // Pass in the combined matrix.
+//    [self.mDirector shot:self.mProgram];
+//    [GLUtil glCheck:@"shot"];
     
-    // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
-    glUniform1i(self.mProgram.mTextureUniformHandle, 0);
-    [GLUtil glCheck:@"glUniform1i mTextureUniformHandle"];
     
-    // Pass in the combined matrix.
-    [self.mDirector shot:self.mProgram];
-    [GLUtil glCheck:@"shot"];
+//    int positionHandle = self.mSDLView;
+//    glVertexAttribPointer(positionHandle, 3, GL_FLOAT, 0, 0, [self.mObject3D getVertexBuffer]);
+//    glEnableVertexAttribArray(positionHandle);
+//    
+//    int textureCoordinateHandle = self.mSDLView;
+//    glVertexAttribPointer(textureCoordinateHandle, 2, GL_FLOAT, 0, 0, [self.mObject3D getTextureBuffer]);
+//    glEnableVertexAttribArray(textureCoordinateHandle);
     
     if ([self.mObject3D getIndices] != nil) {
         glDrawElements(GL_TRIANGLES, self.mObject3D.mNumIndices, GL_UNSIGNED_SHORT, [self.mObject3D getIndices]);
@@ -111,7 +130,7 @@
 }
 
 - (void) initTexture {
-    [self.mTexture createTexture];
+//    [self.mTexture createTexture];
 }
 
 - (void) initObject3D {
@@ -119,7 +138,7 @@
     [self.mObject3D loadObj];
     
     // upload
-    [self.mObject3D uploadDataToProgram:self.mProgram];
+//    [self.mObject3D uploadDataToProgram:self.mProgram];
 }
 
 - (void) rendererOnDestroy:(EAGLContext*) context{
@@ -146,7 +165,7 @@
 - (MD360Renderer*) build{
     MD360Renderer* renderer = [[MD360Renderer alloc]init];
     renderer.mDirector = self.director;
-    renderer.mTexture = self.texture;
+//    renderer.mTexture = self.texture;
     return renderer;
 }
 

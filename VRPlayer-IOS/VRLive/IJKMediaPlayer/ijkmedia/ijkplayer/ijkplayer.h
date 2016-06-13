@@ -205,6 +205,9 @@ long            ijkmp_get_duration(IjkMediaPlayer *mp);
 long            ijkmp_get_playable_duration(IjkMediaPlayer *mp);
 void            ijkmp_set_loop(IjkMediaPlayer *mp, int loop);
 int             ijkmp_get_loop(IjkMediaPlayer *mp);
+void            ijkmp_set_muted(IjkMediaPlayer *mp, int muted);
+int             ijkmp_get_muted(IjkMediaPlayer *mp);
+void            ijkmp_set_volume(IjkMediaPlayer *mp, int volume);
 
 void           *ijkmp_get_weak_thiz(IjkMediaPlayer *mp);
 void           *ijkmp_set_weak_thiz(IjkMediaPlayer *mp, void *weak_thiz);

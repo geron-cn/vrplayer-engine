@@ -160,6 +160,7 @@ static float sphereRadius = 100;
 @property (nonatomic,readonly) MDModeInteractive interactiveMode;
 @property (nonatomic,readonly) MDModeDisplay displayMode;
 @property (nonatomic,readonly) bool pinchEnabled;
+@property (nonatomic,readonly) IJKSDLGLView* ijkView;
 
 @end
 
@@ -201,6 +202,11 @@ static float sphereRadius = 100;
 - (void) setContainer:(UIViewController*)vc view:(UIView*)view{
     _viewController = vc;
     _view = view;
+}
+
+- (void) setIJKView:(IJKSDLGLView*)view
+{
+    _ijkView = view;
 }
 
 - (MDVRLibrary*) build{

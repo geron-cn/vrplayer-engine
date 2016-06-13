@@ -15,6 +15,7 @@
 #pragma mark MD360Director
 @interface MD360Director : NSObject<IMDDestroyable>
 - (void) shot:(MD360Program*) program;
+- (GLKMatrix4) getMVPMatrix;
 - (void) reset;
 - (void) updateProjection:(int)width height:(int)height;
 - (void) updateSensorMatrix:(GLKMatrix4)sensor;

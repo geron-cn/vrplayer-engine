@@ -25,6 +25,8 @@ typedef NS_ENUM(NSInteger, MDModeDisplay) {
 };
 
 @class MDVRLibrary;
+@class IJKSDLGLView;
+
 #pragma mark MDVRConfiguration
 @interface MDVRConfiguration : NSObject
 - (void) asVideo:(AVPlayerItem*)playerItem;
@@ -34,6 +36,7 @@ typedef NS_ENUM(NSInteger, MDModeDisplay) {
 - (void) pinchEnabled:(bool)pinch;
 - (void) setContainer:(UIViewController*)vc;
 - (void) setContainer:(UIViewController*)vc view:(UIView*)view;
+- (void) setIJKView:(IJKSDLGLView*)view;
 - (MDVRLibrary*) build;
 @end
 

@@ -36,6 +36,16 @@ static int sPositionDataSize = 3;
     return mIndicesBuffer;
 }
 
+- (float*) getVertexBuffer
+{
+    return mVertexBuffer;
+}
+
+- (float*) getTextureBuffer
+{
+    return mTextureBuffer;
+}
+
 - (void)setTextureBuffer:(float*)buffer size:(int)size{
     int size_t = sizeof(float)*size;
     mTextureBuffer = malloc(size_t);

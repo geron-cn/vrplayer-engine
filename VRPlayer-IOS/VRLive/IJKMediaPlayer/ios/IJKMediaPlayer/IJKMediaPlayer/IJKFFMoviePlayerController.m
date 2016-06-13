@@ -226,6 +226,11 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
     return self;
 }
 
+- (IJKSDLGLView*)getIJKView
+{
+    return _glView;
+}
+
 - (void)setScreenOn: (BOOL)on
 {
     [IJKMediaModule sharedModule].mediaModuleIdleTimerDisabled = on;
@@ -315,6 +320,45 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
         return NO;
 
     return ijkmp_is_playing(_mediaPlayer);
+}
+
+- (BOOL)isLoop
+{
+    if (!_mediaPlayer)
+        return NO;
+    
+    return ijkmp_get_loop(_mediaPlayer) == 1;
+}
+- (void)setLoop:(BOOL)loop
+{
+    if (_mediaPlayer)
+    {
+        ijkmp_set_loop(_mediaPlayer, loop ? 0 : 1);
+    }
+}
+
+- (BOOL)isMuted
+{
+    if (_mediaPlayer)
+    {
+        return ijkmp_get_muted(_mediaPlayer);
+    }
+    return NO;
+}
+- (void)setMuted:(BOOL)muted
+{
+    if (_mediaPlayer)
+    {
+        ijkmp_set_muted(_mediaPlayer, muted);
+    }
+}
+
+- (void)setVolume:(int)volume
+{
+    if (_mediaPlayer)
+    {
+        ijkmp_set_volume(_mediaPlayer, volume);
+    }
 }
 
 - (void)setPauseInBackground:(BOOL)pause

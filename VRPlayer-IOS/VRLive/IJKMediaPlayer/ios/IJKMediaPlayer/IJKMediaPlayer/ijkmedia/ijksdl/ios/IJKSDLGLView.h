@@ -28,8 +28,11 @@
 
 @interface IJKSDLGLView : NSObject// : UIView
 
++ (id) instance;
 - (id) initWithFrame:(CGRect)frame;
 - (void) display: (SDL_VoutOverlay *) overlay;
+//call be main thread, upload texture and program if we have new texture
+- (void) updateTextureAndProgram: (float[])mvp posbuffer: (void*)pos texbuffer: (void*) tex;
 
 - (UIImage*) snapshot;
 - (void)setHudValue:(NSString *)value forKey:(NSString *)key;

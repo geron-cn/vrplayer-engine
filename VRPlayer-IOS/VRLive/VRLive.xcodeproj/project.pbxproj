@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		3E8D7C611CF6EF8300EF5F9D /* logo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8D7C5F1CF6DC2300EF5F9D /* logo.m */; };
+		3E9F87E21D0E9A2900A1E19B /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E9F87E01D0E9A2900A1E19B /* Camera.cpp */; };
+		3E9F87E91D0EC17600A1E19B /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E9F87E31D0EC17600A1E19B /* Matrix.cpp */; };
+		3E9F87EA1D0EC17600A1E19B /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E9F87E51D0EC17600A1E19B /* Vector3.cpp */; };
+		3E9F87EB1D0EC17600A1E19B /* vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E9F87E71D0EC17600A1E19B /* vector4.cpp */; };
+		3E9F87EE1D0EFD6600A1E19B /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E9F87EC1D0EFD6600A1E19B /* MathUtil.cpp */; };
+		3E9F87F21D0F011200A1E19B /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E9F87F01D0F011200A1E19B /* Quaternion.cpp */; };
+		3E9F87F51D0FDBDD00A1E19B /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E9F87F31D0FDBDD00A1E19B /* Scene.cpp */; };
+		3E9F87F81D1009D700A1E19B /* CameraCursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E9F87F61D1009D700A1E19B /* CameraCursor.cpp */; };
+		3E9F87FB1D100B6700A1E19B /* Ref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E9F87F91D100B6700A1E19B /* Ref.cpp */; };
+		3E9F87FE1D11529900A1E19B /* GLProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E9F87FC1D11529900A1E19B /* GLProgram.cpp */; };
 		3ECF6DBC1CF3F46D0043B22F /* GLUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA11CF3F46D0043B22F /* GLUtil.m */; };
 		3ECF6DBD1CF3F46D0043B22F /* MD360Director.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA31CF3F46D0043B22F /* MD360Director.m */; };
 		3ECF6DBE1CF3F46D0043B22F /* MD360Program.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA51CF3F46D0043B22F /* MD360Program.m */; };
@@ -56,6 +66,27 @@
 /* Begin PBXFileReference section */
 		3E8D7C5F1CF6DC2300EF5F9D /* logo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = logo.m; path = VRPlayer/logo.m; sourceTree = "<group>"; };
 		3E8D7C601CF6EB3F00EF5F9D /* logo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = logo.h; path = VRPlayer/logo.h; sourceTree = "<group>"; };
+		3E9F87E01D0E9A2900A1E19B /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Camera.cpp; path = 3d/Camera.cpp; sourceTree = "<group>"; };
+		3E9F87E11D0E9A2900A1E19B /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Camera.h; path = 3d/Camera.h; sourceTree = "<group>"; };
+		3E9F87E31D0EC17600A1E19B /* Matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Matrix.cpp; path = 3d/Matrix.cpp; sourceTree = "<group>"; };
+		3E9F87E41D0EC17600A1E19B /* Matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix.h; path = 3d/Matrix.h; sourceTree = "<group>"; };
+		3E9F87E51D0EC17600A1E19B /* Vector3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector3.cpp; path = 3d/Vector3.cpp; sourceTree = "<group>"; };
+		3E9F87E61D0EC17600A1E19B /* Vector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector3.h; path = 3d/Vector3.h; sourceTree = "<group>"; };
+		3E9F87E71D0EC17600A1E19B /* vector4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vector4.cpp; path = 3d/vector4.cpp; sourceTree = "<group>"; };
+		3E9F87E81D0EC17600A1E19B /* vector4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vector4.h; path = 3d/vector4.h; sourceTree = "<group>"; };
+		3E9F87EC1D0EFD6600A1E19B /* MathUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MathUtil.cpp; path = 3d/MathUtil.cpp; sourceTree = "<group>"; };
+		3E9F87EF1D0EFD7900A1E19B /* MathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MathUtil.h; path = 3d/MathUtil.h; sourceTree = "<group>"; };
+		3E9F87F01D0F011200A1E19B /* Quaternion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Quaternion.cpp; path = 3d/Quaternion.cpp; sourceTree = "<group>"; };
+		3E9F87F11D0F011200A1E19B /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Quaternion.h; path = 3d/Quaternion.h; sourceTree = "<group>"; };
+		3E9F87F31D0FDBDD00A1E19B /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scene.cpp; path = 3d/Scene.cpp; sourceTree = "<group>"; };
+		3E9F87F41D0FDBDD00A1E19B /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scene.h; path = 3d/Scene.h; sourceTree = "<group>"; };
+		3E9F87F61D1009D700A1E19B /* CameraCursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CameraCursor.cpp; path = 3d/CameraCursor.cpp; sourceTree = "<group>"; };
+		3E9F87F71D1009D700A1E19B /* CameraCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraCursor.h; path = 3d/CameraCursor.h; sourceTree = "<group>"; };
+		3E9F87F91D100B6700A1E19B /* Ref.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Ref.cpp; path = 3d/Ref.cpp; sourceTree = "<group>"; };
+		3E9F87FA1D100B6700A1E19B /* Ref.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ref.h; path = 3d/Ref.h; sourceTree = "<group>"; };
+		3E9F87FC1D11529900A1E19B /* GLProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLProgram.cpp; path = 3d/GLProgram.cpp; sourceTree = "<group>"; };
+		3E9F87FD1D11529900A1E19B /* GLProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLProgram.h; path = 3d/GLProgram.h; sourceTree = "<group>"; };
+		3E9F87FF1D1173CD00A1E19B /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base.h; path = 3d/Base.h; sourceTree = "<group>"; };
 		3ECF6D8E1CF3F3C90043B22F /* libVRLive.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVRLive.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECF6DA01CF3F46D0043B22F /* GLUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLUtil.h; sourceTree = "<group>"; };
 		3ECF6DA11CF3F46D0043B22F /* GLUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLUtil.m; sourceTree = "<group>"; };
@@ -137,6 +168,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E9F87DF1D0E98A100A1E19B /* 3d */ = {
+			isa = PBXGroup;
+			children = (
+				3E9F87FF1D1173CD00A1E19B /* Base.h */,
+				3E9F87FC1D11529900A1E19B /* GLProgram.cpp */,
+				3E9F87FD1D11529900A1E19B /* GLProgram.h */,
+				3E9F87F91D100B6700A1E19B /* Ref.cpp */,
+				3E9F87FA1D100B6700A1E19B /* Ref.h */,
+				3E9F87F61D1009D700A1E19B /* CameraCursor.cpp */,
+				3E9F87F71D1009D700A1E19B /* CameraCursor.h */,
+				3E9F87F31D0FDBDD00A1E19B /* Scene.cpp */,
+				3E9F87F41D0FDBDD00A1E19B /* Scene.h */,
+				3E9F87F01D0F011200A1E19B /* Quaternion.cpp */,
+				3E9F87F11D0F011200A1E19B /* Quaternion.h */,
+				3E9F87EF1D0EFD7900A1E19B /* MathUtil.h */,
+				3E9F87EC1D0EFD6600A1E19B /* MathUtil.cpp */,
+				3E9F87E31D0EC17600A1E19B /* Matrix.cpp */,
+				3E9F87E41D0EC17600A1E19B /* Matrix.h */,
+				3E9F87E51D0EC17600A1E19B /* Vector3.cpp */,
+				3E9F87E61D0EC17600A1E19B /* Vector3.h */,
+				3E9F87E71D0EC17600A1E19B /* vector4.cpp */,
+				3E9F87E81D0EC17600A1E19B /* vector4.h */,
+				3E9F87E01D0E9A2900A1E19B /* Camera.cpp */,
+				3E9F87E11D0E9A2900A1E19B /* Camera.h */,
+			);
+			name = 3d;
+			sourceTree = "<group>";
+		};
 		3ECF6D851CF3F3C90043B22F = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +218,7 @@
 		3ECF6D901CF3F3C90043B22F /* VRLive */ = {
 			isa = PBXGroup;
 			children = (
+				3E9F87DF1D0E98A100A1E19B /* 3d */,
 				3ECF6DA01CF3F46D0043B22F /* GLUtil.h */,
 				3ECF6DA11CF3F46D0043B22F /* GLUtil.m */,
 				3ECF6DA21CF3F46D0043B22F /* MD360Director.h */,
@@ -325,11 +385,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E9F87EA1D0EC17600A1E19B /* Vector3.cpp in Sources */,
 				3ECF6DEE1CF3FB570043B22F /* UIRefreshControl+AFNetworking.m in Sources */,
 				3ECF6DBD1CF3F46D0043B22F /* MD360Director.m in Sources */,
 				3ECF6DC21CF3F46D0043B22F /* MDDisplayStrategy.m in Sources */,
+				3E9F87E91D0EC17600A1E19B /* Matrix.cpp in Sources */,
 				3ECF6DED1CF3FB570043B22F /* UIProgressView+AFNetworking.m in Sources */,
 				3ECF6DC51CF3F46D0043B22F /* MDModeStrategy.m in Sources */,
+				3E9F87F51D0FDBDD00A1E19B /* Scene.cpp in Sources */,
 				3ECF6DE81CF3FB570043B22F /* AFImageDownloader.m in Sources */,
 				3ECF6DC41CF3F46D0043B22F /* MDInteractiveStrategy.m in Sources */,
 				3ECF6DBC1CF3F46D0043B22F /* GLUtil.m in Sources */,
@@ -337,12 +400,16 @@
 				3ECF6DC01CF3F46D0043B22F /* MD360Texture.m in Sources */,
 				3ECF6DFF1CF3FB650043B22F /* AFSecurityPolicy.m in Sources */,
 				3ECF6DC61CF3F46D0043B22F /* MDTouchHelper.m in Sources */,
+				3E9F87FB1D100B6700A1E19B /* Ref.cpp in Sources */,
 				3ECF6DEA1CF3FB570043B22F /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				3E9F87FE1D11529900A1E19B /* GLProgram.cpp in Sources */,
 				3ECF6DFD1CF3FB650043B22F /* AFHTTPSessionManager.m in Sources */,
 				3ECF6DE91CF3FB570043B22F /* AFNetworkActivityIndicatorManager.m in Sources */,
 				3ECF6E021CF3FB650043B22F /* AFURLSessionManager.m in Sources */,
 				3ECF6DFE1CF3FB650043B22F /* AFNetworkReachabilityManager.m in Sources */,
+				3E9F87EB1D0EC17600A1E19B /* vector4.cpp in Sources */,
 				3ECF6DE71CF3FB570043B22F /* AFAutoPurgingImageCache.m in Sources */,
+				3E9F87EE1D0EFD6600A1E19B /* MathUtil.cpp in Sources */,
 				3E8D7C611CF6EF8300EF5F9D /* logo.m in Sources */,
 				3ECF6DCF1CF3FAF60043B22F /* VIMVideoPlayer.m in Sources */,
 				3ECF6DD01CF3FAF60043B22F /* VIMVideoPlayerView.m in Sources */,
@@ -350,7 +417,10 @@
 				3ECF6E001CF3FB650043B22F /* AFURLRequestSerialization.m in Sources */,
 				3ECF6E071CF4211A0043B22F /* VRPlayerViewController.m in Sources */,
 				3ECF6DC11CF3F46D0043B22F /* MDAbsObject3D.m in Sources */,
+				3E9F87E21D0E9A2900A1E19B /* Camera.cpp in Sources */,
 				3ECF6DC71CF3F46D0043B22F /* MDVideoDataAdatperAVPlayerImpl.m in Sources */,
+				3E9F87F81D1009D700A1E19B /* CameraCursor.cpp in Sources */,
+				3E9F87F21D0F011200A1E19B /* Quaternion.cpp in Sources */,
 				3ECF6DBE1CF3F46D0043B22F /* MD360Program.m in Sources */,
 				3ECF6DC81CF3F46D0043B22F /* MDVRLibrary.m in Sources */,
 				3ECF6DEF1CF3FB570043B22F /* UIWebView+AFNetworking.m in Sources */,

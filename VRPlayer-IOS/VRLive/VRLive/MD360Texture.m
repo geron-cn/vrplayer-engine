@@ -18,33 +18,54 @@
 @end
 @implementation MD360Texture
 
-- (void) createTexture {
-    // check the createTextureId function
-    if (![self respondsToSelector:@selector(createTextureId)]) return;
-    
-    glTextureId = [self createTextureId];
-    if (glTextureId != 0 && [self respondsToSelector:@selector(onTextureCreated:)]) {
-        [self onTextureCreated:glTextureId];
-    }
-}
 
-- (void) destroy {
-    
-}
+- (void) createTexture:(EAGLContext*)context{}
+
+- (void) destroy {}
 
 - (void) resize:(int)width height:(int)height{
     _mWidth = width;
     _mHeight = height;
 }
 
-- (void) updateTexture:(EAGLContext*)context{
+- (BOOL) updateTexture:(EAGLContext*)context{
+    return NO;
+}
 
+- (void)dealloc {
 }
 
 @end
 
 #pragma mark MD360BitmapTexture
+
+@interface MD360BitmapTexture()
+@property(nonatomic,strong) UIImage* pendingImage;
+@property (nonatomic) GLuint textureId;
+@property(nonatomic,weak) id<IMDImageProvider> provider;
+@end
 @implementation MD360BitmapTexture
+
+
++ (MD360Texture*) createWithProvider:(id<IMDImageProvider>) provider{
+    MD360BitmapTexture* texture = [[MD360BitmapTexture alloc]init];
+    texture.provider = provider;
+    [texture load];
+    return texture;
+}
+
+- (void)load {
+
+    if ([self.provider respondsToSelector:@selector(onProvideImage:)]) {
+        [self.provider onProvideImage:self];
+    }
+}
+
+- (void) createTexture:(EAGLContext*)context{
+    if (context == NULL) return;
+    
+    self.textureId = [self createTextureId];
+}
 
 - (GLuint) createTextureId {
     GLuint textureId;
@@ -53,13 +74,20 @@
     return textureId;
 }
 
-- (void) onTextureCreated:(GLuint)textureId{
-    [self textureInThread:textureId];
+- (BOOL) updateTexture:(EAGLContext*)context{
+    if (context == NULL) return NO;
+    if (self.pendingImage != nil) {
+        [self textureInThread:self.textureId];
+    }
+    
+    return YES;
+    
 }
 
 - (void) textureInThread:(int)textureId {
+    if (self.pendingImage == nil) return;
+    
     // Bind to the texture in OpenGL
-    //GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureId);
     
@@ -72,18 +100,26 @@
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     
-    NSString* path = [[NSBundle mainBundle]pathForResource:@"bitmap360" ofType:@"png"];
-    
     // Load the bitmap into the bound texture.
-    [GLUtil texImage2D:path];
+    [GLUtil texImage2D:self.pendingImage];
+    
+    self.pendingImage = nil;
+}
+
+
+-(void) texture:(UIImage*)image{
+    NSLog(@"texture:%@",image);
+    if(image == nil) return;
+    self.pendingImage = image;
 }
 
 @end
 
 #pragma mark MD360VideoTexture
 @interface MD360VideoTexture(){
+    CVOpenGLESTextureCacheRef ref;
 }
-@property (nonatomic,strong) NSMutableDictionary* mContextTextureMap;
+
 @property (nonatomic,strong) id<MDVideoDataAdapter> mDataAdatper;
 @end
 
@@ -93,42 +129,35 @@
     self = [super init];
     if (self) {
         self.mDataAdatper = adapter;
-        self.mContextTextureMap = [[NSMutableDictionary alloc]init];
+        ref = NULL;
     }
     return self;
 }
 
 - (void)dealloc{
-    if (self.mContextTextureMap == nil) return;
-    for (NSString* key in self.mContextTextureMap) {
-        NSValue* value = [self.mContextTextureMap objectForKey:key];
-        CVOpenGLESTextureCacheRef ref = [value pointerValue];
+    if (ref != NULL) {
         CFRelease(ref);
     }
-    self.mContextTextureMap = nil;
+    ref = NULL;
 }
 
-+ (MD360Texture*) createWithAVPlayerItem:(AVPlayerItem*) playerItem{
-    MDVideoDataAdatperAVPlayerImpl* adapter = [[MDVideoDataAdatperAVPlayerImpl alloc]initWithPlayerItem:playerItem];
++ (MD360Texture*) createWithDataAdapter:(id<MDVideoDataAdapter>) adapter{
     MD360Texture* texture = [[MD360VideoTexture alloc] initWithAdatper:adapter];
     return texture;
 }
 
 - (CVOpenGLESTextureCacheRef)textureCache:(EAGLContext*)context{
-    NSValue* value = [self.mContextTextureMap objectForKey:context.description];
-    CVOpenGLESTextureCacheRef texture = [value pointerValue];
-    if (texture == NULL){
-        CVReturn err = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, (__bridge CVEAGLContext _Nonnull)((__bridge void *)context), NULL, &texture);
+    if (ref == NULL){
+        CVReturn err = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, (__bridge CVEAGLContext _Nonnull)((__bridge void *)context), NULL, &ref);
         if (err) NSAssert(NO, @"Error at CVOpenGLESTextureCacheCreate");
-        [self.mContextTextureMap setObject:[NSValue valueWithPointer:texture] forKey:context.description];
     }
-    return texture;
+    return ref;
 }
 
-- (void) updateTexture:(EAGLContext*)context{
+- (BOOL) updateTexture:(EAGLContext*)context{
     if ([self.mDataAdatper respondsToSelector:@selector(copyPixelBuffer)]) {
         CVPixelBufferRef pixelBuffer = [self.mDataAdatper copyPixelBuffer];
-        if (pixelBuffer == NULL) return;
+        if (pixelBuffer == NULL) return NO;
         
         int bufferHeight = (int) CVPixelBufferGetHeight(pixelBuffer);
         int bufferWidth = (int) CVPixelBufferGetWidth(pixelBuffer);
@@ -150,9 +179,14 @@
         
         // Do processing work on the texture data here
         CVOpenGLESTextureCacheFlush(textureCache, 0);
-        CFRelease(pixelBuffer);
+        CVBufferRelease(pixelBuffer);
         CFRelease(texture);
+        
+        
+        
+        return YES;
     }
+    return NO;
 }
 
 @end

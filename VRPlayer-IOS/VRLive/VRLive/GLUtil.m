@@ -282,9 +282,13 @@ typedef struct
     return programHandle;
 }
 
-+ (void)texImage2D:(NSString*)path{
++ (void)texImage2DWithPath:(NSString*)path{
     NSData *texData = [[NSData alloc] initWithContentsOfFile:path];
     UIImage *image = [[UIImage alloc] initWithData:texData];
+    [GLUtil texImage2D:image];
+}
+
++ (void)texImage2D:(UIImage*)image{
     assert(image!=nil);
     
     GLuint width = (GLuint)CGImageGetWidth(image.CGImage);
@@ -292,8 +296,6 @@ typedef struct
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     void *imageData = malloc( height * width * 4 );
     CGContextRef context = CGBitmapContextCreate( imageData, width, height, 8, 4 * width, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big );
-    CGContextTranslateCTM (context, 0, height);
-    CGContextScaleCTM (context, 1.0, -1.0);
     CGColorSpaceRelease( colorSpace );
     CGContextClearRect( context, CGRectMake( 0, 0, width, height ) );
     CGContextDrawImage( context, CGRectMake( 0, 0, width, height ), image.CGImage );
@@ -533,6 +535,22 @@ typedef struct
     free(outR);
     return outMatrix4;
  
+}
+
+#ifndef IS_OS_8_OR_LATER
+#define IS_OS_8_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+#endif
+
++(float) getScrrenScale {
+    float contentScale = 1.0f;
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)]) {
+        if (IS_OS_8_OR_LATER) {
+            contentScale = [[UIScreen mainScreen] nativeScale];
+        } else {
+            contentScale = [[UIScreen mainScreen] scale];
+        }
+    }
+    return contentScale;
 }
 
 @end

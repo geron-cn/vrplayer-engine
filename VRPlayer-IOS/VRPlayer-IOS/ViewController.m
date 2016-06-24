@@ -32,21 +32,12 @@
 
 - (IBAction)play:(id)sender {
     NSString* url = self.url.text;
-//    url = @"http://qjdlplay.bravovcloud.com.cn/live/test.m3u8";
-    url = @"http://vr.donglivr.net/qjdl/qiyiguo/StarWars360/mp4_fhd.mp4";
+    //url = @"http://qjdlplay.bravovcloud.com.cn/live/test.m3u8";
+     url = @"http://vr.donglivr.net/qjdl/qiyiguo/BEACH_MASTER_rough_CUT/mp4_hd.mp4";
     
     QGVideoPlayViewController *vc = [[QGVideoPlayViewController alloc] initWithNibName:@"QGVideoPlayViewController" bundle:nil url:[NSURL URLWithString:url] videoTitle:@"test"];
     
     [self presentViewController:vc animated:YES completion:nil];
-    
-//    TestViewController *vc = [[TestViewController alloc] initWithNibName:@"TestViewController" bundle:nil];
-//    vc.view.frame = self.view.bounds;
-//    NSLog(@"vc.view.frame===%@",NSStringFromCGRect(vc.view.frame));
-//    vc.view.backgroundColor = [UIColor blueColor];
-//    [self.view addSubview:vc.view];
-//    [self addChildViewController:vc];
-//    [vc didMoveToParentViewController:self];
-    
     
 }
 

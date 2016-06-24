@@ -124,6 +124,7 @@
 		3ECF6DFC1CF3FB650043B22F /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFURLSessionManager.m; path = AFNetworking/AFNetworking/AFURLSessionManager.m; sourceTree = "<group>"; };
 		3ECF6E051CF4211A0043B22F /* VRPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VRPlayerViewController.h; path = VRPlayer/VRPlayerViewController.h; sourceTree = "<group>"; };
 		3ECF6E061CF4211A0043B22F /* VRPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VRPlayerViewController.m; path = VRPlayer/VRPlayerViewController.m; sourceTree = "<group>"; };
+		C523ED561D1D1297000A4A82 /* MDVRHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDVRHeader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +160,7 @@
 		3ECF6D901CF3F3C90043B22F /* VRLive */ = {
 			isa = PBXGroup;
 			children = (
+				C523ED561D1D1297000A4A82 /* MDVRHeader.h */,
 				3ECF6DA01CF3F46D0043B22F /* GLUtil.h */,
 				3ECF6DA11CF3F46D0043B22F /* GLUtil.m */,
 				3ECF6DA21CF3F46D0043B22F /* MD360Director.h */,

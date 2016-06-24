@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 
 
 #pragma mark IMDModeStrategy
@@ -15,6 +16,7 @@
 -(void) on;
 -(void) off;
 -(void) handleDragDistX:(float)distX distY:(float)distY;
+-(void)resize:(CGRect)frame;
 @end
 
 #pragma mark MDModeManager
@@ -25,5 +27,6 @@
 - (void) prepare;
 - (void) switchMode:(int)mode;
 - (void) switchMode;
+- (void)resize:(CGRect)frame;
 - (id<IMDModeStrategy>) createStrategy:(int)mode;
 @end

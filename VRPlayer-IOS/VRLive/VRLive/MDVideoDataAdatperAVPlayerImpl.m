@@ -9,6 +9,10 @@
 #import "MDVideoDataAdatperAVPlayerImpl.h"
 
 @interface MDVideoDataAdatperAVPlayerImpl ()
+{
+    CMTime lastBufferTime;
+//    BOOL
+}
 @property (nonatomic, strong) AVPlayerItemVideoOutput* output;
 @property (nonatomic, strong) AVPlayerItem* playerItem;
 
@@ -62,6 +66,14 @@ bool hadReady;
     [self.output hasNewPixelBufferForItemTime:currentTime];
     
     CVPixelBufferRef pixelBuffer = [self.output copyPixelBufferForItemTime:currentTime itemTimeForDisplay:nil];
+    
+    if (pixelBuffer != nil)
+    {
+        lastBufferTime = currentTime;
+    }
+    else{
+        
+    }
     return pixelBuffer;
 }
 @end

@@ -72,6 +72,12 @@
 
 @implementation MDMotionStrategy
 
+-(void)resize:(CGRect)frame
+{
+    [self off];
+    [self on];
+}
+
 -(void) on{
     [self startDeviceMotion];
 }
@@ -131,6 +137,13 @@
         for (MD360Director* dirctor in self.dirctors) {
             [dirctor reset];
         }
+    }
+}
+
+-(void) reset
+{
+    for (MD360Director* dirctor in self.dirctors) {
+        [dirctor reset];
     }
 }
 

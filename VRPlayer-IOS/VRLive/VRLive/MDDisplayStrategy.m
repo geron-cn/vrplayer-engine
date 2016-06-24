@@ -25,19 +25,22 @@
 
 }
 
-+ (NSArray*) frames:(int)size{
-    float width = [[UIScreen mainScreen] bounds].size.width;
-    float height = [[UIScreen mainScreen] bounds].size.height;
+- (NSArray*) frames:(int)size{
+    
+    float x = self.bounds.origin.x;
+    float y = self.bounds.origin.y;
+    float width = self.bounds.size.width; //[[UIScreen mainScreen] bounds].size.width;
+    float height = self.bounds.size.height; //[[UIScreen mainScreen] bounds].size.height;
     float perWidth = width * 1.0f / size;
     NSMutableArray* frames = [[NSMutableArray alloc] init];
     for (int i = 0; i < size; i++) {
-        [frames addObject:[NSValue valueWithCGRect:CGRectMake( i * perWidth, 0, perWidth, height)]];
+        [frames addObject:[NSValue valueWithCGRect:CGRectMake( x + i * perWidth, y, perWidth, height)]];
     }
     return frames;
 }
 
 - (void) setVisibleSize:(int)max{
-    NSArray* frames = [MDDisplayStrategy frames:max];
+    NSArray* frames = [self frames:max];
     for (int i = 0; i < self.glViewControllers.count; i++) {
         MDGLKViewController* vc = [self.glViewControllers objectAtIndex:i];
         if (i < max) {
@@ -60,6 +63,10 @@
 -(void) on{
     [self setVisibleSize:1];
 }
+-(void)resize:(CGRect)frame{
+    self.bounds = frame;
+    [self setVisibleSize:1];
+}
 @end
 
 #pragma mark MDGlassStrategy
@@ -68,6 +75,10 @@
 
 @implementation MDGlassStrategy
 -(void) on{
+    [self setVisibleSize:2];
+}
+-(void)resize:(CGRect)frame{
+    self.bounds = frame;
     [self setVisibleSize:2];
 }
 @end

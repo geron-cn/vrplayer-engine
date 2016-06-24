@@ -23,6 +23,14 @@
     return self;
 }
 
+- (void)resize:(CGRect)frame
+{
+    if (self.mStrategy != nil)
+    {
+        [self.mStrategy resize: frame];
+    }
+}
+
 - (void) prepare{
     [self initMode:self.mMode];
 }

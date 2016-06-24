@@ -40,6 +40,8 @@ typedef NS_ENUM(NSInteger, MDModeDisplay) {
 #pragma mark MDVRLibrary
 @interface MDVRLibrary : NSObject
 + (MDVRConfiguration*) createConfig;
++ (void)setSphereRadius:(float)radius;
++ (float)getSphereRadius;
 
 - (void) switchInteractiveMode;
 // - (void) switchInteractiveMode:(MDModeInteractive)interactiveMode;
@@ -48,6 +50,8 @@ typedef NS_ENUM(NSInteger, MDModeDisplay) {
 - (void) switchDisplayMode:(MDModeDisplay)displayMode;
 - (void) switchDisplayMode;
 - (MDModeDisplay) getDisplayMdoe;
+- (void)resize;
+- (CGRect)bounds;
 @end
 
 @protocol IMDDestroyable <NSObject>

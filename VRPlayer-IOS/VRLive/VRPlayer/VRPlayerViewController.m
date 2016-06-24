@@ -3,22 +3,54 @@
 #import "VIMVideoPlayerView.h"
 #import "VIMVideoPlayer.h"
 #import "MDVRLibrary.h"
+#import "logo.h"
 
 @interface VRPlayerViewController()<VIMVideoPlayerViewDelegate>{
+    CGRect videoframe;
 }
 @property (nonatomic, strong) VIMVideoPlayerView *videoPlayerView;
 @property (nonatomic, strong) MDVRLibrary* vrLibrary;
 @property (weak, nonatomic) IBOutlet UIButton *mInteractiveBtn;
 @property (weak, nonatomic) IBOutlet UIButton *mDisplayBtn;
 @property (nonatomic, strong) NSURL* mURL;
+@property (nonatomic, strong) UIImageView *logoImageView;
+
 @end
 @implementation VRPlayerViewController
+
+static BOOL   hasAdvertisement = YES;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.vrLibrary = nil;
     self.videoPlayerView = nil;
     self.mURL = nil;
+    if (hasAdvertisement)
+    {
+        NSData* data = [NSData dataWithBytes:[logoData logoDataBuffer] length:[logoData logoDataSize]];
+        self.logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageWithData:data]];
+        self.logoImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addSubview:self.logoImageView];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.logoImageView
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1
+                                                               constant:10]];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.logoImageView
+                                                              attribute:NSLayoutAttributeLeft
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeLeft
+                                                             multiplier:1
+                                                               constant:10]];
+        
+    }
+    
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -26,6 +58,26 @@
     self.vrLibrary = nil;
     self.videoPlayerView = nil;
     self.mURL = nil;
+}
+
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    if (self.vrLibrary != nil)
+    {
+        CGRect frame = self.view.frame;//self.vrLibrary.bounds;
+        //self.videoPlayerView.frame;
+        if (videoframe.origin.x != frame.origin.x || videoframe.origin.y != frame.origin.y || videoframe.size.width != frame.size.width || videoframe.size.height != frame.size.height)
+        {
+            videoframe = frame;
+            NSLog(@"viewDidLayoutSubviews @", NSStringFromCGRect(frame));
+            if (self.vrLibrary != nil)
+            {
+                [self.vrLibrary resize];
+            }
+        }
+        
+    }
 }
 
 - (void) initWithURL:(NSURL*)url{
@@ -39,14 +91,15 @@
     self.videoPlayerView = nil;
     
     // video player
-    self.videoPlayerView = [[VIMVideoPlayerView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)];
-    self.videoPlayerView.translatesAutoresizingMaskIntoConstraints = NO;
+//    self.videoPlayerView = [[VIMVideoPlayerView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)];
+    self.videoPlayerView = [[VIMVideoPlayerView alloc] initWithFrame:self.view.bounds];
+    self.videoPlayerView.translatesAutoresizingMaskIntoConstraints = YES;
     self.videoPlayerView.delegate = self;
     [self.videoPlayerView setVideoFillMode:AVLayerVideoGravityResizeAspect];
     [self.videoPlayerView.player enableTimeUpdates];
     [self.videoPlayerView.player enableAirplay];
     
-    AVPlayerItem *playerItem = [[AVPlayerItem alloc] initWithURL:self.mURL];
+    AVPlayerItem* playerItem = [[AVPlayerItem alloc] initWithURL:self.mURL];
     [self.videoPlayerView.player setPlayerItem:playerItem];
     [self.videoPlayerView.player play];
     
@@ -61,6 +114,7 @@
     [config pinchEnabled:true];
     
     self.vrLibrary = [config build];
+    videoframe = self.view.frame;
 }
 
 - (void)play
@@ -149,6 +203,7 @@
 
 - (void)videoPlayerViewIsReadyToPlayVideo:(VIMVideoPlayerView *)videoPlayerView
 {
+    
     NSLog(@"videoPlayerIsReadyToPlayVideo: ");
     if ([self.delegate respondsToSelector:@selector(videoPlayerIsReadyToPlayVideo:)])
     {
@@ -202,17 +257,32 @@
     }
 }
 
+- (CMTime)duration
+{
+    return self.videoPlayerView.player.player.currentItem.duration;
+}
+- (CMTime)currentTime
+{
+    return self.videoPlayerView.player.player.currentTime;
+}
+
+- (void)setEyeDistance: (float)distance
+{
+    [MDVRLibrary setSphereRadius:distance];
+}
+- (float)getEyeDistance
+{
+    return [MDVRLibrary getSphereRadius];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
--(BOOL)shouldAutorotate{
-    return NO;
-}
-
--(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
-    return UIInterfaceOrientationLandscapeRight;
+- (void)AdvertisementOff
+{
+    hasAdvertisement = NO;
 }
 
 @end

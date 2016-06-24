@@ -27,8 +27,18 @@
 
 #pragma mark MDVRLibrary
 @implementation MDVRLibrary
+static float sphereRadius = 100;
 + (MDVRConfiguration*) createConfig{
     return [[MDVRConfiguration alloc]init];
+}
+
++ (void)setSphereRadius:(float)radius
+{
+    sphereRadius = radius;
+}
++ (float)getSphereRadius
+{
+    return sphereRadius;
 }
 
 - (instancetype)init {
@@ -53,6 +63,22 @@
     [self.touchHelper registerTo:self.parentView];
     self.touchHelper.advanceGestureListener = self;
     
+}
+
+- (CGRect)bounds
+{
+    return self.displayStrategyManager.bounds;
+}
+
+- (void)resize
+{
+    if (self.displayStrategyManager != nil)
+    {
+        self.displayStrategyManager.bounds = self.parentView.bounds;
+        [self.displayStrategyManager resize: self.displayStrategyManager.bounds];
+        [self.interactiveStrategyManager reset];
+        [self.interactiveStrategyManager resize:self.displayStrategyManager.bounds];
+    }
 }
 
 - (void) addDisplay:(UIViewController*)viewController view:(UIView*)parentView{

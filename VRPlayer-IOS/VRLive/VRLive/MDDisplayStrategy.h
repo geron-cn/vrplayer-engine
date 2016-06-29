@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MDDisplayStrategyManager : MDModeManager
+- (int) getVisibleSize;
 @property(nonatomic,weak) NSArray* glViewControllers;
 @property(nonatomic) CGRect bounds;
 @end

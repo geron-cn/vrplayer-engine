@@ -11,13 +11,39 @@
 #import "MDVRLibrary.h"
 
 static int sPositionDataSize = 3;
+@interface MDAbsObject3D(){
+    int positionHandle;
+    int textureCoordinateHandle;
+}
+
+@end
 @implementation MDAbsObject3D
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        positionHandle = -1;
+        textureCoordinateHandle = -1;
+    }
+    return self;
+}
 
 - (void) destroy {
     if (mVertexBuffer != NULL)  free(mVertexBuffer);
     if (mTextureBuffer != NULL)  free(mTextureBuffer);
     if (mIndicesBuffer != NULL) free(mIndicesBuffer);
+    
+    if (positionHandle != -1){
+        glDisableVertexAttribArray(positionHandle);
+        positionHandle = -1;
+    }
+    
+    if (textureCoordinateHandle != -1){
+        glDisableVertexAttribArray(textureCoordinateHandle);
+        textureCoordinateHandle = -1;
+    }
+    
 }
 
 - (void)setVertexBuffer:(float*)buffer size:(int)size{
@@ -29,6 +55,7 @@ static int sPositionDataSize = 3;
 - (void)setIndicesBuffer:(short *)buffer size:(int)size{
     int size_t = sizeof(short)*size;
     mIndicesBuffer = malloc(size_t);
+    assert(mIndicesBuffer);
     memcpy(mIndicesBuffer, buffer, size_t);
 }
 
@@ -58,24 +85,31 @@ static int sPositionDataSize = 3;
 
 
 - (void)uploadDataToProgram:(MD360Program*)program{
-    
-    
-    int positionHandle = program.mPositionHandle;
-    glVertexAttribPointer(positionHandle, sPositionDataSize, GL_FLOAT, 0, 0, mVertexBuffer);
+    positionHandle = program.mPositionHandle;
     glEnableVertexAttribArray(positionHandle);
+    glVertexAttribPointer(positionHandle, sPositionDataSize, GL_FLOAT, 0, 0, mVertexBuffer);
+    // glDisableVertexAttribArray(positionHandle);
     
-    int textureCoordinateHandle = program.mTextureCoordinateHandle;
-    glVertexAttribPointer(textureCoordinateHandle, 2, GL_FLOAT, 0, 0, mTextureBuffer);
+    textureCoordinateHandle = program.mTextureCoordinateHandle;
     glEnableVertexAttribArray(textureCoordinateHandle);
+    glVertexAttribPointer(textureCoordinateHandle, 2, GL_FLOAT, 0, 0, mTextureBuffer);
+    // glDisableVertexAttribArray(textureCoordinateHandle);
     
-    //int vertexIndicesBufferID = 0;
+}
+
+
+- (void)onDraw{
     
-    //Indices
-//    glGenBuffers(1, &vertexIndicesBufferID);
-//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexIndicesBufferID);
-//    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-//                 sizeof(GLushort) * self.mNumIndices,
-//                 mIndicesBuffer, GL_STATIC_DRAW);
+    if ([self getIndices] != 0) {
+        GLsizei count = self.mNumIndices;
+        const GLvoid* indices = [self getIndices];
+        glDrawElements(GL_TRIANGLE_STRIP, count, GL_UNSIGNED_SHORT, indices);
+    } else {
+        glDrawArrays(GL_TRIANGLES, 0, self.mNumIndices);
+    }
+    // Draw
+    
+    [GLUtil glCheck:@"glDrawArrays"];
 }
 
 -(NSString *)description{
@@ -111,77 +145,13 @@ static int sPositionDataSize = 3;
 }
 
 - (void)loadObj{
-    generateSphere([MDVRLibrary getSphereRadius],40,80,self);
+    generateSphere([MDVRLibrary getSphereRadius],80,self);
 }
 
 #define ES_PI  (3.14159265f)
 
-void generateSphere(float radius, int rings, int sectors, MDAbsObject3D* object3D) {
-    float PI = ES_PI;
-    float PI_2 = ES_PI / 2;
-    float R = 1.0f/(float)(rings-1);
-    float S = 1.0f/(float)(sectors-1);
-    short r, s;
-    float x, y, z;
-    
-    int numPoints = rings * sectors * 3;
-    int numNormals = rings * sectors * 3;
-    int numTexcoords = rings * sectors * 2;
-    
-    float* points = malloc ( sizeof(float) *  numPoints); //new float[rings * sectors * 3];
-    float* normals = malloc ( sizeof(float) * numNormals);//new float[rings * sectors * 3];
-    float* texcoords = malloc ( sizeof(float) *  numTexcoords);//new float[rings * sectors * 2];
-    
-    int t = 0, v = 0, n = 0;
-    for(r = 0; r < rings; r++) {
-        for(s = 0; s < sectors; s++) {
-            x = (float) (cosf(2*PI * s * S) * sinf( PI * r * R ));
-            y = (float) sinf( -PI_2 + PI * r * R );
-            z = (float) (sinf(2*PI * s * S) * sinf( PI * r * R ));
-            
-            texcoords[t++] = s*S;
-            texcoords[t++] = r*R;
-            
-            points[v++] = x * radius;
-            points[v++] = - y * radius;
-            points[v++] = z * radius;
-            
-            normals[n++] = x;
-            normals[n++] = y;
-            normals[n++] = z;
-        }
-        
-        
-    }
-    int counter = 0;
-    int numIndices = rings * sectors * 6;
-    short* indices = malloc ( sizeof(short) * numIndices );//new short[rings * sectors * 6];
-    for(r = 0; r < rings - 1; r++){
-        for(s = 0; s < sectors-1; s++) {
-            indices[counter++] = (short) (r * sectors + s);       //(a)
-            indices[counter++] = (short) ((r+1) * sectors + (s));    //(b)
-            indices[counter++] = (short) ((r+1) * sectors + (s+1));  // (c)
-            indices[counter++] = (short) ((r) * sectors + (s));  // (a)
-            indices[counter++] = (short) ((r) * sectors + (s+1));     //(d)
-            indices[counter++] = (short) ((r+1) * sectors + (s+1));    //(c)
-            
-        }
-    }
-    
-    [object3D setIndicesBuffer:indices size:numIndices]; //object3D.setIndicesBuffer(indexBuffer);
-    [object3D setTextureBuffer:texcoords size:numTexcoords]; //object3D.setTexCoordinateBuffer(texBuffer);
-    [object3D setVertexBuffer:points size:numPoints]; //object3D.setVerticesBuffer(vertexBuffer);
-    [object3D setNumIndices:numIndices];
-    
-    free(indices);
-    free(texcoords);
-    free(points);
-}
-
 #pragma mark generate sphere
-
-int esGenSphere ( int numSlices, float radius, float **vertices, float **normals,
-                 float **texCoords, uint16_t **indices, int *numVertices_out) {
+int generateSphere (float radius, int numSlices, MDAbsObject3D* object3D) {
     int i;
     int j;
     int numParallels = numSlices / 2;
@@ -189,58 +159,65 @@ int esGenSphere ( int numSlices, float radius, float **vertices, float **normals
     int numIndices = numParallels * numSlices * 6;
     float angleStep = (2.0f * ES_PI) / ((float) numSlices);
     
-    if ( vertices != NULL )
-        *vertices = malloc ( sizeof(float) * 3 * numVertices );
+    float* vertices = malloc ( sizeof(float) * 3 * numVertices );
+    float* texCoords = malloc ( sizeof(float) * 2 * numVertices );
+    short* indices = malloc ( sizeof(short) * numIndices );
     
-    if ( texCoords != NULL )
-        *texCoords = malloc ( sizeof(float) * 2 * numVertices );
-    
-    if ( indices != NULL )
-        *indices = malloc ( sizeof(uint16_t) * numIndices );
     
     for ( i = 0; i < numParallels + 1; i++ ) {
         for ( j = 0; j < numSlices + 1; j++ ) {
             int vertex = ( i * (numSlices + 1) + j ) * 3;
             
             if ( vertices ) {
-                (*vertices)[vertex + 0] = radius * sinf ( angleStep * (float)i ) * sinf ( angleStep * (float)j );
-                (*vertices)[vertex + 1] = radius * cosf ( angleStep * (float)i );
-                (*vertices)[vertex + 2] = radius * sinf ( angleStep * (float)i ) * cosf ( angleStep * (float)j );
-                //NSLog(@"%f,%f,%f,step=%f",(*vertices)[vertex + 0],(*vertices)[vertex + 1],(*vertices)[vertex + 2],angleStep * (float)i);
-                
+                vertices[vertex + 0] = - radius * sinf ( angleStep * (float)i ) * sinf ( angleStep * (float)j );
+                vertices[vertex + 1] = - radius * cosf ( angleStep * (float)i );
+                vertices[vertex + 2] = radius * sinf ( angleStep * (float)i ) * cosf ( angleStep * (float)j );
             }
             
             if (texCoords) {
                 int texIndex = ( i * (numSlices + 1) + j ) * 2;
-                (*texCoords)[texIndex + 0] = (float) j / (float) numSlices;
-                (*texCoords)[texIndex + 1] = 1.0f - ((float) i / (float) (numParallels));
+                texCoords[texIndex + 0] = (float) j / (float) numSlices;
+                texCoords[texIndex + 1] = 1.0f - ((float) i / (float) (numParallels));
             }
         }
     }
     
     // Generate the indices
     if ( indices != NULL ) {
-        uint16_t *indexBuf = (*indices);
+        short* indexBuf = indices;
         for ( i = 0; i < numParallels ; i++ ) {
             for ( j = 0; j < numSlices; j++ ) {
-                *indexBuf++  = i * ( numSlices + 1 ) + j;
-                *indexBuf++ = ( i + 1 ) * ( numSlices + 1 ) + j;
-                *indexBuf++ = ( i + 1 ) * ( numSlices + 1 ) + ( j + 1 );
-                
-                *indexBuf++ = i * ( numSlices + 1 ) + j;
-                *indexBuf++ = ( i + 1 ) * ( numSlices + 1 ) + ( j + 1 );
-                *indexBuf++ = i * ( numSlices + 1 ) + ( j + 1 );
+                *indexBuf++ = (short)(i * ( numSlices + 1 ) + j); // a
+                *indexBuf++ = (short)(( i + 1 ) * ( numSlices + 1 ) + j); // b
+                *indexBuf++ = (short)(( i + 1 ) * ( numSlices + 1 ) + ( j + 1 )); // c
+                *indexBuf++ = (short)(i * ( numSlices + 1 ) + j); // a
+                *indexBuf++ = (short)(( i + 1 ) * ( numSlices + 1 ) + ( j + 1 )); // c
+                *indexBuf++ = (short)(i * ( numSlices + 1 ) + ( j + 1 )); // d
                 
             }
         }
         
     }
-   
-    if (numVertices_out) {
-        *numVertices_out = numVertices;
-    }
+    
+    [object3D setIndicesBuffer:indices size:numIndices]; //object3D.setIndicesBuffer(indexBuffer);
+    [object3D setTextureBuffer:texCoords size:2 * numVertices]; //object3D.setTexCoordinateBuffer(texBuffer);
+    [object3D setVertexBuffer:vertices size: 3 * numVertices]; //object3D.setVerticesBuffer(vertexBuffer);
+    [object3D setNumIndices:numIndices];
+    
+    
+    free(indices);
+    free(texCoords);
+    free(vertices);
     
     return numIndices;
+}
+@end
+
+#pragma mark MDDome3D
+@implementation MDDome3D
+
+-(NSString*) obtainObjPath{
+    return [MDVR_RAW pathForResource:@"dome" ofType:@"obj"];
 }
 
 @end

@@ -4,6 +4,7 @@
 
 @class VRPlayerViewController;
 
+
 /**
  * @brief @~chinese 播放器代理，播放器的状态信息可以通过该类获取
  * @~english media player delegate, state of player can be access through it.
@@ -52,6 +53,17 @@
 - (void)videoPlayer:(VRPlayerViewController *)videoPlayer didFailWithError:(NSError *)error;
 
 @end
+
+/**
+ * @brief chinese 视图构建模式 @~english view display mode
+ * <b>VIEW_DISPLAY_AUTODETECT</b>@~chinese 根据视频源自动检测 @~english auto detect view display mode<br>
+ * <b>VIEW_DISPLAY_FORCE_VRMODE</b>@~chinese 强制平面模式 @~english force use plane 2d/3d view<br>
+ * <b>VIEW_DISPLAY_FORCE_2DPLANE</b>@~chinese 强制全景模式 @~english force use vr mode display view<br> */
+typedef enum{
+    VIEW_DISPLAY_AUTODETECT = 1 << 0,
+    VIEW_DISPLAY_FORCE_VRMODE = 1 << 1,
+    VIEW_DISPLAY_FORCE_2DPLANE = 1 << 2
+} ViewMode;
 
 /**
  * @brief @~chinese 播放器类 @~english media player view controller
@@ -153,6 +165,25 @@
  * @param vrMode @~chinese 是否分屏模式 @~english YES for vr mode, else for not
  */
 - (void)setVRMode: (BOOL)vrMode;
+
+/**
+ * @brief @~chinese 设置视图初始化模式， 需要在VRPlayerViewContorler#viewDidLoad之前调用
+          @~english set view init mode， should be call before VRPlayerViewContorler#viewDidLoad
+ * @param viewMode @see #ViewMode
+ *
+ */
+- (void)setViewMode: (ViewMode) viewMode;
+
+/**
+ * @brief @~chinese 视频宽 @~english video width
+ */
+- (int)getVideoWidth;
+
+/**
+ * @brief @~chinese 视频高 @~english video height
+ */
+- (int)getVideoHeigth;
+
 /**
  * @~chinese 是否陀螺仪控制旋转 @~english is using gyroscope sensor to control rotation
  * reutrn @~chinese 是否陀螺仪控制旋转 @~english is using gyroscope?

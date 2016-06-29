@@ -19,4 +19,5 @@
 @property (nonatomic,readonly) int mContentType;
 - (void) build;
 - (void) use;
+- (void) unuse;
 @end

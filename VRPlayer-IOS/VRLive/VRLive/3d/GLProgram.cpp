@@ -49,7 +49,7 @@ GLProgram* GLProgram::create(const std::string& vs, const std::string& fs)
 
     tmp = fs;
     shaderSource[0] = tmp.c_str();
-    ( vertexShader = glCreateShader(GL_FRAGMENT_SHADER) );
+    ( fragmentShader = glCreateShader(GL_FRAGMENT_SHADER) );
     ( glShaderSource(fragmentShader, 1, shaderSource, NULL) );
     ( glCompileShader(fragmentShader) );
     ( glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success) );
@@ -231,7 +231,11 @@ GLProgram::GLProgram()
  */
 GLProgram::~GLProgram()
 {
-    
+    if (_program)
+    {
+        glDeleteProgram(_program);
+        _program = 0;
+    }
 }
 
 }

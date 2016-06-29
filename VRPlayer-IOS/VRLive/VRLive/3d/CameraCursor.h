@@ -5,18 +5,23 @@
 #define CAMERACURSOR_H_
 #include "Vector3.h"
 #include "Ref.h"
+#include "Node.h"
 #include <string>
 
 namespace vrlive {
     class GLProgram;
-    class CameraCursor : public Ref
+    class Camera;
+    class Sprite3D;
+    
+    class CameraCursor : public Node
     {
     public:
-        CameraCursor* create(const std::string& imagePath, float width, float height);
+        static CameraCursor* create(const std::string& imagePath, float width, float height);
         
-        void setSize(float width, float height);
+        void setScale(float scale);
         
-        void draw();
+        
+        void draw(Camera* camera);
         
     protected:
         
@@ -26,9 +31,6 @@ namespace vrlive {
         
         ~CameraCursor();
         
-    
-        GLProgram* _program;
-        float      _vertex[];
     };
 }
 

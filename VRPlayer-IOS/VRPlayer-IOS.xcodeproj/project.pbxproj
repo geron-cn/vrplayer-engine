@@ -15,7 +15,7 @@
 		3ECF6D6F1CF3F0980043B22F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ECF6D6E1CF3F0980043B22F /* Assets.xcassets */; };
 		3ECF6D721CF3F0980043B22F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ECF6D701CF3F0980043B22F /* LaunchScreen.storyboard */; };
 		3ECF6E091CF43E4E0043B22F /* vrplayer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ECF6E081CF43E4E0043B22F /* vrplayer.storyboard */; };
-		95F5F4DD1CF54B0E0083E2F5 /* QGVideoPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F5F4DB1CF54B0E0083E2F5 /* QGVideoPlayViewController.m */; };
+		95F5F4DD1CF54B0E0083E2F5 /* QGVideoPlayViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 95F5F4DB1CF54B0E0083E2F5 /* QGVideoPlayViewController.mm */; };
 		95F5F4DE1CF54B0E0083E2F5 /* QGVideoPlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95F5F4DC1CF54B0E0083E2F5 /* QGVideoPlayViewController.xib */; };
 		95F5F4E71CF581550083E2F5 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F5F4E51CF581550083E2F5 /* TestViewController.m */; };
 		95F5F4E81CF581550083E2F5 /* TestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95F5F4E61CF581550083E2F5 /* TestViewController.xib */; };
@@ -48,7 +48,7 @@
 		3ECF6D731CF3F0980043B22F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3ECF6E081CF43E4E0043B22F /* vrplayer.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = vrplayer.storyboard; sourceTree = "<group>"; };
 		95F5F4DA1CF54B0E0083E2F5 /* QGVideoPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QGVideoPlayViewController.h; sourceTree = "<group>"; };
-		95F5F4DB1CF54B0E0083E2F5 /* QGVideoPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QGVideoPlayViewController.m; sourceTree = "<group>"; };
+		95F5F4DB1CF54B0E0083E2F5 /* QGVideoPlayViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QGVideoPlayViewController.mm; sourceTree = "<group>"; };
 		95F5F4DC1CF54B0E0083E2F5 /* QGVideoPlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QGVideoPlayViewController.xib; sourceTree = "<group>"; };
 		95F5F4E41CF581550083E2F5 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		95F5F4E51CF581550083E2F5 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
@@ -108,7 +108,7 @@
 				95F5F4F71CF5C4810083E2F5 /* FeThreeDotGlowViewController.h */,
 				95F5F4F81CF5C4810083E2F5 /* FeThreeDotGlowViewController.m */,
 				95F5F4DA1CF54B0E0083E2F5 /* QGVideoPlayViewController.h */,
-				95F5F4DB1CF54B0E0083E2F5 /* QGVideoPlayViewController.m */,
+				95F5F4DB1CF54B0E0083E2F5 /* QGVideoPlayViewController.mm */,
 				95F5F4DC1CF54B0E0083E2F5 /* QGVideoPlayViewController.xib */,
 				3ECF6E081CF43E4E0043B22F /* vrplayer.storyboard */,
 				3ECF6D651CF3F0980043B22F /* AppDelegate.h */,
@@ -228,7 +228,7 @@
 				95F5F4FF1CF5C5050083E2F5 /* UIColor+flat.m in Sources */,
 				3ECF6D6A1CF3F0980043B22F /* ViewController.m in Sources */,
 				3ECF6D671CF3F0980043B22F /* AppDelegate.m in Sources */,
-				95F5F4DD1CF54B0E0083E2F5 /* QGVideoPlayViewController.m in Sources */,
+				95F5F4DD1CF54B0E0083E2F5 /* QGVideoPlayViewController.mm in Sources */,
 				95F5F4FC1CF5C49B0083E2F5 /* FeThreeDotGlow.m in Sources */,
 				95F5F4F91CF5C4810083E2F5 /* FeThreeDotGlowViewController.m in Sources */,
 				3ECF6D641CF3F0980043B22F /* main.m in Sources */,
@@ -346,6 +346,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = VRLive/VRPlayer;
 				INFOPLIST_FILE = "VRPlayer-IOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -353,6 +354,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/VRLive/VRPlayer",
 				);
+				OTHER_LDFLAGS = "-lz";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.donglivr.-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -365,6 +367,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = VRLive/VRPlayer;
 				INFOPLIST_FILE = "VRPlayer-IOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -372,6 +375,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/VRLive/VRPlayer",
 				);
+				OTHER_LDFLAGS = "-lz";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.donglivr.-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

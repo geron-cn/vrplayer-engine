@@ -5,11 +5,15 @@
 //  Created by ashqal on 16/4/7.
 //  Copyright © 2016年 ashqal. All rights reserved.
 //
+//#include <vector>
+
 
 #import "MD360Renderer.h"
 #import "MDAbsObject3D.h"
 #import "MD360Program.h"
 #import "GLUtil.h"
+#import "3d/Scene.h"
+#import "3d/Camera.h"
 
 @interface MD360Renderer()
 @property (nonatomic,strong) MDAbsObject3D* mObject3D;
@@ -19,6 +23,8 @@
 @end
 
 @implementation MD360Renderer
+
+vrlive::Scene* _scene;
 
 + (MD360RendererBuilder*) builder{
     return [[MD360RendererBuilder alloc]init];
@@ -36,11 +42,14 @@
     [self.mObject3D destroy];
     [self.mProgram destroy];
     [self.mDirector destroy];
+    if (_scene)
+        _scene->release();
 }
 
 - (void) setup{
     self.mProgram = [[MD360Program alloc]init];
     self.mObject3D = [[MDSphere3D alloc]init];
+    
 }
 
 - (void) rendererOnCreated:(EAGLContext*)context{
@@ -60,6 +69,7 @@
     [self initObject3D];
     [GLUtil glCheck:@"initObject3D"];
     
+    _scene = vrlive::Scene::create();
 }
 
 - (void) rendererOnChanged:(EAGLContext*)context width:(int)width height:(int)height{
@@ -71,6 +81,15 @@
     
     // Update Projection
     [self.mDirector updateProjection:width height:height];
+    
+    //setup camera
+    if (_scene)
+    {
+        vrlive::Camera* camera = vrlive::Camera::createPerspective(60, (float)width/(float)height, 0.1f, 100.f);
+        _scene->setCamera(camera);
+        camera->release();
+    }
+    
 }
 
 - (void) rendererOnDrawFrame:(EAGLContext*)context{
@@ -97,6 +116,7 @@
     [GLUtil glCheck:@"shot"];
     
     if ([self.mObject3D getIndices] != nil) {
+        [self.mObject3D uploadDataToProgram:self.mProgram];
         glDrawElements(GL_TRIANGLES, self.mObject3D.mNumIndices, GL_UNSIGNED_SHORT, [self.mObject3D getIndices]);
     } else {
         glDrawArrays(GL_TRIANGLES, 0, self.mObject3D.mNumIndices);
@@ -104,6 +124,17 @@
     // Draw
     
     [GLUtil glCheck:@"glDrawArrays"];
+    [self.mProgram unuse];
+
+    //draw scene
+    if (_scene)
+    {
+        GLKMatrix4 mat = [self.mDirector getCurrentRotation];
+        mat = GLKMatrix4Identity;
+        auto camera = _scene->getCamera();
+        camera->setViewMatrix(mat.m);
+        _scene->draw();
+    }
 }
 
 - (void) initProgram {

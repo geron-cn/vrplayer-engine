@@ -20,6 +20,8 @@
 - (void) updateSensorMatrix:(GLKMatrix4)sensor;
 - (void) updateTouch:(float)distX distY:(int)distY;
 - (void) updateProjectionNearScale:(float)scale;
+- (GLKMatrix4) getViewMatrix;
+- (GLKMatrix4) getCurrentRotation;
 @end
 
 #pragma mark MD360Director

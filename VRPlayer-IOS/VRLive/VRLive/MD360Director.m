@@ -90,7 +90,7 @@ static float sNear = 0.7f;
     [self updateModelRotate:rot];
      */
     
-    
+    mCurrentRotation = GLKMatrix4Identity;
     mModelMatrix = GLKMatrix4Identity;
     
     mCurrentRotation = GLKMatrix4Identity;
@@ -146,6 +146,16 @@ static float sNear = 0.7f;
 
 - (void) updateModelRotate:(float)angle{
     mAngle = angle;
+}
+
+- (GLKMatrix4) getViewMatrix
+{
+    return mViewMatrix;
+}
+
+- (GLKMatrix4) getCurrentRotation
+{
+    return mCurrentRotation;
 }
 
 - (void) updateViewMatrix{

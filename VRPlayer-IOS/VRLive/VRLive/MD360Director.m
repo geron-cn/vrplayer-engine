@@ -19,10 +19,11 @@
     
     float mEyeZ;// = 0f;
     float mEyeX;// = 0f;
-    float mAngle;// = 0f;
+    float mAngleX;// = 0f;
+    float mAngleY;
+    float mLookX;// = 0f;
     float mRatio;// = 0f;
     float mNearScale;// = 0f;
-    float mLookX;// = 0f;
     
     GLKMatrix4 mCurrentRotation;// = new float[16];
     GLKMatrix4 mAccumulatedRotation;// = new float[16];
@@ -51,7 +52,8 @@ static float sNear = 0.7f;
 
 - (void) initValue{
     mEyeZ = 0;
-    mAngle = 0;
+    mAngleX = 0;
+    mAngleY = 0;
     mRatio = 1.5f;
     mNearScale = 1.0f;
     mEyeX = 0;
@@ -73,7 +75,7 @@ static float sNear = 0.7f;
 - (void)initModel{
     mAccumulatedRotation = mSensorMatrix = GLKMatrix4Identity;
     // Model Matrix
-    [self updateModelRotate:mAngle];
+    [self updateModelRotateAngleX:mAngleX angleY:mAngleY];
 }
 
 - (void)initCamera{
@@ -95,9 +97,9 @@ static float sNear = 0.7f;
     
     mCurrentRotation = GLKMatrix4Identity;
 
-    mCurrentRotation = GLKMatrix4Rotate(mCurrentRotation, MD_DEGREES_TO_RADIANS(-mDeltaY), 1.0f, 0.0f, 0.0f);
+    mCurrentRotation = GLKMatrix4Rotate(mCurrentRotation, MD_DEGREES_TO_RADIANS(-mDeltaY + mAngleY), 1.0f, 0.0f, 0.0f);
     
-    mCurrentRotation = GLKMatrix4Rotate(mCurrentRotation, MD_DEGREES_TO_RADIANS(-mDeltaX + mAngle), 0.0f, 1.0f, 0.0f);
+    mCurrentRotation = GLKMatrix4Rotate(mCurrentRotation, MD_DEGREES_TO_RADIANS(-mDeltaX + mAngleX), 0.0f, 1.0f, 0.0f);
     
     mCurrentRotation = GLKMatrix4Multiply(mSensorMatrix, mCurrentRotation);
     
@@ -144,8 +146,9 @@ static float sNear = 0.7f;
     mProjectionMatrix = GLKMatrix4MakeFrustum(left, right, bottom, top, mNearScale * sNear, far);
 }
 
-- (void) updateModelRotate:(float)angle{
-    mAngle = angle;
+- (void) updateModelRotateAngleX:(float)angleX angleY:(float)angleY {
+    mAngleX = angleX;
+    mAngleY = angleY;
 }
 
 - (GLKMatrix4) getViewMatrix
@@ -191,11 +194,19 @@ static float sNear = 0.7f;
     mEyeX  = eyeX;
 }
 
+- (void) setAngleX:(float)angleX{
+    mAngleX = angleX;
+}
+
+- (void) setAngleY:(float)angleY{
+    mAngleY = angleY;
+}
+
 @end
 
 #pragma mark 
-@implementation MD360DirectorFactory
-+ (MD360Director*) create:(int) index{
+@implementation MD360DefaultDirectorFactory
+- (MD360Director*) createDirector:(int) index{
     MD360Director* director = [[MD360Director alloc]init];
     switch (index) {
         case 1:

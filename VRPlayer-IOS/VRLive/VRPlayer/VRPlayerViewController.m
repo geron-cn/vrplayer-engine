@@ -14,9 +14,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *mDisplayBtn;
 @property (nonatomic, strong) NSURL* mURL;
 @property (nonatomic, strong) UIImageView *logoImageView;
-
 @end
+
 @implementation VRPlayerViewController
+
+
+static ViewMode s_viewMode = VIEW_DISPLAY_AUTODETECT;
+static bool is2DViewDispaying = false;
 
 static BOOL   hasAdvertisement = YES;
 
@@ -60,30 +64,12 @@ static BOOL   hasAdvertisement = YES;
     self.mURL = nil;
 }
 
--(void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    if (self.vrLibrary != nil)
-    {
-        CGRect frame = self.view.frame;//self.vrLibrary.bounds;
-        //self.videoPlayerView.frame;
-        if (videoframe.origin.x != frame.origin.x || videoframe.origin.y != frame.origin.y || videoframe.size.width != frame.size.width || videoframe.size.height != frame.size.height)
-        {
-            videoframe = frame;
-            NSLog(@"viewDidLayoutSubviews @", NSStringFromCGRect(frame));
-            if (self.vrLibrary != nil)
-            {
-                [self.vrLibrary resize];
-            }
-        }
-        
-    }
-}
-
 - (void) initWithURL:(NSURL*)url{
     self.mURL = url;
     [self initPlayer];
 }
+
+static  AVPlayerItem* s_playerItem;
 
 - (void) initPlayer{
     //release old
@@ -102,18 +88,7 @@ static BOOL   hasAdvertisement = YES;
     AVPlayerItem* playerItem = [[AVPlayerItem alloc] initWithURL:self.mURL];
     [self.videoPlayerView.player setPlayerItem:playerItem];
     [self.videoPlayerView.player play];
-    
-
-    /////////////////////////////////////////////////////// MDVRLibrary
-    MDVRConfiguration* config = [MDVRLibrary createConfig];
-    
-    [config displayMode:MDModeDisplayGlass];
-    [config interactiveMode:MDModeInteractiveMotion];
-    [config asVideo:playerItem];
-    [config setContainer:self view:self.view];
-    [config pinchEnabled:true];
-    
-    self.vrLibrary = [config build];
+    s_playerItem = playerItem;
     videoframe = self.view.frame;
 }
 
@@ -207,9 +182,91 @@ static BOOL   hasAdvertisement = YES;
     NSLog(@"videoPlayerIsReadyToPlayVideo: ");
     if ([self.delegate respondsToSelector:@selector(videoPlayerIsReadyToPlayVideo:)])
     {
+        [self initView];
         [self.delegate videoPlayerIsReadyToPlayVideo:self];
     }
 }
+
+static const float RATIO_4_3 = 1.3333333333334; // 4/3
+static const float RATIO_16_9 =  1.77777777777778;
+
+-(void)initView
+{
+    BOOL is2d = false;
+    
+    if(s_viewMode == VIEW_DISPLAY_AUTODETECT)
+    {
+        AVAssetTrack* track = [[s_playerItem tracks].firstObject assetTrack];
+        if(track != nil)
+        {
+            int v_h = track.naturalSize.height;
+            float w_d_ratio = v_h <= 0? 0.0f : track.naturalSize.width / v_h;
+            is2d = fabsf(w_d_ratio - RATIO_4_3) < 0.0001 || fabsf(w_d_ratio - RATIO_16_9) < 0.0001;
+        }
+        else
+            is2d = false;
+    }
+    else
+    {
+        is2d = s_viewMode == VIEW_DISPLAY_FORCE_2DPLANE;
+    }
+    
+    if(is2d)
+    {
+        self.vrLibrary = nil;
+        
+        // init subview
+        CGRect frame = self.view.frame;
+        [self.videoPlayerView setFrame:frame];
+        [self.view addSubview:self.videoPlayerView];
+        is2DViewDispaying = true;
+    }
+    else
+    {
+        /////////////////////////////////////////////////////// MDVRLibrary
+        MDVRConfiguration* config = [MDVRLibrary createConfig];
+        
+        [config displayMode:MDModeDisplayGlass];
+        [config interactiveMode:MDModeInteractiveMotion];
+        [config asVideo:s_playerItem];
+        [config setContainer:self view:self.view];
+        [config pinchEnabled:true];
+        
+        self.vrLibrary = [config build];
+        //init subview
+        CGRect frame = self.view.frame;//self.vrLibrary.bounds;
+        //self.videoPlayerView.frame;
+        if (videoframe.origin.x != frame.origin.x || videoframe.origin.y != frame.origin.y || videoframe.size.width != frame.size.width || videoframe.size.height != frame.size.height)
+        {
+            videoframe = frame;
+            NSLog(@"viewDidLayoutSubviews @", NSStringFromCGRect(frame));
+            if (self.vrLibrary != nil)
+            {
+                [self.vrLibrary resize];
+            }
+        }
+        is2DViewDispaying = false;
+    }
+    [super viewDidLayoutSubviews];
+}
+
+- (void) setViewMode:(ViewMode)viewMode
+{
+    s_viewMode = viewMode;
+}
+
+- (int) getVideoWidth
+{
+    AVAssetTrack* track = [[s_playerItem tracks].firstObject assetTrack];
+    return track == nil ? 0 :track.naturalSize.width;
+}
+
+- (int) getVideoHeigth
+{
+    AVAssetTrack* track = [[s_playerItem tracks].firstObject assetTrack];
+    return track == nil ? 0 :track.naturalSize.height;
+}
+
 - (void)videoPlayerViewDidReachEnd:(VIMVideoPlayerView *)videoPlayerView
 {
     NSLog(@"videoPlayerDidReachEnd: ");

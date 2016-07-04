@@ -10,21 +10,20 @@
 #import "MDGLRendererDelegate.h"
 #import "MD360Director.h"
 #import "MD360Texture.h"
-#import "MDVRLibrary.h"
+#import "MDVRHeader.h"
+#import "MDDisplayStrategy.h"
 
 @class MD360Renderer;
 @interface MD360RendererBuilder : NSObject
-- (void) setDirector:(MD360Director*) director;
+- (void) setDirectors:(NSArray*) directors;
 - (void) setTexture:(MD360Texture*) texture;
+- (void) setObject3D:(MDAbsObject3D*) object3D;
+- (void) setDisplayStrategyManager:(MDDisplayStrategyManager*) displayStrategyManager;
 - (MD360Renderer*) build;
 @end
 
 @interface MD360Renderer : NSObject <MDGLRendererDelegate>
 + (MD360RendererBuilder*) builder;
-@property (nonatomic,strong) MDAbsObject3D* mObject3D;
-@property (nonatomic,strong) MD360Program* mProgram;
-@property (nonatomic,strong) MD360Texture* mTexture;
-@property (nonatomic,strong) MD360Director* mDirector;
 @end
 
 

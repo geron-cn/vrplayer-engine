@@ -19,11 +19,14 @@
 @implementation MDGLKViewController
 
 - (void)dealloc{
+    
     [self destroy:self.context];
     if ([EAGLContext currentContext] == self.context) {
         [EAGLContext setCurrentContext:nil];
     }
-    self.context = nil;
+    
+    
+    // self.context = nil;
 }
 
 - (void)viewDidLoad{
@@ -33,7 +36,6 @@
     
     assert(self.context != nil);
     if ([EAGLContext setCurrentContext:self.context]) {
-        
         GLKView *view = (GLKView *)self.view;
         view.context = self.context;
         view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
@@ -57,21 +59,12 @@
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
-    if (!self.view.hidden || pendingToVisible){
-        if (self.context == nil) return;
         
-        if (pendingToVisible) {
-            [self.view setFrame:pendingFrame];
-        }
-        
-        pendingToVisible = NO;
-        self.view.hidden = NO;
-        
-        if ([EAGLContext setCurrentContext:self.context]) {
-            if ([self.rendererDelegate respondsToSelector:@selector(rendererOnDrawFrame:)]) {
-                [self.rendererDelegate rendererOnDrawFrame:self.context];
-                [GLUtil glCheck:@"rendererOnDrawFrame"];
-            }
+
+    if ([EAGLContext setCurrentContext:self.context]) {
+        if ([self.rendererDelegate respondsToSelector:@selector(rendererOnDrawFrame:width:height:)]) {
+            [self.rendererDelegate rendererOnDrawFrame:self.context width:rect.size.width height:rect.size.height];
+            [GLUtil glCheck:@"rendererOnDrawFrame"];
         }
     }
 }
@@ -85,44 +78,5 @@
         }
     }
 }
-
--(void)setPendingVisible:(BOOL)visible frame:(CGRect)frame{
-    pendingFrame = frame;
-    if (visible) {
-        pendingToVisible = true;
-    } else {
-        pendingToVisible = false;
-        self.view.hidden = YES;
-    }
-
-}
-
-/*
-#pragma mark - touches
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    if([self.touchDelegate respondsToSelector:@selector(touchesBegan:withEvent:)]){
-        [self.touchDelegate touchesBegan:touches withEvent:event];
-    }
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    if([self.touchDelegate respondsToSelector:@selector(touchesMoved:withEvent:)]){
-        [self.touchDelegate touchesMoved:touches withEvent:event];
-    }
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    if([self.touchDelegate respondsToSelector:@selector(touchesEnded:withEvent:)]){
-        [self.touchDelegate touchesEnded:touches withEvent:event];
-    }
-}
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-    if([self.touchDelegate respondsToSelector:@selector(touchesCancelled:withEvent:)]){
-        [self.touchDelegate touchesCancelled:touches withEvent:event];
-    }
-}
- */
 
 @end

@@ -57,6 +57,11 @@
 		3ECF6E021CF3FB650043B22F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DFC1CF3FB650043B22F /* AFURLSessionManager.m */; };
 		3ECF6E071CF4211A0043B22F /* VRPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6E061CF4211A0043B22F /* VRPlayerViewController.m */; };
 		3EFB008C1D23B6B900709CE4 /* BoundSphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB008A1D23B6B900709CE4 /* BoundSphere.cpp */; };
+		3EFB00951D23DA7D00709CE4 /* Ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB00931D23DA7D00709CE4 /* Ray.cpp */; };
+		3EFB00981D24E7A100709CE4 /* Billboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB00961D24E7A100709CE4 /* Billboard.cpp */; };
+		3EFB009B1D25069300709CE4 /* MenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB00991D25069300709CE4 /* MenuItem.cpp */; };
+		3EFB009E1D250B6A00709CE4 /* DefaultMenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB009C1D250B6A00709CE4 /* DefaultMenuItem.cpp */; };
+		3EFB00A21D256EE900709CE4 /* EventMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB00A01D256EE900709CE4 /* EventMgr.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -181,6 +186,17 @@
 		3ECF6E061CF4211A0043B22F /* VRPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VRPlayerViewController.m; path = VRPlayer/VRPlayerViewController.m; sourceTree = "<group>"; };
 		3EFB008A1D23B6B900709CE4 /* BoundSphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BoundSphere.cpp; path = 3d/BoundSphere.cpp; sourceTree = "<group>"; };
 		3EFB008B1D23B6B900709CE4 /* BoundSphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BoundSphere.h; path = 3d/BoundSphere.h; sourceTree = "<group>"; };
+		3EFB00931D23DA7D00709CE4 /* Ray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Ray.cpp; path = 3d/Ray.cpp; sourceTree = "<group>"; };
+		3EFB00941D23DA7D00709CE4 /* Ray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ray.h; path = 3d/Ray.h; sourceTree = "<group>"; };
+		3EFB00961D24E7A100709CE4 /* Billboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Billboard.cpp; path = 3d/Billboard.cpp; sourceTree = "<group>"; };
+		3EFB00971D24E7A100709CE4 /* BillBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BillBoard.h; path = 3d/BillBoard.h; sourceTree = "<group>"; };
+		3EFB00991D25069300709CE4 /* MenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MenuItem.cpp; path = 3d/MenuItem.cpp; sourceTree = "<group>"; };
+		3EFB009A1D25069300709CE4 /* MenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuItem.h; path = 3d/MenuItem.h; sourceTree = "<group>"; };
+		3EFB009C1D250B6A00709CE4 /* DefaultMenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DefaultMenuItem.cpp; path = 3d/DefaultMenuItem.cpp; sourceTree = "<group>"; };
+		3EFB009D1D250B6A00709CE4 /* DefaultMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultMenuItem.h; path = 3d/DefaultMenuItem.h; sourceTree = "<group>"; };
+		3EFB009F1D25131F00709CE4 /* DefaultMenuItem.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = DefaultMenuItem.inl; path = 3d/DefaultMenuItem.inl; sourceTree = "<group>"; };
+		3EFB00A01D256EE900709CE4 /* EventMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventMgr.cpp; path = 3d/EventMgr.cpp; sourceTree = "<group>"; };
+		3EFB00A11D256EE900709CE4 /* EventMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventMgr.h; path = 3d/EventMgr.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +214,17 @@
 		3E9F87DF1D0E98A100A1E19B /* 3d */ = {
 			isa = PBXGroup;
 			children = (
+				3EFB00A01D256EE900709CE4 /* EventMgr.cpp */,
+				3EFB00A11D256EE900709CE4 /* EventMgr.h */,
+				3EFB009F1D25131F00709CE4 /* DefaultMenuItem.inl */,
+				3EFB009C1D250B6A00709CE4 /* DefaultMenuItem.cpp */,
+				3EFB009D1D250B6A00709CE4 /* DefaultMenuItem.h */,
+				3EFB00991D25069300709CE4 /* MenuItem.cpp */,
+				3EFB009A1D25069300709CE4 /* MenuItem.h */,
+				3EFB00961D24E7A100709CE4 /* Billboard.cpp */,
+				3EFB00971D24E7A100709CE4 /* BillBoard.h */,
+				3EFB00931D23DA7D00709CE4 /* Ray.cpp */,
+				3EFB00941D23DA7D00709CE4 /* Ray.h */,
 				3EFB008A1D23B6B900709CE4 /* BoundSphere.cpp */,
 				3EFB008B1D23B6B900709CE4 /* BoundSphere.h */,
 				3E9F88261D21422500A1E19B /* Image.cpp */,
@@ -452,6 +479,7 @@
 				3ECF6DC41CF3F46D0043B22F /* MDInteractiveStrategy.m in Sources */,
 				3ECF6DBC1CF3F46D0043B22F /* GLUtil.m in Sources */,
 				3ECF6DEB1CF3FB570043B22F /* UIButton+AFNetworking.m in Sources */,
+				3EFB009E1D250B6A00709CE4 /* DefaultMenuItem.cpp in Sources */,
 				3ECF6DC01CF3F46D0043B22F /* MD360Texture.m in Sources */,
 				3E9F88101D15A03C00A1E19B /* VertexBuffer.cpp in Sources */,
 				3ECF6DFF1CF3FB650043B22F /* AFSecurityPolicy.m in Sources */,
@@ -459,6 +487,7 @@
 				3E9F87FB1D100B6700A1E19B /* Ref.cpp in Sources */,
 				3ECF6DEA1CF3FB570043B22F /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				3E9F87FE1D11529900A1E19B /* GLProgram.cpp in Sources */,
+				3EFB009B1D25069300709CE4 /* MenuItem.cpp in Sources */,
 				3ECF6DFD1CF3FB650043B22F /* AFHTTPSessionManager.m in Sources */,
 				3ECF6DE91CF3FB570043B22F /* AFNetworkActivityIndicatorManager.m in Sources */,
 				3E9F88251D20FB6E00A1E19B /* Stream.cpp in Sources */,
@@ -479,10 +508,13 @@
 				3ECF6DC71CF3F46D0043B22F /* MDVideoDataAdatperAVPlayerImpl.m in Sources */,
 				3E9F87F81D1009D700A1E19B /* CameraCursor.cpp in Sources */,
 				3E9F87F21D0F011200A1E19B /* Quaternion.cpp in Sources */,
+				3EFB00A21D256EE900709CE4 /* EventMgr.cpp in Sources */,
 				3ECF6DBE1CF3F46D0043B22F /* MD360Program.m in Sources */,
+				3EFB00951D23DA7D00709CE4 /* Ray.cpp in Sources */,
 				3ECF6DC81CF3F46D0043B22F /* MDVRLibrary.m in Sources */,
 				3E9F88131D1797F000A1E19B /* Sprite3D.cpp in Sources */,
 				3ECF6DEF1CF3FB570043B22F /* UIWebView+AFNetworking.m in Sources */,
+				3EFB00981D24E7A100709CE4 /* Billboard.cpp in Sources */,
 				3ECF6DC31CF3F46D0043B22F /* MDGLKViewController.m in Sources */,
 				3E9F88281D21422500A1E19B /* Image.cpp in Sources */,
 				3ECF6DEC1CF3FB570043B22F /* UIImageView+AFNetworking.m in Sources */,

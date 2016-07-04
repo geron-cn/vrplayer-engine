@@ -22,9 +22,10 @@ namespace vrlive {
     
     static char* s_fs = "precision mediump float;\n\
     uniform sampler2D u_Texture;\n\
+    uniform vec4 u_Color; \n\
     varying vec2 v_TexCoordinate;\n\
     void main(){\n\
-    gl_FragColor = texture2D(u_Texture, v_TexCoordinate);\n\
+    gl_FragColor = u_Color * texture2D(u_Texture, v_TexCoordinate);\n\
     }";
     
     Sprite3D* Sprite3D::create(const std::vector<float>& pos, const std::vector<float>& texCoord, const std::vector<unsigned short>& indices)
@@ -105,6 +106,9 @@ namespace vrlive {
             auto mvp = camera->getViewProjectionMatrix();
             if (_node)
             {
+//                auto m2 = _node->getWorldTransformMatrix();
+//                m2.multiply(mvp);
+//                mvp = m2;
                 mvp.multiply(_node->getWorldTransformMatrix());
             }
             auto location = _program->getUniform("u_MVPMatrix");
@@ -112,6 +116,9 @@ namespace vrlive {
             
             location = _program->getUniform("u_Texture");
             glUniform1i(location, 0);
+            
+            location = _program->getUniform("u_Color");
+            glUniform4f(location, _color.x, _color.y, _color.z, _color.w);
             
             glDrawElements(GL_TRIANGLES, _buffer->getIndexCount(), GL_UNSIGNED_SHORT, 0);
             
@@ -126,6 +133,7 @@ namespace vrlive {
     , _node(nullptr)
     , _texture(nullptr)
     , _boundsphere(nullptr)
+    , _color(1.f, 1.f, 1.f, 1.f)
     {
         
     }

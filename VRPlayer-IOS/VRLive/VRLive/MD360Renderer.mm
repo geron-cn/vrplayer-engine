@@ -7,24 +7,26 @@
 //
 //#include <vector>
 
-
 #import "MD360Renderer.h"
 #import "MDAbsObject3D.h"
 #import "MD360Program.h"
 #import "GLUtil.h"
 #import "3d/Scene.h"
 #import "3d/Camera.h"
+#import "3d/EventMgr.h"
+#include <vector>
+#include <string>
 
 @interface MD360Renderer()
-@property (nonatomic,strong) MDAbsObject3D* mObject3D;
-@property (nonatomic,strong) MD360Program* mProgram;
-@property (nonatomic,strong) MD360Texture* mTexture;
-@property (nonatomic,strong) MD360Director* mDirector;
+{
+vrlive::Scene* _scene;
+std::string _postedEvent;
+}
 @end
 
 @implementation MD360Renderer
 
-vrlive::Scene* _scene;
+
 
 + (MD360RendererBuilder*) builder{
     return [[MD360RendererBuilder alloc]init];
@@ -35,6 +37,8 @@ vrlive::Scene* _scene;
     if (self) {
         [self setup];
     }
+//    _postedEvent = "";
+    _scene = nullptr;
     return self;
 }
 
@@ -43,7 +47,11 @@ vrlive::Scene* _scene;
     [self.mProgram destroy];
     [self.mDirector destroy];
     if (_scene)
+    {
         _scene->release();
+        _scene = nullptr;
+        vrlive::EventMgr::getInstance()->clearEvents();
+    }
 }
 
 - (void) setup{
@@ -70,6 +78,7 @@ vrlive::Scene* _scene;
     [GLUtil glCheck:@"initObject3D"];
     
     _scene = vrlive::Scene::create();
+    vrlive::EventMgr::getInstance()->clearEvents();
 }
 
 - (void) rendererOnChanged:(EAGLContext*)context width:(int)width height:(int)height{
@@ -87,6 +96,7 @@ vrlive::Scene* _scene;
     {
         vrlive::Camera* camera = vrlive::Camera::createPerspective(60, (float)width/(float)height, 0.1f, 100.f);
         _scene->setCamera(camera);
+        
         camera->release();
     }
     
@@ -130,10 +140,27 @@ vrlive::Scene* _scene;
     if (_scene)
     {
         GLKMatrix4 mat = [self.mDirector getCurrentRotation];
-        mat = GLKMatrix4Identity;
+        
+//        vrlive::Vector3 dir = vrlive::Vector3(mat.m[8], mat.m[9], mat.m[10]);
+//        
+//        NSLog(@"%.2f,%.2f,%.2f", dir.x, dir.y, dir.z);
+        
         auto camera = _scene->getCamera();
         camera->setViewMatrix(mat.m);
         _scene->draw();
+        
+        auto events = vrlive::EventMgr::getInstance()->getEvents();
+        if (events.size() == 0)
+            _postedEvent = "";
+        else if (_postedEvent != events[0])
+        {
+            
+            _postedEvent = events[0];
+            NSString *str= [NSString stringWithCString:_postedEvent.c_str() encoding:[NSString defaultCStringEncoding]];
+            [[NSNotificationCenter defaultCenter] postNotificationName:str object:nil];
+            
+            
+        }
     }
 }
 

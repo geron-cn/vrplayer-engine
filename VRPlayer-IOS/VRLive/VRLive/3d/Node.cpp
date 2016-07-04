@@ -11,6 +11,16 @@ namespace vrlive {
         return node;
     }
     
+    void Node::draw(Camera* camera)
+    {
+        if (_sprite)
+        {
+            _sprite->draw(camera);
+        }
+        for (auto it : _children) {
+            it->draw(camera);
+        }
+    }
     
     Node* Node::getChildrenByID(const std::string& id, bool childIncluded) const
     {
@@ -33,9 +43,9 @@ namespace vrlive {
     {
         if (_parent)
         {
-            return _parent->getWorldTransformMatrix() * _mat;
+            return _parent->getWorldTransformMatrix() * getTransformMatrix();
         }
-        return _mat;
+        return getTransformMatrix();
     }
     
     void Node::setTranslation(const Vector3& pos)
@@ -54,9 +64,9 @@ namespace vrlive {
     
     void Node::setScale(const Vector3& scale)
     {
-        Matrix matScale;
-        Matrix::createScale(scale, &matScale);
-        _mat.multiply(matScale);
+//        Matrix matScale;
+        Matrix::createScale(scale, &_scaleMat);
+//        _mat.multiply(matScale);
     }
     
     void Node::addChild(Node* node)

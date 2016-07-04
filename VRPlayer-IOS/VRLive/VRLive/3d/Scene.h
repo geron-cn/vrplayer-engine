@@ -6,11 +6,13 @@
 
 #include "Ref.h"
 #include "Node.h"
+#include "Ray.h"
 
 namespace vrlive {
     
 class Camera;
     class CameraCursor;
+    class DefaultMenuItem;
 
 class Scene : public Node
 {
@@ -23,8 +25,12 @@ public:
     
     Camera* getCamera() const { return _camera; }
     
+    Node* cursorCast();
+    
 protected:
     void init();
+    
+    bool cursorCast(Node* node, const Ray& ray, float* distance, Node* &castnode);
     
     void drawNode(Node* node);
     Scene();
@@ -33,7 +39,7 @@ protected:
     Camera* _camera;
     
     CameraCursor* _cursor;
-    
+    DefaultMenuItem* _defMenu;
 };
 
 }

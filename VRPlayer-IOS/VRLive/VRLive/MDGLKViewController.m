@@ -64,19 +64,16 @@
             [self.view setFrame:pendingFrame];
         }
         
+        pendingToVisible = NO;
+        self.view.hidden = NO;
+        
         if ([EAGLContext setCurrentContext:self.context]) {
             if ([self.rendererDelegate respondsToSelector:@selector(rendererOnDrawFrame:)]) {
                 [self.rendererDelegate rendererOnDrawFrame:self.context];
                 [GLUtil glCheck:@"rendererOnDrawFrame"];
             }
         }
-        
-        
-        
-        pendingToVisible = NO;
-        self.view.hidden = NO;
     }
-    
 }
 
 - (void) destroy:(EAGLContext*) context{

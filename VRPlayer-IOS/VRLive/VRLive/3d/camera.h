@@ -4,6 +4,7 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 #include "Vector3.h"
+#include "Node.h"
 #include "Ref.h"
 
 namespace vrlive {
@@ -28,6 +29,10 @@ namespace vrlive {
         
         void setViewMatrix(float m[]);
         void setRotationMatrix(float m[]);
+        
+        void setLookingNode(Node* node) { _lookingNode = node; }
+        
+        Node* getLookingNode() const { return _lookingNode; }
     protected:
         /**
          * Constructor.
@@ -55,6 +60,8 @@ namespace vrlive {
         mutable Matrix _viewProjection;
         mutable Matrix _inverseView;
         mutable Matrix _inverseViewProjection;
+        
+        Node* _lookingNode; //weak ref
     };
 }
 

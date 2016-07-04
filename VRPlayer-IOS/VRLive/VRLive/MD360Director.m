@@ -155,6 +155,8 @@ static float sNear = 0.7f;
 
 - (GLKMatrix4) getCurrentRotation
 {
+//    return mViewMatrix;
+//    return GLKMatrix4Multiply(mViewMatrix, mCurrentRotation);
     return mCurrentRotation;
 }
 

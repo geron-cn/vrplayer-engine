@@ -15,12 +15,18 @@
 
 namespace vrlive {
     class Sprite3D;
+    class Camera;
 
     class Node : public Ref
     {
 
+        friend class Scene;
     public:
         static Node* create(const std::string& id = "");
+        
+        void setName(const std::string& name) { _id = name; }
+        
+        const std::string& getName() const { return _id; }
         
         Node* getParent() const { return _parent; }
         
@@ -33,12 +39,12 @@ namespace vrlive {
         void setTranslation(const Vector3& pos);
         
         void setRotation(const Quaternion& quat);
-        
+                
         void setScale(const Vector3& scale);
         
         void setTransformMatrix( const Matrix& mat ) { _mat = mat; }
         
-        const Matrix& getTransformMatrix() const { return _mat; }
+        Matrix getTransformMatrix() const { return _mat * _scaleMat; }
         
         Matrix getWorldTransformMatrix() const;
         
@@ -52,7 +58,11 @@ namespace vrlive {
         
         Sprite3D* getSprite3D() const { return _sprite; }
         
+        virtual void draw(Camera* camera);
+        
     protected:
+        
+        
         
         Node();
         virtual ~Node();
@@ -63,6 +73,7 @@ namespace vrlive {
         std::vector<Node*> _children;
         Sprite3D* _sprite;
         Matrix _mat;
+        Matrix _scaleMat;
     };
 }
 

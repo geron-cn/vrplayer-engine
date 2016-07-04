@@ -8,6 +8,7 @@
 
 #include "Ref.h"
 #include "BoundSphere.h"
+#include "Vector4.h"
 
 namespace vrlive {
     class GLProgram;
@@ -28,7 +29,11 @@ namespace vrlive {
         
         Texture* getTexture() const { return _texture; }
         
+        BoundSphere* getBoundSphere() const { return _boundsphere; }
+        
         virtual void draw(Camera* camera);
+        
+        void setColor(const Vector4& color) { _color = color; }
         
     protected:
         bool init(const std::vector<float>& pos, const std::vector<float>& texCoord, const std::vector<unsigned short>& indices);
@@ -37,6 +42,7 @@ namespace vrlive {
         virtual ~Sprite3D();
         
     protected:
+        Vector4   _color;
         GLProgram* _program;
         VertexBuffer* _buffer;
         Node*         _node;

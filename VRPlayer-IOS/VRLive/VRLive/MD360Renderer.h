@@ -21,6 +21,10 @@
 
 @interface MD360Renderer : NSObject <MDGLRendererDelegate>
 + (MD360RendererBuilder*) builder;
+@property (nonatomic,strong) MDAbsObject3D* mObject3D;
+@property (nonatomic,strong) MD360Program* mProgram;
+@property (nonatomic,strong) MD360Texture* mTexture;
+@property (nonatomic,strong) MD360Director* mDirector;
 @end
 
 

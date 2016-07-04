@@ -15,22 +15,33 @@ namespace vrlive {
     
     class CameraCursor : public Node
     {
+        friend class Scene;
+        enum class State
+        {
+            PickingUp,
+            CoolingDown,
+        };
     public:
         static CameraCursor* create(const std::string& imagePath, float width, float height);
+                
+        void setVisible(bool visible) { _show = visible; }
         
-        void setScale(float scale);
+        bool isVisible() const { return _show; }
         
-        
-        void draw(Camera* camera);
+        void updatePickUp(Node* pickobj);
         
     protected:
-        
+        virtual void draw(Camera* camera);
         bool init(float width, float height);
         
         CameraCursor();
         
         ~CameraCursor();
         
+        bool _show;
+        int _pickUpCount;
+        Node* _pickingObj;
+        State _state;
     };
 }
 

@@ -19,7 +19,7 @@
 @implementation VRPlayerViewController
 
 
-static ViewMode viewMode = VIEW_DISPLAY_AUTODETECT;
+static ViewMode s_viewMode = VIEW_DISPLAY_AUTODETECT;
 static bool is2DViewDispaying = false;
 
 static BOOL   hasAdvertisement = YES;
@@ -30,7 +30,6 @@ static BOOL   hasAdvertisement = YES;
     self.vrLibrary = nil;
     self.videoPlayerView = nil;
     self.mURL = nil;
-    viewMode = VIEW_DISPLAY_AUTODETECT;
     if (hasAdvertisement)
     {
         NSData* data = [NSData dataWithBytes:[logoData logoDataBuffer] length:[logoData logoDataSize]];
@@ -193,11 +192,9 @@ static const float RATIO_16_9 =  1.77777777777778;
 
 -(void)initView
 {
-    //float videoH = [playerItem
-    //if(self.viewMode != VIEW_DISPLAY_FORCE_2DPLANE && (self)
     BOOL is2d = false;
     
-    if(viewMode == VIEW_DISPLAY_AUTODETECT)
+    if(s_viewMode == VIEW_DISPLAY_AUTODETECT)
     {
         AVAssetTrack* track = [[s_playerItem tracks].firstObject assetTrack];
         if(track != nil)
@@ -211,7 +208,7 @@ static const float RATIO_16_9 =  1.77777777777778;
     }
     else
     {
-        is2d = viewMode == VIEW_DISPLAY_FORCE_2DPLANE;
+        is2d = s_viewMode == VIEW_DISPLAY_FORCE_2DPLANE;
     }
     
     if(is2d)
@@ -255,7 +252,7 @@ static const float RATIO_16_9 =  1.77777777777778;
 
 - (void) setViewMode:(ViewMode)viewMode
 {
-    self.viewMode = viewMode;
+    s_viewMode = viewMode;
 }
 
 - (int) getVideoWidth

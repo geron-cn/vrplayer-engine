@@ -167,8 +167,8 @@ typedef enum{
 - (void)setVRMode: (BOOL)vrMode;
 
 /**
- * @brief @~chinese 设置视图初始化模式， 需要在VRPlayerViewContorler#viewDidLoad之前调用
-          @~english set view init mode， should be call before VRPlayerViewContorler#viewDidLoad
+ * @brief @~chinese 设置视图初始化模式
+ @~english set view init mode
  * @param viewMode @see #ViewMode
  *
  */

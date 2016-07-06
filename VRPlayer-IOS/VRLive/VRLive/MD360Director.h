@@ -10,10 +10,11 @@
 #import "MD360Program.h"
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
-#import "MDVRLibrary.h"
+#import "MDVRHeader.h"
 
 #pragma mark MD360Director
 @interface MD360Director : NSObject<IMDDestroyable>
+- (instancetype)init;
 - (void) shot:(MD360Program*) program;
 - (GLKMatrix4) getMVPMatrix;
 - (void) reset;
@@ -21,10 +22,24 @@
 - (void) updateSensorMatrix:(GLKMatrix4)sensor;
 - (void) updateTouch:(float)distX distY:(int)distY;
 - (void) updateProjectionNearScale:(float)scale;
+- (GLKMatrix4) getViewMatrix;
+- (GLKMatrix4) getCurrentRotation;
+- (void) setLookX:(float)lookX;
+- (void) setEyeX:(float)eyeX;
+- (void) setAngleX:(float)angleX;
+- (void) setAngleY:(float)angleY;
 @end
 
-#pragma mark MD360Director
-@interface MD360DirectorFactory : NSObject
-+ (MD360Director*) create:(int) index;
+#pragma mark MD360DirectorFactory
+@protocol MD360DirectorFactory <NSObject>
+@required
+- (MD360Director*) createDirector:(int) index;
 @end
+
+#pragma mark MD360DirectorFactory
+@interface MD360DefaultDirectorFactory : NSObject<MD360DirectorFactory>
+
+@end
+
+
 

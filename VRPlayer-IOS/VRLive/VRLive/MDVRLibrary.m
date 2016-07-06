@@ -13,14 +13,18 @@
 #import "MDInteractiveStrategy.h"
 #import "MDDisplayStrategy.h"
 #import "MDTouchHelper.h"
+#import "MDVideoDataAdatperAVPlayerImpl.h"
+#import "MDAbsObject3D.h"
+
+#define sMultiScreenSize 2
 
 @interface MDVRLibrary()<IAdvanceGestureListener>
 @property (nonatomic,strong) MD360Texture* texture;
+@property (nonatomic,strong) MDAbsObject3D* object3D;
 @property (nonatomic,strong) MDInteractiveStrategyManager* interactiveStrategyManager;
 @property (nonatomic,strong) MDDisplayStrategyManager* displayStrategyManager;
-@property (nonatomic,strong) NSMutableArray* renderers;
+@property (nonatomic,strong) MD360Renderer* renderer;
 @property (nonatomic,strong) NSMutableArray* directors;
-@property (nonatomic,strong) NSMutableArray* glViewControllers;
 @property (nonatomic,strong) MDTouchHelper* touchHelper;
 @property (nonatomic,weak) UIView* parentView;
 @end
@@ -44,26 +48,40 @@ static float sphereRadius = 100;
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.renderers = [[NSMutableArray alloc]init];
-        self.directors = [[NSMutableArray alloc]init];
-        self.glViewControllers = [[NSMutableArray alloc]init];
         self.touchHelper = [[MDTouchHelper alloc]init];
+        self.directors = [[NSMutableArray alloc]init];
     }
     return self;
 }
 
+-(void)dealloc{
+    for(UIView* view in self.parentView.subviews){
+        [view removeFromSuperview];
+    }
+}
+
 - (void) setup {
-    self.interactiveStrategyManager.dirctors = self.directors;
-    [self.interactiveStrategyManager prepare];
-    
-    self.displayStrategyManager.bounds = self.parentView.bounds;
-    self.displayStrategyManager.glViewControllers = self.glViewControllers;
-    [self.displayStrategyManager prepare];
-    
     [self.touchHelper registerTo:self.parentView];
     self.touchHelper.advanceGestureListener = self;
     
 }
+
+- (void) setupStrategyManager {
+    self.interactiveStrategyManager.dirctors = self.directors;
+    [self.interactiveStrategyManager prepare];
+    [self.displayStrategyManager prepare];
+}
+
+- (void) setupDirector:(id<MD360DirectorFactory>)factory{
+    
+    for (int i = 0; i < sMultiScreenSize; i++) {
+        if ([factory respondsToSelector:@selector(createDirector:)]) {
+            MD360Director* director = [factory createDirector:i];
+            [self.directors addObject:director];
+        }
+    }
+}
+
 
 - (CGRect)bounds
 {
@@ -81,35 +99,28 @@ static float sphereRadius = 100;
     }
 }
 
-- (void) addDisplay:(UIViewController*)viewController view:(UIView*)parentView{
+
+- (void) setupDisplay:(UIViewController*)viewController view:(UIView*)parentView{
     MDGLKViewController* glkViewController = [[MDGLKViewController alloc] init];
-    
-    // director
-    int index = (int)[self.directors count];
-    MD360Director* director = [MD360DirectorFactory create:index];
-    [self.directors addObject:director];
     
     // renderer
     MD360RendererBuilder* builder = [MD360Renderer builder];
     [builder setTexture:self.texture];
-    [builder setDirector:director];
-    MD360Renderer* renderer = [builder build];
-    [self.renderers addObject:renderer];
-  
-    glkViewController.rendererDelegate = renderer;
-    // glkViewController.touchDelegate = director;
+    [builder setDirectors:self.directors];
+    [builder setObject3D:self.object3D];
+    [builder setDisplayStrategyManager:self.displayStrategyManager];
+    self.renderer = [builder build];
+    glkViewController.rendererDelegate = self.renderer;
     
-    glkViewController.view.hidden = YES;
-    //[glkViewController.view setFrame:parentView.bounds];
+    float width = [[UIScreen mainScreen] bounds].size.width;
+    float height = [[UIScreen mainScreen] bounds].size.height;
+    [glkViewController.view setFrame:CGRectMake(0, 0, width, height)];
     
     [parentView insertSubview:glkViewController.view atIndex:0];
     if (viewController != nil) {
         [viewController addChildViewController:glkViewController];
         [glkViewController didMoveToParentViewController:viewController];
     }
-    
-    [self.glViewControllers addObject:glkViewController];
-    
 }
 
 #pragma mark IAdvanceGestureListener
@@ -161,6 +172,8 @@ static float sphereRadius = 100;
 @property (nonatomic,readonly) MDModeDisplay displayMode;
 @property (nonatomic,readonly) bool pinchEnabled;
 @property (nonatomic,readonly) IJKSDLGLView* ijkView;
+@property (nonatomic,readonly) id<MD360DirectorFactory> directorFactory;
+@property (nonatomic,readonly) MDAbsObject3D* object3D;
 
 @end
 
@@ -176,11 +189,17 @@ static float sphereRadius = 100;
     return self;
 }
 - (void) asVideo:(AVPlayerItem*)playerItem{
-    _texture = [MD360VideoTexture createWithAVPlayerItem:playerItem];
+    MDVideoDataAdatperAVPlayerImpl* adapter = [[MDVideoDataAdatperAVPlayerImpl alloc]initWithPlayerItem:playerItem];
+    _texture = [MD360VideoTexture createWithDataAdapter:adapter];
 }
 
-- (void) asImage:(id)data{
+- (void) asVideoWithDataAdatper:(id<MDVideoDataAdapter>)adapter{
+    _texture = [MD360VideoTexture createWithDataAdapter:adapter];
+}
+
+- (void) asImage:(id<IMDImageProvider>)data{
     // nop
+    _texture = [MD360BitmapTexture createWithProvider:data];
 }
 
 - (void) interactiveMode:(MDModeInteractive)interactiveMode{
@@ -208,17 +227,39 @@ static float sphereRadius = 100;
 {
     _ijkView = view;
 }
+- (void) setDirectorFactory:(id<MD360DirectorFactory>) directorFactory{
+    _directorFactory = directorFactory;
+}
+
+- (void) displayAsDome{
+    _object3D = [[MDDome3D alloc]init];
+}
+
+- (void) displayAsSphere{
+    _object3D = [[MDSphere3D alloc]init];
+}
 
 - (MDVRLibrary*) build{
+    if (self.directorFactory == nil) {
+        _directorFactory = [[MD360DefaultDirectorFactory alloc]init];
+    }
+    
+    if (self.object3D == nil) {
+        [self displayAsSphere];
+    }
+    
     MDVRLibrary* library = [[MDVRLibrary alloc]init];
+    [library setupDirector:self.directorFactory];
     library.texture = self.texture;
+    library.object3D = self.object3D;
     library.parentView = self.view;
     library.interactiveStrategyManager = [[MDInteractiveStrategyManager alloc]initWithDefault:self.interactiveMode];
     library.displayStrategyManager = [[MDDisplayStrategyManager alloc]initWithDefault:self.displayMode];
+    [library setupStrategyManager];
+    
     library.touchHelper.pinchEnabled = self.pinchEnabled;
-    for (int i = 0; i < 2; i++) {
-        [library addDisplay:self.viewController view:self.view];
-    }
+    [library setupDisplay:self.viewController view:self.view];
+    
     [library setup];
     return library;
 }

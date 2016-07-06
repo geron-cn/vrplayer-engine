@@ -10,6 +10,7 @@
 #import "VRPlayerViewController.h"
 #import "FeThreeDotGlow.h"
 
+
 #define HIDE_CONTROL_DELAY 5.0f
 #define DEFAULT_VIEW_ALPHA 1.f
 
@@ -88,6 +89,11 @@
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
     
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HeadCursorPauseEvent) name: @"pause" object:nil];
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HeadCursorBackEvent) name: @"back" object:nil];
+    
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HeadCursorForwardEvent) name: @"forward" object:nil];
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HeadCursorBackwardEvent) name: @"backward" object:nil];
    
     
     [self configureGLKView];
@@ -99,6 +105,32 @@
     [self configureBackButton];
     
     self.titleLabel.text = self.videoTitle;
+}
+
+- (void)HeadCursorBackEvent
+{
+    [self backButtonTouched: nil];
+}
+
+- (void)HeadCursorPauseEvent
+{
+    [self playButtonTouched: nil];
+}
+
+- (void)HeadCursorForwardEvent
+{
+    CMTime cur = [vrPlayerViewController currentTime];
+    float t = CMTimeGetSeconds(cur);
+    [vrPlayerViewController scrub:10 + t];
+    [vrPlayerViewController stopScrubbing];
+}
+
+- (void)HeadCursorBackwardEvent
+{
+    CMTime cur = [vrPlayerViewController currentTime];
+    float t = CMTimeGetSeconds(cur);
+    [vrPlayerViewController scrub:-10 + t];
+    [vrPlayerViewController stopScrubbing];
 }
 
 - (void)viewDidLayoutSubviews {

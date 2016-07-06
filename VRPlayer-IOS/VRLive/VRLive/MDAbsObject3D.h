@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MD360Program.h"
-#import "MDVRLibrary.h"
+#import "MDVRHeader.h"
 
 @protocol MDAbsObject3DDelegate<NSObject>
 @optional
@@ -28,6 +28,7 @@
 - (void)setTextureBuffer:(float*)buffer size:(int)size;
 - (void)setIndicesBuffer:(short*)buffer size:(int)size;
 - (void)setNumIndices:(int)value;
+- (void)onDraw;
 - (void)loadObj;
 - (void)uploadDataToProgram:(MD360Program*)program;
 
@@ -46,3 +47,9 @@
 @interface MDSphere3D : MDAbsObject3D
 
 @end
+
+#pragma mark MDDome3D
+@interface MDDome3D : MDAbsObject3D
+
+@end
+

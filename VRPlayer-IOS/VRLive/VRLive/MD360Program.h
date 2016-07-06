@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MDVRLibrary.h"
+#import "MDVRHeader.h"
 
 @interface MD360Program : NSObject<IMDDestroyable>
 @property (nonatomic,readonly) int mMVPMatrixHandle;
@@ -19,4 +19,5 @@
 @property (nonatomic,readonly) int mContentType;
 - (void) build;
 - (void) use;
+- (void) unuse;
 @end

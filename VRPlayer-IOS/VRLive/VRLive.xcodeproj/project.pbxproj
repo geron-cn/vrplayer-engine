@@ -7,13 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3E02F5E01D0016400005A8CA /* libIJKMediaPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E02F5DF1D00162B0005A8CA /* libIJKMediaPlayer.a */; };
+		3E07F4C71D2A1105003D2C83 /* Billboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4951D2A1105003D2C83 /* Billboard.cpp */; };
+		3E07F4C81D2A1105003D2C83 /* BoundSphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4971D2A1105003D2C83 /* BoundSphere.cpp */; };
+		3E07F4C91D2A1105003D2C83 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4991D2A1105003D2C83 /* Camera.cpp */; };
+		3E07F4CA1D2A1105003D2C83 /* CameraCursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F49B1D2A1105003D2C83 /* CameraCursor.cpp */; };
+		3E07F4CB1D2A1105003D2C83 /* DefaultMenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F49D1D2A1105003D2C83 /* DefaultMenuItem.cpp */; };
+		3E07F4CC1D2A1105003D2C83 /* EventMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4A01D2A1105003D2C83 /* EventMgr.cpp */; };
+		3E07F4CD1D2A1105003D2C83 /* GLProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4A21D2A1105003D2C83 /* GLProgram.cpp */; };
+		3E07F4CE1D2A1105003D2C83 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4A41D2A1105003D2C83 /* Image.cpp */; };
+		3E07F4CF1D2A1105003D2C83 /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4A61D2A1105003D2C83 /* MathUtil.cpp */; };
+		3E07F4D01D2A1105003D2C83 /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4A91D2A1105003D2C83 /* Matrix.cpp */; };
+		3E07F4D11D2A1105003D2C83 /* MenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4AC1D2A1105003D2C83 /* MenuItem.cpp */; };
+		3E07F4D21D2A1105003D2C83 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4AE1D2A1105003D2C83 /* Node.cpp */; };
+		3E07F4D31D2A1105003D2C83 /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4B01D2A1105003D2C83 /* Quaternion.cpp */; };
+		3E07F4D41D2A1105003D2C83 /* Ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4B31D2A1105003D2C83 /* Ray.cpp */; };
+		3E07F4D51D2A1105003D2C83 /* Ref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4B51D2A1105003D2C83 /* Ref.cpp */; };
+		3E07F4D61D2A1105003D2C83 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4B71D2A1105003D2C83 /* Scene.cpp */; };
+		3E07F4D71D2A1105003D2C83 /* Sprite3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4B91D2A1105003D2C83 /* Sprite3D.cpp */; };
+		3E07F4D81D2A1105003D2C83 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4BB1D2A1105003D2C83 /* Stream.cpp */; };
+		3E07F4D91D2A1105003D2C83 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4BD1D2A1105003D2C83 /* Texture.cpp */; };
+		3E07F4DA1D2A1105003D2C83 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4BF1D2A1105003D2C83 /* Vector3.cpp */; };
+		3E07F4DB1D2A1105003D2C83 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4C21D2A1105003D2C83 /* Vector4.cpp */; };
+		3E07F4DC1D2A1105003D2C83 /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4C51D2A1105003D2C83 /* VertexBuffer.cpp */; };
+		3E07F4E21D2A1130003D2C83 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E07F4E11D2A1130003D2C83 /* libpng.a */; };
+		3E07F4F61D2BD5FE003D2C83 /* libIJKMediaPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E07F4F51D2BD5EC003D2C83 /* libIJKMediaPlayer.a */; };
+		3E07F4F81D2BD700003D2C83 /* VRPlayerViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4F71D2BD700003D2C83 /* VRPlayerViewController2.m */; };
 		3E8D7C611CF6EF8300EF5F9D /* logo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8D7C5F1CF6DC2300EF5F9D /* logo.m */; };
-		3E9F87CE1D0B074A00A1E19B /* VRPlayerViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9F87CD1D0B074A00A1E19B /* VRPlayerViewController2.m */; };
 		3ECF6DBC1CF3F46D0043B22F /* GLUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA11CF3F46D0043B22F /* GLUtil.m */; };
 		3ECF6DBD1CF3F46D0043B22F /* MD360Director.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA31CF3F46D0043B22F /* MD360Director.m */; };
 		3ECF6DBE1CF3F46D0043B22F /* MD360Program.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA51CF3F46D0043B22F /* MD360Program.m */; };
-		3ECF6DBF1CF3F46D0043B22F /* MD360Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA71CF3F46D0043B22F /* MD360Renderer.m */; };
+		3ECF6DBF1CF3F46D0043B22F /* MD360Renderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA71CF3F46D0043B22F /* MD360Renderer.mm */; };
 		3ECF6DC01CF3F46D0043B22F /* MD360Texture.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA91CF3F46D0043B22F /* MD360Texture.m */; };
 		3ECF6DC11CF3F46D0043B22F /* MDAbsObject3D.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DAB1CF3F46D0043B22F /* MDAbsObject3D.m */; };
 		3ECF6DC21CF3F46D0043B22F /* MDDisplayStrategy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DAD1CF3F46D0043B22F /* MDDisplayStrategy.m */; };
@@ -44,23 +67,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3E02F5DA1D00162B0005A8CA /* PBXContainerItemProxy */ = {
+		3E07F4F01D2BD5EC003D2C83 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 3E02F5D41D00162B0005A8CA /* IJKMediaPlayer.xcodeproj */;
+			containerPortal = 3E07F4EA1D2BD5EC003D2C83 /* IJKMediaPlayer.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E654EA8A1B6B27E600B0F2D0;
 			remoteInfo = IJKMediaFramework;
 		};
-		3E02F5DC1D00162B0005A8CA /* PBXContainerItemProxy */ = {
+		3E07F4F21D2BD5EC003D2C83 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 3E02F5D41D00162B0005A8CA /* IJKMediaPlayer.xcodeproj */;
+			containerPortal = 3E07F4EA1D2BD5EC003D2C83 /* IJKMediaPlayer.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E654EA941B6B27E600B0F2D0;
 			remoteInfo = IJKMediaFrameworkTests;
 		};
-		3E02F5DE1D00162B0005A8CA /* PBXContainerItemProxy */ = {
+		3E07F4F41D2BD5EC003D2C83 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 3E02F5D41D00162B0005A8CA /* IJKMediaPlayer.xcodeproj */;
+			containerPortal = 3E07F4EA1D2BD5EC003D2C83 /* IJKMediaPlayer.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 3E02F5691CFF35530005A8CA;
 			remoteInfo = IJKMediaPlayer;
@@ -80,10 +103,65 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3E02F5D41D00162B0005A8CA /* IJKMediaPlayer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IJKMediaPlayer.xcodeproj; path = IJKMediaPlayer/ios/IJKMediaPlayer/IJKMediaPlayer.xcodeproj; sourceTree = "<group>"; };
+		3E07F4941D2A1105003D2C83 /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base.h; path = 3d/Base.h; sourceTree = "<group>"; };
+		3E07F4951D2A1105003D2C83 /* Billboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Billboard.cpp; path = 3d/Billboard.cpp; sourceTree = "<group>"; };
+		3E07F4961D2A1105003D2C83 /* BillBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BillBoard.h; path = 3d/BillBoard.h; sourceTree = "<group>"; };
+		3E07F4971D2A1105003D2C83 /* BoundSphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BoundSphere.cpp; path = 3d/BoundSphere.cpp; sourceTree = "<group>"; };
+		3E07F4981D2A1105003D2C83 /* BoundSphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BoundSphere.h; path = 3d/BoundSphere.h; sourceTree = "<group>"; };
+		3E07F4991D2A1105003D2C83 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Camera.cpp; path = 3d/Camera.cpp; sourceTree = "<group>"; };
+		3E07F49A1D2A1105003D2C83 /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = camera.h; path = 3d/camera.h; sourceTree = "<group>"; };
+		3E07F49B1D2A1105003D2C83 /* CameraCursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CameraCursor.cpp; path = 3d/CameraCursor.cpp; sourceTree = "<group>"; };
+		3E07F49C1D2A1105003D2C83 /* CameraCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraCursor.h; path = 3d/CameraCursor.h; sourceTree = "<group>"; };
+		3E07F49D1D2A1105003D2C83 /* DefaultMenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DefaultMenuItem.cpp; path = 3d/DefaultMenuItem.cpp; sourceTree = "<group>"; };
+		3E07F49E1D2A1105003D2C83 /* DefaultMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultMenuItem.h; path = 3d/DefaultMenuItem.h; sourceTree = "<group>"; };
+		3E07F49F1D2A1105003D2C83 /* DefaultMenuItem.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = DefaultMenuItem.inl; path = 3d/DefaultMenuItem.inl; sourceTree = "<group>"; };
+		3E07F4A01D2A1105003D2C83 /* EventMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventMgr.cpp; path = 3d/EventMgr.cpp; sourceTree = "<group>"; };
+		3E07F4A11D2A1105003D2C83 /* EventMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventMgr.h; path = 3d/EventMgr.h; sourceTree = "<group>"; };
+		3E07F4A21D2A1105003D2C83 /* GLProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLProgram.cpp; path = 3d/GLProgram.cpp; sourceTree = "<group>"; };
+		3E07F4A31D2A1105003D2C83 /* GLProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLProgram.h; path = 3d/GLProgram.h; sourceTree = "<group>"; };
+		3E07F4A41D2A1105003D2C83 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Image.cpp; path = 3d/Image.cpp; sourceTree = "<group>"; };
+		3E07F4A51D2A1105003D2C83 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Image.h; path = 3d/Image.h; sourceTree = "<group>"; };
+		3E07F4A61D2A1105003D2C83 /* MathUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MathUtil.cpp; path = 3d/MathUtil.cpp; sourceTree = "<group>"; };
+		3E07F4A71D2A1105003D2C83 /* MathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MathUtil.h; path = 3d/MathUtil.h; sourceTree = "<group>"; };
+		3E07F4A81D2A1105003D2C83 /* MathUtil.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = MathUtil.inl; path = 3d/MathUtil.inl; sourceTree = "<group>"; };
+		3E07F4A91D2A1105003D2C83 /* Matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Matrix.cpp; path = 3d/Matrix.cpp; sourceTree = "<group>"; };
+		3E07F4AA1D2A1105003D2C83 /* Matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix.h; path = 3d/Matrix.h; sourceTree = "<group>"; };
+		3E07F4AB1D2A1105003D2C83 /* Matrix.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Matrix.inl; path = 3d/Matrix.inl; sourceTree = "<group>"; };
+		3E07F4AC1D2A1105003D2C83 /* MenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MenuItem.cpp; path = 3d/MenuItem.cpp; sourceTree = "<group>"; };
+		3E07F4AD1D2A1105003D2C83 /* MenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuItem.h; path = 3d/MenuItem.h; sourceTree = "<group>"; };
+		3E07F4AE1D2A1105003D2C83 /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Node.cpp; path = 3d/Node.cpp; sourceTree = "<group>"; };
+		3E07F4AF1D2A1105003D2C83 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Node.h; path = 3d/Node.h; sourceTree = "<group>"; };
+		3E07F4B01D2A1105003D2C83 /* Quaternion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Quaternion.cpp; path = 3d/Quaternion.cpp; sourceTree = "<group>"; };
+		3E07F4B11D2A1105003D2C83 /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Quaternion.h; path = 3d/Quaternion.h; sourceTree = "<group>"; };
+		3E07F4B21D2A1105003D2C83 /* Quaternion.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Quaternion.inl; path = 3d/Quaternion.inl; sourceTree = "<group>"; };
+		3E07F4B31D2A1105003D2C83 /* Ray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Ray.cpp; path = 3d/Ray.cpp; sourceTree = "<group>"; };
+		3E07F4B41D2A1105003D2C83 /* Ray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ray.h; path = 3d/Ray.h; sourceTree = "<group>"; };
+		3E07F4B51D2A1105003D2C83 /* Ref.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Ref.cpp; path = 3d/Ref.cpp; sourceTree = "<group>"; };
+		3E07F4B61D2A1105003D2C83 /* Ref.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ref.h; path = 3d/Ref.h; sourceTree = "<group>"; };
+		3E07F4B71D2A1105003D2C83 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scene.cpp; path = 3d/Scene.cpp; sourceTree = "<group>"; };
+		3E07F4B81D2A1105003D2C83 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scene.h; path = 3d/Scene.h; sourceTree = "<group>"; };
+		3E07F4B91D2A1105003D2C83 /* Sprite3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite3D.cpp; path = 3d/Sprite3D.cpp; sourceTree = "<group>"; };
+		3E07F4BA1D2A1105003D2C83 /* Sprite3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite3D.h; path = 3d/Sprite3D.h; sourceTree = "<group>"; };
+		3E07F4BB1D2A1105003D2C83 /* Stream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stream.cpp; path = 3d/Stream.cpp; sourceTree = "<group>"; };
+		3E07F4BC1D2A1105003D2C83 /* Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stream.h; path = 3d/Stream.h; sourceTree = "<group>"; };
+		3E07F4BD1D2A1105003D2C83 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Texture.cpp; path = 3d/Texture.cpp; sourceTree = "<group>"; };
+		3E07F4BE1D2A1105003D2C83 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = 3d/Texture.h; sourceTree = "<group>"; };
+		3E07F4BF1D2A1105003D2C83 /* Vector3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector3.cpp; path = 3d/Vector3.cpp; sourceTree = "<group>"; };
+		3E07F4C01D2A1105003D2C83 /* Vector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector3.h; path = 3d/Vector3.h; sourceTree = "<group>"; };
+		3E07F4C11D2A1105003D2C83 /* Vector3.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Vector3.inl; path = 3d/Vector3.inl; sourceTree = "<group>"; };
+		3E07F4C21D2A1105003D2C83 /* Vector4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector4.cpp; path = 3d/Vector4.cpp; sourceTree = "<group>"; };
+		3E07F4C31D2A1105003D2C83 /* Vector4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector4.h; path = 3d/Vector4.h; sourceTree = "<group>"; };
+		3E07F4C41D2A1105003D2C83 /* vector4.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = vector4.inl; path = 3d/vector4.inl; sourceTree = "<group>"; };
+		3E07F4C51D2A1105003D2C83 /* VertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VertexBuffer.cpp; path = 3d/VertexBuffer.cpp; sourceTree = "<group>"; };
+		3E07F4C61D2A1105003D2C83 /* VertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexBuffer.h; path = 3d/VertexBuffer.h; sourceTree = "<group>"; };
+		3E07F4DE1D2A111B003D2C83 /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = png.h; path = 3d/png/png.h; sourceTree = "<group>"; };
+		3E07F4DF1D2A111B003D2C83 /* pngconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pngconf.h; path = 3d/png/pngconf.h; sourceTree = "<group>"; };
+		3E07F4E01D2A111B003D2C83 /* pnglibconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pnglibconf.h; path = 3d/png/pnglibconf.h; sourceTree = "<group>"; };
+		3E07F4E11D2A1130003D2C83 /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng.a; path = VRLive/3d/libs/libpng.a; sourceTree = "<group>"; };
+		3E07F4EA1D2BD5EC003D2C83 /* IJKMediaPlayer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IJKMediaPlayer.xcodeproj; path = IJKMediaPlayer/ios/IJKMediaPlayer/IJKMediaPlayer.xcodeproj; sourceTree = "<group>"; };
+		3E07F4F71D2BD700003D2C83 /* VRPlayerViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VRPlayerViewController2.m; path = VRPlayer/VRPlayerViewController2.m; sourceTree = "<group>"; };
 		3E8D7C5F1CF6DC2300EF5F9D /* logo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = logo.m; path = VRPlayer/logo.m; sourceTree = "<group>"; };
 		3E8D7C601CF6EB3F00EF5F9D /* logo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = logo.h; path = VRPlayer/logo.h; sourceTree = "<group>"; };
-		3E9F87CD1D0B074A00A1E19B /* VRPlayerViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VRPlayerViewController2.m; path = VRPlayer/VRPlayerViewController2.m; sourceTree = "<group>"; };
 		3ECF6D8E1CF3F3C90043B22F /* libVRLive.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVRLive.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECF6DA01CF3F46D0043B22F /* GLUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLUtil.h; sourceTree = "<group>"; };
 		3ECF6DA11CF3F46D0043B22F /* GLUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLUtil.m; sourceTree = "<group>"; };
@@ -92,7 +170,7 @@
 		3ECF6DA41CF3F46D0043B22F /* MD360Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MD360Program.h; sourceTree = "<group>"; };
 		3ECF6DA51CF3F46D0043B22F /* MD360Program.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MD360Program.m; sourceTree = "<group>"; };
 		3ECF6DA61CF3F46D0043B22F /* MD360Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MD360Renderer.h; sourceTree = "<group>"; };
-		3ECF6DA71CF3F46D0043B22F /* MD360Renderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MD360Renderer.m; sourceTree = "<group>"; };
+		3ECF6DA71CF3F46D0043B22F /* MD360Renderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MD360Renderer.mm; sourceTree = "<group>"; };
 		3ECF6DA81CF3F46D0043B22F /* MD360Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MD360Texture.h; sourceTree = "<group>"; };
 		3ECF6DA91CF3F46D0043B22F /* MD360Texture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MD360Texture.m; sourceTree = "<group>"; };
 		3ECF6DAA1CF3F46D0043B22F /* MDAbsObject3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDAbsObject3D.h; sourceTree = "<group>"; };
@@ -152,6 +230,7 @@
 		3ECF6DFC1CF3FB650043B22F /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFURLSessionManager.m; path = AFNetworking/AFNetworking/AFURLSessionManager.m; sourceTree = "<group>"; };
 		3ECF6E051CF4211A0043B22F /* VRPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VRPlayerViewController.h; path = VRPlayer/VRPlayerViewController.h; sourceTree = "<group>"; };
 		3ECF6E061CF4211A0043B22F /* VRPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VRPlayerViewController.m; path = VRPlayer/VRPlayerViewController.m; sourceTree = "<group>"; };
+		C523ED561D1D1297000A4A82 /* MDVRHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDVRHeader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,19 +238,89 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3E02F5E01D0016400005A8CA /* libIJKMediaPlayer.a in Frameworks */,
+				3E07F4F61D2BD5FE003D2C83 /* libIJKMediaPlayer.a in Frameworks */,
+				3E07F4E21D2A1130003D2C83 /* libpng.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3E02F5D51D00162B0005A8CA /* Products */ = {
+		3E07F4931D2A10B6003D2C83 /* 3d */ = {
 			isa = PBXGroup;
 			children = (
-				3E02F5DB1D00162B0005A8CA /* IJKMediaFramework.framework */,
-				3E02F5DD1D00162B0005A8CA /* IJKMediaFrameworkTests.xctest */,
-				3E02F5DF1D00162B0005A8CA /* libIJKMediaPlayer.a */,
+				3E07F4DD1D2A110B003D2C83 /* png */,
+				3E07F4941D2A1105003D2C83 /* Base.h */,
+				3E07F4951D2A1105003D2C83 /* Billboard.cpp */,
+				3E07F4961D2A1105003D2C83 /* BillBoard.h */,
+				3E07F4971D2A1105003D2C83 /* BoundSphere.cpp */,
+				3E07F4981D2A1105003D2C83 /* BoundSphere.h */,
+				3E07F4991D2A1105003D2C83 /* Camera.cpp */,
+				3E07F49A1D2A1105003D2C83 /* camera.h */,
+				3E07F49B1D2A1105003D2C83 /* CameraCursor.cpp */,
+				3E07F49C1D2A1105003D2C83 /* CameraCursor.h */,
+				3E07F49D1D2A1105003D2C83 /* DefaultMenuItem.cpp */,
+				3E07F49E1D2A1105003D2C83 /* DefaultMenuItem.h */,
+				3E07F49F1D2A1105003D2C83 /* DefaultMenuItem.inl */,
+				3E07F4A01D2A1105003D2C83 /* EventMgr.cpp */,
+				3E07F4A11D2A1105003D2C83 /* EventMgr.h */,
+				3E07F4A21D2A1105003D2C83 /* GLProgram.cpp */,
+				3E07F4A31D2A1105003D2C83 /* GLProgram.h */,
+				3E07F4A41D2A1105003D2C83 /* Image.cpp */,
+				3E07F4A51D2A1105003D2C83 /* Image.h */,
+				3E07F4A61D2A1105003D2C83 /* MathUtil.cpp */,
+				3E07F4A71D2A1105003D2C83 /* MathUtil.h */,
+				3E07F4A81D2A1105003D2C83 /* MathUtil.inl */,
+				3E07F4A91D2A1105003D2C83 /* Matrix.cpp */,
+				3E07F4AA1D2A1105003D2C83 /* Matrix.h */,
+				3E07F4AB1D2A1105003D2C83 /* Matrix.inl */,
+				3E07F4AC1D2A1105003D2C83 /* MenuItem.cpp */,
+				3E07F4AD1D2A1105003D2C83 /* MenuItem.h */,
+				3E07F4AE1D2A1105003D2C83 /* Node.cpp */,
+				3E07F4AF1D2A1105003D2C83 /* Node.h */,
+				3E07F4B01D2A1105003D2C83 /* Quaternion.cpp */,
+				3E07F4B11D2A1105003D2C83 /* Quaternion.h */,
+				3E07F4B21D2A1105003D2C83 /* Quaternion.inl */,
+				3E07F4B31D2A1105003D2C83 /* Ray.cpp */,
+				3E07F4B41D2A1105003D2C83 /* Ray.h */,
+				3E07F4B51D2A1105003D2C83 /* Ref.cpp */,
+				3E07F4B61D2A1105003D2C83 /* Ref.h */,
+				3E07F4B71D2A1105003D2C83 /* Scene.cpp */,
+				3E07F4B81D2A1105003D2C83 /* Scene.h */,
+				3E07F4B91D2A1105003D2C83 /* Sprite3D.cpp */,
+				3E07F4BA1D2A1105003D2C83 /* Sprite3D.h */,
+				3E07F4BB1D2A1105003D2C83 /* Stream.cpp */,
+				3E07F4BC1D2A1105003D2C83 /* Stream.h */,
+				3E07F4BD1D2A1105003D2C83 /* Texture.cpp */,
+				3E07F4BE1D2A1105003D2C83 /* Texture.h */,
+				3E07F4BF1D2A1105003D2C83 /* Vector3.cpp */,
+				3E07F4C01D2A1105003D2C83 /* Vector3.h */,
+				3E07F4C11D2A1105003D2C83 /* Vector3.inl */,
+				3E07F4C21D2A1105003D2C83 /* Vector4.cpp */,
+				3E07F4C31D2A1105003D2C83 /* Vector4.h */,
+				3E07F4C41D2A1105003D2C83 /* vector4.inl */,
+				3E07F4C51D2A1105003D2C83 /* VertexBuffer.cpp */,
+				3E07F4C61D2A1105003D2C83 /* VertexBuffer.h */,
+			);
+			name = 3d;
+			sourceTree = "<group>";
+		};
+		3E07F4DD1D2A110B003D2C83 /* png */ = {
+			isa = PBXGroup;
+			children = (
+				3E07F4DE1D2A111B003D2C83 /* png.h */,
+				3E07F4DF1D2A111B003D2C83 /* pngconf.h */,
+				3E07F4E01D2A111B003D2C83 /* pnglibconf.h */,
+			);
+			name = png;
+			sourceTree = "<group>";
+		};
+		3E07F4EB1D2BD5EC003D2C83 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3E07F4F11D2BD5EC003D2C83 /* IJKMediaFramework.framework */,
+				3E07F4F31D2BD5EC003D2C83 /* IJKMediaFrameworkTests.xctest */,
+				3E07F4F51D2BD5EC003D2C83 /* libIJKMediaPlayer.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -179,12 +328,13 @@
 		3ECF6D851CF3F3C90043B22F = {
 			isa = PBXGroup;
 			children = (
+				3E07F4E11D2A1130003D2C83 /* libpng.a */,
 				3ECF6E041CF4210C0043B22F /* VRPlayer */,
 				3ECF6DCA1CF3FAD00043B22F /* VIMVideoPlayer */,
 				3ECF6DC91CF3FABF0043B22F /* AFNetworking */,
 				3ECF6D901CF3F3C90043B22F /* VRLive */,
 				3ECF6D8F1CF3F3C90043B22F /* Products */,
-				3E02F5D41D00162B0005A8CA /* IJKMediaPlayer.xcodeproj */,
+				3E07F4EA1D2BD5EC003D2C83 /* IJKMediaPlayer.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -199,6 +349,8 @@
 		3ECF6D901CF3F3C90043B22F /* VRLive */ = {
 			isa = PBXGroup;
 			children = (
+				3E07F4931D2A10B6003D2C83 /* 3d */,
+				C523ED561D1D1297000A4A82 /* MDVRHeader.h */,
 				3ECF6DA01CF3F46D0043B22F /* GLUtil.h */,
 				3ECF6DA11CF3F46D0043B22F /* GLUtil.m */,
 				3ECF6DA21CF3F46D0043B22F /* MD360Director.h */,
@@ -206,7 +358,7 @@
 				3ECF6DA41CF3F46D0043B22F /* MD360Program.h */,
 				3ECF6DA51CF3F46D0043B22F /* MD360Program.m */,
 				3ECF6DA61CF3F46D0043B22F /* MD360Renderer.h */,
-				3ECF6DA71CF3F46D0043B22F /* MD360Renderer.m */,
+				3ECF6DA71CF3F46D0043B22F /* MD360Renderer.mm */,
 				3ECF6DA81CF3F46D0043B22F /* MD360Texture.h */,
 				3ECF6DA91CF3F46D0043B22F /* MD360Texture.m */,
 				3ECF6DAA1CF3F46D0043B22F /* MDAbsObject3D.h */,
@@ -301,7 +453,7 @@
 		3ECF6E041CF4210C0043B22F /* VRPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				3E9F87CD1D0B074A00A1E19B /* VRPlayerViewController2.m */,
+				3E07F4F71D2BD700003D2C83 /* VRPlayerViewController2.m */,
 				3E8D7C601CF6EB3F00EF5F9D /* logo.h */,
 				3E8D7C5F1CF6DC2300EF5F9D /* logo.m */,
 				3ECF6E051CF4211A0043B22F /* VRPlayerViewController.h */,
@@ -356,8 +508,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 3E02F5D51D00162B0005A8CA /* Products */;
-					ProjectRef = 3E02F5D41D00162B0005A8CA /* IJKMediaPlayer.xcodeproj */;
+					ProductGroup = 3E07F4EB1D2BD5EC003D2C83 /* Products */;
+					ProjectRef = 3E07F4EA1D2BD5EC003D2C83 /* IJKMediaPlayer.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -368,25 +520,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		3E02F5DB1D00162B0005A8CA /* IJKMediaFramework.framework */ = {
+		3E07F4F11D2BD5EC003D2C83 /* IJKMediaFramework.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = IJKMediaFramework.framework;
-			remoteRef = 3E02F5DA1D00162B0005A8CA /* PBXContainerItemProxy */;
+			remoteRef = 3E07F4F01D2BD5EC003D2C83 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3E02F5DD1D00162B0005A8CA /* IJKMediaFrameworkTests.xctest */ = {
+		3E07F4F31D2BD5EC003D2C83 /* IJKMediaFrameworkTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = IJKMediaFrameworkTests.xctest;
-			remoteRef = 3E02F5DC1D00162B0005A8CA /* PBXContainerItemProxy */;
+			remoteRef = 3E07F4F21D2BD5EC003D2C83 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3E02F5DF1D00162B0005A8CA /* libIJKMediaPlayer.a */ = {
+		3E07F4F51D2BD5EC003D2C83 /* libIJKMediaPlayer.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libIJKMediaPlayer.a;
-			remoteRef = 3E02F5DE1D00162B0005A8CA /* PBXContainerItemProxy */;
+			remoteRef = 3E07F4F41D2BD5EC003D2C83 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -396,39 +548,61 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E07F4D01D2A1105003D2C83 /* Matrix.cpp in Sources */,
+				3E07F4CA1D2A1105003D2C83 /* CameraCursor.cpp in Sources */,
+				3E07F4D41D2A1105003D2C83 /* Ray.cpp in Sources */,
 				3ECF6DEE1CF3FB570043B22F /* UIRefreshControl+AFNetworking.m in Sources */,
+				3E07F4CF1D2A1105003D2C83 /* MathUtil.cpp in Sources */,
+				3E07F4CD1D2A1105003D2C83 /* GLProgram.cpp in Sources */,
 				3ECF6DBD1CF3F46D0043B22F /* MD360Director.m in Sources */,
+				3E07F4D81D2A1105003D2C83 /* Stream.cpp in Sources */,
+				3E07F4C91D2A1105003D2C83 /* Camera.cpp in Sources */,
 				3ECF6DC21CF3F46D0043B22F /* MDDisplayStrategy.m in Sources */,
+				3E07F4D71D2A1105003D2C83 /* Sprite3D.cpp in Sources */,
+				3E07F4D11D2A1105003D2C83 /* MenuItem.cpp in Sources */,
 				3ECF6DED1CF3FB570043B22F /* UIProgressView+AFNetworking.m in Sources */,
+				3E07F4F81D2BD700003D2C83 /* VRPlayerViewController2.m in Sources */,
+				3E07F4D51D2A1105003D2C83 /* Ref.cpp in Sources */,
 				3ECF6DC51CF3F46D0043B22F /* MDModeStrategy.m in Sources */,
 				3ECF6DE81CF3FB570043B22F /* AFImageDownloader.m in Sources */,
 				3ECF6DC41CF3F46D0043B22F /* MDInteractiveStrategy.m in Sources */,
 				3ECF6DBC1CF3F46D0043B22F /* GLUtil.m in Sources */,
 				3ECF6DEB1CF3FB570043B22F /* UIButton+AFNetworking.m in Sources */,
+				3E07F4D21D2A1105003D2C83 /* Node.cpp in Sources */,
 				3ECF6DC01CF3F46D0043B22F /* MD360Texture.m in Sources */,
 				3ECF6DFF1CF3FB650043B22F /* AFSecurityPolicy.m in Sources */,
 				3ECF6DC61CF3F46D0043B22F /* MDTouchHelper.m in Sources */,
 				3ECF6DEA1CF3FB570043B22F /* UIActivityIndicatorView+AFNetworking.m in Sources */,
-				3E9F87CE1D0B074A00A1E19B /* VRPlayerViewController2.m in Sources */,
+				3E07F4D91D2A1105003D2C83 /* Texture.cpp in Sources */,
+				3E07F4C81D2A1105003D2C83 /* BoundSphere.cpp in Sources */,
+				3E07F4CB1D2A1105003D2C83 /* DefaultMenuItem.cpp in Sources */,
+				3E07F4D61D2A1105003D2C83 /* Scene.cpp in Sources */,
 				3ECF6DFD1CF3FB650043B22F /* AFHTTPSessionManager.m in Sources */,
 				3ECF6DE91CF3FB570043B22F /* AFNetworkActivityIndicatorManager.m in Sources */,
 				3ECF6E021CF3FB650043B22F /* AFURLSessionManager.m in Sources */,
 				3ECF6DFE1CF3FB650043B22F /* AFNetworkReachabilityManager.m in Sources */,
+				3E07F4DB1D2A1105003D2C83 /* Vector4.cpp in Sources */,
 				3ECF6DE71CF3FB570043B22F /* AFAutoPurgingImageCache.m in Sources */,
 				3E8D7C611CF6EF8300EF5F9D /* logo.m in Sources */,
 				3ECF6DCF1CF3FAF60043B22F /* VIMVideoPlayer.m in Sources */,
 				3ECF6DD01CF3FAF60043B22F /* VIMVideoPlayerView.m in Sources */,
 				3ECF6E011CF3FB650043B22F /* AFURLResponseSerialization.m in Sources */,
 				3ECF6E001CF3FB650043B22F /* AFURLRequestSerialization.m in Sources */,
+				3E07F4CC1D2A1105003D2C83 /* EventMgr.cpp in Sources */,
+				3E07F4CE1D2A1105003D2C83 /* Image.cpp in Sources */,
+				3E07F4DC1D2A1105003D2C83 /* VertexBuffer.cpp in Sources */,
 				3ECF6E071CF4211A0043B22F /* VRPlayerViewController.m in Sources */,
 				3ECF6DC11CF3F46D0043B22F /* MDAbsObject3D.m in Sources */,
+				3E07F4DA1D2A1105003D2C83 /* Vector3.cpp in Sources */,
+				3E07F4C71D2A1105003D2C83 /* Billboard.cpp in Sources */,
 				3ECF6DC71CF3F46D0043B22F /* MDVideoDataAdatperAVPlayerImpl.m in Sources */,
+				3E07F4D31D2A1105003D2C83 /* Quaternion.cpp in Sources */,
 				3ECF6DBE1CF3F46D0043B22F /* MD360Program.m in Sources */,
 				3ECF6DC81CF3F46D0043B22F /* MDVRLibrary.m in Sources */,
 				3ECF6DEF1CF3FB570043B22F /* UIWebView+AFNetworking.m in Sources */,
 				3ECF6DC31CF3F46D0043B22F /* MDGLKViewController.m in Sources */,
 				3ECF6DEC1CF3FB570043B22F /* UIImageView+AFNetworking.m in Sources */,
-				3ECF6DBF1CF3F46D0043B22F /* MD360Renderer.m in Sources */,
+				3ECF6DBF1CF3F46D0043B22F /* MD360Renderer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,6 +703,10 @@
 					IJKMediaPlayer/ijkmedia,
 					IJKMediaPlayer/ios/build/universal/include,
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VRLive/3d/libs",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -546,6 +724,10 @@
 					IJKMediaPlayer/ios/IJKMediaPlayer/IJKMediaPlayer,
 					IJKMediaPlayer/ijkmedia,
 					IJKMediaPlayer/ios/build/universal/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VRLive/3d/libs",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

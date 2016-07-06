@@ -49,6 +49,11 @@
     if(self.mProgramHandle) glUseProgram(self.mProgramHandle);
 }
 
+- (void)unuse
+{
+    glUseProgram(0);
+}
+
 - (NSString*) getVertexShader {
     
     NSString* text = @"uniform mat4 u_MVPMatrix;\n\

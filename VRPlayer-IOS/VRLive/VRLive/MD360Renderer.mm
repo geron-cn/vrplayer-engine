@@ -15,6 +15,7 @@
 #import "3d/Scene.h"
 #import "3d/Camera.h"
 #import "3d/EventMgr.h"
+#import "ijkmedia/ijksdl/ios/IJKSDLGLView.h"
 #include <vector>
 #include <string>
 
@@ -104,6 +105,7 @@ std::string _postedEvent;
     [self.mProgram use];
     [GLUtil glCheck:@"mProgram use"];
     
+//    [[IJKSDLGLView instance] updateTextureAndProgram:]
     
     // update texture
     [self.mTexture updateTexture:context];

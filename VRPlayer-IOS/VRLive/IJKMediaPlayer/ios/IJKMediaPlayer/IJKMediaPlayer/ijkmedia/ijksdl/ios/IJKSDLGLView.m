@@ -60,7 +60,10 @@
     //
     BOOL _hasNewFrame;
     SDL_VoutOverlay* _overlay;
-    
+    int _textureW;
+    int _textureH;
+    unsigned char* _textureData;
+    NSLock *_textureLock;
 }
 
 static IJKSDLGLView* _instance = nil;
@@ -79,9 +82,12 @@ static IJKSDLGLView* _instance = nil;
 {
     _hasNewFrame = NO;
     _overlay = nil;
+    _textureH = 0;
+    _textureW = 0;
+    _textureData = NULL;
     
     _instance = self;
-    
+    _textureLock = [[NSLock alloc] init];
     return self;
 }
 
@@ -104,6 +110,11 @@ static IJKSDLGLView* _instance = nil;
 {
     IJK_GLES2_Renderer_reset(_renderer);
     IJK_GLES2_Renderer_freeP(&_renderer);
+    
+    _textureH = 0;
+    _textureW = 0;
+    _textureLock = nil;
+    free(_textureData);
 }
 
 - (void)setContentMode:(UIViewContentMode)contentMode
@@ -138,6 +149,33 @@ static IJKSDLGLView* _instance = nil;
 {
 }
 
+- (BOOL) tryLockTextureData
+{
+    return [_textureLock tryLock];
+}
+- (void) unLockTextureData
+{
+    [_textureLock unlock];
+}
+
+- (int) getTextureWidth
+{
+    return _textureW;
+}
+- (int) getTextureHight
+{
+    return _textureH;
+}
+- (unsigned char*) popTextureData
+{
+    if (_hasNewFrame)
+    {
+        _hasNewFrame = NO;
+        return _textureData;
+    }
+    return NULL;
+}
+
 - (void) updateTextureAndProgram: (float[])mvp posbuffer: (void*)pos texbuffer: (void*) tex
 {
     if (_overlay == nil)
@@ -153,6 +191,7 @@ static IJKSDLGLView* _instance = nil;
             } else {
                 NSLog(@"IJKSDLGLView: setupDisplay failed\n");
             }
+            SDL_VoutUnlockYUVOverlay(_overlay);
             return;
         }
         
@@ -181,9 +220,21 @@ static IJKSDLGLView* _instance = nil;
 // NOTE: overlay could be NULl
 - (void)displayInternal: (SDL_VoutOverlay *) overlay
 {
+    [_textureLock lock];
+    
+    if (_textureW != overlay->textureW || _textureH != overlay->textureH )
+    {
+        free(_textureData);
+        _textureData = (unsigned char*)malloc(overlay->datasize);
+        _textureW = overlay->textureW;
+        _textureH = overlay->textureH;
+    }
+    memcpy(_textureData, overlay->data, overlay->datasize);
+    
     _overlay = overlay;
     _hasNewFrame = YES;
     
+    [_textureLock unlock];
 }
 
 - (void)registerApplicationObservers

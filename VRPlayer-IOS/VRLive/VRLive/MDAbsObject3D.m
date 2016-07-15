@@ -200,6 +200,8 @@ int generateSphere (float radius, int numSlices, MDAbsObject3D* object3D) {
                 *indexBuf++ = (short)(i * ( numSlices + 1 ) + j); // a
                 *indexBuf++ = (short)(( i + 1 ) * ( numSlices + 1 ) + j); // b
                 *indexBuf++ = (short)(( i + 1 ) * ( numSlices + 1 ) + ( j + 1 )); // c
+                
+                
                 *indexBuf++ = (short)(i * ( numSlices + 1 ) + j); // a
                 *indexBuf++ = (short)(( i + 1 ) * ( numSlices + 1 ) + ( j + 1 )); // c
                 *indexBuf++ = (short)(i * ( numSlices + 1 ) + ( j + 1 )); // d

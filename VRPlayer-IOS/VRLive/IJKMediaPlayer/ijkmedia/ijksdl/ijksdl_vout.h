@@ -54,6 +54,11 @@ struct SDL_VoutOverlay {
     void    (*unref)(SDL_VoutOverlay *overlay);
 
     int     (*func_fill_frame)(SDL_VoutOverlay *overlay, const AVFrame *frame);
+    
+    uint8_t* data;
+    int      datasize;
+    int      textureW;
+    int      textureH;
 };
 
 typedef struct SDL_Vout_Opaque SDL_Vout_Opaque;

@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VRLive/IJKMediaPlayer/ios/IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijksdl/ios/ijksdl_vout_ios_gles2.m"
-            timestampString = "489909485.484043"
+            filePath = "VRLive/IJKMediaPlayer/ijkmedia/ijksdl/gles2/renderer_yuv420sp_vtb.m"
+            timestampString = "490072267.655601"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "vout_display_overlay_l()"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "yuv420sp_vtb_use()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,14 +41,46 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VRLive/IJKMediaPlayer/ios/IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijksdl/ios/IJKSDLGLView.m"
-            timestampString = "489909607.002686"
+            filePath = "VRLive/IJKMediaPlayer/ijkmedia/ijksdl/gles2/renderer_yuv420sp_vtb.m"
+            timestampString = "490072528.097732"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
-            landmarkName = "-updateTextureAndProgram:posbuffer:texbuffer:"
-            landmarkType = "5">
+            startingLineNumber = "228"
+            endingLineNumber = "228"
+            landmarkName = "IJK_GLES2_Renderer_create_yuv420sp_vtb()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VRLive/IJKMediaPlayer/ijkmedia/ijksdl/gles2/renderer_yuv420sp.c"
+            timestampString = "490089025.699145"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "yuv420sp_use()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VRLive/IJKMediaPlayer/ijkmedia/ijksdl/gles2/renderer_yuv420sp.c"
+            timestampString = "490089093.495851"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "yuv420sp_uploadTexture()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

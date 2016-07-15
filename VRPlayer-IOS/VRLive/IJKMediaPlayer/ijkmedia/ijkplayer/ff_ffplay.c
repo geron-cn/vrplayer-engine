@@ -99,6 +99,8 @@
 
 static AVPacket flush_pkt;
 
+static int s_maxTextureSize = 1024;
+
 #if CONFIG_AVFILTER
 // FFP_MERGE: opt_add_vfilter
 #endif
@@ -631,6 +633,7 @@ static void decoder_abort(Decoder *d, FrameQueue *fq)
 static void free_picture(Frame *vp)
 {
     if (vp->bmp) {
+        free(vp->bmp->data);
         SDL_VoutFreeYUVOverlay(vp->bmp);
         vp->bmp = NULL;
     }
@@ -639,12 +642,61 @@ static void free_picture(Frame *vp)
 // FFP_MERGE: calculate_display_rect
 // FFP_MERGE: video_image_display
 
+void setMaxTextureSize(int size)
+{
+    s_maxTextureSize = size;
+}
+
 static void video_image_display2(FFPlayer *ffp)
 {
     VideoState *is = ffp->is;
     Frame *vp;
 
     vp = frame_queue_peek(&is->pictq);
+//    AVFrame* src_frame = vp->frame;
+//    if (src_frame)
+//    {
+//        int codecWidth = vp->width;
+//        int codecHeight = vp->height;
+//        int _dstTextureW = codecWidth;
+//        int _dstTextureH = codecHeight;
+//        if (s_maxTextureSize < codecWidth && codecWidth > codecHeight)
+//        {
+//            _dstTextureW = s_maxTextureSize;
+//            _dstTextureH = (int)(((float)s_maxTextureSize / codecWidth) * codecHeight);
+//        }
+//        else if (s_maxTextureSize < codecHeight && codecHeight > codecWidth)
+//        {
+//            _dstTextureH = s_maxTextureSize;
+//            _dstTextureW = (int)(((float)s_maxTextureSize / codecHeight) * codecWidth);
+//            
+//        }
+//        
+//        static struct SwsContext* context = NULL;
+//        context = sws_getCachedContext(context, src_frame->width, src_frame->height, src_frame->format, _dstTextureW, _dstTextureH, AV_PIX_FMT_RGB24, SWS_FAST_BILINEAR, NULL, NULL, NULL);
+//        if (context)
+//        {
+//            
+//            if (ffp->_datasize != _dstTextureW * _dstTextureH * 3)
+//            {
+//                free(ffp->_data);
+//                ffp->_datasize = _dstTextureW * _dstTextureH * 3;
+//                ffp->_data = malloc(sizeof(uint8_t) * ffp->_datasize);
+//            }
+//            
+//            uint8_t *dst = ffp->_data;
+//            int dst_linesize[4] = {0, 0, 0, 0};
+//            dst_linesize[0] = _dstTextureW * 3;
+//            
+//            sws_scale(context, src_frame->data, src_frame->linesize,
+//                      0, src_frame->height, &dst, dst_linesize);
+//            //pass down to draw
+//            ffp->vout->width = _dstTextureW;
+//            ffp->vout->height = _dstTextureH;
+//            ffp->vout->data = dst;
+//            SDL_VoutDisplayYUVOverlay(ffp->vout, vp->bmp);
+//        }
+//    }
     if (vp->bmp) {
         SDL_VoutDisplayYUVOverlay(ffp->vout, vp->bmp);
         ffp->stat.vfps = SDL_SpeedSamplerAdd(&ffp->vfps_sampler, FFP_SHOW_VFPS_FFPLAY, "vfps[ffplay]");
@@ -1173,6 +1225,9 @@ static void alloc_picture(FFPlayer *ffp, int frame_format)
     vp->bmp = SDL_Vout_CreateOverlay(vp->width, vp->height,
                                    frame_format,
                                    ffp->vout);
+    vp->bmp->data = NULL;
+    vp->bmp->datasize = 0;
+    
 #ifdef FFP_MERGE
     bufferdiff = vp->bmp ? FFMAX(vp->bmp->pixels[0], vp->bmp->pixels[1]) - FFMIN(vp->bmp->pixels[0], vp->bmp->pixels[1]) : 0;
     if (!vp->bmp || vp->bmp->pitches[0] < vp->width || bufferdiff < (int64_t)vp->height * vp->bmp->pitches[0]) {
@@ -1214,6 +1269,52 @@ static void duplicate_right_border_pixels(SDL_Overlay *bmp) {
     }
 }
 #endif
+    
+static void fillbmpdata(AVFrame *src_frame, Frame *vp)
+{
+    if (src_frame && vp->bmp)
+    {
+        int codecWidth = src_frame->width;
+        int codecHeight = src_frame->height;
+        int _dstTextureW = codecWidth;
+        int _dstTextureH = codecHeight;
+        if (s_maxTextureSize < codecWidth && codecWidth > codecHeight)
+        {
+            _dstTextureW = s_maxTextureSize;
+            _dstTextureH = (int)(((float)s_maxTextureSize / codecWidth) * codecHeight);
+        }
+        else if (s_maxTextureSize < codecHeight && codecHeight > codecWidth)
+        {
+            _dstTextureH = s_maxTextureSize;
+            _dstTextureW = (int)(((float)s_maxTextureSize / codecHeight) * codecWidth);
+            
+        }
+        
+        static struct SwsContext* context = NULL;
+        context = sws_getCachedContext(context, src_frame->width, src_frame->height, src_frame->format, _dstTextureW, _dstTextureH, AV_PIX_FMT_RGB24, SWS_FAST_BILINEAR, NULL, NULL, NULL);
+        if (context)
+        {
+            
+            if (vp->bmp->datasize != _dstTextureW * _dstTextureH * 3)
+            {
+                free(vp->bmp->data);
+                vp->bmp->datasize = _dstTextureW * _dstTextureH * 3;
+                vp->bmp->data = malloc(sizeof(uint8_t) * vp->bmp->datasize);
+            }
+            
+            uint8_t *dst = vp->bmp->data;
+            int dst_linesize[4] = {0, 0, 0, 0};
+            dst_linesize[0] = _dstTextureW * 3;
+            
+            sws_scale(context, src_frame->data, src_frame->linesize,
+                      0, src_frame->height, &dst, dst_linesize);
+            //pass down to draw
+            vp->bmp->data = dst;
+            vp->bmp->textureW = _dstTextureW;
+            vp->bmp->textureH = _dstTextureH;
+        }
+    }
+}
 
 static int queue_picture(FFPlayer *ffp, AVFrame *src_frame, double pts, double duration, int64_t pos, int serial)
 {
@@ -1227,7 +1328,7 @@ static int queue_picture(FFPlayer *ffp, AVFrame *src_frame, double pts, double d
 
     if (!(vp = frame_queue_peek_writable(&is->pictq)))
         return -1;
-
+    
     /* alloc or resize hardware picture buffer */
     if (!vp->bmp || vp->reallocate || !vp->allocated ||
         vp->width  != src_frame->width ||
@@ -1264,12 +1365,14 @@ static int queue_picture(FFPlayer *ffp, AVFrame *src_frame, double pts, double d
 #endif
 #endif
         // FIXME: set swscale options
-        if (SDL_VoutFillFrameYUVOverlay(vp->bmp, src_frame) < 0) {
-            av_log(NULL, AV_LOG_FATAL, "Cannot initialize the conversion context\n");
-            exit(1);
-        }
+//        if (SDL_VoutFillFrameYUVOverlay(vp->bmp, src_frame) < 0) {
+//            av_log(NULL, AV_LOG_FATAL, "Cannot initialize the conversion context\n");
+//            exit(1);
+        fillbmpdata(src_frame, vp);
+//        }
         /* update the bitmap content */
         SDL_VoutUnlockYUVOverlay(vp->bmp);
+    
 
         vp->pts = pts;
         vp->duration = duration;
@@ -3214,7 +3317,7 @@ FFPlayer *ffp_create()
     ffp_reset_internal(ffp);
     ffp->av_class = &ffp_context_class;
     ffp->meta = ijkmeta_create();
-
+    
     av_opt_set_defaults(ffp);
 
     return ffp;
@@ -3242,7 +3345,6 @@ void ffp_destroy(FFPlayer *ffp)
     SDL_DestroyMutexP(&ffp->vf_mutex);
 
     msg_queue_destroy(&ffp->msg_queue);
-
 
     av_free(ffp);
 }

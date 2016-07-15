@@ -15,6 +15,7 @@
 #import "3d/Scene.h"
 #import "3d/Camera.h"
 #import "3d/EventMgr.h"
+#import "3d/Texture.h"
 #import "ijkmedia/ijksdl/ios/IJKSDLGLView.h"
 #include <vector>
 #include <string>
@@ -23,6 +24,7 @@
 {
 vrlive::Scene* _scene;
 std::string _postedEvent;
+    vrlive::Texture* _texture;
 }
 
 @property (nonatomic,strong) MDAbsObject3D* mObject3D;
@@ -47,6 +49,8 @@ std::string _postedEvent;
     }
 //    _postedEvent = "";
     _scene = nullptr;
+    _texture = nullptr;
+    
     return self;
 }
 
@@ -56,6 +60,11 @@ std::string _postedEvent;
         _scene->release();
         _scene = nullptr;
         vrlive::EventMgr::getInstance()->clearEvents();
+    }
+    if (_texture)
+    {
+        _texture->release();
+        _texture = nullptr;
     }
 }
 
@@ -69,9 +78,9 @@ std::string _postedEvent;
     // init
     [self initProgram];
     [GLUtil glCheck:@"initProgram"];
-    
-    [self initTexture:context];
-    [GLUtil glCheck:@"initTexture"];
+//
+//    [self initTexture:context];
+//    [GLUtil glCheck:@"initTexture"];
     
     [self initObject3D];
     [GLUtil glCheck:@"initObject3D"];
@@ -82,7 +91,7 @@ std::string _postedEvent;
 
 - (void) rendererOnChanged:(EAGLContext*)context width:(int)width height:(int)height{
     // update surface
-    [self.mTexture resize:width height:height];
+//    [self.mTexture resize:width height:height];
     //setup camera
     if (_scene)
     {
@@ -101,34 +110,76 @@ std::string _postedEvent;
     [GLUtil glCheck:@"glClear"];
     
   
-    // use
-    [self.mProgram use];
-    [GLUtil glCheck:@"mProgram use"];
     
-//    [[IJKSDLGLView instance] updateTextureAndProgram:]
-    
-    // update texture
-    [self.mTexture updateTexture:context];
-    
-    // upload
-    [self.mObject3D uploadDataToProgram:self.mProgram];
-    [GLUtil glCheck:@"uploadDataToProgram"];
     float scale = [GLUtil getScrrenScale];
     int widthPx = width * scale;
     int heightPx = height * scale;
     
     int size = [self.mDisplayStrategyManager getVisibleSize];
     int itemWidthPx = widthPx * 1.0 / size;
+    
+    
     for (int i = 0; i < size; i++ ) {
         if (i >= [self.mDirectors count]) {
             return;
         }
+        // use
+        [self.mProgram use];
+        [GLUtil glCheck:@"mProgram use"];
+        
+        //    [[IJKSDLGLView instance] updateTextureAndProgram:]
+        
+        // update texture
+        //    [self.mTexture updateTexture:context];
+        
+        // upload
+        [self.mObject3D uploadDataToProgram:self.mProgram];
+        [GLUtil glCheck:@"uploadDataToProgram"];
         
         MD360Director* direcotr = [self.mDirectors objectAtIndex:i];
         glViewport(itemWidthPx * i, 0, itemWidthPx, heightPx);
 
         // Update Projection
         [direcotr updateProjection:itemWidthPx height:heightPx];
+        IJKSDLGLView* instance = [IJKSDLGLView instance];
+        if (instance)
+        {
+//            GLKMatrix4 mvp = [ [self.mDirectors objectAtIndex:i] getMVPMatrix];//
+            if ([instance tryLockTextureData])
+            {
+                int w = [instance getTextureWidth];
+                int h = [instance getTextureHight];
+                if (_texture && (_texture->getWidth() != w || _texture->getHeight() != h))
+                {
+                    _texture->release();
+                    _texture = nullptr;
+                }
+                unsigned char* data = [instance popTextureData];
+                if (data)
+                {
+                    if (_texture == nullptr)
+                    {
+                        _texture = vrlive::Texture::create(vrlive::Texture::Format::RGB, w, h, data);
+                    }
+                    else
+                        _texture->setTextureData(data);
+                }
+                
+                [instance unLockTextureData];
+            }
+            
+//            [instance updateTextureAndProgram:mvp.m posbuffer:[self.mObject3D getVertexBuffer] texbuffer:[self.mObject3D getTextureBuffer]];
+        }
+        if (_texture)
+        {
+            _texture->bind();
+        }
+//        if ([self.mObject3D getIndices] != nil) {
+//            glDrawElements(GL_TRIANGLES, self.mObject3D.mNumIndices, GL_UNSIGNED_SHORT, [self.mObject3D getIndices]);
+//        } else {
+//            glDrawArrays(GL_TRIANGLES, 0, self.mObject3D.mNumIndices);
+//        }
+//        [GLUtil glCheck:@"glDrawArrays"];
         
         // Pass in the combined matrix.
         [direcotr shot:self.mProgram];
@@ -142,6 +193,8 @@ std::string _postedEvent;
         
         
     }
+    
+//    return;
     for (int i = 0; i < size; i++) {
         if (i >= [self.mDirectors count]) {
             return;

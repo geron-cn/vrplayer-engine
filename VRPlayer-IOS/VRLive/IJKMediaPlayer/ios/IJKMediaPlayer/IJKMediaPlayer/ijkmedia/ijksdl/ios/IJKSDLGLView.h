@@ -30,9 +30,15 @@
 
 + (id) instance;
 - (id) initWithFrame:(CGRect)frame;
+
 - (void) display: (SDL_VoutOverlay *) overlay;
 //call be main thread, upload texture and program if we have new texture
 - (void) updateTextureAndProgram: (float[])mvp posbuffer: (void*)pos texbuffer: (void*) tex;
+- (BOOL) tryLockTextureData;
+- (void) unLockTextureData;
+- (int) getTextureWidth;
+- (int) getTextureHight;
+- (unsigned char*) popTextureData;
 
 - (UIImage*) snapshot;
 - (void)setHudValue:(NSString *)value forKey:(NSString *)key;

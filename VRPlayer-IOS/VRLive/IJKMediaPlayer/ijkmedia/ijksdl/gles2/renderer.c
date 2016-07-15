@@ -333,10 +333,10 @@ static void IJK_GLES2_Renderer_TexCoords_cropRight(IJK_GLES2_Renderer *renderer,
 GLboolean IJK_GLES2_Renderer_updateVertexAndTex(IJK_GLES2_Renderer *renderer, void* pos, void* tex)
 {
     {
-        glVertexAttribPointer(renderer->av4_position, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), pos);   IJK_GLES2_checkError_TRACE("glVertexAttribPointer(av4_position)");
+        glVertexAttribPointer(renderer->av4_position, 3, GL_FLOAT, GL_FALSE, 0, pos);   IJK_GLES2_checkError_TRACE("glVertexAttribPointer(av4_position)");
         glEnableVertexAttribArray(renderer->av4_position);                                              IJK_GLES2_checkError_TRACE("glEnableVertexAttribArray(av4_position)");
         
-        glVertexAttribPointer(renderer->av2_texcoord, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), tex);   IJK_GLES2_checkError_TRACE("glVertexAttribPointer(av2_texcoord)");
+        glVertexAttribPointer(renderer->av2_texcoord, 2, GL_FLOAT, GL_FALSE, 0, tex);   IJK_GLES2_checkError_TRACE("glVertexAttribPointer(av2_texcoord)");
         glEnableVertexAttribArray(renderer->av2_texcoord);                                              IJK_GLES2_checkError_TRACE("glEnableVertexAttribArray(av2_texcoord)");
     }
     

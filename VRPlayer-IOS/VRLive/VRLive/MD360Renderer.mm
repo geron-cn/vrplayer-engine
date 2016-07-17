@@ -132,9 +132,6 @@ std::string _postedEvent;
         // update texture
         //    [self.mTexture updateTexture:context];
         
-        // upload
-        [self.mObject3D uploadDataToProgram:self.mProgram];
-        [GLUtil glCheck:@"uploadDataToProgram"];
         
         MD360Director* direcotr = [self.mDirectors objectAtIndex:i];
         glViewport(itemWidthPx * i, 0, itemWidthPx, heightPx);
@@ -189,12 +186,15 @@ std::string _postedEvent;
         glUniform1i(self.mProgram.mTextureUniformHandle, 0);
         [GLUtil glCheck:@"glUniform1i mTextureUniformHandle"];
         
+        // upload
+        [self.mObject3D uploadDataToProgram:self.mProgram];
+        [GLUtil glCheck:@"uploadDataToProgram"];
+
         [self.mObject3D onDraw];
         
         
     }
     
-//    return;
     for (int i = 0; i < size; i++) {
         if (i >= [self.mDirectors count]) {
             return;

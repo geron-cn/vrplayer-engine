@@ -8,6 +8,8 @@
 
 #import "MD360Program.h"
 #import "GLUtil.h"
+#import "../IJKMediaPlayer/ijkmedia/ijkplayer/ff_ffplay.h"
+
 @interface MD360Program(){
     GLuint vertexShaderHandle,fragmentShaderHandle;
 }
@@ -35,6 +37,10 @@
     
     _mPositionHandle = glGetAttribLocation(self.mProgramHandle, "a_Position");
     _mTextureCoordinateHandle = glGetAttribLocation(self.mProgramHandle, "a_TexCoordinate");
+    
+    int maxTexture;
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTexture);
+    setMaxTextureSize(maxTexture);
 }
 
 - (void) destroy {

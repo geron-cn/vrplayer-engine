@@ -115,6 +115,8 @@ static IJKSDLGLView* _instance = nil;
     _textureW = 0;
     _textureLock = nil;
     free(_textureData);
+    
+    _instance = nil;
 }
 
 - (void)setContentMode:(UIViewContentMode)contentMode

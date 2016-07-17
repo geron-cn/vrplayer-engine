@@ -6,14 +6,17 @@
 //  Copyright © 2016年 ashqal. All rights reserved.
 //
 
+#include <vector>
 #import "MDAbsObject3D.h"
 #import "GLUtil.h"
 #import "MDVRLibrary.h"
+#import "3d/VertexBuffer.h"
 
 static int sPositionDataSize = 3;
 @interface MDAbsObject3D(){
     int positionHandle;
     int textureCoordinateHandle;
+    vrlive::VertexBuffer* vertexbuff;
 }
 
 @end
@@ -25,6 +28,7 @@ static int sPositionDataSize = 3;
     if (self) {
         positionHandle = -1;
         textureCoordinateHandle = -1;
+        vertexbuff = NULL;
     }
     return self;
 }
@@ -43,18 +47,22 @@ static int sPositionDataSize = 3;
         glDisableVertexAttribArray(textureCoordinateHandle);
         textureCoordinateHandle = -1;
     }
-    
+    if (vertexbuff != NULL)
+    {
+        vertexbuff->release();
+        vertexbuff = NULL;
+    }
 }
 
 - (void)setVertexBuffer:(float*)buffer size:(int)size{
     int size_t = sizeof(float)*size;
-    mVertexBuffer = malloc(size_t);
+    mVertexBuffer = (float*)malloc(size_t);
     memcpy(mVertexBuffer, buffer, size_t);
 }
 
 - (void)setIndicesBuffer:(short *)buffer size:(int)size{
     int size_t = sizeof(short)*size;
-    mIndicesBuffer = malloc(size_t);
+    mIndicesBuffer = (short*)malloc(size_t);
     assert(mIndicesBuffer);
     memcpy(mIndicesBuffer, buffer, size_t);
 }
@@ -75,12 +83,17 @@ static int sPositionDataSize = 3;
 
 - (void)setTextureBuffer:(float*)buffer size:(int)size{
     int size_t = sizeof(float)*size;
-    mTextureBuffer = malloc(size_t);
+    mTextureBuffer = (float*)malloc(size_t);
     memcpy(mTextureBuffer, buffer, size_t);
 }
 
 - (void)setNumIndices:(int)value{
     _mNumIndices = value;
+}
+
+- (void)setVertexBuffer:(vrlive::VertexBuffer*) vertbuf
+{
+    vertexbuff = vertbuf;
 }
 
 - (void)loadObj{
@@ -104,7 +117,10 @@ static int sPositionDataSize = 3;
     glEnableVertexAttribArray(textureCoordinateHandle);
     glVertexAttribPointer(textureCoordinateHandle, 2, GL_FLOAT, 0, 0, mTextureBuffer);
     // glDisableVertexAttribArray(textureCoordinateHandle);
-    
+//    positionHandle = program.mPositionHandle;
+//    textureCoordinateHandle = program.mTextureCoordinateHandle;
+//    
+//    vertexbuff->bind(positionHandle, textureCoordinateHandle);
 }
 
 
@@ -113,12 +129,11 @@ static int sPositionDataSize = 3;
     if ([self getIndices] != 0) {
         GLsizei count = self.mNumIndices;
         const GLvoid* indices = [self getIndices];
-        glDrawElements(GL_TRIANGLE_STRIP, count, GL_UNSIGNED_SHORT, indices);
+        glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, indices);
     } else {
         glDrawArrays(GL_TRIANGLES, 0, self.mNumIndices);
     }
     // Draw
-    
     [GLUtil glCheck:@"glDrawArrays"];
 }
 
@@ -169,9 +184,9 @@ int generateSphere (float radius, int numSlices, MDAbsObject3D* object3D) {
     int numIndices = numParallels * numSlices * 6;
     float angleStep = (2.0f * ES_PI) / ((float) numSlices);
     
-    float* vertices = malloc ( sizeof(float) * 3 * numVertices );
-    float* texCoords = malloc ( sizeof(float) * 2 * numVertices );
-    short* indices = malloc ( sizeof(short) * numIndices );
+    float* vertices = (float*)malloc ( sizeof(float) * 3 * numVertices );
+    float* texCoords = (float*)malloc ( sizeof(float) * 2 * numVertices );
+     short* indices = ( short*)malloc ( sizeof(unsigned short) * numIndices );
     
     
     for ( i = 0; i < numParallels + 1; i++ ) {
@@ -194,22 +209,30 @@ int generateSphere (float radius, int numSlices, MDAbsObject3D* object3D) {
     
     // Generate the indices
     if ( indices != NULL ) {
-        short* indexBuf = indices;
+         short* indexBuf = indices;
         for ( i = 0; i < numParallels ; i++ ) {
             for ( j = 0; j < numSlices; j++ ) {
-                *indexBuf++ = (short)(i * ( numSlices + 1 ) + j); // a
-                *indexBuf++ = (short)(( i + 1 ) * ( numSlices + 1 ) + j); // b
-                *indexBuf++ = (short)(( i + 1 ) * ( numSlices + 1 ) + ( j + 1 )); // c
+                *indexBuf++ = ( short)(i * ( numSlices + 1 ) + j); // a
+                *indexBuf++ = ( short)(( i + 1 ) * ( numSlices + 1 ) + j); // b
+                *indexBuf++ = ( short)(( i + 1 ) * ( numSlices + 1 ) + ( j + 1 )); // c
                 
                 
-                *indexBuf++ = (short)(i * ( numSlices + 1 ) + j); // a
-                *indexBuf++ = (short)(( i + 1 ) * ( numSlices + 1 ) + ( j + 1 )); // c
-                *indexBuf++ = (short)(i * ( numSlices + 1 ) + ( j + 1 )); // d
+                *indexBuf++ = ( short)(i * ( numSlices + 1 ) + j); // a
+                *indexBuf++ = ( short)(( i + 1 ) * ( numSlices + 1 ) + ( j + 1 )); // c
+                *indexBuf++ = ( short)(i * ( numSlices + 1 ) + ( j + 1 )); // d
                 
             }
         }
         
     }
+    
+//    std::vector<float> pos(vertices, vertices+numVertices);
+//    std::vector<float> tex(texCoords, texCoords+numVertices*2);
+//    std::vector<unsigned short> idx(indices, indices+numIndices);
+//    std::vector<float> normal;
+//    vrlive::VertexBuffer* vertbuf = vrlive::VertexBuffer::create(pos, normal, tex, idx);
+//    [object3D setVertexBuffer: vertbuf];
+    
     
     [object3D setIndicesBuffer:indices size:numIndices]; //object3D.setIndicesBuffer(indexBuffer);
     [object3D setTextureBuffer:texCoords size:2 * numVertices]; //object3D.setTexCoordinateBuffer(texBuffer);

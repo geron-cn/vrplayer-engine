@@ -38,7 +38,7 @@
 		3ECF6DBE1CF3F46D0043B22F /* MD360Program.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA51CF3F46D0043B22F /* MD360Program.m */; };
 		3ECF6DBF1CF3F46D0043B22F /* MD360Renderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA71CF3F46D0043B22F /* MD360Renderer.mm */; };
 		3ECF6DC01CF3F46D0043B22F /* MD360Texture.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA91CF3F46D0043B22F /* MD360Texture.m */; };
-		3ECF6DC11CF3F46D0043B22F /* MDAbsObject3D.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DAB1CF3F46D0043B22F /* MDAbsObject3D.m */; };
+		3ECF6DC11CF3F46D0043B22F /* MDAbsObject3D.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DAB1CF3F46D0043B22F /* MDAbsObject3D.mm */; };
 		3ECF6DC21CF3F46D0043B22F /* MDDisplayStrategy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DAD1CF3F46D0043B22F /* MDDisplayStrategy.m */; };
 		3ECF6DC31CF3F46D0043B22F /* MDGLKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DAF1CF3F46D0043B22F /* MDGLKViewController.m */; };
 		3ECF6DC41CF3F46D0043B22F /* MDInteractiveStrategy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DB21CF3F46D0043B22F /* MDInteractiveStrategy.m */; };
@@ -174,7 +174,7 @@
 		3ECF6DA81CF3F46D0043B22F /* MD360Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MD360Texture.h; sourceTree = "<group>"; };
 		3ECF6DA91CF3F46D0043B22F /* MD360Texture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MD360Texture.m; sourceTree = "<group>"; };
 		3ECF6DAA1CF3F46D0043B22F /* MDAbsObject3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDAbsObject3D.h; sourceTree = "<group>"; };
-		3ECF6DAB1CF3F46D0043B22F /* MDAbsObject3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDAbsObject3D.m; sourceTree = "<group>"; };
+		3ECF6DAB1CF3F46D0043B22F /* MDAbsObject3D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MDAbsObject3D.mm; sourceTree = "<group>"; };
 		3ECF6DAC1CF3F46D0043B22F /* MDDisplayStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDDisplayStrategy.h; sourceTree = "<group>"; };
 		3ECF6DAD1CF3F46D0043B22F /* MDDisplayStrategy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDDisplayStrategy.m; sourceTree = "<group>"; };
 		3ECF6DAE1CF3F46D0043B22F /* MDGLKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDGLKViewController.h; sourceTree = "<group>"; };
@@ -362,7 +362,7 @@
 				3ECF6DA81CF3F46D0043B22F /* MD360Texture.h */,
 				3ECF6DA91CF3F46D0043B22F /* MD360Texture.m */,
 				3ECF6DAA1CF3F46D0043B22F /* MDAbsObject3D.h */,
-				3ECF6DAB1CF3F46D0043B22F /* MDAbsObject3D.m */,
+				3ECF6DAB1CF3F46D0043B22F /* MDAbsObject3D.mm */,
 				3ECF6DAC1CF3F46D0043B22F /* MDDisplayStrategy.h */,
 				3ECF6DAD1CF3F46D0043B22F /* MDDisplayStrategy.m */,
 				3ECF6DAE1CF3F46D0043B22F /* MDGLKViewController.h */,
@@ -592,7 +592,7 @@
 				3E07F4CE1D2A1105003D2C83 /* Image.cpp in Sources */,
 				3E07F4DC1D2A1105003D2C83 /* VertexBuffer.cpp in Sources */,
 				3ECF6E071CF4211A0043B22F /* VRPlayerViewController.m in Sources */,
-				3ECF6DC11CF3F46D0043B22F /* MDAbsObject3D.m in Sources */,
+				3ECF6DC11CF3F46D0043B22F /* MDAbsObject3D.mm in Sources */,
 				3E07F4DA1D2A1105003D2C83 /* Vector3.cpp in Sources */,
 				3E07F4C71D2A1105003D2C83 /* Billboard.cpp in Sources */,
 				3ECF6DC71CF3F46D0043B22F /* MDVideoDataAdatperAVPlayerImpl.m in Sources */,

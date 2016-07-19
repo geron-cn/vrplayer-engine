@@ -99,7 +99,7 @@
 
 static AVPacket flush_pkt;
 
-static int s_maxTextureSize = 3072;
+static int s_maxTextureSize = 1024;
 
 #if CONFIG_AVFILTER
 // FFP_MERGE: opt_add_vfilter
@@ -644,7 +644,7 @@ static void free_picture(Frame *vp)
 
 void setMaxTextureSize(int size)
 {
-//    s_maxTextureSize = size;
+    s_maxTextureSize = size;
 }
 
 static void video_image_display2(FFPlayer *ffp)
@@ -1276,22 +1276,22 @@ static void fillbmpdata(AVFrame *src_frame, Frame *vp)
     {
         int codecWidth = src_frame->width;
         int codecHeight = src_frame->height;
-        int _dstTextureW = 2048;//codecWidth;
-        int _dstTextureH = 1024;//codecHeight;
-//        if (s_maxTextureSize < codecWidth && codecWidth > codecHeight)
-//        {
-//            _dstTextureW = s_maxTextureSize;
-//            _dstTextureH = (int)(((float)s_maxTextureSize / codecWidth) * codecHeight);
-//        }
-//        else if (s_maxTextureSize < codecHeight && codecHeight > codecWidth)
-//        {
-//            _dstTextureH = s_maxTextureSize;
-//            _dstTextureW = (int)(((float)s_maxTextureSize / codecHeight) * codecWidth);
-//            
-//        }
+        int _dstTextureW = codecWidth;
+        int _dstTextureH = codecHeight;
+        if (s_maxTextureSize < codecWidth && codecWidth > codecHeight)
+        {
+            _dstTextureW = s_maxTextureSize;
+            _dstTextureH = (int)(((float)s_maxTextureSize / codecWidth) * codecHeight);
+        }
+        else if (s_maxTextureSize < codecHeight && codecHeight > codecWidth)
+        {
+            _dstTextureH = s_maxTextureSize;
+            _dstTextureW = (int)(((float)s_maxTextureSize / codecHeight) * codecWidth);
+            
+        }
         
         static struct SwsContext* context = NULL;
-        context = sws_getCachedContext(context, src_frame->width, src_frame->height, src_frame->format, _dstTextureW, _dstTextureH, AV_PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
+        context = sws_getCachedContext(context, src_frame->width, src_frame->height, src_frame->format, _dstTextureW, _dstTextureH, AV_PIX_FMT_RGB24, SWS_FAST_BILINEAR, NULL, NULL, NULL);
         if (context)
         {
             

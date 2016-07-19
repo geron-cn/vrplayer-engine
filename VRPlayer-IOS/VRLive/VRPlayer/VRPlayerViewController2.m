@@ -173,17 +173,18 @@ static BOOL   hasAdvertisement = YES;
 
 - (void)setVolume:(float)volume
 {
-    [player setVolume:volume];
+//    [player setVolume:volume];
 }
 
 //status
 - (BOOL)isLooping
 {
-    return [player isLoop];
+    return NO;
+//    return [player isLoop];
 }
 - (void)setLooping: (BOOL)loop
 {
-    [player setLoop:loop];
+//    [player setLoop:loop];
 }
 - (BOOL)isPlaying
 {
@@ -191,11 +192,12 @@ static BOOL   hasAdvertisement = YES;
 }
 - (BOOL)isMuted
 {
-    return [player isMuted];
+    return NO;
+//    return [player isMuted];
 }
 - (void)setMuted: (BOOL)muted
 {
-    [player setMuted:muted];
+//    [player setMuted:muted];
 }
 
 //vr control

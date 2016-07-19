@@ -118,7 +118,7 @@ namespace vrlive {
     }
     Node::~Node()
     {
-        
+        removeAllChildren();
     }
     
 }

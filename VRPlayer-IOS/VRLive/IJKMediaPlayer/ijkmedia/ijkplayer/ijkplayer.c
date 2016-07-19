@@ -643,31 +643,6 @@ int ijkmp_get_loop(IjkMediaPlayer *mp)
     return loop;
 }
 
-void            ijkmp_set_muted(IjkMediaPlayer *mp, int muted)
-{
-    assert(mp);
-    pthread_mutex_lock(&mp->mutex);
-    mp->ffplayer->is->muted = muted;
-    pthread_mutex_unlock(&mp->mutex);
-}
-
-int             ijkmp_get_muted(IjkMediaPlayer *mp)
-{
-    assert(mp);
-    pthread_mutex_lock(&mp->mutex);
-    int muted = mp->ffplayer->is->muted;
-    pthread_mutex_unlock(&mp->mutex);
-    return muted;
-}
-
-void            ijkmp_set_volume(IjkMediaPlayer *mp, int volume)
-{
-    assert(mp);
-    pthread_mutex_lock(&mp->mutex);
-    mp->ffplayer->is->audio_volume = volume;
-    pthread_mutex_unlock(&mp->mutex);
-}
-
 void *ijkmp_get_weak_thiz(IjkMediaPlayer *mp)
 {
     return mp->weak_thiz;

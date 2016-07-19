@@ -22,26 +22,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+//#import "MDExt.h"
+
 #import <UIKit/UIKit.h>
 
 #include "ijksdl/ijksdl_vout.h"
 
-@interface IJKSDLGLView : NSObject// : UIView
+@interface IJKSDLGLView : UIView
 
-+ (id) instance;
 - (id) initWithFrame:(CGRect)frame;
-
 - (void) display: (SDL_VoutOverlay *) overlay;
-//call be main thread, upload texture and program if we have new texture
-- (void) updateTextureAndProgram: (float[])mvp posbuffer: (void*)pos texbuffer: (void*) tex;
+
++ (IJKSDLGLView*) instance;
+
+- (UIImage*) snapshot;
+- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
 - (BOOL) tryLockTextureData;
 - (void) unLockTextureData;
 - (int) getTextureWidth;
 - (int) getTextureHight;
 - (unsigned char*) popTextureData;
-
-- (UIImage*) snapshot;
-- (void)setHudValue:(NSString *)value forKey:(NSString *)key;
 
 @property(nonatomic,strong) NSLock  *appActivityLock;
 @property(nonatomic)        CGFloat  fps;

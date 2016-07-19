@@ -18,6 +18,13 @@
 #import "IJKMediaControl.h"
 #import "IJKCommon.h"
 #import "IJKDemoHistory.h"
+#import "MDVRLibrary.h"
+
+@interface IJKVideoViewController()
+
+@property (nonatomic,strong) MDVRLibrary* vrLibrary;
+
+@end
 
 @implementation IJKVideoViewController
 
@@ -85,6 +92,8 @@
     [self.view addSubview:self.mediaControl];
 
     self.mediaControl.delegatePlayer = self.player;
+    
+    [self createVRLibrary];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -306,6 +315,22 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMoviePlayerPlaybackDidFinishNotification object:_player];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification object:_player];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMoviePlayerPlaybackStateDidChangeNotification object:_player];
+}
+
+- (void) createVRLibrary{
+    /////////////////////////////////////////////////////// MDVRLibrary
+    MDVRConfiguration* config = [MDVRLibrary createConfig];
+    
+    [config asVideoWithYUV420PProvider:[MDIJKAdapter wrap:self.player.view]];
+    [config setContainer:self view:self.view];
+    
+    // optional
+    [config displayMode:MDModeDisplayGlass];
+    [config interactiveMode:MDModeInteractiveMotion];
+    [config pinchEnabled:true];
+    
+    self.vrLibrary = [config build];
+    /////////////////////////////////////////////////////// MDVRLibrary
 }
 
 @end

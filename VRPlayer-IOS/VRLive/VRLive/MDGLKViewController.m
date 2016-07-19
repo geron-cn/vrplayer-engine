@@ -26,7 +26,7 @@
     }
     
     
-    // self.context = nil;
+//    self.context = nil;
 }
 
 - (void)viewDidLoad{

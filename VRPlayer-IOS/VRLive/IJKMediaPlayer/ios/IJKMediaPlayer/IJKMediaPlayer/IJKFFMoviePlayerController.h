@@ -68,8 +68,6 @@ typedef enum IJKLogLevel {
     k_IJK_LOG_SILENT  = 8,
 } IJKLogLevel;
 
-@class IJKSDLGLView;
-
 @interface IJKFFMoviePlayerController : NSObject <IJKMediaPlayback>
 
 - (id)initWithContentURL:(NSURL *)aUrl
@@ -78,18 +76,11 @@ typedef enum IJKLogLevel {
 - (id)initWithContentURLString:(NSString *)aUrlString
                    withOptions:(IJKFFOptions *)options;
 
-- (IJKSDLGLView*)getIJKView;
-
 - (void)prepareToPlay;
 - (void)play;
 - (void)pause;
 - (void)stop;
 - (BOOL)isPlaying;
-- (BOOL)isLoop;
-- (void)setLoop:(BOOL)loop;
-- (BOOL)isMuted;
-- (void)setMuted:(BOOL)muted;
-- (void)setVolume:(int)volume;
 
 - (void)setPauseInBackground:(BOOL)pause;
 - (BOOL)isVideoToolboxOpen;

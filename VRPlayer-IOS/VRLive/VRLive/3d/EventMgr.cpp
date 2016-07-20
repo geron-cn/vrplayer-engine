@@ -13,13 +13,12 @@ namespace vrlive {
     
     void EventMgr::postEvent(const std::string& eventname)
     {
-        auto it = find(_eventNames.begin(), _eventNames.end(), eventname);
+ //       auto it = find(_eventNames.begin(), _eventNames.end(), eventname);
 //        if (it == _eventNames.end())
         {
             _eventNames.clear();
             _eventNames.push_back(eventname);
         }
-        
     }
     
     void EventMgr::removeEvent(const std::string& eventname)

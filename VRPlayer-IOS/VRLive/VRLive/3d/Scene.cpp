@@ -18,13 +18,13 @@ Scene* Scene::create()
 }
 
 void Scene::setCamera(Camera* camera)
-    {
-        camera->addRef();
-        if (_camera)
-        _camera->release();
-        
-        _camera = camera;
-    }
+{
+    camera->addRef();
+    if (_camera)
+    _camera->release();
+    
+    _camera = camera;
+}
     
 void Scene::init()
 {
@@ -34,6 +34,15 @@ void Scene::init()
 
 void Scene::draw()
 {
+    auto mat = _camera->getInverseViewMatrix();
+    if(mat.m[9] < 0.4f)
+    {
+        for (auto it : _children) {
+            it->draw(_camera);
+        } // translate menu
+        return;
+    }
+
     GLint texture;
     GLint texBind;
     GLint vertexbuffer;
@@ -42,6 +51,8 @@ void Scene::draw()
     glGetIntegerv(GL_TEXTURE_BINDING_2D, &texBind);
     glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &vertexbuffer);
     glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &idxbuffer);
+
+    glDisable(GL_DEPTH_TEST);
     
     if (_defMenu == nullptr)
     {
@@ -60,6 +71,7 @@ void Scene::draw()
         _cursor->updatePickUp(nullptr);
     
     for (auto it : _children) {
+        
         it->draw(_camera);
     }
     if (_cursor && _cursor->isVisible())

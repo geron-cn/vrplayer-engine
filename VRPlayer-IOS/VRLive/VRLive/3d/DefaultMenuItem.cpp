@@ -3,7 +3,7 @@
 #include "DefaultMenuItem.h"
 #include "Texture.h"
 #include "Sprite3D.h"
-#include "camera.h"
+#include "Camera.h"
 #include "MenuItem.h"
 #include "Stream.h"
 #include "Scene.h"
@@ -78,6 +78,7 @@ namespace vrlive {
             mat.m[4] = y.x; mat.m[5] = y.y; mat.m[6] = y.z;
             mat.m[8] = z.x; mat.m[9] = z.y; mat.m[10] = z.z;
             setTransformMatrix(mat);
+            return;
         }
         Node::draw(camera);
     }
@@ -98,7 +99,7 @@ namespace vrlive {
         _pause = MenuItem::create(stream, 2.f, 2.f);
         stream->release();
         stream = getBackgroundStream();
-        _background = Billboard::create(stream, 12.f, 4.f);
+         _background = Billboard::create(stream, 10.f, 3.f);
         stream->release();
         
         _back->setName("back");
@@ -106,7 +107,7 @@ namespace vrlive {
         _backward->setName("backward");
         _pause->setName("pause");
         
-        _background->setTranslation(Vector3(0, -20, -20));
+         _background->setTranslation(Vector3(0, -20, -20));
         _back->setTranslation(Vector3(-3.f, -20, -20));
         _pause->setTranslation(Vector3(-1.f, -20, -20));
         _forward->setTranslation(Vector3(1.f, -20, -20));

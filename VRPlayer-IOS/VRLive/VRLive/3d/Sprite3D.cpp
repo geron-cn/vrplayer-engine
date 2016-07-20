@@ -121,7 +121,7 @@ namespace vrlive {
             glUniform4f(location, _color.x, _color.y, _color.z, _color.w);
             
             glDrawElements(GL_TRIANGLES, _buffer->getIndexCount(), GL_UNSIGNED_SHORT, 0);
-            
+    
             _program->unbind();
             _buffer->unbind();
         }

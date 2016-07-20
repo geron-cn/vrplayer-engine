@@ -4,7 +4,7 @@
 #include "MenuItem.h"
 #include "Texture.h"
 #include "Sprite3D.h"
-#include "camera.h"
+#include "Camera.h"
 
 namespace vrlive {
     MenuItem* MenuItem::create(Stream* stream, float width, float height)

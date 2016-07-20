@@ -3,7 +3,7 @@
 #include "BillBoard.h"
 #include "Texture.h"
 #include "Sprite3D.h"
-#include "camera.h"
+#include "Camera.h"
 
 namespace vrlive {
     Billboard* Billboard::create(Stream* stream, float width, float height)

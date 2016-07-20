@@ -83,16 +83,16 @@ static int s_videomode = 2;
 - (void) rendererOnCreated:(EAGLContext*)context{
     [GLUtil glCheck:@"glEnable"];
     
-//    // init
-//    [self initProgram];
-//    [GLUtil glCheck:@"initProgram"];
-////
-////    [self initTexture:context];
-////    [GLUtil glCheck:@"initTexture"];
-//    
-//    [self initObject3D];
-//    [GLUtil glCheck:@"initObject3D"];
-    [self initProgramAndObj];
+    // init
+    [self initProgram];
+    [GLUtil glCheck:@"initProgram"];
+//
+//    [self initTexture:context];
+//    [GLUtil glCheck:@"initTexture"];
+    
+    [self initObject3D];
+    [GLUtil glCheck:@"initObject3D"];
+//    [self initProgramAndObj];
     
     _scene = vrlive::Scene::create();
     vrlive::EventMgr::getInstance()->clearEvents();
@@ -254,7 +254,7 @@ static int s_videomode = 2;
 
 - (void) initProgramAndObj
 {
-    static int initmode = -1;
+    static int initmode = s_videomode;
     if (initmode != s_videomode)
     {
         initmode = s_videomode;

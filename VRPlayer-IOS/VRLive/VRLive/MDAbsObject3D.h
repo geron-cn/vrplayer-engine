@@ -30,6 +30,7 @@
 - (void)setNumIndices:(int)value;
 - (void)onDraw;
 - (void)loadObj;
+- (void)loadObjPlane;
 - (void)uploadDataToProgram:(MD360Program*)program;
 
 - (short*) getIndices;

@@ -24,6 +24,8 @@
 
 @interface MD360Renderer : NSObject <MDGLRendererDelegate>
 + (MD360RendererBuilder*) builder;
+// 0 auto, 1 3d left right, 2 vr
++ (void) setVideoRenderMode: (int)mode;
 @end
 
 

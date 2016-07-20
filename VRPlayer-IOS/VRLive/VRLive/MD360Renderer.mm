@@ -36,7 +36,12 @@ std::string _postedEvent;
 
 @implementation MD360Renderer
 
+static int s_videomode = 2;
 
++ (void) setVideoRenderMode: (int)mode
+{
+    s_videomode = mode;
+}
 
 + (MD360RendererBuilder*) builder{
     return [[MD360RendererBuilder alloc]init];
@@ -78,15 +83,16 @@ std::string _postedEvent;
 - (void) rendererOnCreated:(EAGLContext*)context{
     [GLUtil glCheck:@"glEnable"];
     
-    // init
-    [self initProgram];
-    [GLUtil glCheck:@"initProgram"];
-//
-//    [self initTexture:context];
-//    [GLUtil glCheck:@"initTexture"];
-    
-    [self initObject3D];
-    [GLUtil glCheck:@"initObject3D"];
+//    // init
+//    [self initProgram];
+//    [GLUtil glCheck:@"initProgram"];
+////
+////    [self initTexture:context];
+////    [GLUtil glCheck:@"initTexture"];
+//    
+//    [self initObject3D];
+//    [GLUtil glCheck:@"initObject3D"];
+    [self initProgramAndObj];
     
     _scene = vrlive::Scene::create();
     vrlive::EventMgr::getInstance()->clearEvents();
@@ -112,13 +118,30 @@ std::string _postedEvent;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     [GLUtil glCheck:@"glClear"];
     
-  
+    if (s_videomode == 0 && _texture)
+    {
+        unsigned int w = _texture->getWidth();
+        unsigned int h = _texture->getHeight();
+        static const float RATIO_4_3 = 1.3333333333334; // 4/3
+        static const float RATIO_16_9 =  1.77777777777778;
+        if (w && h)
+        {
+            if (fabsf(w/h - RATIO_4_3) < 0.0001f || fabsf(w/h - RATIO_16_9) < 0.0001f)
+            {
+                s_videomode = 1;
+            }
+            else
+                s_videomode = 2;
+            
+            [self initProgramAndObj];
+        }
+    }
     
     float scale = [GLUtil getScrrenScale];
     int widthPx = width * scale;
     int heightPx = height * scale;
     
-    int size = [self.mDisplayStrategyManager getVisibleSize];
+    int size = (s_videomode == 1 ? 1 : [self.mDisplayStrategyManager getVisibleSize]);
     int itemWidthPx = widthPx * 1.0 / size;
     
     
@@ -144,7 +167,6 @@ std::string _postedEvent;
         IJKSDLGLView* instance = [IJKSDLGLView instance];
         if (instance)
         {
-//            GLKMatrix4 mvp = [ [self.mDirectors objectAtIndex:i] getMVPMatrix];//
             if ([instance tryLockTextureData])
             {
                 int w = [instance getTextureWidth];
@@ -168,26 +190,22 @@ std::string _postedEvent;
                 [instance unLockTextureData];
             }
             
-//            [instance updateTextureAndProgram:mvp.m posbuffer:[self.mObject3D getVertexBuffer] texbuffer:[self.mObject3D getTextureBuffer]];
         }
         if (_texture)
         {
             _texture->bind();
         }
-//        if ([self.mObject3D getIndices] != nil) {
-//            glDrawElements(GL_TRIANGLES, self.mObject3D.mNumIndices, GL_UNSIGNED_SHORT, [self.mObject3D getIndices]);
-//        } else {
-//            glDrawArrays(GL_TRIANGLES, 0, self.mObject3D.mNumIndices);
-//        }
-//        [GLUtil glCheck:@"glDrawArrays"];
         
         // Pass in the combined matrix.
-        [direcotr shot:self.mProgram];
-        [GLUtil glCheck:@"shot"];
-        
-        // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
-        glUniform1i(self.mProgram.mTextureUniformHandle, 0);
-        [GLUtil glCheck:@"glUniform1i mTextureUniformHandle"];
+        if (s_videomode != 1)
+        {
+            [direcotr shot:self.mProgram];
+            [GLUtil glCheck:@"shot"];
+            
+            // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
+            glUniform1i(self.mProgram.mTextureUniformHandle, 0);
+            [GLUtil glCheck:@"glUniform1i mTextureUniformHandle"];
+        }
         
         // upload
         [self.mObject3D uploadDataToProgram:self.mProgram];
@@ -234,8 +252,26 @@ std::string _postedEvent;
     }
 }
 
+- (void) initProgramAndObj
+{
+    static int initmode = -1;
+    if (initmode != s_videomode)
+    {
+        initmode = s_videomode;
+        
+        [self.mObject3D destroy];
+        [self.mProgram destroy];
+        
+        [self initProgram];
+        [self initObject3D];
+    }
+}
+
 - (void) initProgram {
-    [self.mProgram build];
+    if (s_videomode == 1)
+        [self.mProgram build2D_LR];
+    else
+        [self.mProgram build];
 }
 
 - (void) initTexture:(EAGLContext*)context {
@@ -244,9 +280,10 @@ std::string _postedEvent;
 
 - (void) initObject3D {
     // load
-    [self.mObject3D loadObj];
-  
-       
+    if (s_videomode == 1)
+        [self.mObject3D loadObjPlane];
+    else
+        [self.mObject3D loadObj];
 }
 
 - (void) rendererOnDestroy:(EAGLContext*) context{

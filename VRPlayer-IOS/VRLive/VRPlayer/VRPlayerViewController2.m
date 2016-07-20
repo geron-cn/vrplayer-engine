@@ -11,6 +11,7 @@
 #import <IJKNotificationManager.h>
 #import <IJKKVOController.h>
 #import "MDVRLibrary.h"
+#import "MD360Renderer.h"
 #import "logo.h"
 
 @interface VRPlayerViewController(){
@@ -26,6 +27,9 @@
 
 @end
 @implementation VRPlayerViewController
+
+static ViewMode s_viewMode = VIEW_DISPLAY_AUTODETECT;
+static bool is2DViewDispaying = false;
 
 static BOOL   hasAdvertisement = YES;
 
@@ -212,6 +216,98 @@ static BOOL   hasAdvertisement = YES;
         [self.vrLibrary switchDisplayMode];
     }
 }
+
+static const float RATIO_4_3 = 1.3333333333334; // 4/3
+static const float RATIO_16_9 =  1.77777777777778;
+
+-(void)initView
+{
+    BOOL is2d = false;
+    
+//    if(s_viewMode == VIEW_DISPLAY_AUTODETECT)
+//    {
+//        AVAssetTrack* track = [[s_playerItem tracks].firstObject assetTrack];
+//        if(track != nil)
+//        {
+//            int v_h = track.naturalSize.height;
+//            float w_d_ratio = v_h <= 0? 0.0f : track.naturalSize.width / v_h;
+//            is2d = fabsf(w_d_ratio - RATIO_4_3) < 0.0001 || fabsf(w_d_ratio - RATIO_16_9) < 0.0001;
+//        }
+//        else
+//            is2d = false;
+//    }
+//    else
+//    {
+//        is2d = s_viewMode == VIEW_DISPLAY_FORCE_2DPLANE;
+//    }
+    
+    if(is2d)
+    {
+        self.vrLibrary = nil;
+        
+        // init subview
+        CGRect frame = self.view.frame;
+//        [self.videoPlayerView setFrame:frame];
+//        [self.view addSubview:self.videoPlayerView];
+        is2DViewDispaying = true;
+    }
+    else
+    {
+        /////////////////////////////////////////////////////// MDVRLibrary
+        MDVRConfiguration* config = [MDVRLibrary createConfig];
+        
+        [config displayMode:MDModeDisplayGlass];
+        [config interactiveMode:MDModeInteractiveMotion];
+//        [config asVideo:s_playerItem];
+        [config setContainer:self view:self.view];
+        [config pinchEnabled:true];
+        
+        self.vrLibrary = [config build];
+        //init subview
+        CGRect frame = self.view.frame;//self.vrLibrary.bounds;
+        //self.videoPlayerView.frame;
+        if (videoframe.origin.x != frame.origin.x || videoframe.origin.y != frame.origin.y || videoframe.size.width != frame.size.width || videoframe.size.height != frame.size.height)
+        {
+            videoframe = frame;
+            NSLog(@"viewDidLayoutSubviews @", NSStringFromCGRect(frame));
+            if (self.vrLibrary != nil)
+            {
+                [self.vrLibrary resize];
+            }
+        }
+        is2DViewDispaying = false;
+    }
+    [super viewDidLayoutSubviews];
+}
+
+- (int) getVideoWidth
+{
+    if (player)
+    {
+        return player.naturalSize.width;
+    }
+    return 0;
+}
+
+- (int) getVideoHeigth
+{
+    if (player)
+    {
+        return player.naturalSize.height;
+    }
+    return 0;
+}
+
++ (void) setViewMode:(ViewMode)viewMode
+{
+    int mode = 0;
+    if (viewMode == VIEW_DISPLAY_FORCE_2DPLANE)
+        mode = 1;
+    else if (viewMode == VIEW_DISPLAY_FORCE_VRMODE)
+        mode = 2;
+    [MD360Renderer setVideoRenderMode: mode];
+}
+
 - (BOOL)isMotionControl
 {
     return self.vrLibrary.getInteractiveMdoe == MDModeInteractiveMotion;

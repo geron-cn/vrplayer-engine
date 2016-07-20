@@ -18,6 +18,8 @@
 @property (nonatomic,readonly) int mProgramHandle;
 @property (nonatomic,readonly) int mContentType;
 - (void) build;
+//2D left right shader
+- (void) build2D_LR;
 - (void) use;
 - (void) unuse;
 @end

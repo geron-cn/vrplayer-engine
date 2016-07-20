@@ -105,7 +105,10 @@ static int sPositionDataSize = 3;
     [GLUtil loadObject3DWithPath:obj3dPath output:self];
     //[GLUtil loadObject3DMock:self];
 }
-
+- (void)loadObjPlane
+{
+    NSAssert(0, @"not implement");
+}
 
 - (void)uploadDataToProgram:(MD360Program*)program{
     positionHandle = program.mPositionHandle;
@@ -171,6 +174,18 @@ static int sPositionDataSize = 3;
 
 - (void)loadObj{
     generateSphere([MDVRLibrary getSphereRadius],80,self);
+}
+
+- (void)loadObjPlane
+{
+    float vertices[] = {-1,-1,0, 1,-1,0, -1,1,0, 1,1,0};
+    float texCoords[] = {0,1, 1,1, 0,0, 1,0};
+    short indices[] = {0,1,2, 1,3,2};
+    
+    [self setIndicesBuffer:indices size:6]; //object3D.setIndicesBuffer(indexBuffer);
+    [self setTextureBuffer:texCoords size:8]; //object3D.setTexCoordinateBuffer(texBuffer);
+    [self setVertexBuffer:vertices size: 12]; //object3D.setVerticesBuffer(vertexBuffer);
+    [self setNumIndices:6];
 }
 
 #define ES_PI  (3.14159265f)

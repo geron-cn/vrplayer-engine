@@ -172,7 +172,7 @@ typedef enum{
  * @param viewMode @see #ViewMode
  *
  */
-- (void)setViewMode: (ViewMode) viewMode;
++ (void)setViewMode: (ViewMode) viewMode;
 
 /**
  * @brief @~chinese 视频宽 @~english video width

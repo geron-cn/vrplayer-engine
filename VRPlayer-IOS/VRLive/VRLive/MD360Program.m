@@ -17,10 +17,15 @@
 
 @implementation MD360Program
 - (void) build {
-    NSString* vertexShader = [self getVertexShader];
-    NSString* fragmentShader = [self getFragmentShader];
-    // NSLog(@"%@ %@",vertexShader,fragmentShader);
-    //GLuint vertexShaderHandle,fragmentShaderHandle;
+    NSString* vs = [self getVertexShader];
+    NSString* fs = [self getFragmentShader];
+    [self build_internal:vs fragmentShader:fs];
+}
+
+- (void) build_internal: (NSString*)vs fragmentShader: (NSString*) fs
+{
+    NSString* vertexShader = vs;//[self getVertexShader];
+    NSString* fragmentShader = fs;//[self getFragmentShader];
     
     if (![GLUtil compileShader:&vertexShaderHandle type:GL_VERTEX_SHADER source:vertexShader])
         NSLog(@"Failed to compile vertex shader");
@@ -30,7 +35,7 @@
     
     NSArray* attrs = [[NSArray alloc] initWithObjects:@"a_Position", @"a_TexCoordinate", nil];
     _mProgramHandle = [GLUtil createAndLinkProgramWith:vertexShaderHandle fsHandle:fragmentShaderHandle attrs:attrs];
-
+    
     _mMVMatrixHandle = glGetUniformLocation(self.mProgramHandle, "u_MVMatrix");
     _mMVPMatrixHandle = glGetUniformLocation(self.mProgramHandle, "u_MVPMatrix");
     _mTextureUniformHandle = glGetUniformLocation(self.mProgramHandle, "u_Texture");
@@ -41,6 +46,19 @@
     int maxTexture;
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTexture);
     setMaxTextureSize(maxTexture);
+}
+- (void) build2D_LR
+{
+    NSString* vs = @"uniform mat4 u_MVPMatrix;\n\
+    attribute vec4 a_Position; \n\
+    attribute vec2 a_TexCoordinate;\n\
+    varying vec2 v_TexCoordinate;\n\
+    void main() {\n \
+    v_TexCoordinate = a_TexCoordinate; \n\
+    gl_Position = a_Position;\n\
+    }";
+    NSString* fs = [self getFragmentShader];
+    [self build_internal:vs fragmentShader:fs];
 }
 
 - (void) destroy {

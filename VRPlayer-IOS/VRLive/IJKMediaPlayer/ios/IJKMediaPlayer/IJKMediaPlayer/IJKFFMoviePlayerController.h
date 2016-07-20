@@ -82,8 +82,18 @@ typedef enum IJKLogLevel {
 - (void)stop;
 - (BOOL)isPlaying;
 
+- (BOOL)isLoop;
+- (void)setLoop:(BOOL)loop;
+
+- (BOOL)isMuted;
+- (void)setMuted:(BOOL)muted;
+
+- (void)setVolume: (int)volume;
+
 - (void)setPauseInBackground:(BOOL)pause;
 - (BOOL)isVideoToolboxOpen;
+
+- (NSInteger) getBufferingTime;
 
 + (void)setLogReport:(BOOL)preferLogReport;
 + (void)setLogLevel:(IJKLogLevel)logLevel;

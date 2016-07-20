@@ -240,6 +240,7 @@ static IJKSDLGLView* _instance = nil;
     _textureLock = nil;
     free(_textureData);
     
+    if (_instance == self)
     _instance = nil;
 }
 

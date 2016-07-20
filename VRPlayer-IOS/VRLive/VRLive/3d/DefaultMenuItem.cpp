@@ -85,20 +85,20 @@ namespace vrlive {
     bool DefaultMenuItem::init()
     {
         Stream* stream = getBtnBackStream();
-        _back = MenuItem::create(stream, 1.f, 1.f);
+        _back = MenuItem::create(stream, 2.f, 2.f);
         stream->release();
         
         stream = getBtnForwardStream();
-        _forward = MenuItem::create(stream, 1.f, 1.f);
+        _forward = MenuItem::create(stream, 2.f, 2.f);
         stream->release();
         stream = getBtnBackwardStream();
-        _backward = MenuItem::create(stream, 1.f, 1.f);
+        _backward = MenuItem::create(stream, 2.f, 2.f);
         stream->release();
         stream = getBtnPauseStream();
-        _pause = MenuItem::create(stream, 1.f, 1.f);
+        _pause = MenuItem::create(stream, 2.f, 2.f);
         stream->release();
         stream = getBackgroundStream();
-        _background = Billboard::create(stream, 6.f, 2.f);
+        _background = Billboard::create(stream, 12.f, 4.f);
         stream->release();
         
         _back->setName("back");
@@ -107,10 +107,10 @@ namespace vrlive {
         _pause->setName("pause");
         
         _background->setTranslation(Vector3(0, -20, -20));
-        _back->setTranslation(Vector3(-1.8, -20, -20));
-        _pause->setTranslation(Vector3(-0.6, -20, -20));
-        _forward->setTranslation(Vector3(0.6, -20, -20));
-        _backward->setTranslation(Vector3(1.8, -20, -20));
+        _back->setTranslation(Vector3(-3.f, -20, -20));
+        _pause->setTranslation(Vector3(-1.f, -20, -20));
+        _forward->setTranslation(Vector3(1.f, -20, -20));
+        _backward->setTranslation(Vector3(3.f, -20, -20));
         
         addChild(_background);
         addChild(_back);

@@ -18,6 +18,7 @@
     IJKFFMoviePlayerController *player;
     BOOL shouldPlayAfterScrubing;
     BOOL isScrubbing;
+    NSTimer *timer;
 }
 @property (nonatomic, strong) MDVRLibrary* vrLibrary;
 @property (nonatomic, strong) NSURL* mURL;
@@ -141,7 +142,7 @@ static BOOL   hasAdvertisement = YES;
 }
 - (void)close
 {
-    [player stop];
+    [player shutdown];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -173,18 +174,17 @@ static BOOL   hasAdvertisement = YES;
 
 - (void)setVolume:(float)volume
 {
-//    [player setVolume:volume];
+    [player setVolume:volume];
 }
 
 //status
 - (BOOL)isLooping
 {
-    return NO;
-//    return [player isLoop];
+    return [player isLoop];
 }
 - (void)setLooping: (BOOL)loop
 {
-//    [player setLoop:loop];
+    [player setLoop:loop];
 }
 - (BOOL)isPlaying
 {
@@ -192,12 +192,11 @@ static BOOL   hasAdvertisement = YES;
 }
 - (BOOL)isMuted
 {
-    return NO;
-//    return [player isMuted];
+    return [player isMuted];
 }
 - (void)setMuted: (BOOL)muted
 {
-//    [player setMuted:muted];
+    [player setMuted:muted];
 }
 
 //vr control
@@ -229,73 +228,194 @@ static BOOL   hasAdvertisement = YES;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-//    [self installMovieNotificationObservers];
+    [self installMovieNotificationObservers];
     
     [player prepareToPlay];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
+    [player shutdown];
     [super viewDidDisappear:animated];
     
-    [player shutdown];
-//    [self removeMovieNotificationObservers];
+    [self removeMovieNotificationObservers];
 }
 
-//- (void)videoPlayerViewIsReadyToPlayVideo:(VIMVideoPlayerView *)videoPlayerView
-//{
-//    
-//    NSLog(@"videoPlayerIsReadyToPlayVideo: ");
-//    if ([self.delegate respondsToSelector:@selector(videoPlayerIsReadyToPlayVideo:)])
-//    {
-//        [self.delegate videoPlayerIsReadyToPlayVideo:self];
-//    }
-//}
-//- (void)videoPlayerViewDidReachEnd:(VIMVideoPlayerView *)videoPlayerView
-//{
-//    NSLog(@"videoPlayerDidReachEnd: ");
-//    if ([self.delegate respondsToSelector:@selector(videoPlayerDidReachEnd:)])
-//    {
-//        [self.delegate videoPlayerDidReachEnd:self];
-//    }
-//}
-//- (void)videoPlayerView:(VIMVideoPlayerView *)videoPlayerView timeDidChange:(CMTime)cmTime
-//{
-//    if ([self.delegate respondsToSelector:@selector(videoPlayer:timeDidChange:)])
-//    {
-//        [self.delegate videoPlayer:self timeDidChange:cmTime];
-//    }
-//}
-//- (void)videoPlayerView:(VIMVideoPlayerView *)videoPlayerView loadedTimeRangeDidChange:(float)duration
-//{
-//    if ([self.delegate respondsToSelector:@selector(videoPlayer:loadedTimeRangeDidChange:)])
-//    {
-//        [self.delegate videoPlayer:self loadedTimeRangeDidChange:duration];
-//    }
-//}
-//- (void)videoPlayerViewPlaybackBufferEmpty:(VIMVideoPlayerView *)videoPlayerView
-//{
-//    NSLog(@"videoPlayerViewPlaybackBufferEmpty: ");
-//    if ([self.delegate respondsToSelector:@selector(videoPlayerPlaybackBufferEmpty:)])
-//    {
-//        [self.delegate videoPlayerPlaybackBufferEmpty:self];
-//    }
-//}
-//- (void)videoPlayerViewPlaybackLikelyToKeepUp:(VIMVideoPlayerView *)videoPlayerView
-//{
-//    NSLog(@"videoPlayerViewPlaybackLikelyToKeepUp: ");
-//    if ([self.delegate respondsToSelector:@selector(videoPlayerPlaybackLikelyToKeepUp:)])
-//    {
-//        [self.delegate videoPlayerPlaybackLikelyToKeepUp:self];
-//    }
-//}
-//- (void)videoPlayerView:(VIMVideoPlayerView *)videoPlayerView didFailWithError:(NSError *)error
-//{
-//    NSLog(@"error: %@", [error localizedDescription]);
-//    if ([self.delegate respondsToSelector:@selector(videoPlayer:didFailWithError:)])
-//    {
-//        [self.delegate videoPlayer:self didFailWithError:error];
-//    }
-//}
+- (void)loadStateDidChange:(NSNotification*)notification
+{
+    //    MPMovieLoadStateUnknown        = 0,
+    //    MPMovieLoadStatePlayable       = 1 << 0,
+    //    MPMovieLoadStatePlaythroughOK  = 1 << 1, // Playback will be automatically started in this state when shouldAutoplay is YES
+    //    MPMovieLoadStateStalled        = 1 << 2, // Playback will be automatically paused in this state, if started
+    
+    IJKMPMovieLoadState loadState = player.loadState;
+    
+    if ((loadState & IJKMPMovieLoadStatePlaythroughOK) != 0) {
+        NSLog(@"loadStateDidChange: IJKMPMovieLoadStatePlaythroughOK: %d\n", (int)loadState);
+    } else if ((loadState & IJKMPMovieLoadStateStalled) != 0) {
+        NSLog(@"loadStateDidChange: IJKMPMovieLoadStateStalled: %d\n", (int)loadState);
+        if ([self.delegate respondsToSelector:@selector(videoPlayerPlaybackBufferEmpty:)])
+        {
+            [self.delegate videoPlayerPlaybackBufferEmpty:self];
+        }
+    } else {
+        NSLog(@"loadStateDidChange: ???: %d\n", (int)loadState);
+    }
+}
+
+- (void)moviePlayBackDidFinish:(NSNotification*)notification
+{
+    //    MPMovieFinishReasonPlaybackEnded,
+    //    MPMovieFinishReasonPlaybackError,
+    //    MPMovieFinishReasonUserExited
+    int reason = [[[notification userInfo] valueForKey:IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey] intValue];
+    
+    switch (reason)
+    {
+        case IJKMPMovieFinishReasonPlaybackEnded:
+            NSLog(@"playbackStateDidChange: IJKMPMovieFinishReasonPlaybackEnded: %d\n", reason);
+                if ([self.delegate respondsToSelector:@selector(videoPlayerDidReachEnd:)])
+                {
+                    [self.delegate videoPlayerDidReachEnd:self];
+                }
+            break;
+            
+        case IJKMPMovieFinishReasonUserExited:
+            NSLog(@"playbackStateDidChange: IJKMPMovieFinishReasonUserExited: %d\n", reason);
+            break;
+            
+        case IJKMPMovieFinishReasonPlaybackError:
+        {
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"文件播放遇到错误，网络连接失败或者服务器上文件损坏！"                                                                      forKey:NSLocalizedDescriptionKey];
+            NSError *error = [NSError errorWithDomain:@"VRLive Player" code:reason userInfo:userInfo];
+            NSLog(@"error: %@", [error localizedDescription]);
+            if ([self.delegate respondsToSelector:@selector(videoPlayer:didFailWithError:)])
+                {
+                    [self.delegate videoPlayer:self didFailWithError:error];
+                }
+        }
+//            NSLog(@"playbackStateDidChange: IJKMPMovieFinishReasonPlaybackError: %d\n", reason);
+
+            break;
+            
+        default:
+            NSLog(@"playbackPlayBackDidFinish: ???: %d\n", reason);
+            break;
+    }
+}
+
+- (void)mediaIsPreparedToPlayDidChange:(NSNotification*)notification
+{
+    NSLog(@"mediaIsPreparedToPlayDidChange\n");
+    if ([self.delegate respondsToSelector:@selector(videoPlayerIsReadyToPlayVideo:)])
+    {
+        [self.delegate videoPlayerIsReadyToPlayVideo:self];
+    }
+    if ([self.delegate respondsToSelector:@selector(videoPlayerPlaybackLikelyToKeepUp:)])
+    {
+            [self.delegate videoPlayerPlaybackLikelyToKeepUp:self];
+    }
+}
+
+- (void)moviePlayBackStateDidChange:(NSNotification*)notification
+{
+    //    MPMoviePlaybackStateStopped,
+    //    MPMoviePlaybackStatePlaying,
+    //    MPMoviePlaybackStatePaused,
+    //    MPMoviePlaybackStateInterrupted,
+    //    MPMoviePlaybackStateSeekingForward,
+    //    MPMoviePlaybackStateSeekingBackward
+    
+    switch (player.playbackState)
+    {
+        case IJKMPMoviePlaybackStateStopped: {
+            NSLog(@"IJKMPMoviePlayBackStateDidChange %d: stoped", (int)player.playbackState);
+            break;
+        }
+        case IJKMPMoviePlaybackStatePlaying: {
+            NSLog(@"IJKMPMoviePlayBackStateDidChange %d: playing", (int)player.playbackState);
+            break;
+        }
+        case IJKMPMoviePlaybackStatePaused: {
+            {
+            NSLog(@"IJKMPMoviePlayBackStateDidChange %d: paused", (int)player.playbackState);
+            }
+            break;
+        }
+        case IJKMPMoviePlaybackStateInterrupted: {
+            NSLog(@"IJKMPMoviePlayBackStateDidChange %d: interrupted", (int)player.playbackState);
+            break;
+        }
+        case IJKMPMoviePlaybackStateSeekingForward:
+        case IJKMPMoviePlaybackStateSeekingBackward: {
+            NSLog(@"IJKMPMoviePlayBackStateDidChange %d: seeking", (int)player.playbackState);
+            break;
+        }
+        default: {
+            NSLog(@"IJKMPMoviePlayBackStateDidChange %d: unknown", (int)player.playbackState);
+            break;
+        }
+    }
+}
+
+- (void)loadedTimeRangeDidChange:(NSNotification*)notification
+{
+    if ([self.delegate respondsToSelector:@selector(videoPlayer:loadedTimeRangeDidChange:)])
+    {
+        NSInteger dur = player.playableDuration;
+        [self.delegate videoPlayer:self loadedTimeRangeDidChange:dur];
+    }
+}
+
+#pragma mark Install Movie Notifications
+
+/* Register observers for the various movie object notifications. */
+-(void)installMovieNotificationObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loadStateDidChange:)
+                                                 name:IJKMPMoviePlayerLoadStateDidChangeNotification
+                                               object:player];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlayBackDidFinish:)
+                                                 name:IJKMPMoviePlayerPlaybackDidFinishNotification
+                                               object:player];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(mediaIsPreparedToPlayDidChange:)
+                                                 name:IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification
+                                               object:player];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlayBackStateDidChange:)
+                                                 name:IJKMPMoviePlayerPlaybackStateDidChangeNotification
+                                               object:player];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadedTimeRangeDidChange:) name:IJKMPMoviePlayerBufferingTimeChangedNotification object:player];
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(timeChanged:) userInfo:nil repeats:YES];
+}
+
+#pragma mark Remove Movie Notification Handlers
+
+/* Remove the movie notification observers from the movie object. */
+-(void)removeMovieNotificationObservers
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMoviePlayerLoadStateDidChangeNotification object:player];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMoviePlayerPlaybackDidFinishNotification object:player];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification object:player];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMoviePlayerPlaybackStateDidChangeNotification object:player];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMoviePlayerBufferingTimeChangedNotification object:player];
+    [timer invalidate];
+}
+
+- (void)timeChanged:(id)userinfo
+{
+    if ([self isPlaying] && [self.delegate respondsToSelector:@selector(videoPlayer:timeDidChange:)])
+    {
+        [self.delegate videoPlayer:self timeDidChange:[self currentTime]];
+    }
+}
 
 - (CMTime)duration
 {

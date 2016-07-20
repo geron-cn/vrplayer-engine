@@ -118,6 +118,11 @@ namespace vrlive {
     }
     Node::~Node()
     {
+        if (_sprite)
+        {
+            _sprite->release();
+            _sprite = NULL;
+        }
         removeAllChildren();
     }
     

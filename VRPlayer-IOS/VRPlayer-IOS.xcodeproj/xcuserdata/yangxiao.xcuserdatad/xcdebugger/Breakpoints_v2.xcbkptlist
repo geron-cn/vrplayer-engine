@@ -169,22 +169,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VRLive/IJKMediaPlayer/ijkmedia/ijksdl/ijksdl_vout.c"
-            timestampString = "490590905.155677"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
-            landmarkName = "SDL_VoutFreeYUVOverlay()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "VRLive/IJKMediaPlayer/ijkmedia/ijksdl/ijksdl_vout_internal.h"
             timestampString = "490591069.145906"
             startingColumnNumber = "9223372036854775807"
@@ -201,29 +185,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VRLive/IJKMediaPlayer/ijkmedia/ijksdl/ffmpeg/ijksdl_vout_overlay_ffmpeg.c"
-            timestampString = "490591257.402899"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "func_free_l()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "VRLive/VRPlayer/VRPlayerViewController2.m"
-            timestampString = "490604621.037856"
+            timestampString = "490678794.887194"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
-            landmarkName = "-close"
+            startingLineNumber = "283"
+            endingLineNumber = "283"
+            landmarkName = "-moviePlayBackDidFinish:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -114,7 +114,7 @@ typedef enum{
 - (void)stopScrubbing;
 
 /**
- * @~chinese 设置视频声音大小 @~english set volume
+ * @~chinese 设置视频声音大小(0 - 1) @~english set volume
  * @param volume @~chinese 声音大小 @~english volume
  */
 - (void)setVolume:(float)volume;

@@ -324,6 +324,47 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
     return ijkmp_is_playing(_mediaPlayer);
 }
 
+- (BOOL)isLoop
+{
+    if (!_mediaPlayer)
+        return NO;
+    
+    return ijkmp_get_loop(_mediaPlayer) == 0;
+}
+
+- (void)setLoop:(BOOL)loop
+{
+    if (_mediaPlayer)
+    {
+        int looptimes = (loop ? 0 : 1);
+        ijkmp_set_loop(_mediaPlayer, looptimes);
+    }
+}
+
+- (BOOL)isMuted
+{
+    if (_mediaPlayer)
+    {
+        return ijkmp_get_muted(_mediaPlayer);
+    }
+    return NO;
+}
+- (void)setMuted:(BOOL)muted
+{
+    if (_mediaPlayer)
+    {
+        ijkmp_set_muted(_mediaPlayer, muted);
+    }
+}
+
+- (void)setVolume: (float)volumepercent
+{
+    if (_mediaPlayer)
+    {
+        ijkmp_set_volume(_mediaPlayer, volumepercent);
+    }
+}
+
 - (void)setPauseInBackground:(BOOL)pause
 {
     _pauseInBackground = pause;
@@ -845,6 +886,11 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
     }
 }
 
+- (NSInteger) getBufferingTime
+{
+    return _bufferingTime;
+}
+
 - (void)postEvent: (IJKFFMoviePlayerMessage *)msg
 {
     if (!msg)
@@ -1023,6 +1069,7 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
         case FFP_MSG_BUFFERING_UPDATE:
             _bufferingPosition = avmsg->arg1;
             _bufferingProgress = avmsg->arg2;
+            [ [NSNotificationCenter defaultCenter] postNotificationName:IJKMPMoviePlayerBufferingTimeChangedNotification object:self];
             // NSLog(@"FFP_MSG_BUFFERING_UPDATE: %d, %%%d\n", _bufferingPosition, _bufferingProgress);
             break;
         case FFP_MSG_BUFFERING_BYTES_UPDATE:
@@ -1030,6 +1077,7 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
             break;
         case FFP_MSG_BUFFERING_TIME_UPDATE:
             _bufferingTime       = avmsg->arg1;
+            
             // NSLog(@"FFP_MSG_BUFFERING_TIME_UPDATE: %d\n", avmsg->arg1);
             break;
         case FFP_MSG_PLAYBACK_STATE_CHANGED:

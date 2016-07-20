@@ -508,7 +508,7 @@
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     
     
-    [vrPlayerViewController pause];
+    [vrPlayerViewController close];
     
     [vrPlayerViewController removeFromParentViewController];
     vrPlayerViewController = nil;

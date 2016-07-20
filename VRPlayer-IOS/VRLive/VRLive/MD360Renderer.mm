@@ -66,6 +66,9 @@ std::string _postedEvent;
         _texture->release();
         _texture = nullptr;
     }
+    [self.mObject3D destroy];
+    [self.mProgram destroy];
+    self.mDirectors = nil;
 }
 
 - (void) setup{
@@ -247,9 +250,9 @@ std::string _postedEvent;
 }
 
 - (void) rendererOnDestroy:(EAGLContext*) context{
-    [self.mObject3D destroy];
-    [self.mProgram destroy];
-    self.mDirectors = nil;
+//    [self.mObject3D destroy];
+//    [self.mProgram destroy];
+//    self.mDirectors = nil;
 }
 
 @end

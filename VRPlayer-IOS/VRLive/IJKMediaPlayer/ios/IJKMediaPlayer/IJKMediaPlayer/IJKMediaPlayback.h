@@ -113,6 +113,9 @@ typedef NS_ENUM(NSInteger, IJKMPMovieTimeOption) {
 // This supersedes MPMoviePlayerContentPreloadDidFinishNotification.
 IJK_EXTERN NSString *const IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification;
 
+
+IJK_EXTERN NSString *const IJKMPMoviePlayerBufferingTimeChangedNotification;
+
 // -----------------------------------------------------------------------------
 //  MPMoviePlayerController.h
 //  Movie Player Notifications

@@ -33,6 +33,10 @@ namespace vrlive {
         void setLookingNode(Node* node) { _lookingNode = node; }
         
         Node* getLookingNode() const { return _lookingNode; }
+        
+        float getOrthWidth() const;
+        float getOrthHeight() const;
+        
     protected:
         /**
          * Constructor.

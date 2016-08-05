@@ -27,6 +27,14 @@ public:
     
     Node* cursorCast();
     
+    void setWidth(int width) { _width = width; }
+    
+    int getWidth() const { return _width; }
+    
+    int getHeight() const { return _height; }
+    
+    void setHeight(int height) { _height = height; }
+    
 protected:
     void init();
     
@@ -37,6 +45,8 @@ protected:
     ~Scene();
     
     Camera* _camera;
+    int _width;
+    int _height;
     
     CameraCursor* _cursor;
     DefaultMenuItem* _defMenu;

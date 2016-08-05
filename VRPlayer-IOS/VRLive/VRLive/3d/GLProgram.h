@@ -43,6 +43,28 @@ namespace vrlive {
         std::map<std::string, GLuint> _attributes;
         std::map<std::string, GLuint> _uniforms;
     };
+    
+    class GLProgramCache
+    {
+    public:
+        static std::string PositionTexCoord;
+        static std::string PositionTexCoordFlipY;
+        static GLProgramCache* getInstance();
+        
+        static void destroyInstance();
+        
+        GLProgram* createOrGet(const std::string& key);
+        
+    protected:
+        
+        static GLProgram* loadDefProgram(const std::string& key);
+        GLProgramCache();
+        ~GLProgramCache();
+        
+        static GLProgramCache* _instance;
+        
+        std::map<std::string, GLProgram*> _programMap;
+    };
 }
 
 #endif

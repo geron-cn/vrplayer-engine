@@ -6,6 +6,7 @@
 #include <string>
 #include "Base.h"
 #include "Ref.h"
+#include "StringTextureUtil.h"
 
 namespace vrlive {
     class Stream;
@@ -28,6 +29,8 @@ namespace vrlive {
         };
         
         static Texture* create(Stream* stream);
+        
+        static Texture* createWithString(const std::string& text, FontDefinition  font);
         
         static Texture* create(Format format, int width, int height, const unsigned char* data);
         

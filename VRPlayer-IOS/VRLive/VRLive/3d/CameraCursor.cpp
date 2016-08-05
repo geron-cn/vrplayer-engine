@@ -146,6 +146,8 @@ namespace vrlive {
         
         setTransformMatrix(mat);
         
+        _isVisible = (mat.m[9] > 0.4);
+        
         Node::draw(camera);
 //        _sprite->draw(camera);
     }

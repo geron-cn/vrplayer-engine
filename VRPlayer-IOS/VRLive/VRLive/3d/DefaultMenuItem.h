@@ -19,7 +19,7 @@ namespace vrlive {
     public:
         static DefaultMenuItem* create();
         
-        virtual void draw(Camera* camera);
+        virtual void update(Scene* scene);
         
     protected:
         bool init();

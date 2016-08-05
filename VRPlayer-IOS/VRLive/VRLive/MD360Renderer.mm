@@ -226,6 +226,8 @@ static int s_videomode = 2;
         //draw scene
         if (_scene)
         {
+            _scene->setWidth(itemWidthPx);
+            _scene->setHeight(heightPx);
             GLKMatrix4 mat = [direcotr getCurrentRotation];
             
             //        vrlive::Vector3 dir = vrlive::Vector3(mat.m[8], mat.m[9], mat.m[10]);

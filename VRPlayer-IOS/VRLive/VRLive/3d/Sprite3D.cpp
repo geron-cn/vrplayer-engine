@@ -10,23 +10,6 @@
 #include "Texture.h"
 
 namespace vrlive {
-        
-    static char* s_vs = "uniform mat4 u_MVPMatrix;\n\
-    attribute vec4 a_Position;\n\
-    attribute vec2 a_TexCoordinate;\n\
-    varying vec2 v_TexCoordinate;\n\
-    void main(){\n \
-    v_TexCoordinate = a_TexCoordinate;\n \
-    gl_Position = u_MVPMatrix * a_Position;\n \
-    }";
-    
-    static char* s_fs = "precision mediump float;\n\
-    uniform sampler2D u_Texture;\n\
-    uniform vec4 u_Color; \n\
-    varying vec2 v_TexCoordinate;\n\
-    void main(){\n\
-    gl_FragColor = u_Color * texture2D(u_Texture, v_TexCoordinate);\n\
-    }";
     
     Sprite3D* Sprite3D::create(const std::vector<float>& pos, const std::vector<float>& texCoord, const std::vector<unsigned short>& indices)
     {
@@ -74,7 +57,7 @@ namespace vrlive {
         }
         _boundsphere = BoundSphere::create(center, sqrtf(maxdistance) * 0.5f);
         
-        _program = GLProgram::create(s_vs, s_fs);
+        _program = GLProgramCache::getInstance()->createOrGet(GLProgramCache::PositionTexCoord);//GLProgram::create(s_vs, s_fs);
         return true;
     }
     
@@ -140,11 +123,11 @@ namespace vrlive {
     
     Sprite3D::~Sprite3D()
     {
-        if (_program)
-        {
-            _program->release();
-            _program = nullptr;
-        }
+//        if (_program)
+//        {
+//            _program->release();
+//            _program = nullptr;
+//        }
         if (_buffer)
         {
             _buffer->release();

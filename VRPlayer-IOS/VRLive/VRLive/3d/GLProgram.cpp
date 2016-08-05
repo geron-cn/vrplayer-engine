@@ -237,5 +237,104 @@ GLProgram::~GLProgram()
         _program = 0;
     }
 }
+    
+    GLProgramCache* GLProgramCache::_instance = nullptr;
+    std::string GLProgramCache::PositionTexCoord = "PositionTexCoord";
+    std::string GLProgramCache::PositionTexCoordFlipY = "PositionTexCoordFlipY";
+    GLProgramCache* GLProgramCache::getInstance()
+    {
+        if (_instance == nullptr)
+        {
+            _instance = new GLProgramCache();
+        }
+        return _instance;
+    }
+    
+    void GLProgramCache::destroyInstance()
+    {
+        if (_instance)
+        {
+            delete _instance;
+            _instance = nullptr;
+        }
+    }
+    
+    GLProgram* GLProgramCache::createOrGet(const std::string& key)
+    {
+        auto it = _programMap.find(key);
+        if (it != _programMap.end())
+        {
+            return it->second;
+        }
+        GLProgram* program = loadDefProgram(key);
+        if (program)
+        {
+            _programMap[key] = program;
+        }
+        return program;
+    }
+    
+    GLProgram* GLProgramCache::loadDefProgram(const std::string& key)
+    {
+        if (key == GLProgramCache::PositionTexCoord)
+        {
+            char* s_vs = "uniform mat4 u_MVPMatrix;\n\
+            attribute vec4 a_Position;\n\
+            attribute vec2 a_TexCoordinate;\n\
+            varying vec2 v_TexCoordinate;\n\
+            void main(){\n \
+            v_TexCoordinate = a_TexCoordinate;\n \
+            gl_Position = u_MVPMatrix * a_Position;\n \
+            }";
+            
+            char* s_fs = "precision mediump float;\n\
+            uniform sampler2D u_Texture;\n\
+            uniform vec4 u_Color; \n\
+            varying vec2 v_TexCoordinate;\n\
+            void main(){\n\
+            gl_FragColor = u_Color * texture2D(u_Texture, v_TexCoordinate);\n\
+            }";
+            
+            auto program = GLProgram::create(s_vs, s_fs);
+            return program;
+        }
+        else if (key == GLProgramCache::PositionTexCoordFlipY)
+        {
+            char* s_vs = "uniform mat4 u_MVPMatrix;\n\
+            attribute vec4 a_Position;\n\
+            attribute vec2 a_TexCoordinate;\n\
+            varying vec2 v_TexCoordinate;\n\
+            void main(){\n \
+            v_TexCoordinate = 1.0 - a_TexCoordinate;\n \
+            gl_Position = u_MVPMatrix * a_Position;\n \
+            }";
+            
+            char* s_fs = "precision mediump float;\n\
+            uniform sampler2D u_Texture;\n\
+            uniform vec4 u_Color; \n\
+            varying vec2 v_TexCoordinate;\n\
+            void main(){\n\
+            gl_FragColor = u_Color * texture2D(u_Texture, v_TexCoordinate);\n\
+            }";
+            
+            auto program = GLProgram::create(s_vs, s_fs);
+            return program;
+        }
+        return nullptr;
+    }
+    
+    GLProgramCache::GLProgramCache()
+    {
+        
+    }
+    GLProgramCache::~GLProgramCache()
+    {
+        for (auto it: _programMap)
+        {
+            if (it.second)
+                it.second->release();
+        }
+        _programMap.clear();
+    }
 
 }

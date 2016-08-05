@@ -11,9 +11,16 @@ namespace vrlive {
         return node;
     }
     
+    void Node::update(Scene* scene)
+    {
+        for (auto it : _children) {
+            it->update(scene);
+        }
+    }
+    
     void Node::draw(Camera* camera)
     {
-        if (_sprite)
+        if (_sprite && _isVisible)
         {
             _sprite->draw(camera);
         }
@@ -113,6 +120,7 @@ namespace vrlive {
     Node::Node()
     : _sprite(nullptr)
     , _parent(nullptr)
+    , _isVisible(true)
     {
         
     }

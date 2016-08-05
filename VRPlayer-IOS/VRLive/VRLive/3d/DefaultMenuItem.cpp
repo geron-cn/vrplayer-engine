@@ -64,8 +64,9 @@ namespace vrlive {
         return defmenu;
     }
     
-    void DefaultMenuItem::draw(Camera* camera)
+    void DefaultMenuItem::update(Scene* scene)
     {
+        auto camera = scene->getCamera();
         auto mat = camera->getInverseViewMatrix();
         auto dir = Vector3(mat.m[8], mat.m[9], mat.m[10]);
         if (dir.y <= 0.4f)
@@ -78,11 +79,13 @@ namespace vrlive {
             mat.m[4] = y.x; mat.m[5] = y.y; mat.m[6] = y.z;
             mat.m[8] = z.x; mat.m[9] = z.y; mat.m[10] = z.z;
             setTransformMatrix(mat);
-            return;
+            
         }
-        Node::draw(camera);
+        _isVisible = (dir.y > 0.4f);
+        
+        Node::update(scene);
     }
-    
+        
     bool DefaultMenuItem::init()
     {
         Stream* stream = getBtnBackStream();

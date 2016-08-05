@@ -69,4 +69,17 @@ Camera::Camera(float zoomX, float zoomY, float aspectRatio, float nearPlane, flo
     _zoom[1] = zoomY;
     Matrix::createOrthographic(zoomX, zoomY, _nearPlane, _farPlane, &_projection);
 }
+    
+    float Camera::getOrthWidth() const
+    {
+        if (_type == ORTHOGRAPHIC)
+            return _zoom[0];
+        return 0.f;
+    }
+    float Camera::getOrthHeight() const
+    {
+        if (_type == PERSPECTIVE)
+            return _zoom[1];
+        return 0.f;
+    }
 }

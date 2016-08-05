@@ -1,6 +1,8 @@
+#include <assert.h>
 #include "Texture.h"
 #include "Image.h"
 #include "Stream.h"
+#include "StringTextureUtil.h"
 
 namespace vrlive {
     
@@ -9,6 +11,59 @@ namespace vrlive {
         Texture* tex = new Texture();
         
         tex->init(stream);
+        
+        return tex;
+    }
+    
+    Texture* Texture::createWithString(const std::string& text, FontDefinition textDefinition)
+    {
+        Texture* tex = nullptr;
+        
+        if (!text.empty())
+        {
+            TextAlign align;
+            
+            if (TextVAlignment::TOP == textDefinition._vertAlignment)
+            {
+                align = (TextHAlignment::CENTER == textDefinition._alignment) ? TextAlign::TOP
+                : (TextHAlignment::LEFT == textDefinition._alignment) ? TextAlign::TOP_LEFT : TextAlign::TOP_RIGHT;
+            }
+            else if (TextVAlignment::CENTER == textDefinition._vertAlignment)
+            {
+                align = (TextHAlignment::CENTER == textDefinition._alignment) ? TextAlign::CENTER
+                : (TextHAlignment::LEFT == textDefinition._alignment) ? TextAlign::LEFT : TextAlign::RIGHT;
+            }
+            else if (TextVAlignment::BOTTOM == textDefinition._vertAlignment)
+            {
+                align = (TextHAlignment::CENTER == textDefinition._alignment) ? TextAlign::BOTTOM
+                : (TextHAlignment::LEFT == textDefinition._alignment) ? TextAlign::BOTTOM_LEFT : TextAlign::BOTTOM_RIGHT;
+            }
+            else
+            {
+                assert(false && "Not supported alignment format!");
+            }
+            
+            unsigned char* outTempData = nullptr;
+            ssize_t outTempDataLen = 0;
+            
+            int imageWidth;
+            int imageHeight;
+            auto textDef = textDefinition;
+            auto contentScaleFactor = StringTextureUtil::getScaleFactor();
+            textDef._fontSize *= contentScaleFactor;
+            textDef._dimensions[0] *= contentScaleFactor;
+            textDef._dimensions[1] *= contentScaleFactor;
+            bool hasPremultiplied;
+            
+            StringTextureUtil::Data outData = StringTextureUtil::getTextureDataForText(text.c_str(), textDefinition, align, imageWidth, imageHeight, hasPremultiplied);
+            if (outData.getBytes() == nullptr)
+            {
+                delete tex;
+                return nullptr;
+            }
+            tex = Texture::create(Texture::Format::RGBA, imageWidth, imageHeight, outData.getBytes());
+        }
+
         
         return tex;
     }

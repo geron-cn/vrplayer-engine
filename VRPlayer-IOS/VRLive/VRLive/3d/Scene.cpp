@@ -4,6 +4,8 @@
 #include "Sprite3D.h"
 #include "Base.h"
 #include "DefaultMenuItem.h"
+#include "GLProgram.h"
+#include "Label.h"
 
 namespace vrlive {
     
@@ -30,18 +32,23 @@ void Scene::init()
 {
     _cursor = CameraCursor::create("", 1.f, 1.f);
     
+    auto label = Label::create("hello tony's vr video", "Helvetica", 48, Vector4(1.f, 1.f, 1.f, 1.f));
+    label->setNormalizedTranslation(0.5f, 0.5f);
+    addChild(label);
+    label->release();
 }
 
 void Scene::draw()
 {
-    auto mat = _camera->getInverseViewMatrix();
-    if(mat.m[9] < 0.4f)
-    {
-        for (auto it : _children) {
-            it->draw(_camera);
-        } // translate menu
-        return;
-    }
+    update(this);
+//    auto mat = _camera->getInverseViewMatrix();
+//    if(mat.m[9] < 0.4f)
+//    {
+////        for (auto it : _children) {
+////            it->draw(_camera);
+////        } // translate menu
+//        return;
+//    }
 
     GLint texture;
     GLint texBind;
@@ -175,6 +182,7 @@ Scene::~Scene()
     {
         _defMenu = nullptr;
     }
+    GLProgramCache::destroyInstance();
 }
     
 }

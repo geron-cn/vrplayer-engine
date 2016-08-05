@@ -16,6 +16,7 @@
 namespace vrlive {
     class Sprite3D;
     class Camera;
+    class Scene;
 
     class Node : public Ref
     {
@@ -60,6 +61,8 @@ namespace vrlive {
         
         virtual void draw(Camera* camera);
         
+        virtual void update(Scene* scene);
+        
     protected:
         
         
@@ -74,6 +77,7 @@ namespace vrlive {
         Sprite3D* _sprite;
         Matrix _mat;
         Matrix _scaleMat;
+        bool   _isVisible;
     };
 }
 

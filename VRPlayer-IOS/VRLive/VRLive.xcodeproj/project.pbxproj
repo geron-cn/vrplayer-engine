@@ -32,6 +32,7 @@
 		3E07F4E21D2A1130003D2C83 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E07F4E11D2A1130003D2C83 /* libpng.a */; };
 		3E07F4F61D2BD5FE003D2C83 /* libIJKMediaPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E07F4F51D2BD5EC003D2C83 /* libIJKMediaPlayer.a */; };
 		3E07F4F81D2BD700003D2C83 /* VRPlayerViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4F71D2BD700003D2C83 /* VRPlayerViewController2.m */; };
+		3E0A8F3F1D533CCD00357C81 /* VRPlayerScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3E0A8F3E1D533CCD00357C81 /* VRPlayerScene.mm */; };
 		3E8D7C611CF6EF8300EF5F9D /* logo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8D7C5F1CF6DC2300EF5F9D /* logo.m */; };
 		3ECF6DBC1CF3F46D0043B22F /* GLUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA11CF3F46D0043B22F /* GLUtil.m */; };
 		3ECF6DBD1CF3F46D0043B22F /* MD360Director.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA31CF3F46D0043B22F /* MD360Director.m */; };
@@ -64,6 +65,8 @@
 		3ECF6E011CF3FB650043B22F /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DFA1CF3FB650043B22F /* AFURLResponseSerialization.m */; };
 		3ECF6E021CF3FB650043B22F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DFC1CF3FB650043B22F /* AFURLSessionManager.m */; };
 		3ECF6E071CF4211A0043B22F /* VRPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6E061CF4211A0043B22F /* VRPlayerViewController.m */; };
+		3EEBC7681D4E21B000094369 /* TextureUtil-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBC7661D4E21B000094369 /* TextureUtil-ios.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3EEBC76E1D4F73AD00094369 /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBC76C1D4F73AD00094369 /* Label.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,6 +163,8 @@
 		3E07F4E11D2A1130003D2C83 /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng.a; path = VRLive/3d/libs/libpng.a; sourceTree = "<group>"; };
 		3E07F4EA1D2BD5EC003D2C83 /* IJKMediaPlayer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IJKMediaPlayer.xcodeproj; path = IJKMediaPlayer/ios/IJKMediaPlayer/IJKMediaPlayer.xcodeproj; sourceTree = "<group>"; };
 		3E07F4F71D2BD700003D2C83 /* VRPlayerViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VRPlayerViewController2.m; path = VRPlayer/VRPlayerViewController2.m; sourceTree = "<group>"; };
+		3E0A8F3D1D533CCD00357C81 /* VRPlayerScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VRPlayerScene.h; path = VRPlayer/VRPlayerScene.h; sourceTree = "<group>"; };
+		3E0A8F3E1D533CCD00357C81 /* VRPlayerScene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = VRPlayerScene.mm; path = VRPlayer/VRPlayerScene.mm; sourceTree = "<group>"; };
 		3E8D7C5F1CF6DC2300EF5F9D /* logo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = logo.m; path = VRPlayer/logo.m; sourceTree = "<group>"; };
 		3E8D7C601CF6EB3F00EF5F9D /* logo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = logo.h; path = VRPlayer/logo.h; sourceTree = "<group>"; };
 		3ECF6D8E1CF3F3C90043B22F /* libVRLive.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVRLive.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -230,6 +235,10 @@
 		3ECF6DFC1CF3FB650043B22F /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFURLSessionManager.m; path = AFNetworking/AFNetworking/AFURLSessionManager.m; sourceTree = "<group>"; };
 		3ECF6E051CF4211A0043B22F /* VRPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VRPlayerViewController.h; path = VRPlayer/VRPlayerViewController.h; sourceTree = "<group>"; };
 		3ECF6E061CF4211A0043B22F /* VRPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VRPlayerViewController.m; path = VRPlayer/VRPlayerViewController.m; sourceTree = "<group>"; };
+		3EEBC7661D4E21B000094369 /* TextureUtil-ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "TextureUtil-ios.mm"; path = "3d/TextureUtil-ios.mm"; sourceTree = "<group>"; };
+		3EEBC7671D4E21B000094369 /* StringTextureUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StringTextureUtil.h; path = 3d/StringTextureUtil.h; sourceTree = "<group>"; };
+		3EEBC76C1D4F73AD00094369 /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Label.cpp; path = 3d/Label.cpp; sourceTree = "<group>"; };
+		3EEBC76D1D4F73AD00094369 /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Label.h; path = 3d/Label.h; sourceTree = "<group>"; };
 		C523ED561D1D1297000A4A82 /* MDVRHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDVRHeader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -249,6 +258,10 @@
 		3E07F4931D2A10B6003D2C83 /* 3d */ = {
 			isa = PBXGroup;
 			children = (
+				3EEBC76C1D4F73AD00094369 /* Label.cpp */,
+				3EEBC76D1D4F73AD00094369 /* Label.h */,
+				3EEBC7661D4E21B000094369 /* TextureUtil-ios.mm */,
+				3EEBC7671D4E21B000094369 /* StringTextureUtil.h */,
 				3E07F4DD1D2A110B003D2C83 /* png */,
 				3E07F4941D2A1105003D2C83 /* Base.h */,
 				3E07F4951D2A1105003D2C83 /* Billboard.cpp */,
@@ -453,6 +466,8 @@
 		3ECF6E041CF4210C0043B22F /* VRPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				3E0A8F3D1D533CCD00357C81 /* VRPlayerScene.h */,
+				3E0A8F3E1D533CCD00357C81 /* VRPlayerScene.mm */,
 				3E07F4F71D2BD700003D2C83 /* VRPlayerViewController2.m */,
 				3E8D7C601CF6EB3F00EF5F9D /* logo.h */,
 				3E8D7C5F1CF6DC2300EF5F9D /* logo.m */,
@@ -551,6 +566,7 @@
 				3E07F4D01D2A1105003D2C83 /* Matrix.cpp in Sources */,
 				3E07F4CA1D2A1105003D2C83 /* CameraCursor.cpp in Sources */,
 				3E07F4D41D2A1105003D2C83 /* Ray.cpp in Sources */,
+				3EEBC7681D4E21B000094369 /* TextureUtil-ios.mm in Sources */,
 				3ECF6DEE1CF3FB570043B22F /* UIRefreshControl+AFNetworking.m in Sources */,
 				3E07F4CF1D2A1105003D2C83 /* MathUtil.cpp in Sources */,
 				3E07F4CD1D2A1105003D2C83 /* GLProgram.cpp in Sources */,
@@ -559,6 +575,7 @@
 				3E07F4C91D2A1105003D2C83 /* Camera.cpp in Sources */,
 				3ECF6DC21CF3F46D0043B22F /* MDDisplayStrategy.m in Sources */,
 				3E07F4D71D2A1105003D2C83 /* Sprite3D.cpp in Sources */,
+				3EEBC76E1D4F73AD00094369 /* Label.cpp in Sources */,
 				3E07F4D11D2A1105003D2C83 /* MenuItem.cpp in Sources */,
 				3ECF6DED1CF3FB570043B22F /* UIProgressView+AFNetworking.m in Sources */,
 				3E07F4F81D2BD700003D2C83 /* VRPlayerViewController2.m in Sources */,
@@ -601,6 +618,7 @@
 				3ECF6DC81CF3F46D0043B22F /* MDVRLibrary.m in Sources */,
 				3ECF6DEF1CF3FB570043B22F /* UIWebView+AFNetworking.m in Sources */,
 				3ECF6DC31CF3F46D0043B22F /* MDGLKViewController.m in Sources */,
+				3E0A8F3F1D533CCD00357C81 /* VRPlayerScene.mm in Sources */,
 				3ECF6DEC1CF3FB570043B22F /* UIImageView+AFNetworking.m in Sources */,
 				3ECF6DBF1CF3F46D0043B22F /* MD360Renderer.mm in Sources */,
 			);

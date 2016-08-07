@@ -3,6 +3,7 @@
 #include "Image.h"
 #include "Stream.h"
 #include "StringTextureUtil.h"
+#include "../FileUtils/FileUtils.h"
 
 namespace vrlive {
     
@@ -12,6 +13,19 @@ namespace vrlive {
         
         tex->init(stream);
         
+        return tex;
+    }
+    
+    Texture* Texture::create(const std::string& filename)
+    {
+        Data data;
+        FileUtils::getInstance()->getFileContent(filename, data, true);
+        Texture* tex = nullptr;
+        if(!data.isNull())
+        {
+            tex = new Texture();
+            tex->init(MemoryStream::create((char*)data.getBytes(), data.getSize()));
+        }
         return tex;
     }
     

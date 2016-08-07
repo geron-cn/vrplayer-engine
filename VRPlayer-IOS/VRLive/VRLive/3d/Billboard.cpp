@@ -9,8 +9,8 @@ namespace vrlive {
     Billboard* Billboard::create(Stream* stream, float width, float height)
     {
         auto board = new Billboard();
-        
-        if (board->init(stream, width, height) == false)
+        auto tex = Texture::create(stream);
+        if (board->init(tex, width, height) == false)
         {
             delete board;
             board = nullptr;
@@ -18,9 +18,24 @@ namespace vrlive {
         
         return board;
     }
-    bool Billboard::init(Stream* stream, float width, float height)
+    
+    Billboard* Billboard::create(const std::string &filepath, float width, float height)
     {
-        auto tex = Texture::create(stream);
+        auto board = new Billboard();
+        auto texture = Texture::create(filepath);
+        if (board->init(texture, width, height) == false)
+        {
+            delete board;
+            board = nullptr;
+        }
+        
+        return board;
+    }
+    
+    
+    bool Billboard::init(Texture* texture, float width, float height)
+    {
+        auto tex = texture;
         if (tex == nullptr)
             return false;
         

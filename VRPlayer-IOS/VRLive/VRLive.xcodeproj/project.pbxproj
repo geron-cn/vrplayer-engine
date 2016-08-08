@@ -33,7 +33,7 @@
 		3E07F4F61D2BD5FE003D2C83 /* libIJKMediaPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E07F4F51D2BD5EC003D2C83 /* libIJKMediaPlayer.a */; };
 		3E07F4F81D2BD700003D2C83 /* VRPlayerViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4F71D2BD700003D2C83 /* VRPlayerViewController2.m */; };
 		3E0A8F3F1D533CCD00357C81 /* VRPlayerScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3E0A8F3E1D533CCD00357C81 /* VRPlayerScene.mm */; };
-		3E289B651D57346C00BA2D98 /* Action.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E289B631D57346C00BA2D98 /* Action.cpp */; };
+		3E75BFDF1D585B4A005B1700 /* Action.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E75BFDD1D585B4A005B1700 /* Action.cpp */; };
 		3E8D7C611CF6EF8300EF5F9D /* logo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8D7C5F1CF6DC2300EF5F9D /* logo.m */; };
 		3ECF6DBC1CF3F46D0043B22F /* GLUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA11CF3F46D0043B22F /* GLUtil.m */; };
 		3ECF6DBD1CF3F46D0043B22F /* MD360Director.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA31CF3F46D0043B22F /* MD360Director.m */; };
@@ -68,6 +68,16 @@
 		3ECF6E071CF4211A0043B22F /* VRPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6E061CF4211A0043B22F /* VRPlayerViewController.m */; };
 		3EEBC7681D4E21B000094369 /* TextureUtil-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBC7661D4E21B000094369 /* TextureUtil-ios.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3EEBC76E1D4F73AD00094369 /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBC76C1D4F73AD00094369 /* Label.cpp */; };
+		C54783061D57253100C7672A /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C54782F81D57253100C7672A /* Data.cpp */; };
+		C54783071D57253100C7672A /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C54782FA1D57253100C7672A /* FileSystem.cpp */; };
+		C54783081D57253100C7672A /* FileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C54782FC1D57253100C7672A /* FileUtils.cpp */; };
+		C54783091D57253100C7672A /* ioapi_mem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C54782FE1D57253100C7672A /* ioapi_mem.cpp */; };
+		C547830A1D57253100C7672A /* ioapi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C54783001D57253100C7672A /* ioapi.cpp */; };
+		C547830B1D57253100C7672A /* tinyxml2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C54783021D57253100C7672A /* tinyxml2.cpp */; };
+		C547830C1D57253100C7672A /* unzip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C54783041D57253100C7672A /* unzip.cpp */; };
+		C547833D1D578A8D00C7672A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C547833C1D578A8D00C7672A /* Foundation.framework */; };
+		C54783411D578B6D00C7672A /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C54783401D578B6D00C7672A /* libz.1.dylib */; };
+		C58175281D58231C009FB5D0 /* FileUtils-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = C58175271D58231C009FB5D0 /* FileUtils-ios.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -166,8 +176,8 @@
 		3E07F4F71D2BD700003D2C83 /* VRPlayerViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VRPlayerViewController2.m; path = VRPlayer/VRPlayerViewController2.m; sourceTree = "<group>"; };
 		3E0A8F3D1D533CCD00357C81 /* VRPlayerScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VRPlayerScene.h; path = VRPlayer/VRPlayerScene.h; sourceTree = "<group>"; };
 		3E0A8F3E1D533CCD00357C81 /* VRPlayerScene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = VRPlayerScene.mm; path = VRPlayer/VRPlayerScene.mm; sourceTree = "<group>"; };
-		3E289B631D57346C00BA2D98 /* Action.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Action.cpp; path = 3d/Action.cpp; sourceTree = "<group>"; };
-		3E289B641D57346C00BA2D98 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Action.h; path = 3d/Action.h; sourceTree = "<group>"; };
+		3E75BFDD1D585B4A005B1700 /* Action.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Action.cpp; path = 3d/Action.cpp; sourceTree = "<group>"; };
+		3E75BFDE1D585B4A005B1700 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Action.h; path = 3d/Action.h; sourceTree = "<group>"; };
 		3E8D7C5F1CF6DC2300EF5F9D /* logo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = logo.m; path = VRPlayer/logo.m; sourceTree = "<group>"; };
 		3E8D7C601CF6EB3F00EF5F9D /* logo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = logo.h; path = VRPlayer/logo.h; sourceTree = "<group>"; };
 		3ECF6D8E1CF3F3C90043B22F /* libVRLive.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVRLive.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,6 +253,25 @@
 		3EEBC76C1D4F73AD00094369 /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Label.cpp; path = 3d/Label.cpp; sourceTree = "<group>"; };
 		3EEBC76D1D4F73AD00094369 /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Label.h; path = 3d/Label.h; sourceTree = "<group>"; };
 		C523ED561D1D1297000A4A82 /* MDVRHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDVRHeader.h; sourceTree = "<group>"; };
+		C54782F71D57253100C7672A /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = crypt.h; path = FileUtils/crypt.h; sourceTree = "<group>"; };
+		C54782F81D57253100C7672A /* Data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Data.cpp; path = FileUtils/Data.cpp; sourceTree = "<group>"; };
+		C54782F91D57253100C7672A /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Data.h; path = FileUtils/Data.h; sourceTree = "<group>"; };
+		C54782FA1D57253100C7672A /* FileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileSystem.cpp; path = FileUtils/FileSystem.cpp; sourceTree = "<group>"; };
+		C54782FB1D57253100C7672A /* FileSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileSystem.h; path = FileUtils/FileSystem.h; sourceTree = "<group>"; };
+		C54782FC1D57253100C7672A /* FileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileUtils.cpp; path = FileUtils/FileUtils.cpp; sourceTree = "<group>"; };
+		C54782FD1D57253100C7672A /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileUtils.h; path = FileUtils/FileUtils.h; sourceTree = "<group>"; };
+		C54782FE1D57253100C7672A /* ioapi_mem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ioapi_mem.cpp; path = FileUtils/ioapi_mem.cpp; sourceTree = "<group>"; };
+		C54782FF1D57253100C7672A /* ioapi_mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ioapi_mem.h; path = FileUtils/ioapi_mem.h; sourceTree = "<group>"; };
+		C54783001D57253100C7672A /* ioapi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ioapi.cpp; path = FileUtils/ioapi.cpp; sourceTree = "<group>"; };
+		C54783011D57253100C7672A /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ioapi.h; path = FileUtils/ioapi.h; sourceTree = "<group>"; };
+		C54783021D57253100C7672A /* tinyxml2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxml2.cpp; path = FileUtils/tinyxml2.cpp; sourceTree = "<group>"; };
+		C54783031D57253100C7672A /* tinyxml2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyxml2.h; path = FileUtils/tinyxml2.h; sourceTree = "<group>"; };
+		C54783041D57253100C7672A /* unzip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = unzip.cpp; path = FileUtils/unzip.cpp; sourceTree = "<group>"; };
+		C54783051D57253100C7672A /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = unzip.h; path = FileUtils/unzip.h; sourceTree = "<group>"; };
+		C547833C1D578A8D00C7672A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C547833E1D578AE400C7672A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		C54783401D578B6D00C7672A /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = ../../../../../../../../usr/lib/libz.1.dylib; sourceTree = "<group>"; };
+		C58175271D58231C009FB5D0 /* FileUtils-ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "FileUtils-ios.mm"; path = "FileUtils/FileUtils-ios.mm"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +279,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C54783411D578B6D00C7672A /* libz.1.dylib in Frameworks */,
+				C547833D1D578A8D00C7672A /* Foundation.framework in Frameworks */,
 				3E07F4F61D2BD5FE003D2C83 /* libIJKMediaPlayer.a in Frameworks */,
 				3E07F4E21D2A1130003D2C83 /* libpng.a in Frameworks */,
 			);
@@ -261,8 +292,8 @@
 		3E07F4931D2A10B6003D2C83 /* 3d */ = {
 			isa = PBXGroup;
 			children = (
-				3E289B631D57346C00BA2D98 /* Action.cpp */,
-				3E289B641D57346C00BA2D98 /* Action.h */,
+				3E75BFDD1D585B4A005B1700 /* Action.cpp */,
+				3E75BFDE1D585B4A005B1700 /* Action.h */,
 				3EEBC76C1D4F73AD00094369 /* Label.cpp */,
 				3EEBC76D1D4F73AD00094369 /* Label.h */,
 				3EEBC7661D4E21B000094369 /* TextureUtil-ios.mm */,
@@ -346,6 +377,9 @@
 		3ECF6D851CF3F3C90043B22F = {
 			isa = PBXGroup;
 			children = (
+				C54783401D578B6D00C7672A /* libz.1.dylib */,
+				C547833E1D578AE400C7672A /* CoreFoundation.framework */,
+				C547833C1D578A8D00C7672A /* Foundation.framework */,
 				3E07F4E11D2A1130003D2C83 /* libpng.a */,
 				3ECF6E041CF4210C0043B22F /* VRPlayer */,
 				3ECF6DCA1CF3FAD00043B22F /* VIMVideoPlayer */,
@@ -367,6 +401,7 @@
 		3ECF6D901CF3F3C90043B22F /* VRLive */ = {
 			isa = PBXGroup;
 			children = (
+				C54782F61D57251800C7672A /* FileUtils */,
 				3E07F4931D2A10B6003D2C83 /* 3d */,
 				C523ED561D1D1297000A4A82 /* MDVRHeader.h */,
 				3ECF6DA01CF3F46D0043B22F /* GLUtil.h */,
@@ -482,6 +517,29 @@
 			name = VRPlayer;
 			sourceTree = "<group>";
 		};
+		C54782F61D57251800C7672A /* FileUtils */ = {
+			isa = PBXGroup;
+			children = (
+				C58175271D58231C009FB5D0 /* FileUtils-ios.mm */,
+				C54782F71D57253100C7672A /* crypt.h */,
+				C54782F81D57253100C7672A /* Data.cpp */,
+				C54782F91D57253100C7672A /* Data.h */,
+				C54782FA1D57253100C7672A /* FileSystem.cpp */,
+				C54782FB1D57253100C7672A /* FileSystem.h */,
+				C54782FC1D57253100C7672A /* FileUtils.cpp */,
+				C54782FD1D57253100C7672A /* FileUtils.h */,
+				C54782FE1D57253100C7672A /* ioapi_mem.cpp */,
+				C54782FF1D57253100C7672A /* ioapi_mem.h */,
+				C54783001D57253100C7672A /* ioapi.cpp */,
+				C54783011D57253100C7672A /* ioapi.h */,
+				C54783021D57253100C7672A /* tinyxml2.cpp */,
+				C54783031D57253100C7672A /* tinyxml2.h */,
+				C54783041D57253100C7672A /* unzip.cpp */,
+				C54783051D57253100C7672A /* unzip.h */,
+			);
+			name = FileUtils;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -572,6 +630,7 @@
 				3E07F4CA1D2A1105003D2C83 /* CameraCursor.cpp in Sources */,
 				3E07F4D41D2A1105003D2C83 /* Ray.cpp in Sources */,
 				3EEBC7681D4E21B000094369 /* TextureUtil-ios.mm in Sources */,
+				C547830B1D57253100C7672A /* tinyxml2.cpp in Sources */,
 				3ECF6DEE1CF3FB570043B22F /* UIRefreshControl+AFNetworking.m in Sources */,
 				3E07F4CF1D2A1105003D2C83 /* MathUtil.cpp in Sources */,
 				3E07F4CD1D2A1105003D2C83 /* GLProgram.cpp in Sources */,
@@ -584,6 +643,7 @@
 				3E07F4D11D2A1105003D2C83 /* MenuItem.cpp in Sources */,
 				3ECF6DED1CF3FB570043B22F /* UIProgressView+AFNetworking.m in Sources */,
 				3E07F4F81D2BD700003D2C83 /* VRPlayerViewController2.m in Sources */,
+				C54783071D57253100C7672A /* FileSystem.cpp in Sources */,
 				3E07F4D51D2A1105003D2C83 /* Ref.cpp in Sources */,
 				3ECF6DC51CF3F46D0043B22F /* MDModeStrategy.m in Sources */,
 				3ECF6DE81CF3FB570043B22F /* AFImageDownloader.m in Sources */,
@@ -593,6 +653,7 @@
 				3E07F4D21D2A1105003D2C83 /* Node.cpp in Sources */,
 				3ECF6DC01CF3F46D0043B22F /* MD360Texture.m in Sources */,
 				3ECF6DFF1CF3FB650043B22F /* AFSecurityPolicy.m in Sources */,
+				C54783091D57253100C7672A /* ioapi_mem.cpp in Sources */,
 				3ECF6DC61CF3F46D0043B22F /* MDTouchHelper.m in Sources */,
 				3ECF6DEA1CF3FB570043B22F /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				3E07F4D91D2A1105003D2C83 /* Texture.cpp in Sources */,
@@ -612,21 +673,26 @@
 				3ECF6E001CF3FB650043B22F /* AFURLRequestSerialization.m in Sources */,
 				3E07F4CC1D2A1105003D2C83 /* EventMgr.cpp in Sources */,
 				3E07F4CE1D2A1105003D2C83 /* Image.cpp in Sources */,
+				C54783061D57253100C7672A /* Data.cpp in Sources */,
 				3E07F4DC1D2A1105003D2C83 /* VertexBuffer.cpp in Sources */,
+				C58175281D58231C009FB5D0 /* FileUtils-ios.mm in Sources */,
 				3ECF6E071CF4211A0043B22F /* VRPlayerViewController.m in Sources */,
 				3ECF6DC11CF3F46D0043B22F /* MDAbsObject3D.mm in Sources */,
 				3E07F4DA1D2A1105003D2C83 /* Vector3.cpp in Sources */,
+				C547830C1D57253100C7672A /* unzip.cpp in Sources */,
 				3E07F4C71D2A1105003D2C83 /* Billboard.cpp in Sources */,
 				3ECF6DC71CF3F46D0043B22F /* MDVideoDataAdatperAVPlayerImpl.m in Sources */,
 				3E07F4D31D2A1105003D2C83 /* Quaternion.cpp in Sources */,
+				3E75BFDF1D585B4A005B1700 /* Action.cpp in Sources */,
 				3ECF6DBE1CF3F46D0043B22F /* MD360Program.m in Sources */,
 				3ECF6DC81CF3F46D0043B22F /* MDVRLibrary.m in Sources */,
 				3ECF6DEF1CF3FB570043B22F /* UIWebView+AFNetworking.m in Sources */,
 				3ECF6DC31CF3F46D0043B22F /* MDGLKViewController.m in Sources */,
+				C54783081D57253100C7672A /* FileUtils.cpp in Sources */,
 				3E0A8F3F1D533CCD00357C81 /* VRPlayerScene.mm in Sources */,
 				3ECF6DEC1CF3FB570043B22F /* UIImageView+AFNetworking.m in Sources */,
 				3ECF6DBF1CF3F46D0043B22F /* MD360Renderer.mm in Sources */,
-				3E289B651D57346C00BA2D98 /* Action.cpp in Sources */,
+				C547830A1D57253100C7672A /* ioapi.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

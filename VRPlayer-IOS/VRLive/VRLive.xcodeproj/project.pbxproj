@@ -74,9 +74,9 @@
 		C547830A1D57253100C7672A /* ioapi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C54783001D57253100C7672A /* ioapi.cpp */; };
 		C547830B1D57253100C7672A /* tinyxml2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C54783021D57253100C7672A /* tinyxml2.cpp */; };
 		C547830C1D57253100C7672A /* unzip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C54783041D57253100C7672A /* unzip.cpp */; };
-		C54783391D57408400C7672A /* FileUtils-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = C54783371D57408400C7672A /* FileUtils-ios.mm */; };
 		C547833D1D578A8D00C7672A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C547833C1D578A8D00C7672A /* Foundation.framework */; };
 		C54783411D578B6D00C7672A /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C54783401D578B6D00C7672A /* libz.1.dylib */; };
+		C58175281D58231C009FB5D0 /* FileUtils-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = C58175271D58231C009FB5D0 /* FileUtils-ios.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -265,10 +265,10 @@
 		C54783031D57253100C7672A /* tinyxml2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyxml2.h; path = FileUtils/tinyxml2.h; sourceTree = "<group>"; };
 		C54783041D57253100C7672A /* unzip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = unzip.cpp; path = FileUtils/unzip.cpp; sourceTree = "<group>"; };
 		C54783051D57253100C7672A /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = unzip.h; path = FileUtils/unzip.h; sourceTree = "<group>"; };
-		C54783371D57408400C7672A /* FileUtils-ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "FileUtils-ios.mm"; sourceTree = "<group>"; };
 		C547833C1D578A8D00C7672A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C547833E1D578AE400C7672A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		C54783401D578B6D00C7672A /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = ../../../../../../../../usr/lib/libz.1.dylib; sourceTree = "<group>"; };
+		C58175271D58231C009FB5D0 /* FileUtils-ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "FileUtils-ios.mm"; path = "FileUtils/FileUtils-ios.mm"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -515,6 +515,7 @@
 		C54782F61D57251800C7672A /* FileUtils */ = {
 			isa = PBXGroup;
 			children = (
+				C58175271D58231C009FB5D0 /* FileUtils-ios.mm */,
 				C54782F71D57253100C7672A /* crypt.h */,
 				C54782F81D57253100C7672A /* Data.cpp */,
 				C54782F91D57253100C7672A /* Data.h */,
@@ -530,7 +531,6 @@
 				C54783031D57253100C7672A /* tinyxml2.h */,
 				C54783041D57253100C7672A /* unzip.cpp */,
 				C54783051D57253100C7672A /* unzip.h */,
-				C54783371D57408400C7672A /* FileUtils-ios.mm */,
 			);
 			name = FileUtils;
 			sourceTree = "<group>";
@@ -670,6 +670,7 @@
 				3E07F4CE1D2A1105003D2C83 /* Image.cpp in Sources */,
 				C54783061D57253100C7672A /* Data.cpp in Sources */,
 				3E07F4DC1D2A1105003D2C83 /* VertexBuffer.cpp in Sources */,
+				C58175281D58231C009FB5D0 /* FileUtils-ios.mm in Sources */,
 				3ECF6E071CF4211A0043B22F /* VRPlayerViewController.m in Sources */,
 				3ECF6DC11CF3F46D0043B22F /* MDAbsObject3D.mm in Sources */,
 				3E07F4DA1D2A1105003D2C83 /* Vector3.cpp in Sources */,
@@ -681,7 +682,6 @@
 				3ECF6DC81CF3F46D0043B22F /* MDVRLibrary.m in Sources */,
 				3ECF6DEF1CF3FB570043B22F /* UIWebView+AFNetworking.m in Sources */,
 				3ECF6DC31CF3F46D0043B22F /* MDGLKViewController.m in Sources */,
-				C54783391D57408400C7672A /* FileUtils-ios.mm in Sources */,
 				C54783081D57253100C7672A /* FileUtils.cpp in Sources */,
 				3E0A8F3F1D533CCD00357C81 /* VRPlayerScene.mm in Sources */,
 				3ECF6DEC1CF3FB570043B22F /* UIImageView+AFNetworking.m in Sources */,

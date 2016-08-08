@@ -53,6 +53,8 @@ namespace vrlive {
         
         void removeChild(Node* node);
         
+        void removeChild(const std::string& name);
+        
         void removeAllChildren();
         
         void setSprite3D(Sprite3D* sprite);

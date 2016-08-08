@@ -35,6 +35,8 @@ public:
     
     void setHeight(int height) { _height = height; }
     
+    DefaultMenuItem* getDefMenuItem() const { return _defMenu; }
+    
 protected:
     void init();
     

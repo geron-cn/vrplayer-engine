@@ -147,7 +147,7 @@ namespace vrlive {
     
     void Label::draw(Camera* camera)
     {
-        if (_sprite)
+        if (_sprite && _camera2D)
         {
             _sprite->draw(_camera2D);
         }

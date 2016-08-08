@@ -9,7 +9,7 @@
 #import "QGVideoPlayViewController.h"
 #import "VRPlayerViewController.h"
 #import "FeThreeDotGlow.h"
-
+#import "VRPlayerScene.h"
 
 #define HIDE_CONTROL_DELAY 5.0f
 #define DEFAULT_VIEW_ALPHA 1.f
@@ -105,6 +105,11 @@
     [self configureBackButton];
     
     self.titleLabel.text = self.videoTitle;
+    
+    
+    VRPlayerScene* scene = [vrPlayerViewController getVRPlayerScene];
+    UIColor* color = [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f];
+    [scene addLabel:@"TestText" Text:@"VR VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:24];
 }
 
 - (void)HeadCursorBackEvent

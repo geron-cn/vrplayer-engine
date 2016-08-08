@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "MD360Director.h"
 #import "MDVideoDataAdapter.h"
+#import "MD360Renderer.h"
 
 typedef NS_ENUM(NSInteger, MDModeInteractive) {
     MDModeInteractiveTouch,
@@ -50,6 +51,8 @@ typedef NS_ENUM(NSInteger, MDModeDisplay) {
 + (MDVRConfiguration*) createConfig;
 + (void)setSphereRadius:(float)radius;
 + (float)getSphereRadius;
+
+@property (nonatomic,strong) MD360Renderer* renderer;
 
 - (void) switchInteractiveMode;
 // - (void) switchInteractiveMode:(MDModeInteractive)interactiveMode;

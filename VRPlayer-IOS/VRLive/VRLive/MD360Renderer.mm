@@ -20,9 +20,11 @@
 #include <vector>
 #include <string>
 
+vrlive::Scene* _scene = nullptr;
+
 @interface MD360Renderer()
 {
-vrlive::Scene* _scene;
+
 std::string _postedEvent;
     vrlive::Texture* _texture;
 }

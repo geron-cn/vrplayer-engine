@@ -31,11 +31,6 @@ void Scene::setCamera(Camera* camera)
 void Scene::init()
 {
     _cursor = CameraCursor::create("", 1.f, 1.f);
-    
-    auto label = Label::create("hello tony's vr video", "Helvetica", 48, Vector4(1.f, 1.f, 1.f, 1.f));
-    label->setNormalizedTranslation(0.5f, 0.5f);
-    addChild(label);
-    label->release();
 }
 
 void Scene::draw()

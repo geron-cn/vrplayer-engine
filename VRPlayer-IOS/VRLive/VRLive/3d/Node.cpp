@@ -102,6 +102,19 @@ namespace vrlive {
         }
     }
     
+    void Node::removeChild(const std::string& name)
+    {
+        for (int k = 0; k < (int)_children.size(); k++) {
+            if (_children[k]->getName() == name)
+            {
+                _children[k]->_parent = nullptr;
+                _children[k]->release();
+                _children.erase(_children.begin() + k);
+                break;
+            }
+        }
+    }
+    
     void Node::removeAllChildren()
     {
         for (auto it : _children) {

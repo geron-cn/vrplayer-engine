@@ -30,6 +30,8 @@ namespace vrlive {
         
         static Texture* create(Stream* stream);
         
+        static Texture* create(const std::string& filename);
+        
         static Texture* createWithString(const std::string& text, FontDefinition  font);
         
         static Texture* create(Format format, int width, int height, const unsigned char* data);

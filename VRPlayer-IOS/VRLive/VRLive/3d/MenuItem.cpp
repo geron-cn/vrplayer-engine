@@ -10,14 +10,27 @@ namespace vrlive {
     MenuItem* MenuItem::create(Stream* stream, float width, float height)
     {
         auto board = new MenuItem();
-        
-        if (board->init(stream, width, height) == false)
+        auto textr = Texture::create(stream);
+        if (board->init(textr, width, height) == false)
         {
             delete board;
             board = nullptr;
         }
         
         return board;
+    }
+    MenuItem* MenuItem::create(const std::string &filepath, float width, float height)
+    {
+        auto board = new MenuItem();
+        auto textr = Texture::create(filepath);
+        if (board->init(textr, width, height) == false)
+        {
+            delete board;
+            board = nullptr;
+        }
+        
+        return board;
+
     }
     
     void MenuItem::draw(Camera* camera)

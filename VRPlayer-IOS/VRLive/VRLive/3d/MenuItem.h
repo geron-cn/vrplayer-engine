@@ -14,6 +14,8 @@ namespace vrlive {
     class MenuItem : public Billboard
     {
     public:
+        static MenuItem* create(const std::string& filepath, float width, float height);
+        
         static MenuItem* create(Stream* stream, float width, float height);
         
         virtual void draw(Camera* camera);

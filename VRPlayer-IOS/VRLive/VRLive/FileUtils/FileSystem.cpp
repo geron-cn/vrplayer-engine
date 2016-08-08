@@ -43,6 +43,7 @@ namespace vrlive
 
 #ifdef __ANDROID__
 #include <unistd.h>
+AAssetManager* FileSystem::__assetManager = nullptr;
 
 static void makepath(std::string path, int mode)
 {
@@ -84,10 +85,10 @@ static void makepath(std::string path, int mode)
  */
 static bool androidFileExists(const char* filePath)
 {
-    if(__assetManager = nullptr)
+    if(FileSystem::__assetManager = nullptr)
         return false;
 
-    AAsset* asset = AAssetManager_open(__assetManager, filePath, AASSET_MODE_RANDOM);
+    AAsset* asset = AAssetManager_open(FileSystem::__assetManager, filePath, AASSET_MODE_RANDOM);
     if (asset)
     {
         int length = AAsset_getLength(asset);
@@ -762,10 +763,10 @@ FileStreamAndroid::~FileStreamAndroid()
 
 FileStreamAndroid* FileStreamAndroid::create(const char* filePath, const char* mode)
 {
-    if(__assetManager == nullptr)
+    if(FileSystem::__assetManager == nullptr)
         return nullptr;
 
-    AAsset* asset = AAssetManager_open(__assetManager, filePath, AASSET_MODE_RANDOM);
+    AAsset* asset = AAssetManager_open(FileSystem::__assetManager, filePath, AASSET_MODE_RANDOM);
     if (asset)
     {
         FileStreamAndroid* stream = new FileStreamAndroid(asset);

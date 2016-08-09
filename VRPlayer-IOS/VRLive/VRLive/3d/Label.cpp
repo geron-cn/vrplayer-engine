@@ -50,29 +50,22 @@ namespace vrlive {
         return 0;
     }
     
-    Label* Label::create(const std::string& text, const std::string& font, float fontSize, const Vector4& color, int width, int height, TextHAlignment hAlignment, TextVAlignment vAlignment)
+    Label* Label::createWithTexture(const std::string& path)
     {
-        Label* ret = new Label();
+        auto tex = Texture::create(path);
+        auto ret = new Label();
+        ret->initWithTexture(tex);
+        tex->release();
         
-        FontDefinition systemFontDef;
-        systemFontDef._fontName = font;
-        systemFontDef._fontSize = fontSize;
-        systemFontDef._alignment = hAlignment;
-        systemFontDef._vertAlignment = vAlignment;
-        systemFontDef._dimensions[0] = width;
-        systemFontDef._dimensions[1] = height;
-        systemFontDef._fontFillColor.x = color.x;
-        systemFontDef._fontFillColor.y = color.y;
-        systemFontDef._fontFillColor.z = color.z;
-        systemFontDef._fontAlpha = color.w * 255;
-        systemFontDef._enableWrap = true;
-        systemFontDef._overflow = 0;
-        
-        ret->_tex = Texture::createWithString(text, systemFontDef);
-        
+        return ret;
+    }
+    
+    void Label::initWithTexture(Texture* tex)
+    {
         //left top
-        width = ret->_tex->getWidth();
-        height = ret->_tex->getHeight();
+        _tex = tex;
+        int width = _tex->getWidth();
+        int height = _tex->getHeight();
         Vector3 lt(-width*0.5f, height*0.5f, 0.f);
         Vector3 lb(-width*0.5f, -height*0.5f, 0.f);
         Vector3 rt(width*0.5f, height*0.5f, 0.f);
@@ -111,10 +104,34 @@ namespace vrlive {
         idx[3]=2;
         idx[4]=1;
         idx[5]=3;
-
+        
         std::vector<float> normal;
-        ret->_sprite = Sprite3D::create(pos, texCoord, idx);
-        ret->_sprite->setTexture(ret->_tex);
+        _sprite = Sprite3D::create(pos, texCoord, idx);
+        _sprite->setTexture(_tex);
+        _sprite->setNode(this);
+    }
+    
+    Label* Label::create(const std::string& text, const std::string& font, float fontSize, const Vector4& color, int width, int height, TextHAlignment hAlignment, TextVAlignment vAlignment)
+    {
+        Label* ret = new Label();
+        
+        FontDefinition systemFontDef;
+        systemFontDef._fontName = font;
+        systemFontDef._fontSize = fontSize;
+        systemFontDef._alignment = hAlignment;
+        systemFontDef._vertAlignment = vAlignment;
+        systemFontDef._dimensions[0] = width;
+        systemFontDef._dimensions[1] = height;
+        systemFontDef._fontFillColor.x = color.x;
+        systemFontDef._fontFillColor.y = color.y;
+        systemFontDef._fontFillColor.z = color.z;
+        systemFontDef._fontAlpha = color.w * 255;
+        systemFontDef._enableWrap = true;
+        systemFontDef._overflow = 0;
+        
+        auto tex = Texture::createWithString(text, systemFontDef);
+        
+        ret->initWithTexture(tex);
         
         return ret;
     }
@@ -127,22 +144,22 @@ namespace vrlive {
 
     void Label::update(Scene* scene)
     {
-        if (_normalizedX != -1 && _normalizedY != -1)
+        int screenWidth = scene->getWidth();
+        int screenHeight = scene->getHeight();
+        if (_camera2D == nullptr)
         {
-            int screenWidth = scene->getWidth();
-            int screenHeight = scene->getHeight();
-            if (_camera2D == nullptr)
-            {
-                _camera2D = Camera::createOrthographic(screenWidth, screenHeight, (float)screenWidth / screenHeight, -500, 500);
-            }
-            else if (_camera2D->getOrthWidth() != screenWidth || _camera2D->getOrthHeight() != screenHeight)
-            {
-                _camera2D->release();
-                _camera2D = Camera::createOrthographic(screenWidth, screenHeight, (float)screenWidth / screenHeight, 0.1f, 500);
-            }
-            Vector3 pos(_normalizedX*screenWidth, _normalizedY*screenHeight, 0);
-            setTranslation(pos);
+            _camera2D = Camera::createOrthographic(screenWidth, screenHeight, (float)screenWidth / screenHeight, -500, 500);
         }
+        else if (_camera2D->getOrthWidth() != screenWidth || _camera2D->getOrthHeight() != screenHeight)
+        {
+            _camera2D->release();
+            _camera2D = Camera::createOrthographic(screenWidth, screenHeight, (float)screenWidth / screenHeight, 0.1f, 500);
+        }
+//        if (_normalizedX != -1 && _normalizedY != -1)
+//        {
+//            Vector3 pos(_normalizedX*screenWidth, _normalizedY*screenHeight, 0);
+//            setTranslation(pos);
+//        }
     }
     
     void Label::draw(Camera* camera)

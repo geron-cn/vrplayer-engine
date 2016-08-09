@@ -1,5 +1,6 @@
 #include "Node.h"
 #include "Sprite3D.h"
+#include "Action.h"
 
 namespace vrlive {
    
@@ -76,6 +77,12 @@ namespace vrlive {
 //        _mat.multiply(matScale);
     }
     
+    void Node::runAction(Action* action)
+    {
+        action->setTarget(this);
+        ActionMgr::getInstance()->addAction(action);
+    }
+    
     void Node::addChild(Node* node)
     {
         node->addRef();
@@ -139,6 +146,8 @@ namespace vrlive {
     }
     Node::~Node()
     {
+        ActionMgr::getInstance()->removeActionByNode(this);
+        
         if (_sprite)
         {
             _sprite->release();
@@ -146,5 +155,4 @@ namespace vrlive {
         }
         removeAllChildren();
     }
-    
 }

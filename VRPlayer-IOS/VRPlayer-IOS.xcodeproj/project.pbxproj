@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E75BFEC1D59C47D005B1700 /* gift in Resources */ = {isa = PBXBuildFile; fileRef = 3E75BFEA1D59C47D005B1700 /* gift */; };
+		3E75BFED1D59C47D005B1700 /* menu in Resources */ = {isa = PBXBuildFile; fileRef = 3E75BFEB1D59C47D005B1700 /* menu */; };
 		3E8D7C691CF8355200EF5F9D /* libVRLive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8D7C681CF8354800EF5F9D /* libVRLive.a */; };
 		3E9F87D61D0D12DE00A1E19B /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9F87D51D0D12DE00A1E19B /* VideoToolbox.framework */; };
 		3E9F87D91D0D12F700A1E19B /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9F87D81D0D12F700A1E19B /* CoreMedia.framework */; };
@@ -39,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3E75BFEA1D59C47D005B1700 /* gift */ = {isa = PBXFileReference; lastKnownFileType = folder; name = gift; path = Resources/gift; sourceTree = "<group>"; };
+		3E75BFEB1D59C47D005B1700 /* menu */ = {isa = PBXFileReference; lastKnownFileType = folder; name = menu; path = Resources/menu; sourceTree = "<group>"; };
 		3E8D7C631CF8354800EF5F9D /* VRLive.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VRLive.xcodeproj; path = VRLive/VRLive.xcodeproj; sourceTree = "<group>"; };
 		3E9F87D51D0D12DE00A1E19B /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		3E9F87D81D0D12F700A1E19B /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -85,6 +89,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E75BFE61D59C351005B1700 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3E75BFEA1D59C47D005B1700 /* gift */,
+				3E75BFEB1D59C47D005B1700 /* menu */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		3E8D7C641CF8354800EF5F9D /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +109,7 @@
 		3ECF6D561CF3F0980043B22F = {
 			isa = PBXGroup;
 			children = (
+				3E75BFE61D59C351005B1700 /* Resources */,
 				3E9F87DC1D0D149600A1E19B /* libz.tbd */,
 				3E9F87DA1D0D148D00A1E19B /* libiconv.tbd */,
 				3E9F87D81D0D12F700A1E19B /* CoreMedia.framework */,
@@ -226,10 +240,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				95F5F4DE1CF54B0E0083E2F5 /* QGVideoPlayViewController.xib in Resources */,
+				3E75BFED1D59C47D005B1700 /* menu in Resources */,
 				3ECF6D721CF3F0980043B22F /* LaunchScreen.storyboard in Resources */,
 				3ECF6E091CF43E4E0043B22F /* vrplayer.storyboard in Resources */,
 				3ECF6D6F1CF3F0980043B22F /* Assets.xcassets in Resources */,
 				95F5F4E81CF581550083E2F5 /* TestViewController.xib in Resources */,
+				3E75BFEC1D59C47D005B1700 /* gift in Resources */,
 				3ECF6D6D1CF3F0980043B22F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

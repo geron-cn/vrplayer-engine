@@ -6,6 +6,7 @@
 #include "DefaultMenuItem.h"
 #include "GLProgram.h"
 #include "Label.h"
+#include "Action.h"
 
 namespace vrlive {
     
@@ -31,10 +32,12 @@ void Scene::setCamera(Camera* camera)
 void Scene::init()
 {
     _cursor = CameraCursor::create("", 1.f, 1.f);
+    ActionMgr::getInstance()->init();
 }
 
 void Scene::draw()
 {
+    ActionMgr::getInstance()->update();
     update(this);
 //    auto mat = _camera->getInverseViewMatrix();
 //    if(mat.m[9] < 0.4f)
@@ -158,6 +161,7 @@ Scene::Scene()
     , _cursor(nullptr)
     , _defMenu(nullptr)
 {
+    
 }
 
 
@@ -178,6 +182,7 @@ Scene::~Scene()
         _defMenu = nullptr;
     }
     GLProgramCache::destroyInstance();
+    ActionMgr::destroyInstance();
 }
     
 }

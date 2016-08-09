@@ -17,6 +17,7 @@ namespace vrlive {
     class Sprite3D;
     class Camera;
     class Scene;
+    class Action;
 
     class Node : public Ref
     {
@@ -64,6 +65,8 @@ namespace vrlive {
         virtual void draw(Camera* camera);
         
         virtual void update(Scene* scene);
+        
+        void runAction(Action* action);
         
     protected:
         

@@ -106,8 +106,26 @@
     
     self.titleLabel.text = self.videoTitle;
     
+    VRPlayerScene* scene = [vrPlayerViewController getVRPlayerScene];
+    [scene addMenuItemWithName:@"bingkuai" TexturePath:@"menu/bingkuai.png" Rect:CGRectMake(-4.5, -24, 3, 3)];
+    [scene addMenuItemWithName:@"pijiu" TexturePath:@"menu/pijiu.png" Rect:CGRectMake(-1.5, -24, 3, 3)];
+    [scene addMenuItemWithName:@"qiche" TexturePath:@"menu/qiche.png" Rect:CGRectMake(1.5, -24, 3, 3)];
+    [scene addMenuItemWithName:@"dianzan" TexturePath:@"menu/dianzan.png" Rect:CGRectMake(4.5, -24, 3, 3)];
     
+    [scene addMenuItemWithName:@"feiji" TexturePath:@"menu/feiji.png" Rect:CGRectMake(-4.5, -27, 3, 3)];
+    [scene addMenuItemWithName:@"youlun" TexturePath:@"menu/youlun.png" Rect:CGRectMake(-1.5, -27, 3, 3)];
+    [scene addMenuItemWithName:@"xianhua" TexturePath:@"menu/xianhua.png" Rect:CGRectMake(1.5, -27, 3, 3)];
+    [scene addMenuItemWithName:@"huojian" TexturePath:@"menu/huojian.png" Rect:CGRectMake(4.5, -27, 3, 3)];
     
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"bingkuai" object:nil];
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"pijiu" object:nil];
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"qiche" object:nil];
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"dianzan" object:nil];
+    
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"feiji" object:nil];
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"youlun" object:nil];
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"xianhua" object:nil];
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"huojian" object:nil];
     
     timer = [NSTimer scheduledTimerWithTimeInterval:3.0
                                      target:self
@@ -115,8 +133,20 @@
                                     repeats:YES];
 }
 
+-(void)GiftProcess:(NSNotification *)gift
+{
+    NSLog(@"%@",gift.name);
+    VRPlayerScene* scene = [vrPlayerViewController getVRPlayerScene];
+    if ([gift.name  isEqual: @"qiche"])
+    {
+        [VRPlayerScene index:0];
+        [scene addLabelWithName:@"gift" TexPath:@"gift/daqiche.png"];
+    }
+}
+
 - (void)updateTimer:(NSTimer *)paramTimer{
     
+//    return;
     static int i = 0;
     
     VRPlayerScene* scene = [vrPlayerViewController getVRPlayerScene];

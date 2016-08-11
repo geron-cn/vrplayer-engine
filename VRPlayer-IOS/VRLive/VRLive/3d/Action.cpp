@@ -1,6 +1,8 @@
 #include <math.h>
 #include "Platform.h"
 #include "Action.h"
+#include "Sprite3D.h"
+#include "Quaternion.h"
 
 namespace vrlive {
     
@@ -12,6 +14,7 @@ namespace vrlive {
     Action::Action()
     : _target(nullptr)
     , _curtime(0)
+    , _finished(false)
     {
         
     }
@@ -37,8 +40,11 @@ namespace vrlive {
         Action::update(t);
         
         float ratio = _curtime / _duration;
-        if (ratio > 1.f)
+        if (ratio >= 1.f)
+        {
+            _finished = true;
             ratio = 1.f;
+        }
         Vector3 pos = _start + (_end - _start) * ratio;
         _target->setTranslation(pos);
     }
@@ -93,8 +99,11 @@ namespace vrlive {
     {
         Action::update(t);
         float ratio = _curtime / _duration;
-        if (ratio > 1.f)
+        if (ratio >= 1.f)
+        {
+            _finished = true;
             ratio = 1.f;
+        }
         if (_target)
         {
             float s = _scaleFrom + (_scaleTo - _scaleFrom) * ratio;
@@ -110,6 +119,83 @@ namespace vrlive {
         
     }
     ScaleAction::~ScaleAction()
+    {
+        
+    }
+    
+    TintAction* TintAction::create(const Vector4& fromColor, const Vector4& toColor, float duraton)
+    {
+        auto action = new TintAction;
+        action->_duration = duraton;
+        action->_fromColor = fromColor;
+        action->_toColor = toColor;
+        
+        return action;
+    }
+    
+    void TintAction::update(float t)
+    {
+        Action::update(t);
+        float ratio = _curtime / _duration;
+        if (ratio >= 1.f)
+        {
+            _finished = true;
+            ratio = 1.f;
+        }
+        Vector4 color;
+        color = _fromColor + (_toColor - _fromColor) * ratio;
+        auto sprite = _target->getSprite3D();
+        if (sprite)
+            sprite->setColor(color);
+    }
+    
+    TintAction::TintAction()
+    : _fromColor(1.f, 1.f, 1.f, 1.f)
+    , _toColor(1.f, 1.f, 1.f, 1.f)
+    , _duration(1.f)
+    {
+        
+    }
+    TintAction::~TintAction()
+    {
+        
+    }
+    
+    RotateZAction* RotateZAction::create(float fromAngleZ, float toAngleZ, float duration)
+    {
+        auto action = new RotateZAction();
+        action->_duration = duration;
+        action->_fromZ = fromAngleZ;
+        action->_toZ = toAngleZ;
+        return action;
+    }
+    
+    void RotateZAction::update(float t)
+    {
+        Action::update(t);
+        float ratio = _curtime / _duration;
+        if (ratio >= 1.f)
+        {
+            _finished = true;
+            ratio = 1.f;
+        }
+        float angle = _fromZ + (_toZ - _fromZ) * ratio;
+        angle = angle * 3.1415926f / 180.f;
+        
+        Quaternion quat;
+        Quaternion::createFromAxisAngle(Vector3(0,0,1), angle, &quat);
+        
+        _target->setRotation(quat);
+    }
+    
+    RotateZAction::RotateZAction()
+    : _fromZ(0)
+    , _toZ(0)
+    , _duration(1.f)
+    {
+        
+    }
+    RotateZAction::~RotateZAction()
     {
         
     }

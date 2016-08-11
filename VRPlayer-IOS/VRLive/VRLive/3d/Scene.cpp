@@ -33,6 +33,13 @@ void Scene::init()
 {
     _cursor = CameraCursor::create("", 1.f, 1.f);
     ActionMgr::getInstance()->init();
+    
+    if (_defMenu == nullptr)
+    {
+        _defMenu = DefaultMenuItem::create();
+        addChild(_defMenu);
+        _defMenu->release();
+    }
 }
 
 void Scene::draw()
@@ -59,12 +66,6 @@ void Scene::draw()
 
     glDisable(GL_DEPTH_TEST);
     
-    if (_defMenu == nullptr)
-    {
-        _defMenu = DefaultMenuItem::create();
-        addChild(_defMenu);
-        _defMenu->release();
-    }
     
     if (_cursor && _cursor->isVisible())
     {

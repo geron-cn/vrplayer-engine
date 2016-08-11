@@ -30,6 +30,7 @@ namespace vrlive {
         
         Node* _target;
         float _curtime;
+        bool  _finished;
     };
     
     class MoveLineAction: public Action
@@ -62,9 +63,37 @@ namespace vrlive {
         float _duration;
     };
     
-    class RotateAction : public Action
+    
+    class TintAction : public Action
     {
+    public:
+        static TintAction* create(const Vector4& fromColor, const Vector4& toColor, float duraton);
         
+        virtual void update(float t);
+        
+    protected:
+        TintAction();
+        virtual ~TintAction();
+        
+        Vector4 _fromColor;
+        Vector4 _toColor;
+        float _duration;
+    };
+    
+    class RotateZAction : public Action
+    {
+    public:
+        static RotateZAction* create(float fromAngleZ, float toAngleZ, float duration);
+        
+        virtual void update(float t);
+        
+    protected:
+        RotateZAction();
+        virtual ~RotateZAction();
+        
+        float _duration;
+        float _fromZ;
+        float _toZ;
     };
     
     class ScaleAction: public Action
@@ -81,6 +110,20 @@ namespace vrlive {
         float _scaleFrom;
         float _scaleTo;
         float _duration;
+    };
+    
+    class SequnceAction : public Action
+    {
+    public:
+        static SequnceAction* create();
+        
+        virtual void update(float t);
+        
+    protected:
+        SequnceAction();
+        virtual ~SequnceAction();
+        
+        std::vector<Action*> _actions;
     };
     
     class ActionMgr

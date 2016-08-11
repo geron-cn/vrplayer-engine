@@ -21,7 +21,10 @@ namespace vrlive {
     
     void Node::draw(Camera* camera)
     {
-        if (_sprite && _isVisible)
+        if (!_isVisible)
+            return;
+        
+        if (_sprite)
         {
             _sprite->draw(camera);
         }

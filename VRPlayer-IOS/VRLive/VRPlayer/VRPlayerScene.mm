@@ -130,7 +130,7 @@ static int s_idx = 0;
 
 -(void) addMenuItemWithName: (NSString*)name TexturePath:(NSString*)path  Rect: (CGRect)rect;
 {
-    return;
+//    return;
     if (_scene)
     {
         auto menu = _scene->getDefMenuItem();
@@ -143,9 +143,9 @@ static int s_idx = 0;
         std::string strPath=[path cStringUsingEncoding: NSUTF8StringEncoding];
         
         auto menuitem = vrlive::MenuItem::create(strPath, width, height);
-        vrlive::Vector3 pos(0, 0, -20.f);
+        vrlive::Vector3 pos(x, y, -20.f);
         menuitem->setTranslation(pos);
-        _scene->addChild(menuitem);
+        menu->addChild(menuitem);
         menuitem->setName(strName);
     }
 }

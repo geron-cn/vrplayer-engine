@@ -26,7 +26,9 @@ distribution.
 
 //#include "platform/CCPlatformConfig.h"
 //#include "platform/CCPlatformMacros.h"
+#ifdef __ANDROID__
 #define ANDROID_NDK
+#endif
 
 #if defined(ANDROID_NDK) || defined(__BORLANDC__) || (CC_TARGET_PLATFORM == CC_PLATFORM_BLACKBERRY)
 #   include <ctype.h>

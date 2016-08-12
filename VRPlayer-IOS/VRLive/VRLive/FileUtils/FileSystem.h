@@ -13,7 +13,6 @@ class Properties;
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
 
-static AAssetManager* __assetManager = nullptr;
 #endif
 
 /**
@@ -262,6 +261,9 @@ public:
      */
     static std::string getExtension(const char* path);
 
+#ifdef __ANDROID__
+ static AAssetManager* __assetManager;
+#endif
 private:
 
     /**

@@ -86,32 +86,66 @@ FileUtils::Status FileUtils::readFileData(const std::string& filename, Data &dat
         return Status::NotExists;
 
     const char* fullpath = resolvePath(filename).c_str();
-    FILE *fp = fopen(fullpath, "rb");
-    if(!fp)
+    unsigned char* dataBytes = nullptr;
+    size_t size = 0;
+    size_t readsize = 0;
+#ifdef __ANDROID__
+    if(filename[0] != '/')
     {
-        LOG("file: %s open failed!", filename.c_str());
-        return Status::OpenFailed;
-    }
+        LOG("ssssssssssssssssssssssssssssssssssssss");
+        LOG("%s", fullpath);
+        if( nullptr == __assetManager)
+        {
+            LOG("asset mananger is null");
+            return Status::OpenFailed;
+        }
+        LOG("opon path ");
 
-#if defined(_MSC_VER)
-    auto descriptor = _fileno(fp);
-#else
-    auto descriptor = fileno(fp);
+        AAsset* asset = AAssetManager_open(__assetManager, fullpath, AASSET_MODE_UNKNOWN);
+         LOG("get path asset");
+        if( nullptr == asset)
+        {
+            LOG("open path failed");
+            return Status::OpenFailed;
+        }
+        size = AAsset_getLength(asset);
+        dataBytes = (unsigned char*)malloc(size + 1);
+        memset(dataBytes, 0, size);
+        dataBytes[size] = '\0';
+        readsize = AAsset_read(asset, (char*)dataBytes, size);
+         LOG("read asset %d ", readsize);
+        AAsset_close(asset);
+   }
+   else
 #endif
+   {
+        FILE *fp = fopen(fullpath, "rb");
+        if(!fp)
+        {
+            LOG("file: %s open failed!", filename.c_str());
+            return Status::OpenFailed;
+        }
 
-    struct stat statBuf;
-    if (fstat(descriptor, &statBuf) == -1) {
+        #if defined(_MSC_VER)
+            auto descriptor = _fileno(fp);
+        #else
+            auto descriptor = fileno(fp);
+        #endif
+
+        struct stat statBuf;
+        if (fstat(descriptor, &statBuf) == -1) {
+            fclose(fp);
+            return Status::ReadFailed;
+        }
+        size = statBuf.st_size;
+
+        dataBytes = (unsigned char*)malloc(size + 1);
+        memset(dataBytes, 0, size);
+        readsize = fread(dataBytes, 1, size, fp);
+        dataBytes[size] = '\0';
         fclose(fp);
-        return Status::ReadFailed;
     }
-    size_t size = statBuf.st_size;
-
-    unsigned char* dataBytes = (unsigned char*)malloc(size + 1);
-    memset(dataBytes, 0, size);
-    size_t readsize = fread(dataBytes, 1, size, fp);
-    dataBytes[size] = '\0';
-    fclose(fp);
-
+    
     auto retSatus = Status::OK;
     auto dataSize = size;
     if (readsize < size) {
@@ -153,7 +187,7 @@ FileUtils::Status FileUtils::readZipFileData(const std::string& zipfilename, Dat
         IF_BREAK(zret != UNZ_OK, FileUtils::Status::ReadFailed);
         buffer = (unsigned char*)malloc(fileInfo.uncompressed_size + 1);
         zret = unzReadCurrentFile(file, buffer, static_cast<unsigned>(fileInfo.uncompressed_size));
-        buffer[size] = '\0';
+        buffer[fileInfo.uncompressed_size] = '\0';
         IF_BREAK(zret != 0 && zret != (int)fileInfo.uncompressed_size, FileUtils::Status::ReadFailed);
 #undef IF_BREAK
         size = fileInfo.compressed_size;
@@ -180,21 +214,23 @@ void FileUtils::readFileDataHelper(const std::string &filename, Data &data, bool
     if(filename.empty())
         return;
 
-    if(cacheData)
+    if(cacheData && _fileDatas.find(filename) != _fileDatas.end())
     {
-        auto cdata = getDataFromCache(filename);
-        if(!cdata.isNull())
-        {
-            data = cdata;
-            return;
-        }
+        data = getDataFromCache(filename);
     }
 
     auto status = readCallFunc(data);
-    if(status == Status::OK)
+    if(status == Status::OK && cacheData)
     {
-        if(cacheData)
-            _fileDatas.insert(std::make_pair(filename, data));
+        _fileDatas.insert(std::make_pair(filename, data));
     }
 }
+
+#ifdef __ANDROID__
+    AAssetManager* FileUtils::__assetManager = nullptr;
+    const std::string FileUtils::resolvePath(const std::string& filepath)
+    {
+        return filepath;
+    }
+#endif
 }

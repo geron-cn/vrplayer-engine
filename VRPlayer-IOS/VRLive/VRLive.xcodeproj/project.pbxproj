@@ -33,6 +33,8 @@
 		3E07F4F61D2BD5FE003D2C83 /* libIJKMediaPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E07F4F51D2BD5EC003D2C83 /* libIJKMediaPlayer.a */; };
 		3E07F4F81D2BD700003D2C83 /* VRPlayerViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E07F4F71D2BD700003D2C83 /* VRPlayerViewController2.m */; };
 		3E0A8F3F1D533CCD00357C81 /* VRPlayerScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3E0A8F3E1D533CCD00357C81 /* VRPlayerScene.mm */; };
+		3E75BFDF1D585B4A005B1700 /* Action.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E75BFDD1D585B4A005B1700 /* Action.cpp */; };
+		3E75BFE51D597F75005B1700 /* Platform-IOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3E75BFE31D597F75005B1700 /* Platform-IOS.mm */; };
 		3E8D7C611CF6EF8300EF5F9D /* logo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8D7C5F1CF6DC2300EF5F9D /* logo.m */; };
 		3ECF6DBC1CF3F46D0043B22F /* GLUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA11CF3F46D0043B22F /* GLUtil.m */; };
 		3ECF6DBD1CF3F46D0043B22F /* MD360Director.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF6DA31CF3F46D0043B22F /* MD360Director.m */; };
@@ -175,6 +177,10 @@
 		3E07F4F71D2BD700003D2C83 /* VRPlayerViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VRPlayerViewController2.m; path = VRPlayer/VRPlayerViewController2.m; sourceTree = "<group>"; };
 		3E0A8F3D1D533CCD00357C81 /* VRPlayerScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VRPlayerScene.h; path = VRPlayer/VRPlayerScene.h; sourceTree = "<group>"; };
 		3E0A8F3E1D533CCD00357C81 /* VRPlayerScene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = VRPlayerScene.mm; path = VRPlayer/VRPlayerScene.mm; sourceTree = "<group>"; };
+		3E75BFDD1D585B4A005B1700 /* Action.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Action.cpp; path = 3d/Action.cpp; sourceTree = "<group>"; };
+		3E75BFDE1D585B4A005B1700 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Action.h; path = 3d/Action.h; sourceTree = "<group>"; };
+		3E75BFE31D597F75005B1700 /* Platform-IOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "Platform-IOS.mm"; path = "3d/Platform-IOS.mm"; sourceTree = "<group>"; };
+		3E75BFE41D597F75005B1700 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Platform.h; path = 3d/Platform.h; sourceTree = "<group>"; };
 		3E8D7C5F1CF6DC2300EF5F9D /* logo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = logo.m; path = VRPlayer/logo.m; sourceTree = "<group>"; };
 		3E8D7C601CF6EB3F00EF5F9D /* logo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = logo.h; path = VRPlayer/logo.h; sourceTree = "<group>"; };
 		3ECF6D8E1CF3F3C90043B22F /* libVRLive.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVRLive.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -289,6 +295,10 @@
 		3E07F4931D2A10B6003D2C83 /* 3d */ = {
 			isa = PBXGroup;
 			children = (
+				3E75BFE31D597F75005B1700 /* Platform-IOS.mm */,
+				3E75BFE41D597F75005B1700 /* Platform.h */,
+				3E75BFDD1D585B4A005B1700 /* Action.cpp */,
+				3E75BFDE1D585B4A005B1700 /* Action.h */,
 				3EEBC76C1D4F73AD00094369 /* Label.cpp */,
 				3EEBC76D1D4F73AD00094369 /* Label.h */,
 				3EEBC7661D4E21B000094369 /* TextureUtil-ios.mm */,
@@ -673,11 +683,13 @@
 				C58175281D58231C009FB5D0 /* FileUtils-ios.mm in Sources */,
 				3ECF6E071CF4211A0043B22F /* VRPlayerViewController.m in Sources */,
 				3ECF6DC11CF3F46D0043B22F /* MDAbsObject3D.mm in Sources */,
+				3E75BFE51D597F75005B1700 /* Platform-IOS.mm in Sources */,
 				3E07F4DA1D2A1105003D2C83 /* Vector3.cpp in Sources */,
 				C547830C1D57253100C7672A /* unzip.cpp in Sources */,
 				3E07F4C71D2A1105003D2C83 /* Billboard.cpp in Sources */,
 				3ECF6DC71CF3F46D0043B22F /* MDVideoDataAdatperAVPlayerImpl.m in Sources */,
 				3E07F4D31D2A1105003D2C83 /* Quaternion.cpp in Sources */,
+				3E75BFDF1D585B4A005B1700 /* Action.cpp in Sources */,
 				3ECF6DBE1CF3F46D0043B22F /* MD360Program.m in Sources */,
 				3ECF6DC81CF3F46D0043B22F /* MDVRLibrary.m in Sources */,
 				3ECF6DEF1CF3FB570043B22F /* UIWebView+AFNetworking.m in Sources */,

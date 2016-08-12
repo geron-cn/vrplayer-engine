@@ -25,6 +25,8 @@ namespace vrlive {
         static Label* create(const std::string& text, const std::string& font, float fontSize, const Vector4& color, int width = 0, int height = 0, TextHAlignment hAlignment = TextHAlignment::LEFT,
                              TextVAlignment vAlignment = TextVAlignment::TOP);
         
+        static Label* createWithTexture(const std::string& path);
+        
         virtual void draw(Camera* camera);
         
         virtual void update(Scene* scene);
@@ -36,6 +38,8 @@ namespace vrlive {
         int getHeight() const;
         
     protected:
+        
+        void initWithTexture(Texture* tex);
         
         Label();
         virtual ~Label();

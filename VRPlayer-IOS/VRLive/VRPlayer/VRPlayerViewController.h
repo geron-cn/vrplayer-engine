@@ -1,6 +1,7 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
+#import "VRPlayerScene.h"
 
 @class VRPlayerViewController;
 
@@ -205,6 +206,8 @@ typedef enum{
  * @return @~chinese 眼睛到场景的距离 @~english distance from eye to scene
  */
 - (float)getEyeDistance;
+
+- (VRPlayerScene*) getVRPlayerScene;
 
 /**
  * 内部接口关闭水印

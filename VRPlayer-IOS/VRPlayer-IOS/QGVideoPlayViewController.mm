@@ -9,7 +9,7 @@
 #import "QGVideoPlayViewController.h"
 #import "VRPlayerViewController.h"
 #import "FeThreeDotGlow.h"
-
+#import "VRPlayerScene.h"
 
 #define HIDE_CONTROL_DELAY 5.0f
 #define DEFAULT_VIEW_ALPHA 1.f
@@ -20,7 +20,7 @@
     
     VRPlayerViewController *vrPlayerViewController;
     BOOL seekToZeroBeforePlay;
-    
+    NSTimer* timer;
 }
 
 @property (assign, nonatomic) CGFloat   totalTime;
@@ -105,6 +105,148 @@
     [self configureBackButton];
     
     self.titleLabel.text = self.videoTitle;
+    
+    VRPlayerScene* scene = [vrPlayerViewController getVRPlayerScene];
+    [scene addMenuItemWithName:@"bingkuai" TexturePath:@"menu/bingkuai.png" Rect:CGRectMake(-4.5, -24, 3, 3)];
+    [scene addMenuItemWithName:@"pijiu" TexturePath:@"menu/pijiu.png" Rect:CGRectMake(-1.5, -24, 3, 3)];
+    [scene addMenuItemWithName:@"qiche" TexturePath:@"menu/qiche.png" Rect:CGRectMake(1.5, -24, 3, 3)];
+    [scene addMenuItemWithName:@"dianzan" TexturePath:@"menu/dianzan.png" Rect:CGRectMake(4.5, -24, 3, 3)];
+    
+    [scene addMenuItemWithName:@"feiji" TexturePath:@"menu/feiji.png" Rect:CGRectMake(-4.5, -27, 3, 3)];
+    [scene addMenuItemWithName:@"youlun" TexturePath:@"menu/youlun.png" Rect:CGRectMake(-1.5, -27, 3, 3)];
+    [scene addMenuItemWithName:@"xianhua" TexturePath:@"menu/xianhua.png" Rect:CGRectMake(1.5, -27, 3, 3)];
+    [scene addMenuItemWithName:@"huojian" TexturePath:@"menu/huojian.png" Rect:CGRectMake(4.5, -27, 3, 3)];
+    
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"bingkuai" object:nil];
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"pijiu" object:nil];
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"qiche" object:nil];
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"dianzan" object:nil];
+    
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"feiji" object:nil];
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"youlun" object:nil];
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"xianhua" object:nil];
+    [ [NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GiftProcess:) name: @"huojian" object:nil];
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval:3.0
+                                     target:self
+                                   selector:@selector(updateTimer:)  userInfo:nil
+                                    repeats:YES];
+}
+
+-(void)GiftProcess:(NSNotification *)gift
+{
+    NSLog(@"%@",gift.name);
+    VRPlayerScene* scene = [vrPlayerViewController getVRPlayerScene];
+    if ([gift.name  isEqual: @"qiche"])
+    {
+        [VRPlayerScene index:0];
+        [scene addLabelWithName:@"gift" TexPath:@"gift/daqiche.png"];
+    }
+}
+
+- (void)updateTimer:(NSTimer *)paramTimer{
+    
+//    return;
+    static int i = 0;
+    
+    VRPlayerScene* scene = [vrPlayerViewController getVRPlayerScene];
+    [VRPlayerScene index:i];
+    switch (i) {
+        case 0:
+        {
+            float g = (arc4random() % 100) / 100.f;
+            float b = (arc4random() % 100) / 100.f;
+            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
+            int fontsize = arc4random() % 30 + 20;
+            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
+            
+            [scene addLabelWithName:@"gift" TexPath:@"gift/daqiche.png"];
+        }
+            break;
+        case 1:
+        {
+            float g = (arc4random() % 100) / 100.f;
+            float b = (arc4random() % 100) / 100.f;
+            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
+            int fontsize = arc4random() % 30 + 20;
+            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
+            
+            [scene addLabelWithName:@"gift1" TexPath:@"gift/dabingkuai.png"];
+        }
+            break;
+        case 2:
+        {
+            float g = (arc4random() % 100) / 100.f;
+            float b = (arc4random() % 100) / 100.f;
+            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
+            int fontsize = arc4random() % 30 + 20;
+            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
+            
+            [scene addLabelWithName:@"gift2" TexPath:@"gift/dafeiji.png"];
+        }
+            break;
+        case 3:
+        {
+            float g = (arc4random() % 100) / 100.f;
+            float b = (arc4random() % 100) / 100.f;
+            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
+            int fontsize = arc4random() % 30 + 20;
+            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
+            
+            [scene addLabelWithName:@"gift3" TexPath:@"gift/dadianzan.png"];
+        }
+            break;
+        case 4:
+        {
+            float g = (arc4random() % 100) / 100.f;
+            float b = (arc4random() % 100) / 100.f;
+            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
+            int fontsize = arc4random() % 30 + 20;
+            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
+            
+            [scene addLabelWithName:@"gift4" TexPath:@"gift/dahuojian.png"];
+        }
+            break;
+        case 5:
+        {
+            float g = (arc4random() % 100) / 100.f;
+            float b = (arc4random() % 100) / 100.f;
+            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
+            int fontsize = arc4random() % 30 + 20;
+            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
+            
+            [scene addLabelWithName:@"gift5" TexPath:@"gift/dapijiu.png"];
+        }
+            break;
+        case 6:
+        {
+            float g = (arc4random() % 100) / 100.f;
+            float b = (arc4random() % 100) / 100.f;
+            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
+            int fontsize = arc4random() % 30 + 20;
+            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
+            
+            [scene addLabelWithName:@"gift6" TexPath:@"gift/daxianhua.png"];
+        }
+            break;
+        case 7:
+        {
+            float g = (arc4random() % 100) / 100.f;
+            float b = (arc4random() % 100) / 100.f;
+            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
+            int fontsize = arc4random() % 30 + 20;
+            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
+            
+            [scene addLabelWithName:@"gift7" TexPath:@"gift/dayoulun.png"];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    i++;
+    i = i % 8;
 }
 
 - (void)HeadCursorBackEvent
@@ -477,7 +619,11 @@
 
 - (void)videoPlayerDidReachEnd:(VRPlayerViewController *)videoPlayer {
     seekToZeroBeforePlay = YES;
+//    [vrPlayerViewController openURL:[NSURL URLWithString:@"http://vr.donglivr.net/qjdl/qiyiguo/12_05_15_comikazi_v01/mp4_fhd.mp4"]];
     [self updatePlayButton];
+    
+    
+//    [self setupVideoPlaybackForURL:[NSURL URLWithString:@"http://vr.donglivr.net/qjdl/qiyiguo/12_05_15_comikazi_v01/mp4_fhd.mp4"]];
 }
 
 - (void)videoPlayer:(VRPlayerViewController *)videoPlayer timeDidChange:(CMTime)cmTime {

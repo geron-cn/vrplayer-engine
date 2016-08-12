@@ -1,5 +1,6 @@
 #include "Node.h"
 #include "Sprite3D.h"
+#include "Action.h"
 
 namespace vrlive {
    
@@ -20,7 +21,10 @@ namespace vrlive {
     
     void Node::draw(Camera* camera)
     {
-        if (_sprite && _isVisible)
+        if (!_isVisible)
+            return;
+        
+        if (_sprite)
         {
             _sprite->draw(camera);
         }
@@ -76,6 +80,12 @@ namespace vrlive {
 //        _mat.multiply(matScale);
     }
     
+    void Node::runAction(Action* action)
+    {
+        action->setTarget(this);
+        ActionMgr::getInstance()->addAction(action);
+    }
+    
     void Node::addChild(Node* node)
     {
         node->addRef();
@@ -96,6 +106,19 @@ namespace vrlive {
             {
                 node->_parent = nullptr;
                 node->release();
+                _children.erase(_children.begin() + k);
+                break;
+            }
+        }
+    }
+    
+    void Node::removeChild(const std::string& name)
+    {
+        for (int k = 0; k < (int)_children.size(); k++) {
+            if (_children[k]->getName() == name)
+            {
+                _children[k]->_parent = nullptr;
+                _children[k]->release();
                 _children.erase(_children.begin() + k);
                 break;
             }
@@ -126,6 +149,8 @@ namespace vrlive {
     }
     Node::~Node()
     {
+        ActionMgr::getInstance()->removeActionByNode(this);
+        
         if (_sprite)
         {
             _sprite->release();
@@ -133,5 +158,4 @@ namespace vrlive {
         }
         removeAllChildren();
     }
-    
 }

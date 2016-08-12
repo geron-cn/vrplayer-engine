@@ -13,6 +13,7 @@
 #import "MDVRLibrary.h"
 #import "MD360Renderer.h"
 #import "logo.h"
+#import "VRPlayerScene.h"
 
 @interface VRPlayerViewController(){
     CGRect videoframe;
@@ -20,6 +21,8 @@
     BOOL shouldPlayAfterScrubing;
     BOOL isScrubbing;
     NSTimer *timer;
+    
+    VRPlayerScene* playerScene;
 }
 @property (nonatomic, strong) MDVRLibrary* vrLibrary;
 @property (nonatomic, strong) NSURL* mURL;
@@ -38,6 +41,8 @@ static BOOL   hasAdvertisement = YES;
     
     self.vrLibrary = nil;
     self.mURL = nil;
+    playerScene = nil;
+    
     if (hasAdvertisement)
     {
         NSData* data = [NSData dataWithBytes:[logoData logoDataBuffer] length:[logoData logoDataSize]];
@@ -70,6 +75,7 @@ static BOOL   hasAdvertisement = YES;
 - (void)dealloc{
     self.vrLibrary = nil;
     self.mURL = nil;
+    playerScene = nil;
 }
 
 -(void)viewDidLayoutSubviews {
@@ -534,6 +540,16 @@ static const float RATIO_16_9 =  1.77777777777778;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (VRPlayerScene*) getVRPlayerScene
+{
+    if (playerScene == nil)
+    {
+        playerScene = [[VRPlayerScene alloc] init];
+    }
+    
+    return playerScene;
 }
 
 - (void)AdvertisementOff

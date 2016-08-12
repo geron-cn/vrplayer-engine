@@ -6,6 +6,7 @@
 #include "DefaultMenuItem.h"
 #include "GLProgram.h"
 #include "Label.h"
+#include "Action.h"
 
 namespace vrlive {
     
@@ -31,15 +32,19 @@ void Scene::setCamera(Camera* camera)
 void Scene::init()
 {
     _cursor = CameraCursor::create("", 1.f, 1.f);
+    ActionMgr::getInstance()->init();
     
-    auto label = Label::create("hello tony's vr video", "Helvetica", 48, Vector4(1.f, 1.f, 1.f, 1.f));
-    label->setNormalizedTranslation(0.5f, 0.5f);
-    addChild(label);
-    label->release();
+    if (_defMenu == nullptr)
+    {
+        _defMenu = DefaultMenuItem::create();
+        addChild(_defMenu);
+        _defMenu->release();
+    }
 }
 
 void Scene::draw()
 {
+    ActionMgr::getInstance()->update();
     update(this);
 //    auto mat = _camera->getInverseViewMatrix();
 //    if(mat.m[9] < 0.4f)
@@ -61,12 +66,6 @@ void Scene::draw()
 
     glDisable(GL_DEPTH_TEST);
     
-    if (_defMenu == nullptr)
-    {
-        _defMenu = DefaultMenuItem::create();
-        addChild(_defMenu);
-        _defMenu->release();
-    }
     
     if (_cursor && _cursor->isVisible())
     {
@@ -163,6 +162,7 @@ Scene::Scene()
     , _cursor(nullptr)
     , _defMenu(nullptr)
 {
+    
 }
 
 
@@ -183,6 +183,7 @@ Scene::~Scene()
         _defMenu = nullptr;
     }
     GLProgramCache::destroyInstance();
+    ActionMgr::destroyInstance();
 }
     
 }

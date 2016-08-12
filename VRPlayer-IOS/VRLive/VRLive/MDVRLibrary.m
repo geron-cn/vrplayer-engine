@@ -23,7 +23,6 @@
 @property (nonatomic,strong) MDAbsObject3D* object3D;
 @property (nonatomic,strong) MDInteractiveStrategyManager* interactiveStrategyManager;
 @property (nonatomic,strong) MDDisplayStrategyManager* displayStrategyManager;
-@property (nonatomic,strong) MD360Renderer* renderer;
 @property (nonatomic,strong) NSMutableArray* directors;
 @property (nonatomic,strong) MDTouchHelper* touchHelper;
 @property (nonatomic,weak) UIView* parentView;

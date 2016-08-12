@@ -200,6 +200,60 @@ namespace vrlive {
         
     }
     
+    FrameSequnceAction* FrameSequnceAction::create(const std::string& path, int count, float interval, bool repeat)
+    {
+        auto action = new FrameSequnceAction();
+        action->_repeat = repeat;
+        action->_accTime = 0;
+        action->_curFrame = 0;
+        action->_interval = interval;
+        
+        int idx = path.rfind(".");
+        std::string ext = path.substr(idx, path.length() - idx);
+        std::string basepath = path.substr(0, idx);
+        char str[512];
+        for (int i = 0; i < count; i++) {
+            sprintf("%s%d%s", basepath.c_str(), ext.c_str());
+            auto tex = Texture::create(str);
+            action->_textures.push_back(tex);
+        }
+        
+        return action;
+    }
+    
+    void FrameSequnceAction::update(float t)
+    {
+        Action::update(t);
+        _curFrame = (int)(_curtime / _interval);
+        auto sprite = _target->getSprite3D();
+        if (_curFrame >= _textures.size())
+        {
+            if (_repeat)
+                _curFrame %= _textures.size();
+            else
+                return;
+        }
+        if (sprite && sprite->getTexture() != _textures[_curFrame])
+        {
+            sprite->setTexture(_textures[_curFrame]);
+        }
+    }
+    
+    FrameSequnceAction::FrameSequnceAction()
+    : _curFrame(0)
+    , _accTime(0)
+    , _repeat(true)
+    {
+        
+    }
+    FrameSequnceAction::~FrameSequnceAction()
+    {
+        for (auto it : _textures) {
+            it->release();
+        }
+        _textures.clear();
+    }
+    
     /////////////////////////////////////////////////////////////////
     ActionMgr* ActionMgr::_instance = nullptr;
     ActionMgr* ActionMgr::getInstance()

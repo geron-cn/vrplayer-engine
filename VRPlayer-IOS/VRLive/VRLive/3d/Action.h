@@ -11,6 +11,7 @@
 #include "Node.h"
 #include "Ref.h"
 #include "Vector4.h"
+#include "Texture.h"
 
 namespace vrlive {
     
@@ -124,6 +125,24 @@ namespace vrlive {
         virtual ~SequnceAction();
         
         std::vector<Action*> _actions;
+    };
+    
+    class FrameSequnceAction : public Action
+    {
+    public:
+        static FrameSequnceAction* create(const std::string& path, int count, float interval, bool repeat);
+        
+        virtual void update(float t);
+        
+    protected:
+        FrameSequnceAction();
+        virtual ~FrameSequnceAction();
+        
+        int _curFrame;
+        float _accTime;
+        bool  _repeat;
+        float _interval;
+        std::vector<Texture*> _textures;
     };
     
     class ActionMgr

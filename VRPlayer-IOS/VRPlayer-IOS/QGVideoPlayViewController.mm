@@ -619,7 +619,11 @@
 
 - (void)videoPlayerDidReachEnd:(VRPlayerViewController *)videoPlayer {
     seekToZeroBeforePlay = YES;
+//    [vrPlayerViewController openURL:[NSURL URLWithString:@"http://vr.donglivr.net/qjdl/qiyiguo/12_05_15_comikazi_v01/mp4_fhd.mp4"]];
     [self updatePlayButton];
+    
+    
+//    [self setupVideoPlaybackForURL:[NSURL URLWithString:@"http://vr.donglivr.net/qjdl/qiyiguo/12_05_15_comikazi_v01/mp4_fhd.mp4"]];
 }
 
 - (void)videoPlayer:(VRPlayerViewController *)videoPlayer timeDidChange:(CMTime)cmTime {

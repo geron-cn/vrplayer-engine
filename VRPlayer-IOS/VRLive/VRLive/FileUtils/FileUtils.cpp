@@ -24,28 +24,32 @@ void FileUtils::destoryInstace()
     }
 }
 
-void FileUtils::reloadFileContent(const std::string &filename, Data &data)
+Data FileUtils::reloadFileContent(const std::string &filename)
 {
     removeDataFromCache(filename);
-    getFileContent(filename, data, true);
+    return getFileContent(filename, true);
 }
 
-void FileUtils::reloadZipFileContent(const std::string &filename, Data &data)
+Data FileUtils::reloadZipFileContent(const std::string &filename)
 {
     removeDataFromCache(filename);
-    getZipFileContent(filename, data, true);
+    return getZipFileContent(filename, true);
 }
 
-void FileUtils::getFileContent(const std::string &filename, Data &data, bool cacheData)
+Data FileUtils::getFileContent(const std::string &filename, bool cacheData)
 {
+    Data data;
     auto readcall = std::bind(&FileUtils::readFileData, this, filename, std::placeholders::_1);
     readFileDataHelper(filename, data, cacheData, readcall);
+    return data;
 }
 
-void FileUtils::getZipFileContent(const std::string &filename, Data &data, bool cacheData)
+Data FileUtils::getZipFileContent(const std::string &filename, bool cacheData)
 {
+    Data data;
     auto readcall = std::bind(&FileUtils::readZipFileData, this, filename, std::placeholders::_1);
-    return readFileDataHelper(filename, data, cacheData, readcall);
+    readFileDataHelper(filename, data, cacheData, readcall);
+    return data;
 }
 
 Data FileUtils::getDataFromCache(const std::string &filename) const
@@ -92,17 +96,14 @@ FileUtils::Status FileUtils::readFileData(const std::string& filename, Data &dat
 #ifdef __ANDROID__
     if(filename[0] != '/')
     {
-        LOG("ssssssssssssssssssssssssssssssssssssss");
         LOG("%s", fullpath);
         if( nullptr == __assetManager)
         {
             LOG("asset mananger is null");
             return Status::OpenFailed;
         }
-        LOG("opon path ");
-
+        
         AAsset* asset = AAssetManager_open(__assetManager, fullpath, AASSET_MODE_UNKNOWN);
-         LOG("get path asset");
         if( nullptr == asset)
         {
             LOG("open path failed");
@@ -155,6 +156,10 @@ FileUtils::Status FileUtils::readFileData(const std::string& filename, Data &dat
     if(!data.isNull())
         data.clear();
     data.fastSet(dataBytes, dataSize);
+    if(!data.isNull())
+         LOG("read asset %s", data.getBase64().c_str());
+     else
+        LOG("read null data");
     return retSatus;
 }
 
@@ -222,7 +227,9 @@ void FileUtils::readFileDataHelper(const std::string &filename, Data &data, bool
     auto status = readCallFunc(data);
     if(status == Status::OK && cacheData)
     {
+        LOG("readed %d data to for begin cache", data.getSize());
         _fileDatas.insert(std::make_pair(filename, data));
+        LOG("readed %d data to for end cache", data.getSize());
     }
 }
 

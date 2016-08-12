@@ -3,6 +3,9 @@
 //
 #ifndef REF_H_
 #define REF_H_
+#ifdef __ANDROID__
+#include <stdlib.h>
+#endif // __ANDROID__
 
 namespace vrlive {
     class Ref

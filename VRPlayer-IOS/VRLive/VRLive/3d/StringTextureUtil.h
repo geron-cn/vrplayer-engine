@@ -8,6 +8,10 @@
 #include "Base.h"
 #include "Ref.h"
 #include "Vector3.h"
+#include "../FileUtils/Data.h"
+#ifdef __ANDROID__
+#include <jni.h>
+#endif
 
 namespace vrlive {
     
@@ -80,41 +84,48 @@ namespace vrlive {
         int                  _overflow;
     };
 
+#ifdef  __ANDROID__
+    struct JniMethodInfo
+{
+    JNIEnv *    env;
+    jclass      classID;
+    jmethodID   methodID;
+};
 
+class BitmapDC
+{
+public:
+
+    BitmapDC();
+
+    ~BitmapDC(void);
+
+    bool getBitmapFromJavaShadowStroke( const char *text,
+                                        int nWidth,
+                                        int nHeight,
+                                        TextAlign eAlignMask,
+                      const FontDefinition& textDefinition );
+
+public:
+    int _width;
+    int _height;
+    unsigned char *_data;
+};
     class StringTextureUtil
     {
     public:
-        
-        class Data
+         static BitmapDC      bitmapDC;
+         static JniMethodInfo getBitmapFunc;
+#else
+    class StringTextureUtil
         {
         public:
-            Data()
-            : _bytes(0)
-            , _size(0)
-            {
-                
-            }
-            ~Data()
-            {
-                free(_bytes);
-                _bytes = nullptr;
-                _size = 0;
-            }
-            unsigned char* getBytes() const{ return _bytes; }
-            ssize_t getSize() const { return _size; }
-            void fastSet(unsigned char* bytes, const ssize_t size)
-            {
-                _bytes = bytes;
-                _size = size;
-            }
-        private:
-            unsigned char* _bytes;
-            ssize_t _size;
-        };
+#endif //  __ANDROID__
+
+        // no use in android
+        static float getScaleFactor();    
         
-        static float getScaleFactor();
-        
-        static Data getTextureDataForText(const char * text, const FontDefinition& textDefinition, TextAlign align, int &width, int &height, bool& hasPremultipliedAlpha);
+        static Data getTextureDataForText(const char * text, const FontDefinition& textDefinition, TextAlign align, int &width, int &height, bool& hasPremultipliedAlpha);  
     };
 }
 

@@ -394,7 +394,7 @@ namespace vrlive {
         return [[UIScreen mainScreen] scale];
     }
     
-    StringTextureUtil::Data StringTextureUtil::getTextureDataForText(const char * text, const FontDefinition& textDefinition, TextAlign align, int &width, int &height, bool& hasPremultipliedAlpha)
+    Data StringTextureUtil::getTextureDataForText(const char * text, const FontDefinition& textDefinition, TextAlign align, int &width, int &height, bool& hasPremultipliedAlpha)
     {
         Data ret;
         

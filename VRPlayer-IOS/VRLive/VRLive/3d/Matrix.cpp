@@ -2,6 +2,9 @@
 #include "Quaternion.h"
 #include "MathUtil.h"
 #include <cmath>
+#ifdef __ANDROID__
+#include <cstring>
+#endif
 
 using std::memcpy;
 using std::fabs;

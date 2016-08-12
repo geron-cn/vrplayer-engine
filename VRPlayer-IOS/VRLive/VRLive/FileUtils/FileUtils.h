@@ -6,23 +6,20 @@
 #include <string>
 #include "Data.h"
 
-namespace vrlive {
-
-
 #ifdef __ANDROID__
 #include <jni.h>
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
 
-//#include <android/log.h>
-//#define  LOG_TAG    "FileUtils"
-//#ifdef LOG(...) 
-//#undef LOG(...) 
-//#define  LOG(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
-//#endif
+#include <android/log.h>
+#define  LOG_TAG    "FileUtils"
+#ifdef LOG(...) 
+#undef LOG(...) 
+#define  LOG(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+#endif
 #endif
 
-
+namespace vrlive {
 class FileUtils
 {
 public:
@@ -42,8 +39,8 @@ public:
     static void destoryInstace();
 
     // remove cache data from cache, and reload data
-    void reloadFileContent(const std::string& filename, Data &data);
-    void reloadZipFileContent(const std::string& filename, Data &data);
+    Data reloadFileContent(const std::string& filename);
+    Data reloadZipFileContent(const std::string& filename);
 
     /**
      * @brief getFileContent, get file content
@@ -54,7 +51,7 @@ public:
      *        while false, read data directly from path
      * @return
      */
-    virtual void getFileContent(const std::string& filename, Data &data, bool cacheData);
+    virtual Data getFileContent(const std::string& filename, bool cacheData);
 
     /**
      * @brief getZipFileContent, get a zip file content
@@ -63,7 +60,7 @@ public:
      * @param cacheData
      * @return
      */
-    virtual void getZipFileContent(const std::string& filename, Data &data, bool cacheData);
+    virtual Data getZipFileContent(const std::string& filename, bool cacheData);
 
     /**
      * @brief getDataFromCache, get data from cache

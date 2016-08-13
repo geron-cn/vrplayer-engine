@@ -13,7 +13,6 @@ namespace vrlive {
     static Camera* _camera2D = nullptr;
     Label::Label()
     : _tex(nullptr)
-    , _sprite(nullptr)
     , _normalizedX(-1)
     , _normalizedY(-1)
     {
@@ -25,11 +24,11 @@ namespace vrlive {
         {
             _tex = nullptr;
         }
-        if (_sprite)
-        {
-            _sprite->release();
-            _sprite = nullptr;
-        }
+//        if (_sprite)
+//        {
+//            _sprite->release();
+//            _sprite = nullptr;
+//        }
     }
     
     int Label::getWidth() const

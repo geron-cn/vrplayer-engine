@@ -45,7 +45,6 @@ namespace vrlive {
         virtual ~Label();
 
         Texture* _tex;
-        Sprite3D* _sprite;
         
         float _normalizedX;
         float _normalizedY;

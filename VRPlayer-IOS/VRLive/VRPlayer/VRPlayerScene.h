@@ -10,6 +10,8 @@
 
 - (void) addLabelWithName: (NSString*)name TexPath: (NSString*)path;
 
+- (void) addLabelWithName2: (NSString*)name TexDir: (NSString*)dir BaseIndex: (int)baseIndex FrameCount: (int)framecount;
+
 -(void) removeLabel: (NSString*)name;
 
 -(void) addMenuItemWithName: (NSString*)name TexturePath:(NSString*)path Rect: (CGRect)rect;

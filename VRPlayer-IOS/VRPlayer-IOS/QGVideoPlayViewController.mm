@@ -21,6 +21,7 @@
     VRPlayerViewController *vrPlayerViewController;
     BOOL seekToZeroBeforePlay;
     NSTimer* timer;
+    int timerIdx;
 }
 
 @property (assign, nonatomic) CGFloat   totalTime;
@@ -131,6 +132,7 @@
                                      target:self
                                    selector:@selector(updateTimer:)  userInfo:nil
                                     repeats:YES];
+    timerIdx = 0;
 }
 
 -(void)GiftProcess:(NSNotification *)gift
@@ -152,7 +154,7 @@ static bool s_danmuOn = true;
 - (void)updateTimer:(NSTimer *)paramTimer{
     
 //    return;
-    static int i = 0;
+    
     
     VRPlayerScene* scene = [vrPlayerViewController getVRPlayerScene];
     if (s_danmuOn)
@@ -164,8 +166,8 @@ static bool s_danmuOn = true;
         [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
     }
     
-    [VRPlayerScene index:i];
-    switch (i) {
+    [VRPlayerScene index:timerIdx];
+    switch (timerIdx) {
         case 0:
         {
             [scene addLabelWithName:@"gift" TexPath:@"gift/daqiche.png"];
@@ -233,8 +235,8 @@ static bool s_danmuOn = true;
             break;
     }
     
-    i++;
-    i = i % 12;
+    timerIdx++;
+    timerIdx = timerIdx % 12;
 }
 
 - (void)HeadCursorBackEvent

@@ -88,23 +88,28 @@ namespace vrlive {
         
     bool DefaultMenuItem::init()
     {
+    #define DELETE_PNG_BUFFER {stream->close();stream->release();}
         Stream* stream = getBtnBackStream();
         _back = MenuItem::create(stream, 2.f, 2.f);
-        stream->release();
+        DELETE_PNG_BUFFER;
         
         stream = getBtnForwardStream();
         _forward = MenuItem::create(stream, 2.f, 2.f);
-        stream->release();
+        DELETE_PNG_BUFFER;
+
         stream = getBtnBackwardStream();
         _backward = MenuItem::create(stream, 2.f, 2.f);
-        stream->release();
+        DELETE_PNG_BUFFER;
+
         stream = getBtnPauseStream();
         _pause = MenuItem::create(stream, 2.f, 2.f);
-        stream->release();
+        DELETE_PNG_BUFFER;
+
         stream = getBackgroundStream();
          _background = Billboard::create(stream, 10.f, 3.f);
-        stream->release();
-        
+        DELETE_PNG_BUFFER;
+    #undef DELETE_PNG_BUFFER
+
         _back->setName("back");
         _forward->setName("forward");
         _backward->setName("backward");

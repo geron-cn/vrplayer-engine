@@ -12,6 +12,7 @@ namespace vrlive {
     class Stream;
     class Texture;
     class Camera;
+    
     class Billboard : public Node
     {
     public:
@@ -22,7 +23,7 @@ namespace vrlive {
         virtual void draw(Camera* camera);
         
     protected:
-        bool init(Texture* texture, float width, float height);
+        virtual bool init(Texture* texture, float width, float height);
         Billboard();
         virtual ~Billboard();
 

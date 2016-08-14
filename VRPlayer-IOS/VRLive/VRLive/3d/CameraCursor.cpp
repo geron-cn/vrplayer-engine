@@ -76,6 +76,7 @@ namespace vrlive {
             Texture* textrue = Texture::create(stream);
             _sprite->setTexture(textrue);
             textrue->release();
+            stream->close();
             stream->release();
         }
         

@@ -117,7 +117,8 @@ void Data::fastSet(unsigned char* bytes, const ssize_t size)
 
 void Data::clear()
 {
-    free(_bytes);
+    if(_bytes != nullptr)
+        free(_bytes);
     _bytes = nullptr;
     _size = 0;
 }
@@ -138,43 +139,42 @@ static const std::string base64_chars =
 std::string Data::getBase64() const
 {
     std::string ret;
-    int  in_len = _size;
-    char* in_bytes = (char*)_bytes;
     int i = 0;
     int j = 0;
+    int in_len = _size;
+    unsigned char* bytes_to_encode = _bytes;
     unsigned char char_array_3[3];
     unsigned char char_array_4[4];
 
     while (in_len--) {
-        char_array_3[i++] = *(in_bytes++);
+        char_array_3[i++] = *(bytes_to_encode++);
         if (i == 3) {
-            char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-            char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-            char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
-            char_array_4[3] = char_array_3[2] & 0x3f;
+        char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+        char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+        char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+        char_array_4[3] = char_array_3[2] & 0x3f;
 
-            for(i = 0; (i <4) ; i++)
+        for(i = 0; (i <4) ; i++)
             ret += base64_chars[char_array_4[i]];
-            i = 0;
+        i = 0;
         }
     }
 
     if (i)
     {
         for(j = i; j < 3; j++)
-            char_array_3[j] = '\0';
+        char_array_3[j] = '\0';
 
-            char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-            char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-            char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
-            char_array_4[3] = char_array_3[2] & 0x3f;
+        char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+        char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+        char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+        char_array_4[3] = char_array_3[2] & 0x3f;
 
-            for (j = 0; (j < i + 1); j++)
-             ret += base64_chars[char_array_4[j]];
+        for (j = 0; (j < i + 1); j++)
+        ret += base64_chars[char_array_4[j]];
 
-            while((i++ < 3))
-               ret += '=';
-
+        while((i++ < 3))
+        ret += '=';
     }
   return ret;
 }

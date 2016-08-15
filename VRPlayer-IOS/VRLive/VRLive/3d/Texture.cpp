@@ -18,13 +18,14 @@ namespace vrlive {
     
     Texture* Texture::create(const std::string& filename)
     {
-        Data data;
-        FileUtils::getInstance()->getFileContent(filename, data, true);
+        Data data = FileUtils::getInstance()->getFileContent(filename, true);
         Texture* tex = nullptr;
         if(!data.isNull())
         {
             tex = new Texture();
-            tex->init(MemoryStream::create((char*)data.getBytes(), data.getSize()));
+            auto stream = MemoryStream::create((char*)data.getBytes(), data.getSize());
+            tex->init(stream);
+            stream->release();
         }
         return tex;
     }
@@ -60,25 +61,27 @@ namespace vrlive {
             unsigned char* outTempData = nullptr;
             ssize_t outTempDataLen = 0;
             
-            int imageWidth;
-            int imageHeight;
+            int imageWidth = 0;
+            int imageHeight= 0;
             auto textDef = textDefinition;
             auto contentScaleFactor = StringTextureUtil::getScaleFactor();
             textDef._fontSize *= contentScaleFactor;
             textDef._dimensions[0] *= contentScaleFactor;
             textDef._dimensions[1] *= contentScaleFactor;
             bool hasPremultiplied;
-            
-            StringTextureUtil::Data outData = StringTextureUtil::getTextureDataForText(text.c_str(), textDefinition, align, imageWidth, imageHeight, hasPremultiplied);
+             
+            Data outData = FileUtils::getInstance()->getFileContent("1.png", true);
+            //StringTextureUtil::getTextureDataForText(text.c_str(), textDefinition, align, imageWidth, imageHeight, hasPremultiplied);
             if (outData.getBytes() == nullptr)
             {
                 delete tex;
                 return nullptr;
             }
-            tex = Texture::create(Texture::Format::RGBA, imageWidth, imageHeight, outData.getBytes());
+            ssize_t temp = 0;
+             LOG("created %d x %d %s ", imageWidth, imageHeight, outData.getBase64().c_str());
+            //auto outbytes = outData.takeBuffer(&temp);
+            tex = Texture::create(Texture::Format::RGBA, 128, 128, outData.getBytes());
         }
-
-        
         return tex;
     }
     

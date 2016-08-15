@@ -69,7 +69,8 @@ namespace vrlive {
     
     MemoryStream::~MemoryStream()
     {
-        close();
+        // should free the memory of the buffer by who created the buffer         
+        //close();
     }
     
     MemoryStream* MemoryStream::create(char* lpbuffer, unsigned int length)

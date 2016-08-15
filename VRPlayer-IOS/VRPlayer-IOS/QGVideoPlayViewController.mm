@@ -21,6 +21,7 @@
     VRPlayerViewController *vrPlayerViewController;
     BOOL seekToZeroBeforePlay;
     NSTimer* timer;
+    int timerIdx;
 }
 
 @property (assign, nonatomic) CGFloat   totalTime;
@@ -131,6 +132,7 @@
                                      target:self
                                    selector:@selector(updateTimer:)  userInfo:nil
                                     repeats:YES];
+    timerIdx = 0;
 }
 
 -(void)GiftProcess:(NSNotification *)gift
@@ -144,109 +146,97 @@
     }
 }
 
+static bool s_danmuOn = true;
+- (IBAction)DanmuSwitch:(id)sender {
+    s_danmuOn = !s_danmuOn;
+}
+
 - (void)updateTimer:(NSTimer *)paramTimer{
     
 //    return;
-    static int i = 0;
+    
     
     VRPlayerScene* scene = [vrPlayerViewController getVRPlayerScene];
-    [VRPlayerScene index:i];
-    switch (i) {
+    if (s_danmuOn)
+    {
+        float g = (arc4random() % 100) / 100.f;
+        float b = (arc4random() % 100) / 100.f;
+        UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
+        int fontsize = arc4random() % 30 + 20;
+        [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
+    }
+    
+    [VRPlayerScene index:timerIdx];
+    switch (timerIdx) {
         case 0:
         {
-            float g = (arc4random() % 100) / 100.f;
-            float b = (arc4random() % 100) / 100.f;
-            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
-            int fontsize = arc4random() % 30 + 20;
-            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
-            
             [scene addLabelWithName:@"gift" TexPath:@"gift/daqiche.png"];
         }
             break;
         case 1:
         {
-            float g = (arc4random() % 100) / 100.f;
-            float b = (arc4random() % 100) / 100.f;
-            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
-            int fontsize = arc4random() % 30 + 20;
-            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
-            
             [scene addLabelWithName:@"gift1" TexPath:@"gift/dabingkuai.png"];
         }
             break;
         case 2:
         {
-            float g = (arc4random() % 100) / 100.f;
-            float b = (arc4random() % 100) / 100.f;
-            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
-            int fontsize = arc4random() % 30 + 20;
-            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
-            
             [scene addLabelWithName:@"gift2" TexPath:@"gift/dafeiji.png"];
         }
             break;
         case 3:
         {
-            float g = (arc4random() % 100) / 100.f;
-            float b = (arc4random() % 100) / 100.f;
-            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
-            int fontsize = arc4random() % 30 + 20;
-            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
-            
             [scene addLabelWithName:@"gift3" TexPath:@"gift/dadianzan.png"];
         }
             break;
         case 4:
         {
-            float g = (arc4random() % 100) / 100.f;
-            float b = (arc4random() % 100) / 100.f;
-            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
-            int fontsize = arc4random() % 30 + 20;
-            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
-            
             [scene addLabelWithName:@"gift4" TexPath:@"gift/dahuojian.png"];
         }
             break;
         case 5:
         {
-            float g = (arc4random() % 100) / 100.f;
-            float b = (arc4random() % 100) / 100.f;
-            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
-            int fontsize = arc4random() % 30 + 20;
-            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
-            
             [scene addLabelWithName:@"gift5" TexPath:@"gift/dapijiu.png"];
         }
             break;
         case 6:
         {
-            float g = (arc4random() % 100) / 100.f;
-            float b = (arc4random() % 100) / 100.f;
-            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
-            int fontsize = arc4random() % 30 + 20;
-            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
-            
             [scene addLabelWithName:@"gift6" TexPath:@"gift/daxianhua.png"];
         }
             break;
         case 7:
         {
-            float g = (arc4random() % 100) / 100.f;
-            float b = (arc4random() % 100) / 100.f;
-            UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
-            int fontsize = arc4random() % 30 + 20;
-            [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
-            
             [scene addLabelWithName:@"gift7" TexPath:@"gift/dayoulun.png"];
         }
             break;
             
+        case 8:
+        {
+            [scene addLabelWithName2: @"animationPlane" TexDir:@"gift/animation/plane/" BaseIndex:7 FrameCount:5];
+        }
+            break;
+            
+        case 9:
+        {
+            [scene addLabelWithName2: @"animationCar" TexDir:@"gift/animation/car/" BaseIndex:1 FrameCount:11];
+        }
+            break;
+            
+        case 10:
+        {
+            [scene addLabelWithName2: @"animationBoat" TexDir:@"gift/animation/boat/" BaseIndex:1 FrameCount:11];
+        }
+            break;
+        case 11:
+        {
+            [scene addLabelWithName2: @"animationTrain" TexDir:@"gift/animation/train/" BaseIndex:1 FrameCount:11];
+        }
+            break;
         default:
             break;
     }
     
-    i++;
-    i = i % 8;
+    timerIdx++;
+    timerIdx = timerIdx % 12;
 }
 
 - (void)HeadCursorBackEvent

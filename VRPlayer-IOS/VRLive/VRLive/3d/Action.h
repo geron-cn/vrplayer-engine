@@ -19,11 +19,13 @@ namespace vrlive {
     {
     public:
         
-        void setTarget(Node* node) { _target = node; }
+        virtual void setTarget(Node* node) { _target = node; }
         
         Node* getTarget() const { return _target; }
         
         virtual void update(float t);
+        
+        bool isFinished() const { return _finished; }
         
     protected:
         Action();
@@ -116,9 +118,11 @@ namespace vrlive {
     class SequnceAction : public Action
     {
     public:
-        static SequnceAction* create();
+        static SequnceAction* create(const std::vector<Action*>& actions);
         
         virtual void update(float t);
+        
+        virtual void setTarget(Node* node);
         
     protected:
         SequnceAction();
@@ -127,10 +131,24 @@ namespace vrlive {
         std::vector<Action*> _actions;
     };
     
+    class DelayAction : public Action
+    {
+    public:
+        static DelayAction* create(float duration);
+        
+        virtual void update(float t);
+        
+    protected:
+        DelayAction();
+        virtual ~DelayAction();
+        
+        float _duration;
+    };
+    
     class FrameSequnceAction : public Action
     {
     public:
-        static FrameSequnceAction* create(const std::string& path, int count, float interval, bool repeat);
+        static FrameSequnceAction* create(const std::string& baseDir, int baseIdx, int count, float interval, bool repeat);
         
         virtual void update(float t);
         

@@ -200,7 +200,7 @@ namespace vrlive {
         
     }
     
-    FrameSequnceAction* FrameSequnceAction::create(const std::string& path, int count, float interval, bool repeat)
+    FrameSequnceAction* FrameSequnceAction::create(const std::string& baseDir, int baseIdx, int count, float interval, bool repeat)
     {
         auto action = new FrameSequnceAction();
         action->_repeat = repeat;
@@ -208,12 +208,10 @@ namespace vrlive {
         action->_curFrame = 0;
         action->_interval = interval;
         
-        int idx = path.rfind(".");
-        std::string ext = path.substr(idx, path.length() - idx);
-        std::string basepath = path.substr(0, idx);
+        
         char str[512];
         for (int i = 0; i < count; i++) {
-            sprintf("%s%d%s", basepath.c_str(), ext.c_str());
+            sprintf(str, "%s%d%s", baseDir.c_str(), i + baseIdx, ".png");
             auto tex = Texture::create(str);
             action->_textures.push_back(tex);
         }
@@ -231,7 +229,10 @@ namespace vrlive {
             if (_repeat)
                 _curFrame %= _textures.size();
             else
+            {
+                _finished = true;
                 return;
+            }
         }
         if (sprite && sprite->getTexture() != _textures[_curFrame])
         {
@@ -254,6 +255,75 @@ namespace vrlive {
         _textures.clear();
     }
     
+    SequnceAction* SequnceAction::create(const std::vector<Action*>& actions)
+    {
+        auto action = new SequnceAction();
+        
+        action->_actions = actions;
+        
+        return action;
+    }
+    
+    void SequnceAction::setTarget(Node* node)
+    {
+        Action::setTarget(node);
+        for (auto it : _actions) {
+            it->setTarget(node);
+        }
+    }
+    
+    void SequnceAction::update(float t)
+    {
+        Action::update(t);
+        
+        for (auto it : _actions)
+        {
+            if (!it->isFinished())
+            {
+                it->update(t);
+                return;
+            }
+        }
+        _finished = true;
+    }
+    
+    SequnceAction::SequnceAction()
+    {
+        
+    }
+    SequnceAction::~SequnceAction()
+    {
+        for (auto it :_actions)
+        {
+            it->release();
+        }
+        _actions.clear();
+    }
+    
+    
+    DelayAction* DelayAction::create(float duration)
+    {
+        auto action = new DelayAction();
+        action->_duration = duration;
+        
+        return action;
+    }
+    
+    void DelayAction::update(float t)
+    {
+        Action::update(t);
+        if (_curtime >= _duration)
+            _finished = true;
+    }
+    
+    DelayAction::DelayAction()
+    {
+        
+    }
+    DelayAction::~DelayAction()
+    {
+        
+    }
     /////////////////////////////////////////////////////////////////
     ActionMgr* ActionMgr::_instance = nullptr;
     ActionMgr* ActionMgr::getInstance()

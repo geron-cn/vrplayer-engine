@@ -76,7 +76,7 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_nativeInitBitmapDC
   (JNIEnv* , jclass, jint, jint , jbyteArray pixels);
 
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendMessage
-  (JNIEnv* , jclass, jint startX, jint startY, jint targetX, jint targetY,
+  (JNIEnv* , jclass, jfloat startX, jfloat startY, jfloat targetX, jfloat targetY,
                                           jint width, jint height, jint speed, jbyteArray pixels);
 
 JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void *reserved);

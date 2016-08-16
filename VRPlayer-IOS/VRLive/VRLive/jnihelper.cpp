@@ -5,9 +5,11 @@
 #include "3d/Camera.h"
 #include "3d/EventMgr.h"
 #include <android/asset_manager_jni.h>
+
 #include "FileUtils/FileUtils.h"
 #include "3d/StringTextureUtil.h"
 #include "3d/Label.h"
+#include "3d/Action.h"
 #include "3d/Texture.h"
 #include "jnihelper.h"
 
@@ -115,10 +117,27 @@ Java_com_vrlive_vrlib_common_JNIHelper_nativeInitBitmapDC(JNIEnv*  env, jclass c
     env->GetByteArrayRegion(pixels, 0, size, (jbyte*)bDC._data);
 }
 
-JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendMessage
-  (JNIEnv* env, jclass, jint startX, jint startY, jint targetX, jint targetY,
-                                          jint width, jint height, jint speed, jbyteArray pixels)
+void translatePoint(const float& x, const float& y, vrlive::Scene* scene, vrlive::Vector3 &dst)
 {
+    dst.x = (x - .5f) * scene->getWidth();
+    dst.y = (y - .5f) * scene->getHeight();
+    dst.z = 0;
+}
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendMessage
+  (JNIEnv* env, jclass, jfloat startX, jfloat startY, jfloat targetX, jfloat targetY,
+                                          jint width, jint height, jint duration, jbyteArray pixels)
+{
+    auto scene = s_scene;
+    int sHeigth = 0, sWidth = 0;
+    if( nullptr != scene)
+    {
+        sHeigth = scene->getHeight();
+        sWidth = scene->getWidth();
+    }
+    if(sHeigth == 0 || sWidth == 0)
+        return;
+
     // create label
     int size = width * height * 4;
     auto data = (unsigned char*)malloc(sizeof(unsigned char) * size);
@@ -126,6 +145,61 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendMessage
     auto tex = vrlive::Texture::create(vrlive::Texture::Format::RGBA, width, height, data);
     auto label = vrlive::Label::createWithTexture(tex);
     tex->release();
+    free(data);
+    if(label == nullptr)
+    {
+        LOG("created label failed");
+    }
+    else
+    {
+        LOG("created label success ");
+    }
+
+    //create action
+    vrlive::Vector3 startP, endP;
+    translatePoint(startX, startY, scene, startP);
+    translatePoint(targetX, targetY, scene, endP);
+    LOG(" %f, %f, %f, %f, %d, %d", startP.x, startP.y, endP.x, endP.y, width, height);
+    auto moveaction = vrlive::MoveLineAction::create(startP, startP, duration);
+     if(moveaction == nullptr)
+    {
+        LOG("created moveaction failed");
+    }
+    else
+    {
+        LOG("created moveaction success");
+    }
+    auto removeaction = vrlive::RemoveSelfAction::create(0.1); //delay 0.1 to remove label after move acton
+     if(removeaction == nullptr)
+    {
+        LOG("created removeaction failed");
+    }
+    else
+    {
+        LOG("created removeaction success");
+    } 
+    std::vector<vrlive::Action*> actions;
+    actions.push_back(moveaction);
+    //actions.push_back(removeaction);
+    auto actionsq = vrlive::SequnceAction::create(actions);
+ if(actionsq == nullptr)
+    {
+        LOG("created actionsq failed");
+    }
+    else
+    {
+        LOG("created actionsq success");
+    }
+    //begin
+    //label->runAction(actionsq);
+    scene->addChild(label);
+    // for test
+    auto labeltest = vrlive::Label::create("test for label", "serif", 24, vrlive::Vector4(1.0f, 1.f, 1.f, 1.f));
+    scene->addChild(labeltest);
+    labeltest->release();
+
+    label->release();
+    actionsq->release();
 }
 
 JNIEnv* cacheEnv(JavaVM* jvm) {

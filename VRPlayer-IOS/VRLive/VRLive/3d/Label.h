@@ -26,6 +26,9 @@ namespace vrlive {
                              TextVAlignment vAlignment = TextVAlignment::TOP);
         
         static Label* createWithTexture(const std::string& path);
+
+        // please release the texture after created label by yourself
+        static Label* createWithTexture(Texture* tex);
         
         virtual void draw(Camera* camera);
         

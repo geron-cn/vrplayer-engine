@@ -7,6 +7,8 @@
 #include <android/asset_manager_jni.h>
 #include "FileUtils/FileUtils.h"
 #include "3d/StringTextureUtil.h"
+#include "3d/Label.h"
+#include "3d/Texture.h"
 #include "jnihelper.h"
 
 static vrlive::Scene* s_scene = NULL;
@@ -114,11 +116,16 @@ Java_com_vrlive_vrlib_common_JNIHelper_nativeInitBitmapDC(JNIEnv*  env, jclass c
 }
 
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendMessage
-  (JNIEnv* , jclass, jint startX, jint startY, jint targetX, jint targetY,
+  (JNIEnv* env, jclass, jint startX, jint startY, jint targetX, jint targetY,
                                           jint width, jint height, jint speed, jbyteArray pixels)
 {
-    auto sence = s_scene;
-    //auto label = vrlive::Label::create();
+    // create label
+    int size = width * height * 4;
+    auto data = (unsigned char*)malloc(sizeof(unsigned char) * size);
+    env->GetByteArrayRegion(pixels, 0, size, (jbyte*)data);
+    auto tex = vrlive::Texture::create(vrlive::Texture::Format::RGBA, width, height, data);
+    auto label = vrlive::Label::createWithTexture(tex);
+    tex->release();
 }
 
 JNIEnv* cacheEnv(JavaVM* jvm) {

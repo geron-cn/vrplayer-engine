@@ -8,12 +8,12 @@
 #include "Base.h"
 #include "Ref.h"
 #include "Vector3.h"
-#include "../FileUtils/Data.h"
 #ifdef __ANDROID__
 #include <jni.h>
 #endif
 
 namespace vrlive {
+    class Data;
     
     enum class TextVAlignment
     {

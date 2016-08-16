@@ -114,7 +114,6 @@ FileUtils::Status FileUtils::readFileData(const std::string& filename, Data &dat
         memset(dataBytes, 0, size);
         dataBytes[size] = '\0';
         readsize = AAsset_read(asset, (char*)dataBytes, size);
-         LOG("read asset %d ", readsize);
         AAsset_close(asset);
    }
    else
@@ -223,9 +222,7 @@ void FileUtils::readFileDataHelper(const std::string &filename, Data &data, bool
     auto status = readCallFunc(data);
     if(status == Status::OK && cacheData)
     {
-        LOG("readed %d data to for begin cache", data.getSize());
         _fileDatas.insert(std::make_pair(filename, data));
-        LOG("readed %d data to for end cache", data.getSize());
     }
 }
 

@@ -11,6 +11,7 @@
 #include "3d/Label.h"
 #include "3d/Action.h"
 #include "3d/Texture.h"
+#include "3d/MenuItem.h"
 #include "jnihelper.h"
 
 static vrlive::Scene* s_scene = NULL;
@@ -146,52 +147,19 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendMessage
     auto label = vrlive::Label::createWithTexture(tex);
     tex->release();
     free(data);
-    if(label == nullptr)
-    {
-        LOG("created label failed");
-    }
-    else
-    {
-        LOG("created label success ");
-    }
 
     //create action
     vrlive::Vector3 startP, endP;
     translatePoint(startX, startY, scene, startP);
     translatePoint(targetX, targetY, scene, endP);
-    LOG(" %f, %f, %f, %f, %d, %d", startP.x, startP.y, endP.x, endP.y, width, height);
-    auto moveaction = vrlive::MoveLineAction::create(startP, startP, duration);
-     if(moveaction == nullptr)
-    {
-        LOG("created moveaction failed");
-    }
-    else
-    {
-        LOG("created moveaction success");
-    }
+    auto moveaction = vrlive::MoveLineAction::create(startP, endP, duration);
     auto removeaction = vrlive::RemoveSelfAction::create(0.1); //delay 0.1 to remove label after move acton
-     if(removeaction == nullptr)
-    {
-        LOG("created removeaction failed");
-    }
-    else
-    {
-        LOG("created removeaction success");
-    } 
     std::vector<vrlive::Action*> actions;
     actions.push_back(moveaction);
-    //actions.push_back(removeaction);
+    actions.push_back(removeaction);
     auto actionsq = vrlive::SequnceAction::create(actions);
- if(actionsq == nullptr)
-    {
-        LOG("created actionsq failed");
-    }
-    else
-    {
-        LOG("created actionsq success");
-    }
     //begin
-//    label->runAction(actionsq);
+    label->runAction(actionsq);
     scene->addChild(label);
     label->release();
     actionsq->release();

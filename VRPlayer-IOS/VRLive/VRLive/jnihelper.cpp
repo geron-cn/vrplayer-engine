@@ -191,13 +191,8 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendMessage
         LOG("created actionsq success");
     }
     //begin
-    //label->runAction(actionsq);
+//    label->runAction(actionsq);
     scene->addChild(label);
-    // for test
-    auto labeltest = vrlive::Label::create("test for label", "serif", 24, vrlive::Vector4(1.0f, 1.f, 1.f, 1.f));
-    scene->addChild(labeltest);
-    labeltest->release();
-
     label->release();
     actionsq->release();
 }

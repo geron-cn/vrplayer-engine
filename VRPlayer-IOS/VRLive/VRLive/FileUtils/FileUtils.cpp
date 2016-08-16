@@ -156,10 +156,6 @@ FileUtils::Status FileUtils::readFileData(const std::string& filename, Data &dat
     if(!data.isNull())
         data.clear();
     data.fastSet(dataBytes, dataSize);
-    if(!data.isNull())
-         LOG("read asset %s", data.getBase64().c_str());
-     else
-        LOG("read null data");
     return retSatus;
 }
 

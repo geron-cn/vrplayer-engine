@@ -451,9 +451,7 @@ namespace vrlive
      * @return The scaled vector.
      */
     inline const Vector4 operator*(float x, const Vector4& v);
-    
 }
 
 #include "Vector4.inl"
-
 #endif

@@ -59,6 +59,13 @@ namespace vrlive {
         return ret;
     }
     
+    Label* Label::createWithTexture(Texture* tex)
+    {
+        auto ret = new Label();
+        ret->initWithTexture(tex);
+        return ret;
+    }
+
     void Label::initWithTexture(Texture* tex)
     {
         //left top

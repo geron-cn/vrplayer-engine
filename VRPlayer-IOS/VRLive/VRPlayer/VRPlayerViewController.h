@@ -214,4 +214,6 @@ typedef enum{
  */
 - (void)AdvertisementOff;
 
+- (NSString*) version;
+
 @end

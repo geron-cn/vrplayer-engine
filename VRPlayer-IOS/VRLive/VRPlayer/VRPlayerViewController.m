@@ -343,5 +343,10 @@ static const float RATIO_16_9 =  1.77777777777778;
     hasAdvertisement = NO;
 }
 
+- (NSString*) version
+{
+    return @"1.8";
+}
+
 @end
 #endif

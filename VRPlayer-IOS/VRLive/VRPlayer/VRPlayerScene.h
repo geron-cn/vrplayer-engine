@@ -4,13 +4,11 @@
 
 @interface VRPlayerScene : NSObject
 
-+(void) index: (int)idx;
+-(void) addLabelWithName: (NSString*)name Text: (NSString*)text FontName:(NSString*)fontName FontColor:(UIColor*)color  FontSize:(int)fontSize NormalizedY:(float)y Duration:(float)duration;
 
--(void) addLabelWithName: (NSString*)name Text: (NSString*)text NormalizedPosition:(CGPoint)position FontName:(NSString*)fontName FontColor:(UIColor*)color  FontSize:(int)fontSize;
+- (void) addTextureLabelWithName: (NSString*)name TexPath: (NSString*)path NormalizedStart: (CGPoint)start NormalizedEnd: (CGPoint)end Duration:(float)duration FadeInAndOut:(BOOL) useFade;
 
-- (void) addLabelWithName: (NSString*)name TexPath: (NSString*)path;
-
-- (void) addLabelWithName2: (NSString*)name TexDir: (NSString*)dir BaseIndex: (int)baseIndex FrameCount: (int)framecount;
+- (void) addLabelWithName2: (NSString*)name TexDir: (NSString*)dir BaseIndex: (int)baseIndex FrameCount: (int)framecount NormalizedStart: (CGPoint)start NormalizedEnd: (CGPoint)end Duration:(float)duration;
 
 -(void) removeLabel: (NSString*)name;
 

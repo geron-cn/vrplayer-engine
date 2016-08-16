@@ -141,8 +141,12 @@
     VRPlayerScene* scene = [vrPlayerViewController getVRPlayerScene];
     if ([gift.name  isEqual: @"qiche"])
     {
-        [VRPlayerScene index:0];
-        [scene addLabelWithName:@"gift" TexPath:@"gift/daqiche.png"];
+        CGPoint start, end;
+        start.x = 0.0;
+        start.y = 0.75f;
+        end.x = 0.5f; end.y = 0.5f;
+        float dur = 3.f + (arc4random() % 100) / 100.f;
+        [scene addTextureLabelWithName:@"gift" TexPath:@"gift/daqiche.png" NormalizedStart:start NormalizedEnd:end Duration: dur FadeInAndOut:NO];
     }
 }
 
@@ -163,72 +167,113 @@ static bool s_danmuOn = true;
         float b = (arc4random() % 100) / 100.f;
         UIColor* color = [UIColor colorWithRed:1.f green:g blue:b alpha:1.f];
         int fontsize = arc4random() % 30 + 20;
-        [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" NormalizedPosition:CGPointMake(0.5f, 0.5f) FontName:@"Helvetica" FontColor:color FontSize:fontsize];
+        [scene addLabelWithName:@"TestText" Text:@"VR 真实幻境 VIDEO" FontName:@"Helvetica" FontColor:color FontSize:fontsize NormalizedY:(arc4random() % 100) / 100.f Duration: 5.f];
     }
     
-    [VRPlayerScene index:timerIdx];
+    float dur = 3.f + (arc4random() % 100) / 100.f;
+    CGPoint start, end;
     switch (timerIdx) {
         case 0:
         {
-            [scene addLabelWithName:@"gift" TexPath:@"gift/daqiche.png"];
+            start.x = 0.0;
+            start.y = 0.75f;
+            end.x = 0.5f; end.y = 0.5f;
+            [scene addTextureLabelWithName:@"gift" TexPath:@"gift/daqiche.png" NormalizedStart:start NormalizedEnd:end Duration: dur FadeInAndOut:NO];
         }
             break;
         case 1:
         {
-            [scene addLabelWithName:@"gift1" TexPath:@"gift/dabingkuai.png"];
+            start.x = (arc4random() % 100) / 100.f * 0.6 + 0.2;
+            start.y = (arc4random() % 100) / 100.f * 0.6 + 0.2;
+            end.x = start.x; end.y = start.y;
+            
+            [scene addTextureLabelWithName:@"gift1" TexPath:@"gift/dabingkuai.png" NormalizedStart:start NormalizedEnd:end Duration: dur FadeInAndOut:YES];
         }
             break;
         case 2:
         {
-            [scene addLabelWithName:@"gift2" TexPath:@"gift/dafeiji.png"];
+            start.x = 1;
+            start.y = 5.f/8.f;
+            end.x = 0; end.y = 0.9;
+            [scene addTextureLabelWithName:@"gift2" TexPath:@"gift/dafeiji.png"  NormalizedStart:start NormalizedEnd:end Duration: dur FadeInAndOut:NO];
         }
             break;
         case 3:
         {
-            [scene addLabelWithName:@"gift3" TexPath:@"gift/dadianzan.png"];
+            start.x = (arc4random() % 100) / 100.f * 0.6 + 0.2;
+            start.y = (arc4random() % 100) / 100.f * 0.6 + 0.2;
+            end.x = start.x; end.y = start.y;
+            [scene addTextureLabelWithName:@"gift3" TexPath:@"gift/dadianzan.png" NormalizedStart:start NormalizedEnd:end Duration: dur FadeInAndOut:YES];
         }
             break;
         case 4:
         {
-            [scene addLabelWithName:@"gift4" TexPath:@"gift/dahuojian.png"];
+            start.x = 0.f;
+            start.y = 3.f / 8.f;
+            end.x = 1.f; end.y = 0.9f;
+            
+            [scene addTextureLabelWithName:@"gift4" TexPath:@"gift/dahuojian.png" NormalizedStart:start NormalizedEnd:end Duration: dur FadeInAndOut:NO];
         }
             break;
         case 5:
         {
-            [scene addLabelWithName:@"gift5" TexPath:@"gift/dapijiu.png"];
+            start.x = (arc4random() % 100) / 100.f * 0.6 + 0.2;
+            start.y = (arc4random() % 100) / 100.f * 0.6 + 0.2;
+            end.x = start.x; end.y = start.y;
+            
+            [scene addTextureLabelWithName:@"gift5" TexPath:@"gift/dapijiu.png" NormalizedStart:start NormalizedEnd:end Duration: dur FadeInAndOut:YES];
         }
             break;
         case 6:
         {
-            [scene addLabelWithName:@"gift6" TexPath:@"gift/daxianhua.png"];
+            start.x = 0.5f;
+            start.y = 0.5f;
+            end.x = start.x; end.y = start.y;
+
+            [scene addTextureLabelWithName:@"gift6" TexPath:@"gift/daxianhua.png" NormalizedStart:start NormalizedEnd:end Duration: dur FadeInAndOut:YES];
         }
             break;
         case 7:
         {
-            [scene addLabelWithName:@"gift7" TexPath:@"gift/dayoulun.png"];
+            start.x = 0.0f;
+            start.y = 0.7f;
+            end.x = 0.5; end.y = 0.5;
+            
+            [scene addTextureLabelWithName:@"gift7" TexPath:@"gift/dayoulun.png" NormalizedStart:start NormalizedEnd:end Duration: dur FadeInAndOut:YES];
         }
             break;
             
         case 8:
         {
-            [scene addLabelWithName2: @"animationPlane" TexDir:@"gift/animation/plane/" BaseIndex:7 FrameCount:5];
+            start.x = 1.f; start.y = 5.f/8.f;
+            end.x = 0.f, end.y = 0.9f;
+            [scene addLabelWithName2: @"animationPlane" TexDir:@"gift/animation/plane/" BaseIndex:7 FrameCount:5 NormalizedStart: start NormalizedEnd: end Duration: dur + 1];
         }
             break;
             
         case 9:
         {
-            [scene addLabelWithName2: @"animationCar" TexDir:@"gift/animation/car/" BaseIndex:1 FrameCount:11];
+            start.x = 1.f; start.y = 3.f/8.f;
+            end.x = 0.f, end.y = 3.f/8.f;
+            
+            [scene addLabelWithName2: @"animationCar" TexDir:@"gift/animation/car/" BaseIndex:1 FrameCount:11 NormalizedStart: start NormalizedEnd: end Duration: dur + 1];
         }
             break;
             
         case 10:
         {
-            [scene addLabelWithName2: @"animationBoat" TexDir:@"gift/animation/boat/" BaseIndex:1 FrameCount:11];
+            start.x = 1.f; start.y = 5.f/8.f;
+            end.x = 0.f, end.y = 5.f/8.f;
+            
+            [scene addLabelWithName2: @"animationBoat" TexDir:@"gift/animation/boat/" BaseIndex:1 FrameCount:11 NormalizedStart: start NormalizedEnd: end Duration: dur + 1];
         }
             break;
         case 11:
         {
-            [scene addLabelWithName2: @"animationTrain" TexDir:@"gift/animation/train/" BaseIndex:1 FrameCount:11];
+            start.x = 1.f; start.y = 0.5f;
+            end.x = 0.f, end.y = 0.5f;
+            
+            [scene addLabelWithName2: @"animationTrain" TexDir:@"gift/animation/train/" BaseIndex:1 FrameCount:11 NormalizedStart: start NormalizedEnd: end Duration: dur + 1];
         }
             break;
         default:

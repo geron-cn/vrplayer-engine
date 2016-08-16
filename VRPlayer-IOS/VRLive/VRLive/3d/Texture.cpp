@@ -69,18 +69,17 @@ namespace vrlive {
             textDef._dimensions[0] *= contentScaleFactor;
             textDef._dimensions[1] *= contentScaleFactor;
             bool hasPremultiplied;
-             
-            Data outData = FileUtils::getInstance()->getFileContent("1.png", true);
-            //StringTextureUtil::getTextureDataForText(text.c_str(), textDefinition, align, imageWidth, imageHeight, hasPremultiplied);
+            
+            Data outData = StringTextureUtil::getTextureDataForText(text.c_str(), textDefinition, align, imageWidth, imageHeight, hasPremultiplied);
             if (outData.getBytes() == nullptr)
             {
                 delete tex;
                 return nullptr;
             }
-            ssize_t temp = 0;
-             LOG("created %d x %d %s ", imageWidth, imageHeight, outData.getBase64().c_str());
-            //auto outbytes = outData.takeBuffer(&temp);
-            tex = Texture::create(Texture::Format::RGBA, 128, 128, outData.getBytes());
+//            ssize_t temp = 0;
+//             LOG("created %d x %d %s ", imageWidth, imageHeight, outData.getBase64().c_str());
+//            //auto outbytes = outData.takeBuffer(&temp);
+            tex = Texture::create(Texture::Format::RGBA, imageWidth, imageHeight, outData.getBytes());
         }
         return tex;
     }

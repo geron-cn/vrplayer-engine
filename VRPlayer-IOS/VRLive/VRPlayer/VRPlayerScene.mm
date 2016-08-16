@@ -19,14 +19,7 @@ extern vrlive::Scene* _scene;
 @end
 @implementation VRPlayerScene
 
-static int s_idx = 0;
-
-+(void) index: (int)idx
-{
-    s_idx = idx;
-}
-
--(void) addLabelWithName: (NSString*)name Text: (NSString*)text NormalizedPosition:(CGPoint)position FontName:(NSString*)fontName FontColor:(UIColor*)color FontSize:(int)fontSize
+-(void) addLabelWithName: (NSString*)name Text: (NSString*)text FontName:(NSString*)fontName FontColor:(UIColor*)color FontSize:(int)fontSize  NormalizedY:(float)y Duration:(float)duration
 {
     if (_scene)
     {
@@ -43,16 +36,19 @@ static int s_idx = 0;
         vrcolor.x = r, vrcolor.y = g, vrcolor.z = b, vrcolor.w = a;
         
         auto label = vrlive::Label::create(strText, strFont, fontSize, vrcolor);
-        label->setNormalizedTranslation(position.x, position.y);
+        int w = _scene->getWidth();
+        int h = _scene->getHeight();
+        y = h * y - h / 2;
+        float x = w / 2.f + label->getWidth() / 2.f;
+        label->setTranslation(vrlive::Vector3(-x, y, 0));
         _scene->addChild(label);
         
-        float y = arc4random() % 150;
-        auto action = vrlive::MoveLineAction::create(vrlive::Vector3(-500, y, 0), vrlive::Vector3(1000, y, 0), 10.f);
-        
+        auto action = vrlive::MoveLineAction::create(vrlive::Vector3(-x, y, 0), vrlive::Vector3(x, y, 0), duration);
+    
         label->runAction(action);
         action->release();
         
-        auto removeAction = vrlive::RemoveSelfAction::create(10.f);
+        auto removeAction = vrlive::RemoveSelfAction::create(duration);
         label->runAction(removeAction);
         removeAction->release();
         
@@ -60,7 +56,7 @@ static int s_idx = 0;
     }
 }
 
-- (void) addLabelWithName2: (NSString*)name TexDir: (NSString*)dir BaseIndex: (int)baseIndex FrameCount: (int)framecount
+- (void) addLabelWithName2: (NSString*)name TexDir: (NSString*)dir BaseIndex: (int)baseIndex FrameCount: (int)framecount NormalizedStart: (CGPoint)start NormalizedEnd: (CGPoint)end Duration:(float)duration
 {
     if (_scene)
     {
@@ -73,33 +69,12 @@ static int s_idx = 0;
         auto action = vrlive::FrameSequnceAction::create(strDir, baseIndex, framecount, 0.2f, true);
         label->runAction(action);
         
-        float live = 4.f + (arc4random() % 100) / 100.f;
-        float halfw = _scene->getWidth() / 2;
-        float halfh = _scene->getHeight() / 2;
-        vrlive::Vector3 start(halfw, halfh / 2, 0), end(0, 0, 0);
-        if (s_idx == 8)
-        {
-            start = vrlive::Vector3(halfw, halfh/4, 0);
-            end = vrlive::Vector3(-halfw, halfh * 0.8, 0);
-        }
-        else if (s_idx == 9)
-        {
-            start = vrlive::Vector3(halfw, -halfh/4, 0);
-            end = vrlive::Vector3(-halfw, -halfh/4, 0);
-        }
-        else if (s_idx == 10)
-        {
-            start = vrlive::Vector3(halfw, halfh/4, 0);
-            end = vrlive::Vector3(-halfw, halfh/4, 0);
-        }
-        else if (s_idx == 11)
-        {
-            start = vrlive::Vector3(halfw, 0, 0);
-            end = vrlive::Vector3(-halfw, 0, 0);
-        }
-
+        float live = duration;//4.f + (arc4random() % 100) / 100.f;
+        float w = _scene->getWidth();
+        float h = _scene->getHeight();
+        vrlive::Vector3 vrstart((start.x - 0.5f) * w, (start.y - 0.5f) * h, 0), vrend((end.x - 0.5f) * w, (end.y - 0.5f) * h, 0);
         
-        auto moveAction = vrlive::MoveLineAction::create(start, end, live);
+        auto moveAction = vrlive::MoveLineAction::create(vrstart, vrend, live);
         label->runAction(moveAction);
         auto removeAction = vrlive::RemoveSelfAction::create(live);
         label->runAction(removeAction);
@@ -109,7 +84,7 @@ static int s_idx = 0;
     }
 }
 
-- (void) addLabelWithName: (NSString*)name TexPath: (NSString*)path
+- (void) addTextureLabelWithName: (NSString*)name TexPath: (NSString*)path NormalizedStart: (CGPoint)start NormalizedEnd: (CGPoint)end Duration:(float)duration FadeInAndOut:(BOOL) useFade
 {
     if (_scene)
     {
@@ -119,45 +94,21 @@ static int s_idx = 0;
         label->setTranslation(vrlive::Vector3(100, 100, 0));
         _scene->addChild(label);
         
-        float live = 3.f + (arc4random() % 100) / 100.f;
+        float live = duration;
         
         
         {
-            float halfw = _scene->getWidth() / 2;
-            float halfh = _scene->getHeight() / 2;
-            vrlive::Vector3 start(-halfw, halfh / 2, 0), end(0, 0, 0);
-            if (s_idx == 0)
-            {
-                start = vrlive::Vector3(-halfw, halfh / 2, 0);
-                end = vrlive::Vector3(0, 0, 0);
-            }
-            else if (s_idx == 1 || s_idx == 3 || s_idx == 5)
-            {
-                float x = (arc4random() % 100) / 100.f * halfw * 0.8f * 2.f - halfw * 0.8f;
-                float y = (arc4random() % 100) / 100.f * halfh * 0.8f * 2.f - halfh * 0.8f;
-                start = end = vrlive::Vector3(x, y, 0);
-            }
-            else if (s_idx == 6)
-            {
-                start = end = vrlive::Vector3(0, 0, 0);
-            }
-            else if (s_idx == 2)
-            {
-                start = vrlive::Vector3(halfw, halfh/4, 0);
-                end = vrlive::Vector3(-halfw, halfh * 0.8, 0);
-            }
-            else if (s_idx == 4)
-            {
-                start = vrlive::Vector3(-halfw, -halfh/4, 0);
-                end = vrlive::Vector3(halfw, halfh * 0.8, 0);
-            }
-            else if (s_idx == 7)
-            {
-                start = vrlive::Vector3(-halfw, halfh * 0.4f, 0);
-                end = vrlive::Vector3(0, 0, 0);
-            }
-            auto action = vrlive::MoveLineAction::create(start, end, live);
+            float w = _scene->getWidth();
+            float h = _scene->getHeight();
+            vrlive::Vector3 vrstart, vrend;
+            vrstart.x = (start.x - 0.5f) * w;
+            vrstart.y = (start.y - 0.5f) * h;
+            vrstart.z = 0;
+            vrend.x = (end.x - 0.5f) * w;
+            vrend.y = (end.y - 0.5f) * h;
+            vrend.z = 0;
             
+            auto action = vrlive::MoveLineAction::create(vrstart, vrend, live);
             label->runAction(action);
             action->release();
         }
@@ -173,7 +124,7 @@ static int s_idx = 0;
         
         label->release();
         
-        if (s_idx == 1 || s_idx == 3 || s_idx == 5 || s_idx == 6)
+        if (useFade)
         {
             auto tint1 = vrlive::TintAction::create(vrlive::Vector4(1.f, 1.f, 1.f, 0.f), vrlive::Vector4(1.f, 1.f, 1.f, 1.f), live * 0.5f);
             auto tint2 = vrlive::TintAction::create(vrlive::Vector4(1.f, 1.f, 1.f, 1.f), vrlive::Vector4(1.f, 1.f, 1.f, 0.f), live * 0.5);
@@ -185,38 +136,38 @@ static int s_idx = 0;
             label->runAction(sq);
             sq->release();
         }
-        if (s_idx == 6)
-        {
-            std::vector<vrlive::Vector3> pos;
-            float x = _scene->getWidth() / 8;
-            float y = _scene->getHeight() / 8;
-            pos.push_back(vrlive::Vector3(x, y, 0));
-            pos.push_back(vrlive::Vector3(-x, y, 0));
-            pos.push_back(vrlive::Vector3(x, -y, 0));
-            pos.push_back(vrlive::Vector3(-x, -y, 0));
-            
-            for (size_t k = 0; k < pos.size(); k++)
-            {
-                label = vrlive::Label::createWithTexture(strPath);
-                
-                label->setTranslation(vrlive::Vector3(pos[k].x, pos[k].y, 0));
-                auto tint1 = vrlive::TintAction::create(vrlive::Vector4(1.f, 1.f, 1.f, 0.f), vrlive::Vector4(1.f, 1.f, 1.f, 0.f), live * 0.5f);
-                auto tint2 = vrlive::TintAction::create(vrlive::Vector4(1.f, 1.f, 1.f, 0.f), vrlive::Vector4(1.f, 1.f, 1.f, 1.f), live * 0.5);
-                
-                std::vector<vrlive::Action*> acts;
-                acts.push_back(tint1);
-                acts.push_back(tint2);
-                auto sq = vrlive::SequnceAction::create(acts);
-                label->runAction(sq);
-                sq->release();
-                auto removeAction = vrlive::RemoveSelfAction::create(live);
-                label->runAction(removeAction);
-                removeAction->release();
-                _scene->addChild(label);
-                label->release();
-            }
-            
-        }
+//        if (s_idx == 6)
+//        {
+//            std::vector<vrlive::Vector3> pos;
+//            float x = _scene->getWidth() / 8;
+//            float y = _scene->getHeight() / 8;
+//            pos.push_back(vrlive::Vector3(x, y, 0));
+//            pos.push_back(vrlive::Vector3(-x, y, 0));
+//            pos.push_back(vrlive::Vector3(x, -y, 0));
+//            pos.push_back(vrlive::Vector3(-x, -y, 0));
+//            
+//            for (size_t k = 0; k < pos.size(); k++)
+//            {
+//                label = vrlive::Label::createWithTexture(strPath);
+//                
+//                label->setTranslation(vrlive::Vector3(pos[k].x, pos[k].y, 0));
+//                auto tint1 = vrlive::TintAction::create(vrlive::Vector4(1.f, 1.f, 1.f, 0.f), vrlive::Vector4(1.f, 1.f, 1.f, 0.f), live * 0.5f);
+//                auto tint2 = vrlive::TintAction::create(vrlive::Vector4(1.f, 1.f, 1.f, 0.f), vrlive::Vector4(1.f, 1.f, 1.f, 1.f), live * 0.5);
+//                
+//                std::vector<vrlive::Action*> acts;
+//                acts.push_back(tint1);
+//                acts.push_back(tint2);
+//                auto sq = vrlive::SequnceAction::create(acts);
+//                label->runAction(sq);
+//                sq->release();
+//                auto removeAction = vrlive::RemoveSelfAction::create(live);
+//                label->runAction(removeAction);
+//                removeAction->release();
+//                _scene->addChild(label);
+//                label->release();
+//            }
+//            
+//        }
     }
 }
 
@@ -231,7 +182,6 @@ static int s_idx = 0;
 
 -(void) addMenuItemWithName: (NSString*)name TexturePath:(NSString*)path  Rect: (CGRect)rect;
 {
-//    return;
     if (_scene)
     {
         auto menu = _scene->getDefMenuItem();

@@ -16,4 +16,6 @@
 
 -(void) removeMenuItem: (NSString*)name;
 
+- (void) showPlayerHeadControlMenu: (BOOL)show;
+
 @end

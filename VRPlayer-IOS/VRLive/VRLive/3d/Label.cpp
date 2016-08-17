@@ -8,22 +8,21 @@
 #include "VertexBuffer.h"
 #include "Scene.h"
 
+// for test
+#include "../FileUtils/FileUtils.h"
+
 namespace vrlive {
     
     static Camera* _camera2D = nullptr;
-    Label::Label()
-    : _tex(nullptr)
-    , _normalizedX(-1)
+    Label::Label():
+     _normalizedX(-1)
     , _normalizedY(-1)
     {
         
     }
     Label::~Label()
     {
-        if (_tex)
-        {
-            _tex = nullptr;
-        }
+        LOG("LABEL destruct %s %d %d %p", _id.c_str(), getTexture()->getRefCount(), _sprite->getRefCount(), this );
 //        if (_sprite)
 //        {
 //            _sprite->release();
@@ -33,18 +32,20 @@ namespace vrlive {
     
     int Label::getWidth() const
     {
-        if (_tex)
+        auto tex = getTexture();
+        if (tex)
         {
-            return _tex->getWidth();
+            return tex->getWidth();
         }
         return 0;
     }
     
     int Label::getHeight() const
     {
-        if (_tex)
+        auto tex = getTexture();
+        if (tex)
         {
-            return _tex->getHeight();
+            return tex->getHeight();
         }
         return 0;
     }
@@ -53,6 +54,7 @@ namespace vrlive {
     {
         auto tex = Texture::create(path);
         auto ret = new Label();
+        ret->_id = path;
         ret->initWithTexture(tex);
         tex->release();
         
@@ -66,12 +68,19 @@ namespace vrlive {
         return ret;
     }
 
+    Texture* Label::getTexture() const
+    {
+        if(_sprite)
+        {
+            return _sprite->getTexture();
+        }
+        return nullptr;
+    }
     void Label::initWithTexture(Texture* tex)
     {
         //left top
-        _tex = tex;
-        int width = _tex->getWidth();
-        int height = _tex->getHeight();
+        int width = tex->getWidth();
+        int height = tex->getHeight();
         Vector3 lt(-width*0.5f, height*0.5f, 0.f);
         Vector3 lb(-width*0.5f, -height*0.5f, 0.f);
         Vector3 rt(width*0.5f, height*0.5f, 0.f);
@@ -113,7 +122,7 @@ namespace vrlive {
         
         std::vector<float> normal;
         _sprite = Sprite3D::create(pos, texCoord, idx);
-        _sprite->setTexture(_tex);
+        _sprite->setTexture(tex);
         _sprite->setNode(this);
     }
     

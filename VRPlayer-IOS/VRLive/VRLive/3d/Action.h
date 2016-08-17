@@ -12,6 +12,7 @@
 #include "Ref.h"
 #include "Vector4.h"
 #include "Texture.h"
+#include <functional>
 
 namespace vrlive {
     
@@ -119,7 +120,7 @@ namespace vrlive {
     {
     public:
         static SequnceAction* create(const std::vector<Action*>& actions);
-        
+
         virtual void update(float t);
         
         virtual void setTarget(Node* node);
@@ -131,6 +132,19 @@ namespace vrlive {
         std::vector<Action*> _actions;
     };
     
+    class SequnceCallbackAcion : public SequnceAction 
+    {
+        public: 
+           static SequnceCallbackAcion* create(const std::vector<Action*>& actions, const std::function<void(float)>& callback);
+
+           virtual void update(float t);
+        protected:
+            SequnceCallbackAcion();
+            virtual ~SequnceCallbackAcion();
+
+           std::function<void(float)> _callback;
+    };
+
     class DelayAction : public Action
     {
     public:

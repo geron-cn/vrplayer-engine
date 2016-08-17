@@ -2,6 +2,10 @@
 #include "Sprite3D.h"
 #include "Action.h"
 
+
+// for test
+#include "../FileUtils/FileUtils.h"
+
 namespace vrlive {
    
     Node* Node::create(const std::string& id)
@@ -149,6 +153,7 @@ namespace vrlive {
     }
     Node::~Node()
     {
+        LOG("Node destruct %s", _id.c_str() );
         ActionMgr::getInstance()->removeActionByNode(this);
         
         if (_sprite)
@@ -156,6 +161,7 @@ namespace vrlive {
             _sprite->release();
             _sprite = NULL;
         }
+        LOG("Node %s destruct end",  _id.c_str());
         removeAllChildren();
     }
 }

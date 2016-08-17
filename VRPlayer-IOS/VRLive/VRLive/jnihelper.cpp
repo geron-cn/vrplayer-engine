@@ -13,6 +13,7 @@
 #include "3d/Texture.h"
 #include "3d/MenuItem.h"
 #include "jnihelper.h"
+#include <random>
 
 static vrlive::Scene* s_scene = NULL;
 static JNIEnv* s_env = nullptr;
@@ -165,6 +166,81 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendMessage
     actionsq->release();
 }
 
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendSequnceFrames
+        (JNIEnv* env, jclass , jstring framesDir, jint startIndex, jint frameCount,
+        jfloat startX, jfloat startY, jfloat targetX, jfloat targetY, jint duration)
+{
+     vrlive::Scene* scene = s_scene;
+     const char *str;
+     str = env->GetStringUTFChars(framesDir, 0); 
+     std::string baseDir(str);
+     auto strl = baseDir.length();
+     if( strl != 0 && baseDir[strl-1] != '/')
+        baseDir += "/";
+     char pathOne[268];
+     sprintf(pathOne, "%s%d%s", baseDir.c_str(), startIndex, ".png");
+     auto label = vrlive::Label::createWithTexture(pathOne);
+       //create action
+     vrlive::Vector3 startP, endP;
+     translatePoint(startX, startY, scene, startP);
+     translatePoint(targetX, targetY, scene, endP);
+     auto moveaction = vrlive::MoveLineAction::create(startP, endP, duration);
+     auto removeaction = vrlive::RemoveSelfAction::create(0.1f); //delay 0.1 to remove label after move acton
+     std::vector<vrlive::Action*> actions;
+     actions.push_back(moveaction);
+     actions.push_back(removeaction);
+     auto actionsq = vrlive::SequnceAction::create(actions);
+     auto frameaction = vrlive::FrameSequnceAction::create(baseDir, startIndex, frameCount, 0.1f, true);
+     s_scene->addChild(label);
+     label->runAction(frameaction);
+     label->runAction(actionsq);
+     frameaction->release();
+     actionsq->release();
+     label->release();
+     env->ReleaseStringUTFChars(framesDir, str);
+}
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendSpriteAnimate
+  (JNIEnv* env, jclass, jstring spritePath, jfloat startX, jfloat startY,
+            jfloat targetX, jfloat targetY, jint duration, jboolean fradeInOut)
+{
+     vrlive::Scene* scene = s_scene;
+     const char *str;
+     str = env->GetStringUTFChars(spritePath, 0); 
+     auto label = vrlive::Label::createWithTexture(str);
+       //create action
+     vrlive::Vector3 startP, endP;
+     translatePoint(startX, startY, scene, startP);
+     translatePoint(targetX, targetY, scene, endP);
+     auto moveaction = vrlive::MoveLineAction::create(startP, endP, duration);
+     auto removeaction = vrlive::RemoveSelfAction::create(0.1f); //delay 0.1 to remove label after move acton
+     std::vector<vrlive::Action*> actions;
+     actions.push_back(moveaction);
+    // actions.push_back(removeaction);
+     auto actionsq = vrlive::SequnceCallbackAcion::create(actions, [&label](float t){ auto parent = label->getParent(); parent->removeChild(label);});
+    // auto actionsq = vrlive::SequnceAction::create(actions);
+     std::random_device rd;
+     auto scaleAction = vrlive::ScaleAction::create(.1f, 1.2f + (rd() % 100) / 100 * 0.5, duration);
+     if(fradeInOut)
+     {
+         auto fradeIn = vrlive::TintAction::create(vrlive::Vector4(1.f, 1.f, 1.f, 0.f), vrlive::Vector4(1.f, 1.f, 1.f, 1.f), duration * 0.5f);
+         auto fradeOut = vrlive::TintAction::create(vrlive::Vector4(1.f, 1.f, 1.f, 1.f), vrlive::Vector4(1.f, 1.f, 1.f, 0.f), duration * 0.5f);
+         std::vector<vrlive::Action*> fradeActions;
+         fradeActions.push_back(fradeIn);
+         fradeActions.push_back(fradeOut);
+         auto fradesq = vrlive::SequnceAction::create(fradeActions);
+         label->runAction(fradesq);
+         fradesq->release();
+     }
+     s_scene->addChild(label);
+     label->runAction(scaleAction);
+     label->runAction(actionsq);
+     scaleAction->release();
+     actionsq->release();
+     label->release();
+     env->ReleaseStringUTFChars(spritePath, str);
+}
 JNIEnv* cacheEnv(JavaVM* jvm) {
     JNIEnv* _env = nullptr;
     // get jni environment

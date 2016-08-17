@@ -4,11 +4,14 @@
 #include "Sprite3D.h"
 #include "Quaternion.h"
 
+#include "../FileUtils/FileUtils.h"
+
 namespace vrlive {
     
     void Action::update(float t)
     {
         _curtime += t;
+        LOG("action updated %s", _target->getName().c_str());
     }
     
     Action::Action()
@@ -70,6 +73,7 @@ namespace vrlive {
         Action::update(t);
         if (_curtime >= _duration)
         {
+            _finished = true;
             auto parent = _target->getParent();
             parent->removeChild(_target);
         }
@@ -293,14 +297,55 @@ namespace vrlive {
     }
     SequnceAction::~SequnceAction()
     {
-        for (auto it :_actions)
-        {
-            it->release();
-        }
+        // for (auto it :_actions)
+        // {
+        //     //it->release();
+        //     // ActionMgr::getInstance()->removeAction(it);
+        //      LOG("action destructed %s", _target->getName().c_str());
+        // }
         _actions.clear();
     }
     
+
+    SequnceCallbackAcion* SequnceCallbackAcion::create(const std::vector<Action*>& actions, 
+                                    const std::function<void(float)>& callback)
+    {
+        auto action = new SequnceCallbackAcion();
+        action->_actions = actions;
+        action->_callback = callback;
+        
+        return action;
+    }
     
+    
+    void SequnceCallbackAcion::update(float t)
+    {
+        Action::update(t);
+        
+        for (auto it : _actions)
+        {
+            if (!it->isFinished())
+            {
+                it->update(t);
+                return;
+            }
+        }
+        if(!_finished && _callback != nullptr)
+            _callback(t);
+        //_finished = true;
+    }
+    
+    SequnceCallbackAcion::SequnceCallbackAcion()
+    {
+        
+    }
+
+    SequnceCallbackAcion::~SequnceCallbackAcion()
+    {
+        _callback = nullptr;
+    }
+    
+
     DelayAction* DelayAction::create(float duration)
     {
         auto action = new DelayAction();
@@ -365,25 +410,29 @@ namespace vrlive {
     
     void ActionMgr::removeActionByNode(Node* node)
     {
-        for (size_t i = 0; i < _actions.size(); i++) {
+        size_t len = _actions.size() - 1;
+        for(size_t i=len; i>=0; i--)
+        {
             auto action = _actions[i];
             if (action->getTarget() == node)
             {
-                action->release();
+                 LOG("action remove from manager %s", node->getName().c_str());
                 _actions.erase(_actions.begin() + i);
-                i--;
+                action->release();
+                LOG("action remove from manager ended ", node->getName().c_str());
             }
         }
     }
     
     void ActionMgr::removeAction(Action* action)
     {
-        for (size_t i = 0; i < _actions.size(); i++) {
+        size_t len = _actions.size() - 1;
+        for(size_t i=len; i>=0; i--)
+        {
             if (action == _actions[i])
             {
-                action->release();
                 _actions.erase(_actions.begin() + i);
-                i--;
+                action->release();
             }
         }
     }

@@ -79,6 +79,15 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendMessage
   (JNIEnv* , jclass, jfloat startX, jfloat startY, jfloat targetX, jfloat targetY,
                                           jint width, jint height, jint speed, jbyteArray pixels);
 
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendSequnceFrames
+  (JNIEnv* , jclass, jstring framesDir, jint startIndex, jint frameCount,
+          jfloat startX, jfloat startY, jfloat targetX, jfloat targetY, jint duration );
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendSpriteAnimate
+  (JNIEnv* , jclass, jstring spritePath, jfloat startX, jfloat startY,
+            jfloat targetX, jfloat targetY, jint duration, jboolean fradeInOut);
+
+
 JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void *reserved);
 
 //void initLoaders(JavaVM* vm);

@@ -42,13 +42,11 @@ namespace vrlive {
         
     protected:
         
+        Texture* getTexture() const;
         void initWithTexture(Texture* tex);
         
         Label();
         virtual ~Label();
-
-        Texture* _tex;
-        
         float _normalizedX;
         float _normalizedY;
     };

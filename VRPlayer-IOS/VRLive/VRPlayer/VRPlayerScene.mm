@@ -207,4 +207,12 @@ extern vrlive::Scene* _scene;
     }
 }
 
+- (void) showPlayerHeadControlMenu: (BOOL)show
+{
+    if (_scene)
+    {
+        _scene->getDefMenuItem()->showPlayerMenu(show);
+    }
+}
+
 @end

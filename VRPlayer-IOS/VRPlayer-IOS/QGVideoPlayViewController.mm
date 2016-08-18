@@ -179,6 +179,8 @@ static bool s_danmuOn = true;
             start.y = 0.75f;
             end.x = 0.5f; end.y = 0.5f;
             [scene addTextureLabelWithName:@"gift" TexPath:@"gift/daqiche.png" NormalizedStart:start NormalizedEnd:end Duration: dur FadeInAndOut:NO];
+            
+            [scene addTextureLabelWithName:@"gift" TexPath:@"gift/daqiche.png" NormalizedStart:start NormalizedEnd:end Duration: dur FadeInAndOut:NO];
         }
             break;
         case 1:

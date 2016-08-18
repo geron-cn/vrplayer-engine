@@ -402,8 +402,8 @@ namespace vrlive {
             {
                  LOG("action remove from manager %s", node->getName().c_str());
                 action->setTarget(nullptr);
-                action->release();
-                _actions.erase(_actions.begin() + i);
+//                action->release();
+//                _actions.erase(_actions.begin() + i);
                 LOG("action remove from manager ended ");
             }
         }
@@ -416,9 +416,9 @@ namespace vrlive {
         {
             if (action == _actions[i])
             {
-                _actions.erase(_actions.begin() + i);
+//                _actions.erase(_actions.begin() + i);
                 action->setTarget(nullptr);
-                action->release();
+//                action->release();
             }
         }
     }
@@ -429,11 +429,17 @@ namespace vrlive {
         double time = Platform::getMachTimeInMilliseconds();
         double t = (time - _lasttime) / 1000.0;
         for (auto action : _actions) {
-            if (action)
+            if (action && action->getTarget())
             {
-                action->addRef();
                 action->update(t);
-                action->release();
+            }
+        }
+        
+        for (size_t i = 0; i < _actions.size(); i++) {
+            if (_actions[i]->getTarget() == nullptr)
+            {
+                _actions.erase(_actions.begin() + i);
+                i--;
             }
         }
         _lasttime = time;

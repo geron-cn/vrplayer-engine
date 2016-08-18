@@ -11,12 +11,12 @@
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
 
-#include <android/log.h>
-#define  LOG_TAG    "FileUtils"
-#ifdef LOG
-#undef LOG
-#define  LOG(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
-#endif
+// #include <android/log.h>
+// #define  LOG_TAG    "FileUtils"
+// #ifdef LOG
+// #undef LOG
+// #define  LOG(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+// #endif
 
 #endif
 

@@ -56,6 +56,22 @@ JNIEXPORT jstring JNICALL Java_com_vrlive_vrlib_common_JNIHelper_checkEvent
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_initClearRender
   (JNIEnv *, jobject);
 
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_setRenderMenuShow
+  (JNIEnv *, jclass, jboolean);
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_set2DCameraRotaion
+  (JNIEnv *, jclass, jfloat);
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_createMenuItem
+  (JNIEnv *, jclass, jstring, jstring, jfloat, jfloat, jfloat, jfloat);
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_removeMenuItem
+  (JNIEnv *, jclass, jstring);
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_removeLabel
+  (JNIEnv *, jclass, jstring);
+
+
 /*
  * Class:     com_vrlive_vrlib_common_JNIHelper
  * Method:    setAssetManager

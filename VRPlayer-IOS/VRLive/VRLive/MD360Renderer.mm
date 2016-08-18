@@ -139,13 +139,15 @@ static int s_videomode = 2;
         }
     }
     
+    bool isPortait = (width < height); //竖屏
+    
     float scale = [GLUtil getScrrenScale];
     int widthPx = width * scale;
     int heightPx = height * scale;
     
     int size = (s_videomode == 1 ? 1 : [self.mDisplayStrategyManager getVisibleSize]);
     int itemWidthPx = widthPx * 1.0 / size;
-    
+    int itemHeightPx = heightPx * 1.0 / size;
     
     for (int i = 0; i < size; i++ ) {
         if (i >= [self.mDirectors count]) {
@@ -162,6 +164,11 @@ static int s_videomode = 2;
         
         
         MD360Director* direcotr = [self.mDirectors objectAtIndex:i];
+        if (isPortait)
+        {
+            glViewport(0, itemHeightPx * i, widthPx, itemHeightPx);
+        }
+        else
         glViewport(itemWidthPx * i, 0, itemWidthPx, heightPx);
 
         // Update Projection

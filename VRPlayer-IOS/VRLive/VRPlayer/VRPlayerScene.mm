@@ -215,4 +215,9 @@ extern vrlive::Scene* _scene;
     }
 }
 
++ (void) labelRotation:(int)degree
+{
+    vrlive::Label::rotationZ(degree);
+}
+
 @end

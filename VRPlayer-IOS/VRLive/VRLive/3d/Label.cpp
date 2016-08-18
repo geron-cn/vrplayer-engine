@@ -195,9 +195,6 @@ namespace vrlive {
     {
         if (_sprite && _camera2D)
         {
-//            auto mat = camera->getViewMatrix();
-//            auto invmat = camera->getInverseViewMatrix();
-//            _camera2D->setViewMatrix(mat.m);
             _sprite->draw(_camera2D);
         }
         for (auto it : _children) {

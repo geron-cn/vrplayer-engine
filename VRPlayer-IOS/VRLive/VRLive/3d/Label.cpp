@@ -16,15 +16,12 @@ namespace vrlive {
     static Camera* _camera2D = nullptr;
     float Label::s_2dCameraRotAngle = 0;
     
-    Label::Label():
-     _normalizedX(-1)
-    , _normalizedY(-1)
+    Label::Label()
     {
         
     }
     Label::~Label()
     {
-        LOG("LABEL destruct %s %d %d %p", _id.c_str(), getTexture()->getRefCount(), _sprite->getRefCount(), this );
 //        if (_sprite)
 //        {
 //            _sprite->release();
@@ -151,12 +148,6 @@ namespace vrlive {
         ret->initWithTexture(tex);
         
         return ret;
-    }
-    
-    void Label::setNormalizedTranslation(float x, float y)
-    {
-        _normalizedX = x;
-        _normalizedY = y;
     }
 
     void Label::update(Scene* scene)

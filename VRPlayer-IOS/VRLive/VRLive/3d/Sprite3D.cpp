@@ -63,7 +63,8 @@ namespace vrlive {
     
     void Sprite3D::setTexture(Texture* texture)
     {
-        texture->addRef();
+        if (texture)
+            texture->addRef();
         if (_texture)
             _texture->release();
         _texture = texture;

@@ -55,6 +55,7 @@ namespace vrlive {
         auto ret = new Label();
         ret->_id = path;
         ret->initWithTexture(tex);
+        if (tex)
         tex->release();
         
         return ret;
@@ -78,8 +79,8 @@ namespace vrlive {
     void Label::initWithTexture(Texture* tex)
     {
         //left top
-        int width = tex->getWidth();
-        int height = tex->getHeight();
+        int width = (tex ? tex->getWidth() : 0);
+        int height = (tex ? tex->getHeight() : 0);
         Vector3 lt(-width*0.5f, height*0.5f, 0.f);
         Vector3 lb(-width*0.5f, -height*0.5f, 0.f);
         Vector3 rt(width*0.5f, height*0.5f, 0.f);

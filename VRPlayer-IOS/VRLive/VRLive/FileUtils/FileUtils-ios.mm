@@ -34,6 +34,9 @@ namespace vrlive {
         if( mainbundle != nil)
             fullpath = [mainbundle pathForResource:[NSString stringWithUTF8String:filename.c_str()] ofType:nil inDirectory:[NSString stringWithUTF8String:dirpath.c_str()]];
         
+        if (fullpath == nil)
+            return std::string("");
+        
         return [fullpath UTF8String];
     }
 }

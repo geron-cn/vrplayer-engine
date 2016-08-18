@@ -263,7 +263,11 @@ namespace vrlive {
     {
         auto action = new SequnceAction();
         
-        action->_actions = actions;
+        for( auto iter : actions)
+        {
+            action->_actions.push_back(iter);
+            iter->addRef();
+        }
         
         return action;
     }
@@ -297,12 +301,10 @@ namespace vrlive {
     }
     SequnceAction::~SequnceAction()
     {
-        // for (auto it :_actions)
-        // {
-        //     //it->release();
-        //     // ActionMgr::getInstance()->removeAction(it);
-        //      LOG("action destructed %s", _target->getName().c_str());
-        // }
+        for (auto iter :_actions)
+        {
+            iter->release();
+        }
         _actions.clear();
     }
     
@@ -311,9 +313,12 @@ namespace vrlive {
                                     const std::function<void(float)>& callback)
     {
         auto action = new SequnceCallbackAcion();
-        action->_actions = actions;
+        for( auto iter : actions)
+        {
+            action->_actions.push_back(iter);
+            iter->addRef();
+        }
         action->_callback = callback;
-        
         return action;
     }
     
@@ -330,9 +335,9 @@ namespace vrlive {
                 return;
             }
         }
-        if(!_finished && _callback != nullptr)
+        _finished = true;
+        if(_callback != nullptr)
             _callback(t);
-        //_finished = true;
     }
     
     SequnceCallbackAcion::SequnceCallbackAcion()
@@ -410,14 +415,15 @@ namespace vrlive {
     
     void ActionMgr::removeActionByNode(Node* node)
     {
-        size_t len = _actions.size() - 1;
-        for(size_t i=len; i>=0; i--)
+        int len = _actions.size() - 1;
+        for(int i=len; i>=0; i--)
         {
             auto action = _actions[i];
             if (action->getTarget() == node)
             {
                  LOG("action remove from manager %s", node->getName().c_str());
                 _actions.erase(_actions.begin() + i);
+                action->setTarget(nullptr);
                 action->release();
                 LOG("action remove from manager ended ", node->getName().c_str());
             }
@@ -426,12 +432,13 @@ namespace vrlive {
     
     void ActionMgr::removeAction(Action* action)
     {
-        size_t len = _actions.size() - 1;
-        for(size_t i=len; i>=0; i--)
+        int len = _actions.size() - 1;
+        for(int i=len; i>=0; i--)
         {
             if (action == _actions[i])
             {
                 _actions.erase(_actions.begin() + i);
+                action->setTarget(nullptr);
                 action->release();
             }
         }

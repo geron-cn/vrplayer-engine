@@ -263,7 +263,11 @@ namespace vrlive {
     {
         auto action = new SequnceAction();
         
-        action->_actions = actions;
+        for( auto iter : actions)
+        {
+            action->_actions.push_back(iter);
+            iter->addRef();
+        }
         
         return action;
     }
@@ -297,10 +301,10 @@ namespace vrlive {
     }
     SequnceAction::~SequnceAction()
     {
-        // for (auto iter :_actions)
-        // {
-        //     iter->release();
-        // }
+        for (auto iter :_actions)
+        {
+            iter->release();
+        }
         _actions.clear();
     }
     
@@ -309,7 +313,11 @@ namespace vrlive {
                                     const std::function<void(float)>& callback)
     {
         auto action = new SequnceCallbackAcion();
-        action->_actions = actions;
+        for( auto iter : actions)
+        {
+            action->_actions.push_back(iter);
+            iter->addRef();
+        }
         action->_callback = callback;
         return action;
     }

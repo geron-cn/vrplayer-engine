@@ -218,7 +218,7 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendSpriteAnimate
      std::vector<vrlive::Action*> actions;
      actions.push_back(moveaction);
     // actions.push_back(removeaction);
-     auto actionsq = vrlive::SequnceCallbackAcion::create(actions, [&label](float t){ auto parent = label->getParent(); parent->removeChild(label);});
+    auto actionsq = vrlive::SequnceCallbackAcion::create(actions, [&label](float t){ auto parent = label->getParent(); parent->removeChild(label);});
     // auto actionsq = vrlive::SequnceAction::create(actions);
      std::random_device rd;
      auto scaleAction = vrlive::ScaleAction::create(.1f, 1.2f + (rd() % 100) / 100 * 0.5, duration);
@@ -238,6 +238,8 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendSpriteAnimate
      label->runAction(actionsq);
      scaleAction->release();
      actionsq->release();
+    //  auto parent = label->getParent();
+    //  parent->removeChild(label);
      label->release();
      env->ReleaseStringUTFChars(spritePath, str);
 }

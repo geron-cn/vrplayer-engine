@@ -240,6 +240,8 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendSpriteAnimate
     scene->addChild(label);
     label->release();
     scaleAction->release();
+   // moveaction->release();
+   // removeaction->release();
     actionsq->release();
     env->ReleaseStringUTFChars(spritePath, str);
 }

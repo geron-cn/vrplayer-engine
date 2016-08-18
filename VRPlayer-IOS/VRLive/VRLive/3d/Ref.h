@@ -11,9 +11,9 @@ namespace vrlive {
     class Ref
     {
     public:
-        void addRef();
+        virtual void addRef();
         
-        void release();
+        virtual void release();
         
         int getRefCount() const;
         

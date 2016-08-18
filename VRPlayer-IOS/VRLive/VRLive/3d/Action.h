@@ -124,7 +124,10 @@ namespace vrlive {
         virtual void update(float t);
         
         virtual void setTarget(Node* node);
+
+        virtual void addRef() override;
         
+        virtual void release() override;
     protected:
         SequnceAction();
         virtual ~SequnceAction();

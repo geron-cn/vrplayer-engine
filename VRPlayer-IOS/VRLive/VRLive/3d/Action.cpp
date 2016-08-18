@@ -271,10 +271,6 @@ namespace vrlive {
     {
         auto action = new SequnceAction();
         action->_actions = actions;
-        for(auto action : actions)
-        {
-            action->addRef();
-        }
         return action;
     }
     
@@ -300,6 +296,24 @@ namespace vrlive {
         }
         _finished = true;
     }
+
+    void SequnceAction::addRef()
+    {
+        Ref::addRef();
+        for( auto action : _actions)
+        {
+            action->addRef();
+        }
+    }
+
+    void SequnceAction::release()
+    {
+        Ref::release();
+        for(auto action : _actions)
+        {
+            action->release();
+        }
+    }
     
     SequnceAction::SequnceAction()
     {
@@ -312,7 +326,6 @@ namespace vrlive {
         for (auto iter :_actions)
         {
             iter->setTarget(nullptr);
-            iter->release();
         }
         _actions.clear();
     }

@@ -23,7 +23,8 @@ namespace vrlive {
     }
     Action::~Action()
     {
-        
+        LOG("action destruct");
+        _target = nullptr;
     }
     
     ///////////////////////////////////////////////////
@@ -42,6 +43,9 @@ namespace vrlive {
     {
         Action::update(t);
         
+        if(_target == nullptr)
+            return;
+
         float ratio = _curtime / _duration;
         if (ratio >= 1.f)
         {
@@ -58,7 +62,7 @@ namespace vrlive {
     }
     MoveLineAction::~MoveLineAction()
     {
-        
+        LOG("~MoveLineAction");
     }
     
     RemoveSelfAction* RemoveSelfAction::create(float duration)
@@ -71,6 +75,10 @@ namespace vrlive {
     void RemoveSelfAction::update(float t)
     {
         Action::update(t);
+
+        if(_target == nullptr)
+            return;
+
         if (_curtime >= _duration)
         {
             _finished = true;
@@ -124,7 +132,7 @@ namespace vrlive {
     }
     ScaleAction::~ScaleAction()
     {
-        
+        LOG("~ScaleAction");
     }
     
     TintAction* TintAction::create(const Vector4& fromColor, const Vector4& toColor, float duraton)
@@ -262,13 +270,11 @@ namespace vrlive {
     SequnceAction* SequnceAction::create(const std::vector<Action*>& actions)
     {
         auto action = new SequnceAction();
-        
-        for( auto iter : actions)
+        action->_actions = actions;
+        for(auto action : actions)
         {
-            action->_actions.push_back(iter);
-            iter->addRef();
+            action->addRef();
         }
-        
         return action;
     }
     
@@ -299,57 +305,17 @@ namespace vrlive {
     {
         
     }
+
     SequnceAction::~SequnceAction()
     {
+        LOG("~SequnceAction");
         for (auto iter :_actions)
         {
+            iter->setTarget(nullptr);
             iter->release();
         }
         _actions.clear();
     }
-    
-
-    SequnceCallbackAcion* SequnceCallbackAcion::create(const std::vector<Action*>& actions, 
-                                    const std::function<void(float)>& callback)
-    {
-        auto action = new SequnceCallbackAcion();
-        for( auto iter : actions)
-        {
-            action->_actions.push_back(iter);
-            iter->addRef();
-        }
-        action->_callback = callback;
-        return action;
-    }
-    
-    
-    void SequnceCallbackAcion::update(float t)
-    {
-        Action::update(t);
-        
-        for (auto it : _actions)
-        {
-            if (!it->isFinished())
-            {
-                it->update(t);
-                return;
-            }
-        }
-        _finished = true;
-        if(_callback != nullptr)
-            _callback(t);
-    }
-    
-    SequnceCallbackAcion::SequnceCallbackAcion()
-    {
-        
-    }
-
-    SequnceCallbackAcion::~SequnceCallbackAcion()
-    {
-        _callback = nullptr;
-    }
-    
 
     DelayAction* DelayAction::create(float duration)
     {
@@ -422,10 +388,10 @@ namespace vrlive {
             if (action->getTarget() == node)
             {
                  LOG("action remove from manager %s", node->getName().c_str());
-                _actions.erase(_actions.begin() + i);
                 action->setTarget(nullptr);
                 action->release();
-                LOG("action remove from manager ended ", node->getName().c_str());
+                _actions.erase(_actions.begin() + i);
+                LOG("action remove from manager ended ");
             }
         }
     }
@@ -446,12 +412,15 @@ namespace vrlive {
     
     void ActionMgr::update()
     {
+        LOG("action mgr size: %d", _actions.size());
         double time = Platform::getMachTimeInMilliseconds();
         double t = (time - _lasttime) / 1000.0;
         for (auto action : _actions) {
             if (action)
             {
+                action->addRef();
                 action->update(t);
+                action->release();
             }
         }
         _lasttime = time;

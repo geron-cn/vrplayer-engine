@@ -105,12 +105,14 @@ namespace vrlive {
     
     void Node::removeChild(Node* node)
     {
-        for (int k = 0; k < (int)_children.size(); k++) {
-            if (_children[k] == node)
+        int len = _children.size();
+        for( int i = len -1; i >= 0; i--)
+        {
+            if(_children[i] == node)
             {
                 node->_parent = nullptr;
                 node->release();
-                _children.erase(_children.begin() + k);
+                _children.erase(_children.begin() + i);
                 break;
             }
         }
@@ -118,12 +120,15 @@ namespace vrlive {
     
     void Node::removeChild(const std::string& name)
     {
-        for (int k = 0; k < (int)_children.size(); k++) {
-            if (_children[k]->getName() == name)
+        int len = _children.size();
+        for( int i = len -1; i >= 0; i--)
+        {
+            auto node = _children[i];
+            if(node->_id == name)
             {
-                _children[k]->_parent = nullptr;
-                _children[k]->release();
-                _children.erase(_children.begin() + k);
+                node->_parent = nullptr;
+                node->release();
+                _children.erase(_children.begin() + i);
                 break;
             }
         }

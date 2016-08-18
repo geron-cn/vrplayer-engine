@@ -34,8 +34,6 @@ namespace vrlive {
         
         virtual void update(Scene* scene);
         
-        void setNormalizedTranslation(float x, float y);
-        
         int getWidth() const;
         
         int getHeight() const;
@@ -47,8 +45,6 @@ namespace vrlive {
         
         Label();
         virtual ~Label();
-        float _normalizedX;
-        float _normalizedY;
     };
 }
 

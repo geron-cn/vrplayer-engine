@@ -209,19 +209,21 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendSpriteAnimate
      const char *str;
      str = env->GetStringUTFChars(spritePath, 0); 
      auto label = vrlive::Label::createWithTexture(str);
-       //create action
-     vrlive::Vector3 startP, endP;
-     translatePoint(startX, startY, scene, startP);
-     translatePoint(targetX, targetY, scene, endP);
-     auto moveaction = vrlive::MoveLineAction::create(startP, endP, duration);
-     auto removeaction = vrlive::RemoveSelfAction::create(0.1f); //delay 0.1 to remove label after move acton
-     std::vector<vrlive::Action*> actions;
-     actions.push_back(moveaction);
-    // actions.push_back(removeaction);
-    auto actionsq = vrlive::SequnceCallbackAcion::create(actions, [&label](float t){ auto parent = label->getParent(); parent->removeChild(label);});
-    // auto actionsq = vrlive::SequnceAction::create(actions);
-     std::random_device rd;
-     auto scaleAction = vrlive::ScaleAction::create(.1f, 1.2f + (rd() % 100) / 100 * 0.5, duration);
+
+      //create action
+    vrlive::Vector3 startP, endP;
+    translatePoint(startX, startY, scene, startP);
+    translatePoint(targetX, targetY, scene, endP);
+    auto moveaction = vrlive::MoveLineAction::create(startP, endP, duration);
+    auto removeaction = vrlive::RemoveSelfAction::create(0.1); //delay 0.1 to remove label after move acton
+    std::vector<vrlive::Action*> actions;
+    actions.push_back(moveaction);
+    actions.push_back(removeaction);
+    auto actionsq = vrlive::SequnceAction::create(actions);
+    std::random_device rd;
+    auto scaleAction = vrlive::ScaleAction::create(.1f, 1.2f + (rd() % 100) / 100 * 0.5, duration);
+   
+    //begin
      if(fradeInOut)
      {
          auto fradeIn = vrlive::TintAction::create(vrlive::Vector4(1.f, 1.f, 1.f, 0.f), vrlive::Vector4(1.f, 1.f, 1.f, 1.f), duration * 0.5f);
@@ -233,15 +235,13 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendSpriteAnimate
          label->runAction(fradesq);
          fradesq->release();
      }
-     s_scene->addChild(label);
-     label->runAction(scaleAction);
-     label->runAction(actionsq);
-     scaleAction->release();
-     actionsq->release();
-    //  auto parent = label->getParent();
-    //  parent->removeChild(label);
-     label->release();
-     env->ReleaseStringUTFChars(spritePath, str);
+    label->runAction(scaleAction);
+    label->runAction(actionsq);
+    scene->addChild(label);
+    label->release();
+    scaleAction->release();
+    actionsq->release();
+    env->ReleaseStringUTFChars(spritePath, str);
 }
 JNIEnv* cacheEnv(JavaVM* jvm) {
     JNIEnv* _env = nullptr;

@@ -222,6 +222,13 @@ void FileUtils::readFileDataHelper(const std::string &filename, Data &data, bool
     auto status = readCallFunc(data);
     if(status == Status::OK && cacheData)
     {
+        // remove 10 items when cached > 100 (ordered)
+        if(_fileDatas.size() > 100)
+        {
+            int count = 10;
+            while(count--)
+                _fileDatas.erase(_fileDatas.begin());
+        }
         _fileDatas.insert(std::make_pair(filename, data));
     }
 }

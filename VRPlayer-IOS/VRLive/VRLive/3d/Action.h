@@ -132,19 +132,6 @@ namespace vrlive {
         std::vector<Action*> _actions;
     };
     
-    class SequnceCallbackAcion : public SequnceAction 
-    {
-        public: 
-           static SequnceCallbackAcion* create(const std::vector<Action*>& actions, const std::function<void(float)>& callback);
-
-           virtual void update(float t);
-        protected:
-            SequnceCallbackAcion();
-            virtual ~SequnceCallbackAcion();
-
-           std::function<void(float)> _callback;
-    };
-
     class DelayAction : public Action
     {
     public:

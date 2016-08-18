@@ -14,6 +14,8 @@
 namespace vrlive {
     
     static Camera* _camera2D = nullptr;
+    float Label::s_2dCameraRotAngle = 0;
+    
     Label::Label()
     {
         
@@ -161,11 +163,23 @@ namespace vrlive {
             _camera2D->release();
             _camera2D = Camera::createOrthographic(screenWidth, screenHeight, (float)screenWidth / screenHeight, 0.1f, 500);
         }
+        if (_camera2D)
+        {
+            Matrix mat;
+            Matrix::createRotation(Vector3(0.f, 0.f, 1.f), s_2dCameraRotAngle * 3.1415926f / 180.f, &mat);
+            mat.invert();
+            _camera2D->setViewMatrix(mat.m);
+        }
 //        if (_normalizedX != -1 && _normalizedY != -1)
 //        {
 //            Vector3 pos(_normalizedX*screenWidth, _normalizedY*screenHeight, 0);
 //            setTranslation(pos);
 //        }
+    }
+    
+    void Label::rotationZ(float angleZ)
+    {
+        s_2dCameraRotAngle = -angleZ;
     }
     
     void Label::draw(Camera* camera)

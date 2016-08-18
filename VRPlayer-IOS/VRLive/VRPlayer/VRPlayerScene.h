@@ -16,4 +16,8 @@
 
 -(void) removeMenuItem: (NSString*)name;
 
+- (void) showPlayerHeadControlMenu: (BOOL)show;
+
++ (void) labelRotation:(int)degree;
+
 @end

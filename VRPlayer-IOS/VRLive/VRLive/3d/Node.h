@@ -68,6 +68,10 @@ namespace vrlive {
         
         void runAction(Action* action);
         
+        void setVisible(bool visble) { _isVisible = visble; }
+        
+        bool isVisible() const { return _isVisible; }
+        
     protected:
         
         

@@ -27,11 +27,8 @@ extern vrlive::Scene* _scene;
         std::string strFont = [fontName cStringUsingEncoding: NSUTF8StringEncoding];
         
         vrlive::Vector4 vrcolor;
-#if TARGET_IPHONE_SIMULATOR
-        float r,g,b,a;
-#else
-        double r,g,b,a;
-#endif
+        CGFloat r, g, b, a;
+        
         [color getRed:&r green:&g blue:&b alpha:&a];
         vrcolor.x = r, vrcolor.y = g, vrcolor.z = b, vrcolor.w = a;
         
@@ -208,6 +205,19 @@ extern vrlive::Scene* _scene;
         std::string strName=[name cStringUsingEncoding: NSUTF8StringEncoding];
         _scene->getDefMenuItem()->removeChild(strName);
     }
+}
+
+- (void) showPlayerHeadControlMenu: (BOOL)show
+{
+    if (_scene)
+    {
+        _scene->getDefMenuItem()->showPlayerMenu(show);
+    }
+}
+
++ (void) labelRotation:(int)degree
+{
+    vrlive::Label::rotationZ(degree);
 }
 
 @end

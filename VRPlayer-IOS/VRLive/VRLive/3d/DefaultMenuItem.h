@@ -21,6 +21,8 @@ namespace vrlive {
         
         virtual void update(Scene* scene);
         
+        void showPlayerMenu(bool isVisible);
+        
     protected:
         bool init();
         DefaultMenuItem();

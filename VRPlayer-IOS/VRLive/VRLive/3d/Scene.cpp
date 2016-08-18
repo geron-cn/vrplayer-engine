@@ -122,7 +122,7 @@ void Scene::draw()
     bool Scene::cursorCast(Node* node, const Ray& ray, float* distance, Node* &castnode)
     {
         auto sprite = node->getSprite3D();
-        if (sprite && !node->getName().empty())
+        if (sprite && node->_isVisible && !node->getName().empty())
         {
             auto sphere = sprite->getBoundSphere();
             auto mat = node->getWorldTransformMatrix();

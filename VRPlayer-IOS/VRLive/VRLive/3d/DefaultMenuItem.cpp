@@ -136,6 +136,21 @@ namespace vrlive {
         
         return true;
     }
+    
+    void DefaultMenuItem::showPlayerMenu(bool isVisible)
+    {
+        if (_background)
+            _background->setVisible(isVisible);
+        if (_back)
+            _back->setVisible(isVisible);
+        if (_forward)
+            _forward->setVisible(isVisible);
+        if (_backward)
+            _backward->setVisible(isVisible);
+        if (_pause)
+            _pause->setVisible(isVisible);
+    }
+    
     DefaultMenuItem::DefaultMenuItem()
     : _backStream(nullptr)
     , _forwardStream(nullptr)

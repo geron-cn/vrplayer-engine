@@ -4,6 +4,7 @@
 
 #include "StringTextureUtil.h"
 #include <assert.h>
+#include "FileUtils/Data.h"
 
 namespace FontUtils {
     NSMutableParagraphStyle* _calculateParagraphStyle(bool enableWrap, int overflow)
@@ -394,9 +395,9 @@ namespace vrlive {
         return [[UIScreen mainScreen] scale];
     }
     
-    Data StringTextureUtil::getTextureDataForText(const char * text, const FontDefinition& textDefinition, TextAlign align, int &width, int &height, bool& hasPremultipliedAlpha)
+    vrlive::Data StringTextureUtil::getTextureDataForText(const char * text, const FontDefinition& textDefinition, TextAlign align, int &width, int &height, bool& hasPremultipliedAlpha)
     {
-        Data ret;
+        vrlive::Data ret;
         
         do {
             tImageInfo info = {0};

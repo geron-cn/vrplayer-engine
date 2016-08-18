@@ -39,6 +39,8 @@ namespace vrlive {
         int getWidth() const;
         
         int getHeight() const;
+        //unit degree
+        static void rotationZ(float angle);
         
     protected:
         
@@ -49,6 +51,8 @@ namespace vrlive {
         virtual ~Label();
         float _normalizedX;
         float _normalizedY;
+        
+        static float s_2dCameraRotAngle;
     };
 }
 

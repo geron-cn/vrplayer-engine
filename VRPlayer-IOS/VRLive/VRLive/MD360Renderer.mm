@@ -120,6 +120,8 @@ static int s_videomode = 2;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     [GLUtil glCheck:@"glClear"];
     
+    int offx = 0, offy = 0;
+    
     if (s_videomode == 0 && _texture)
     {
         unsigned int w = _texture->getWidth();
@@ -139,11 +141,33 @@ static int s_videomode = 2;
         }
     }
     
+    
     bool isPortait = (width < height); //竖屏
     
     float scale = [GLUtil getScrrenScale];
     int widthPx = width * scale;
     int heightPx = height * scale;
+    
+    if (s_videomode == 1 && _texture)
+    {
+        unsigned int w = _texture->getWidth();
+        unsigned int h = _texture->getHeight();
+        if (w && h)
+        {
+            float ratio = (float)w / (float)h;
+            float screenRatio = (float)widthPx / (float)heightPx;
+            if (ratio > screenRatio)
+            {
+                offy = (heightPx -  (float)widthPx / ratio) / 2;
+            }
+            else{
+                offx = (widthPx - (float)heightPx * ratio) / 2;
+            }
+            
+            widthPx = widthPx - 2 * offx;
+            heightPx = heightPx - 2 * offy;
+        }
+    }
     
     int size = (s_videomode == 1 ? 1 : [self.mDisplayStrategyManager getVisibleSize]);
     int itemWidthPx = widthPx * 1.0 / size;
@@ -166,10 +190,10 @@ static int s_videomode = 2;
         MD360Director* direcotr = [self.mDirectors objectAtIndex:i];
         if (isPortait)
         {
-            glViewport(0, itemHeightPx * i, widthPx, itemHeightPx);
+            glViewport(offx, itemHeightPx * i + offy, widthPx, itemHeightPx);
         }
         else
-        glViewport(itemWidthPx * i, 0, itemWidthPx, heightPx);
+        glViewport(itemWidthPx * i + offx, offy, itemWidthPx, heightPx);
 
         // Update Projection
         [direcotr updateProjection:itemWidthPx height:heightPx];
@@ -231,12 +255,27 @@ static int s_videomode = 2;
         }
         
         MD360Director* direcotr = [self.mDirectors objectAtIndex:i];
-        glViewport(itemWidthPx * i, 0, itemWidthPx, heightPx);
+        if (isPortait)
+        {
+            glViewport(offx, itemHeightPx * i + offy, widthPx, itemHeightPx);
+        }
+        else
+            glViewport(itemWidthPx * i + offx, offy, itemWidthPx, heightPx);
+        
         //draw scene
         if (_scene)
         {
-            _scene->setWidth(itemWidthPx);
-            _scene->setHeight(heightPx);
+            if (isPortait)
+            {
+                _scene->setWidth(widthPx);
+                _scene->setHeight(itemHeightPx);
+            }
+            else{
+                _scene->setWidth(itemWidthPx);
+                _scene->setHeight(heightPx);
+            }
+            
+            
             GLKMatrix4 mat = [direcotr getCurrentRotation];
             
             //        vrlive::Vector3 dir = vrlive::Vector3(mat.m[8], mat.m[9], mat.m[10]);

@@ -12,6 +12,7 @@
 #include "3d/Action.h"
 #include "3d/Texture.h"
 #include "3d/MenuItem.h"
+#include "3d/DefaultMenuItem.h"
 #include "jnihelper.h"
 #include <random>
 
@@ -101,6 +102,23 @@ Java_com_vrlive_vrlib_common_JNIHelper_initClearRender(JNIEnv *env, jobject inst
         s_scene = NULL;
 }
 
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_setRenderMenuShow
+  (JNIEnv *, jclass, jboolean ishow)
+  {
+      if(!s_scene)
+        return;
+      auto menus = s_scene->getDefMenuItem();
+      menus->showPlayerMenu((bool)ishow);
+  }
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_set2DCameraRotaion
+  (JNIEnv *, jclass, jfloat rotaion)
+  {
+      vrlive::Label::rotationZ(rotaion);
+  }
+
+
 JNIEXPORT void JNICALL
 Java_com_vrlive_vrlib_common_JNIHelper_setAssetManager(JNIEnv* env, jclass cls, jobject assetManager)
 {
@@ -118,6 +136,47 @@ Java_com_vrlive_vrlib_common_JNIHelper_nativeInitBitmapDC(JNIEnv*  env, jclass c
     bDC._data = (unsigned char*)malloc(sizeof(unsigned char) * size);
     env->GetByteArrayRegion(pixels, 0, size, (jbyte*)bDC._data);
 }
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_createMenuItem
+  (JNIEnv *env, jclass, jstring name, jstring path, jfloat x, jfloat y, jfloat w, jfloat h)
+  {
+       vrlive::Scene* scene = s_scene;
+       if(!scene)
+            return;
+       const char *pathStr;
+       pathStr = env->GetStringUTFChars(path, 0); 
+       auto menu = vrlive::MenuItem::create(pathStr, w, h);
+       const char* nameStr;
+       nameStr = env->GetStringUTFChars(name, 0);
+       menu->setName(nameStr);
+       vrlive::Vector3 pos(x, y, -20.f);
+       menu->setTranslation(pos);
+       scene->getDefMenuItem()->addChild(menu);
+       menu->release();
+       env->ReleaseStringUTFChars(path, pathStr);
+       env->ReleaseStringUTFChars(name, nameStr);
+  }
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_removeMenuItem
+  (JNIEnv *env, jclass, jstring name)
+  {
+       vrlive::Scene* scene = s_scene;
+       const char* nameStr;
+       nameStr = env->GetStringUTFChars(name, 0);
+       scene->getDefMenuItem()->removeChild(nameStr);
+       env->ReleaseStringUTFChars(name, nameStr);
+  }
+
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_removeLabel
+  (JNIEnv *env, jclass, jstring name)
+  {
+       vrlive::Scene* scene = s_scene;
+       const char* nameStr;
+       nameStr = env->GetStringUTFChars(name, 0);
+       scene->removeChild(nameStr);
+       env->ReleaseStringUTFChars(name, nameStr);
+  }
 
 void translatePoint(const float& x, const float& y, vrlive::Scene* scene, vrlive::Vector3 &dst)
 {

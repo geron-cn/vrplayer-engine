@@ -195,6 +195,7 @@ extern vrlive::Scene* _scene;
         menuitem->setTranslation(pos);
         menu->addChild(menuitem);
         menuitem->setName(strName);
+        menuitem->release();
     }
 }
 

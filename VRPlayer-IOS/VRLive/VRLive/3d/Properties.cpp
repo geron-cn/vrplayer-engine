@@ -103,7 +103,7 @@ Properties* Properties::create(const char* url)
 
     Properties* properties = new Properties(stream);
     properties->resolveInheritance();
-    stream->close();
+    stream->release();
 
     // Get the specified properties object.
     Properties* p = getPropertiesFromNamespacePath(properties, namespacePath);

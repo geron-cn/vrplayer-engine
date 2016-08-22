@@ -1,8 +1,24 @@
-#include "Base.h"
+#include <math.h>
 #include "Vector2.h"
 
 namespace vrlive
 {
+
+#define GP_ERROR(...)
+#define GP_WARN(...)
+#define GP_ASSERT(...)
+#define SAFE_DELETE(ptr) \
+{ \
+    if(ptr) \
+    {       \
+        delete ptr; \
+        ptr = nullptr; \
+    } \
+}
+
+#define MATH_DEG_TO_RAD(x)          ((x) * 0.0174532925f)
+#define MATH_FLOAT_SMALL            1.0e-37f
+#define MATH_TOLERANCE              2e-37f
 
 Vector2::Vector2()
     : x(0.0f), y(0.0f)

@@ -20,11 +20,13 @@
 #include "Label.h"
 #include "MenuItem.h"
 #include "Scene.h"
+#include "Action.h"
+#include <vector>
 
 namespace vrlive
 {
     Preference::Preference(const char* prefernceFilePath)
-    : _properties(nullptr)
+        : _properties(nullptr)
     {
         _properties = Properties::create(prefernceFilePath);
     }
@@ -51,7 +53,7 @@ namespace vrlive
 
     FrameSequnceAction* Preference::getSequnceFrameAction(Properties* action) const
     {
-        auto dir = action->getString(dirpath, "");
+        auto dir = action->getString("dirpath", "");
         auto start = action->getInt("start");
         auto count   = action->getInt("count");
         auto interval = action->getFloat("interval");
@@ -72,7 +74,7 @@ namespace vrlive
         action->getVector4("start", &start);
         action->getVector4("target", &target);
         auto duration = action->getFloat("duration");
-        return MoveLineAction::create(start, target, duration);
+        return TintAction::create(start, target, duration);
     }
 
     RotateZAction* Preference::getRotationAction(Properties* action) const
@@ -104,17 +106,17 @@ namespace vrlive
 
     Label*    Preference::getLabel(const char* labelID) const
     {
-        auto labelspace = _properties->getNamespace("labels")->getNamespace(menuID);
-        return getMenuItem(labelspace);
+        auto labelspace = _properties->getNamespace("labels")->getNamespace(labelID);
+        return getLabel(labelspace);
     }
 
     Label*    Preference::getSprite(const char* spriteID) const
     {
-        auto spritespace = _properties->getNamespace("sprites")->getNamespace(menuID);
-        return getMenuItem(spritespace);
+        auto spritespace = _properties->getNamespace("sprites")->getNamespace(spriteID);
+        return getSprite(spritespace);
     }
 
-    void Preference::setNodePropers(Node* node, Properties* propers)
+    void Preference::setNodePropers(Node* node, Properties* propers) const
     {
         auto name = propers->getString("name");
         Vector3 scale;
@@ -128,8 +130,8 @@ namespace vrlive
         Quaternion quat;
         Quaternion::createFromAxisAngle(Vector3(0,0,1), rotaion, &quat);
         node->setRotation(quat);
-        auto acionsStr = propers->getString("actions");
-        auto acts = getAction(actionsStr);
+        auto actionsStr = propers->getString("actions");
+        auto acts = getActions(actionsStr);
         for(auto act : acts)
         {
             node->runAction(act);
@@ -156,13 +158,13 @@ namespace vrlive
         propers->getVector2("size",     &size);
         auto text = propers->getString("text");
         auto font = propers->getString("font");
-        auto fontSize = propers->getInt("fontsize");
+        auto fontsize = propers->getInt("fontsize");
         Vector4 fontcolor;
         propers->getVector4("fontcolor", &fontcolor);
         auto halignment = propers->getInt("halignment");
         auto valignment = propers->getInt("valignment");
         
-        auto node = Label::create(text, font, fontsize, fontcolor, size.x, size.y, halignment, valignment);
+        auto node = Label::create(text, font, fontsize, fontcolor, size.x, size.y, (TextHAlignment)halignment, (TextVAlignment)valignment);
         if(!node)
             return nullptr;
         setNodePropers(node, propers);
@@ -189,15 +191,15 @@ namespace vrlive
         while(index != std::string::npos)
         {
             auto nameid = actionStr.substr(last, index - last);
-            char* name[50];
-            char* id[50];
-            sscanf(nameid, "%s#%s", name, id);
+            char name[50];
+            char id[50];
+            sscanf(nameid.c_str(), "%s#%s", name, id);
             if(strcmp(name, "actions") == 0)
             {
-                auto action = getAction("id");
+                auto action = getAction(id);
                 acts.push_back(action);
             }
-            else (strcmp(name, "frames") == 0)
+            else if(strcmp(name, "frames") == 0)
             {
                 // not complted
                 // frames here

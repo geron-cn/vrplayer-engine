@@ -15,7 +15,7 @@
  *
  * =====================================================================================
  */
-#ifdef __PREFERENDCE_H__
+#ifndef __PREFERENDCE_H__
 #define __PREFERENDCE_H__
 
 #include "Action.h"
@@ -48,7 +48,7 @@ private:
     MenuItem* getMenuItem(Properties* propers) const;
     Label*    getLabel(Properties* propers) const;
     Label*    getSprite(Properties* propers) const;
-    void      setNodePropers(Node* node, Properties* propers);
+    void      setNodePropers(Node* node, Properties* propers) const;
 
     Action*   getAction(Properties* actions, const char* actionID) const;
     std::vector<Action*> getActions(const std::string& actionsStr) const;

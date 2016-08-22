@@ -72,6 +72,8 @@ public:
 
     virtual void removeDataFromCache(const std::string& filename);
 
+    static bool fileExists(const std::string filename);
+
     virtual ~FileUtils();
 
 #ifdef __ANDROID__
@@ -85,7 +87,7 @@ protected:
 
     virtual FileUtils::Status readZipFileData(const std::string& zipfilename, Data& data);
     
-    virtual const std::string resolvePath(const std::string& filepath);
+    static const std::string resolvePath(const std::string& filepath);
 private:
     static FileUtils* _fileUtilInst;
     std::map<std::string, Data> _fileDatas;

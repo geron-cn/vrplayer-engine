@@ -1,5 +1,5 @@
 #include "Properties.h"
-#include "FileSystem.h"
+#include "../FileUtils/FileUtils.h"
 #include "Quaternion.h"
 #include<memory>
 #include<string.h>
@@ -91,14 +91,17 @@ Properties* Properties::create(const char* url)
     std::string fileString;
     std::vector<std::string> namespacePath;
     calculateNamespacePath(urlString, fileString, namespacePath);
-    std::unique_ptr<Stream> stream(FileSystem::open(fileString.c_str()));
-    if (stream.get() == NULL)
+    LOG("open file %s", url);
+    Data data = FileUtils::getInstance()->getFileContent(fileString, true);
+    if(data.isNull())
     {
         GP_WARN("Failed to open file '%s'.", fileString.c_str());
         return NULL;
     }
+    auto stream = MemoryStream::create((char*)data.getBytes(), data.getSize());
+    LOG("open file sucess %s", url);
 
-    Properties* properties = new Properties(stream.get());
+    Properties* properties = new Properties(stream);
     properties->resolveInheritance();
     stream->close();
 
@@ -119,7 +122,9 @@ Properties* Properties::create(const char* url)
         p = p->clone();
         SAFE_DELETE(properties);
     }
-    p->setDirectoryPath(FileSystem::getDirectoryName(fileString.c_str()));
+    auto dirpos = fileString.find_last_of("/");
+    std::string dirpath = fileString.substr(0, dirpos);
+    p->setDirectoryPath(dirpath);
     return p;
 }
 
@@ -929,7 +934,7 @@ bool Properties::getPath(const char* name, std::string* path) const
     const char* valueString = getString(name);
     if (valueString)
     {
-        if (FileSystem::fileExists(valueString))
+        if (FileUtils::fileExists(valueString))
         {
             path->assign(valueString);
             return true;
@@ -945,7 +950,7 @@ bool Properties::getPath(const char* name, std::string* path) const
                 {
                     std::string relativePath = *dirPath;
                     relativePath.append(valueString);
-                    if (FileSystem::fileExists(relativePath.c_str()))
+                    if (FileUtils::fileExists(relativePath.c_str()))
                     {
                         path->assign(relativePath);
                         return true;

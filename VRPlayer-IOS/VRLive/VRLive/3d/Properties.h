@@ -9,6 +9,9 @@
 #include <string>
 
 
+#include <android/log.h>
+#define  LOG_TAG    "FileUtils"
+#define  LOG(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 
 #define MATH_DEG_TO_RAD(x)          ((x) * 0.0174532925f)
 

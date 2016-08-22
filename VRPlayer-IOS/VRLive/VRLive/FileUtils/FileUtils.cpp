@@ -2,7 +2,7 @@
 #include <sys/stat.h>
 #include "FileUtils.h"
 #include "unzip.h"
-
+#include <sys/types.h>
 
 namespace vrlive {
 
@@ -240,4 +240,24 @@ void FileUtils::readFileDataHelper(const std::string &filename, Data &data, bool
         return filepath;
     }
 #endif
+
+bool FileUtils::fileExists(const std::string filename)
+{
+    std::string fullPath = resolvePath(filename);
+
+#ifdef __ANDROID__
+    AAsset* asset = AAssetManager_open(__assetManager, fullPath.c_str(), AASSET_MODE_RANDOM);
+    if (asset)
+    {
+        int length = AAsset_getLength(asset);
+        AAsset_close(asset);
+        return length > 0;
+    }
+#endif
+
+    struct stat s;
+    return stat(fullPath.c_str(), &s) == 0;
 }
+
+
+} // end namespace

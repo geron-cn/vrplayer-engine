@@ -1,6 +1,6 @@
 #include "Properties.h"
 #include "FileSystem.h"
-//#include "Quaternion.h"
+#include "Quaternion.h"
 #include<memory>
 #include<string.h>
 
@@ -867,63 +867,63 @@ long Properties::getLong(const char* name) const
     return 0L;
 }
 
-//bool Properties::getMatrix(const char* name, Matrix* out) const
-//{
-//    GP_ASSERT(out);
+bool Properties::getMatrix(const char* name, Matrix* out) const
+{
+   GP_ASSERT(out);
 
-//    const char* valueString = getString(name);
-//    if (valueString)
-//    {
-//        float m[16];
-//        int scanned;
-//        scanned = sscanf(valueString, "%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f",
-//                &m[0], &m[1], &m[2], &m[3], &m[4], &m[5], &m[6], &m[7],
-//                &m[8], &m[9], &m[10], &m[11], &m[12], &m[13], &m[14], &m[15]);
+   const char* valueString = getString(name);
+   if (valueString)
+   {
+       float m[16];
+       int scanned;
+       scanned = sscanf(valueString, "%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f",
+               &m[0], &m[1], &m[2], &m[3], &m[4], &m[5], &m[6], &m[7],
+               &m[8], &m[9], &m[10], &m[11], &m[12], &m[13], &m[14], &m[15]);
 
-//        if (scanned != 16)
-//        {
-//            GP_ERROR("Error attempting to parse property '%s' as a matrix.", name);
-//            out->setIdentity();
-//            return false;
-//        }
+       if (scanned != 16)
+       {
+           GP_ERROR("Error attempting to parse property '%s' as a matrix.", name);
+           out->setIdentity();
+           return false;
+       }
 
-//        out->set(m);
-//        return true;
-//    }
+       out->set(m);
+       return true;
+   }
 
-//    out->setIdentity();
-//    return false;
-//}
+   out->setIdentity();
+   return false;
+}
 
-//bool Properties::getVector2(const char* name, Vector2* out) const
-//{
-//    return parseVector2(getString(name), out);
-//}
+bool Properties::getVector2(const char* name, Vector2* out) const
+{
+   return parseVector2(getString(name), out);
+}
 
-//bool Properties::getVector3(const char* name, Vector3* out) const
-//{
-//    return parseVector3(getString(name), out);
-//}
+bool Properties::getVector3(const char* name, Vector3* out) const
+{
+   return parseVector3(getString(name), out);
+}
 
-//bool Properties::getVector4(const char* name, Vector4* out) const
-//{
-//    return parseVector4(getString(name), out);
-//}
+bool Properties::getVector4(const char* name, Vector4* out) const
+{
+   return parseVector4(getString(name), out);
+}
 
-//bool Properties::getQuaternionFromAxisAngle(const char* name, Quaternion* out) const
-//{
-//    return parseAxisAngle(getString(name), out);
-//}
+bool Properties::getQuaternionFromAxisAngle(const char* name, Quaternion* out) const
+{
+   return parseAxisAngle(getString(name), out);
+}
 
-//bool Properties::getColor(const char* name, Vector3* out) const
-//{
-//    return parseColor(getString(name), out);
-//}
+bool Properties::getColor(const char* name, Vector3* out) const
+{
+   return parseColor(getString(name), out);
+}
 
-//bool Properties::getColor(const char* name, Vector4* out) const
-//{
-//    return parseColor(getString(name), out);
-//}
+bool Properties::getColor(const char* name, Vector4* out) const
+{
+   return parseColor(getString(name), out);
+}
 
 bool Properties::getPath(const char* name, std::string* path) const
 {
@@ -1131,156 +1131,156 @@ Properties* getPropertiesFromNamespacePath(Properties* properties, const std::ve
         return properties;
 }
 
-//bool Properties::parseVector2(const char* str, Vector2* out)
-//{
-//    if (str)
-//    {
-//        float x, y;
-//        if (sscanf(str, "%f,%f", &x, &y) == 2)
-//        {
-//            if (out)
-//                out->set(x, y);
-//            return true;
-//        }
-//        else
-//        {
-//            GP_WARN("Error attempting to parse property as a two-dimensional vector: %s", str);
-//        }
-//    }
+bool Properties::parseVector2(const char* str, Vector2* out)
+{
+   if (str)
+   {
+       float x, y;
+       if (sscanf(str, "%f,%f", &x, &y) == 2)
+       {
+           if (out)
+               out->set(x, y);
+           return true;
+       }
+       else
+       {
+           GP_WARN("Error attempting to parse property as a two-dimensional vector: %s", str);
+       }
+   }
 
-//    if (out)
-//        out->set(0.0f, 0.0f);
-//    return false;
-//}
+   if (out)
+       out->set(0.0f, 0.0f);
+   return false;
+}
 
-//bool Properties::parseVector3(const char* str, Vector3* out)
-//{
-//    if (str)
-//    {
-//        float x, y, z;
-//        if (sscanf(str, "%f,%f,%f", &x, &y, &z) == 3)
-//        {
-//            if (out)
-//                out->set(x, y, z);
-//            return true;
-//        }
-//        else
-//        {
-//            GP_WARN("Error attempting to parse property as a three-dimensional vector: %s", str);
-//        }
-//    }
+bool Properties::parseVector3(const char* str, Vector3* out)
+{
+   if (str)
+   {
+       float x, y, z;
+       if (sscanf(str, "%f,%f,%f", &x, &y, &z) == 3)
+       {
+           if (out)
+               out->set(x, y, z);
+           return true;
+       }
+       else
+       {
+           GP_WARN("Error attempting to parse property as a three-dimensional vector: %s", str);
+       }
+   }
 
-//    if (out)
-//        out->set(0.0f, 0.0f, 0.0f);
-//    return false;
-//}
+   if (out)
+       out->set(0.0f, 0.0f, 0.0f);
+   return false;
+}
 
-//bool Properties::parseVector4(const char* str, Vector4* out)
-//{
-//    if (str)
-//    {
-//        float x, y, z, w;
-//        if (sscanf(str, "%f,%f,%f,%f", &x, &y, &z, &w) == 4)
-//        {
-//            if (out)
-//                out->set(x, y, z, w);
-//            return true;
-//        }
-//        else
-//        {
-//            GP_WARN("Error attempting to parse property as a four-dimensional vector: %s", str);
-//        }
-//    }
+bool Properties::parseVector4(const char* str, Vector4* out)
+{
+   if (str)
+   {
+       float x, y, z, w;
+       if (sscanf(str, "%f,%f,%f,%f", &x, &y, &z, &w) == 4)
+       {
+           if (out)
+               out->set(x, y, z, w);
+           return true;
+       }
+       else
+       {
+           GP_WARN("Error attempting to parse property as a four-dimensional vector: %s", str);
+       }
+   }
 
-//    if (out)
-//        out->set(0.0f, 0.0f, 0.0f, 0.0f);
-//    return false;
-//}
+   if (out)
+       out->set(0.0f, 0.0f, 0.0f, 0.0f);
+   return false;
+}
 
-//bool Properties::parseAxisAngle(const char* str, Quaternion* out)
-//{
-//    if (str)
-//    {
-//        float x, y, z, theta;
-//        if (sscanf(str, "%f,%f,%f,%f", &x, &y, &z, &theta) == 4)
-//        {
-//            if (out)
-//                out->set(Vector3(x, y, z), MATH_DEG_TO_RAD(theta));
-//            return true;
-//        }
-//        else
-//        {
-//            GP_WARN("Error attempting to parse property as an axis-angle rotation: %s", str);
-//        }
-//    }
+bool Properties::parseAxisAngle(const char* str, Quaternion* out)
+{
+   if (str)
+   {
+       float x, y, z, theta;
+       if (sscanf(str, "%f,%f,%f,%f", &x, &y, &z, &theta) == 4)
+       {
+           if (out)
+               out->set(Vector3(x, y, z), MATH_DEG_TO_RAD(theta));
+           return true;
+       }
+       else
+       {
+           GP_WARN("Error attempting to parse property as an axis-angle rotation: %s", str);
+       }
+   }
 
-//    if (out)
-//        out->set(0.0f, 0.0f, 0.0f, 1.0f);
-//    return false;
-//}
+   if (out)
+       out->set(0.0f, 0.0f, 0.0f, 1.0f);
+   return false;
+}
 
-//bool Properties::parseColor(const char* str, Vector3* out)
-//{
-//    if (str)
-//    {
-//        if (strlen(str) == 7 && str[0] == '#')
-//        {
-//            // Read the string into an int as hex.
-//            unsigned int color;
-//            if (sscanf(str + 1, "%x", &color) == 1)
-//            {
-//                if (out)
-//                    out->set(Vector3::fromColor(color));
-//                return true;
-//            }
-//            else
-//            {
-//                // Invalid format
-//                GP_WARN("Error attempting to parse property as an RGB color: %s", str);
-//            }
-//        }
-//        else
-//        {
-//            // Not a color string.
-//            GP_WARN("Error attempting to parse property as an RGB color (not specified as a color string): %s", str);
-//        }
-//    }
+bool Properties::parseColor(const char* str, Vector3* out)
+{
+   if (str)
+   {
+       if (strlen(str) == 7 && str[0] == '#')
+       {
+           // Read the string into an int as hex.
+           unsigned int color;
+           if (sscanf(str + 1, "%x", &color) == 1)
+           {
+               if (out)
+                   out->set(Vector3::fromColor(color));
+               return true;
+           }
+           else
+           {
+               // Invalid format
+               GP_WARN("Error attempting to parse property as an RGB color: %s", str);
+           }
+       }
+       else
+       {
+           // Not a color string.
+           GP_WARN("Error attempting to parse property as an RGB color (not specified as a color string): %s", str);
+       }
+   }
 
-//    if (out)
-//        out->set(0.0f, 0.0f, 0.0f);
-//    return false;
-//}
+   if (out)
+       out->set(0.0f, 0.0f, 0.0f);
+   return false;
+}
 
-//bool Properties::parseColor(const char* str, Vector4* out)
-//{
-//    if (str)
-//    {
-//        if (strlen(str) == 9 && str[0] == '#')
-//        {
-//            // Read the string into an int as hex.
-//            unsigned int color;
-//            if (sscanf(str + 1, "%x", &color) == 1)
-//            {
-//                if (out)
-//                    out->set(Vector4::fromColor(color));
-//                return true;
-//            }
-//            else
-//            {
-//                // Invalid format
-//                GP_WARN("Error attempting to parse property as an RGBA color: %s", str);
-//            }
-//        }
-//        else
-//        {
-//            // Not a color string.
-//            GP_WARN("Error attempting to parse property as an RGBA color (not specified as a color string): %s", str);
-//        }
-//    }
+bool Properties::parseColor(const char* str, Vector4* out)
+{
+   if (str)
+   {
+       if (strlen(str) == 9 && str[0] == '#')
+       {
+           // Read the string into an int as hex.
+           unsigned int color;
+           if (sscanf(str + 1, "%x", &color) == 1)
+           {
+               if (out)
+                   out->set(Vector4::fromColor(color));
+               return true;
+           }
+           else
+           {
+               // Invalid format
+               GP_WARN("Error attempting to parse property as an RGBA color: %s", str);
+           }
+       }
+       else
+       {
+           // Not a color string.
+           GP_WARN("Error attempting to parse property as an RGBA color (not specified as a color string): %s", str);
+       }
+   }
 
-//    if (out)
-//        out->set(0.0f, 0.0f, 0.0f, 0.0f);
-//    return false;
-//}
+   if (out)
+       out->set(0.0f, 0.0f, 0.0f, 0.0f);
+   return false;
+}
 
 }

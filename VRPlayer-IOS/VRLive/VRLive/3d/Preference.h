@@ -42,8 +42,11 @@ public:
     // actions has been binded(node->runAction) to nodes, no need to call this
     Action*   getAction(const char* actionID) const;
 
+    virtual ~Preference();
 private:
     Preference():_properties(nullptr){}
+
+    void loadPreference(Scene* scene) const;
 
     MenuItem* getMenuItem(Properties* propers) const;
     Label*    getLabel(Properties* propers) const;

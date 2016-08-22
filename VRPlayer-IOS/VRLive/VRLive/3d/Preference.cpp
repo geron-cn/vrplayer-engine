@@ -19,6 +19,7 @@
 #include "Properties.h"
 #include "Label.h"
 #include "MenuItem.h"
+#include "DefaultMenuItem.h"
 #include "Scene.h"
 #include "Action.h"
 #include <vector>
@@ -259,9 +260,57 @@ namespace vrlive
         return getAction(actions, actionID);
     }
 
-    void Preference::loadPreference(const char* preferencefilePath, Scene* scene)
+    void Preference::loadPreference(Scene* scene) const
     {
+        auto menus = _properties->getNamespace("menus");
+        Properties* proper = NULL;
+        while((proper = menus->getNextNamespace()) != NULL)
+        {
+            if(0 == strcmp("menu", proper->getNamespace()))
+            {
+                auto menu = getMenuItem(proper);
+                scene->getDefMenuItem()->addChild(menu);
+                menu->release();
+            }
+        }
 
+        auto labels = _properties->getNamespace("labels");
+        while((proper = labels->getNextNamespace()) != NULL)
+        {
+            if(0 == strcmp("label", proper->getNamespace()))
+            {
+                auto label = getLabel(proper);
+                scene->addChild(label);
+                label->release();
+            }
+        }
+
+        auto sprites = _properties->getNamespace("sprites");
+        while((proper = sprites->getNextNamespace()) != NULL)
+        {
+            if(0 == strcmp("sprite", proper->getNamespace()))
+            {
+                auto sprite = getSprite(proper);
+                scene->addChild(sprite);
+                sprite->release();
+            }
+        }
+    }
+
+   void Preference::loadPreference(const char* preferencefilePath, Scene* scene)
+   {
+       auto prefern = new Preference(preferencefilePath);
+       prefern->loadPreference(scene);
+       delete prefern;
+   }
+
+    Preference::~Preference()
+    {
+        if(_properties)
+        {
+            delete _properties;
+            _properties = nullptr;
+        }
     }
 }
 

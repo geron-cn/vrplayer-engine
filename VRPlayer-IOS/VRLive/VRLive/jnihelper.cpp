@@ -13,6 +13,7 @@
 #include "3d/Texture.h"
 #include "3d/MenuItem.h"
 #include "3d/DefaultMenuItem.h"
+#include "3d/Preference.h"
 #include "jnihelper.h"
 #include <random>
 
@@ -304,6 +305,18 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendSpriteAnimate
     actionsq->release();
     env->ReleaseStringUTFChars(spritePath, str);
 }
+
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_loadPreference
+  (JNIEnv *env, jclass, jstring configPath)
+{
+    const char *str;
+    str = env->GetStringUTFChars(configPath, 0); 
+    vrlive::Preference::loadPreference(str, s_scene);
+    env->ReleaseStringUTFChars(configPath, str);
+}
+
+
 JNIEnv* cacheEnv(JavaVM* jvm) {
     JNIEnv* _env = nullptr;
     // get jni environment

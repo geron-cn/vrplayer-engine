@@ -9,6 +9,7 @@
 #include <string>
 
 
+
 #define MATH_DEG_TO_RAD(x)          ((x) * 0.0174532925f)
 
 namespace vrlive

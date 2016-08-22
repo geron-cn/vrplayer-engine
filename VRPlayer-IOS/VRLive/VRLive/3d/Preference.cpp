@@ -136,6 +136,7 @@ namespace vrlive
         for(auto act : acts)
         {
             node->runAction(act);
+            act->release();
         }
     }
 
@@ -264,6 +265,7 @@ namespace vrlive
     {
         auto menus = _properties->getNamespace("menus");
         Properties* proper = NULL;
+        if(menus)
         while((proper = menus->getNextNamespace()) != NULL)
         {
             if(0 == strcmp("menu", proper->getNamespace()))
@@ -275,6 +277,7 @@ namespace vrlive
         }
 
         auto labels = _properties->getNamespace("labels");
+        if(labels)
         while((proper = labels->getNextNamespace()) != NULL)
         {
             if(0 == strcmp("label", proper->getNamespace()))
@@ -286,6 +289,7 @@ namespace vrlive
         }
 
         auto sprites = _properties->getNamespace("sprites");
+        if(sprites)
         while((proper = sprites->getNextNamespace()) != NULL)
         {
             if(0 == strcmp("sprite", proper->getNamespace()))

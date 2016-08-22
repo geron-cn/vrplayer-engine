@@ -91,7 +91,6 @@ Properties* Properties::create(const char* url)
     std::string fileString;
     std::vector<std::string> namespacePath;
     calculateNamespacePath(urlString, fileString, namespacePath);
-
     std::unique_ptr<Stream> stream(FileSystem::open(fileString.c_str()));
     if (stream.get() == NULL)
     {

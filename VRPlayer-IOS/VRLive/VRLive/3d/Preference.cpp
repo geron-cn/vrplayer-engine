@@ -259,12 +259,6 @@ namespace vrlive
             auto nameid = actionsStr.substr(last, index - last);
             last = index + 1;
             getAction(nameid, acts);
-            //else if(strcmp(name, "frames") == 0)
-            // else if(name == "frames")
-            // {
-            //     // not complted
-            //     // frames here
-            // }
             index = actionsStr.find_first_of(",", last);
         }
         if(index - last > 0)

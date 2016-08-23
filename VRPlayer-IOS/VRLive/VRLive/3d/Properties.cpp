@@ -3,6 +3,7 @@
 #include "Quaternion.h"
 #include<memory>
 #include<string.h>
+#include <random>
 
 #define GP_ERROR(...)
 #define GP_WARN(...)
@@ -1131,10 +1132,191 @@ Properties* getPropertiesFromNamespacePath(Properties* properties, const std::ve
         return properties;
 }
 
+int   getRdInt(int l, int r)
+{
+    std::random_device rd;
+    return rd() % (r -l) + l;
+}
+
+float getRdFloat(float l, float r)
+{
+    std::random_device rd;
+    return (rd() % ((int)(( r -l ) * 1000)) ) / 1000.0 + l;
+}
+
+bool containsRd(const char* str)
+{
+    if(str)
+    {
+        char* p = (char*)str;
+        while(*(p) != '\0' && *(p + 1) != '\0')
+        {
+            if(*(p) == 'r' && *(p + 1) == 'd')
+                return true;
+            p++;
+        }
+    }
+    return false;
+}
+
+//rd(0.0, 0.1)
+float getRdFloat(const char* rdstr)
+{
+    if(rdstr)
+    {
+        float l, r;
+        if(sscanf(rdstr, "rd(%f,%f)", &l, &r) == 2)
+            return getRdFloat(l, r);
+    }
+    return 0.0f;
+}
+
+std::vector<float> getFloatArray(const char* str)
+{
+    std::vector<float> array;
+    if(!str)
+        return array;
+
+    char rdstr[30];
+    int start = 0, end = 0;
+    char* p = (char*)str;
+    bool skipq = false;
+    bool restart = false;
+    while((*p) != '\0')
+    {
+        *(rdstr + end - start) = *p;
+        char character = *(p);
+        if(character == '(')
+        {
+            skipq = true;
+            start = end;
+        }
+        else if(character == ',')
+        {
+            if(!skipq)
+            {
+                *(rdstr + end - start + 1) = '\0';
+                float f = 0.0f;
+                if(sscanf(rdstr, "%f", &f) == 1)
+                    array.push_back(f);
+
+                restart = true;
+            }
+            else
+            {
+                skipq = false;
+            }
+        }
+        else if(character == ')')
+        {
+            *(rdstr + end - start + 1) = '\0';
+            float l = .0f, r = .0f;
+            if(sscanf(rdstr, "%f, %f", &l, &r) == 2)
+            {
+                array.push_back(getRdFloat(l, r));
+            }
+            restart = true;
+        }
+        p++;
+        end ++;
+        if(restart)
+        {
+            start = end;
+            restart = false;
+        }
+    }
+    if(start < end)
+    {
+         *(rdstr + end - start) = '\0';
+        float f = .0f;
+        if(sscanf(rdstr, "%f", &f) == 1)
+            array.push_back(f);
+    }
+    return array;
+}
+
+
+std::vector<int> getIntArray(const char* str)
+{
+    std::vector<int> array;
+    if(!str)
+        return array;
+
+    char rdstr[30];
+    int start = 0, end = 0;
+    char* p = (char*)str;
+    bool skipq = false;
+    bool restart = false;
+    while((*p) != '\0')
+    {
+        *(rdstr + end - start) = *p;
+        char character = *(p);
+        if(character == '(')
+        {
+            skipq = true;
+            start = end;
+        }
+        else if(character == ',')
+        {
+            if(!skipq)
+            {
+                *(rdstr + end - start + 1) = '\0';
+                int f = 0.0f;
+                if(sscanf(rdstr, "%d", &f) == 1)
+                    array.push_back(f);
+
+                restart = true;
+            }
+            else
+            {
+                skipq = false;
+            }
+        }
+        else if(character == ')')
+        {
+            *(rdstr + end - start + 1) = '\0';
+            int l = .0f, r = .0f;
+            if(sscanf(rdstr, "%d, %d", &l, &r) == 2)
+            {
+                array.push_back(getRdInt(l, r));
+            }
+            restart = true;
+        }
+        p++;
+        end ++;
+        if(restart)
+        {
+            start = end;
+            restart = false;
+        }
+    }
+    if(start < end)
+    {
+         *(rdstr + end - start) = '\0';
+        int f = .0f;
+        if(sscanf(rdstr, "%d", &f) == 1)
+            array.push_back(f);
+    }
+    return array;
+}
+
+
 bool Properties::parseVector2(const char* str, Vector2* out)
 {
    if (str)
    {
+       if(containsRd(str))
+       {
+           auto array = getFloatArray(str);
+           if(out)
+           {
+               out->set(array[0], array[1]);
+               return true;
+           }
+           else
+               out->set(.0f, .0f);
+           return false;
+       }
        float x, y;
        if (sscanf(str, "%f,%f", &x, &y) == 2)
        {
@@ -1157,6 +1339,19 @@ bool Properties::parseVector3(const char* str, Vector3* out)
 {
    if (str)
    {
+       if(containsRd(str))
+       {
+           auto array = getFloatArray(str);
+           if(out)
+           {
+               out->set(array[0], array[1], array[2]);
+               return true;
+           }
+           else
+               out->set(.0f, .0f, .0f);
+           return false;
+       }
+
        float x, y, z;
        if (sscanf(str, "%f,%f,%f", &x, &y, &z) == 3)
        {
@@ -1179,6 +1374,19 @@ bool Properties::parseVector4(const char* str, Vector4* out)
 {
    if (str)
    {
+       if(containsRd(str))
+       {
+           auto array = getFloatArray(str);
+           if(out)
+           {
+               out->set(array[0], array[1], array[2], array[3]);
+               return true;
+           }
+           else
+               out->set(.0f, .0f, .0f, .0f);
+           return false;
+       }
+
        float x, y, z, w;
        if (sscanf(str, "%f,%f,%f,%f", &x, &y, &z, &w) == 4)
        {
@@ -1201,6 +1409,19 @@ bool Properties::parseAxisAngle(const char* str, Quaternion* out)
 {
    if (str)
    {
+        if(containsRd(str))
+       {
+           auto array = getFloatArray(str);
+           if(out)
+           {
+               out->set(Vector3(array[0], array[1], array[2]), MATH_DEG_TO_RAD(array[3]));
+               return true;
+           }
+           else
+               out->set(.0f, .0f, .0f, 1.0f);
+           return false;
+       }
+
        float x, y, z, theta;
        if (sscanf(str, "%f,%f,%f,%f", &x, &y, &z, &theta) == 4)
        {

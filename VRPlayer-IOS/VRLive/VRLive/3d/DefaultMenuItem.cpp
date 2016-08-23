@@ -151,6 +151,21 @@ namespace vrlive {
             _pause->setVisible(isVisible);
     }
     
+    void DefaultMenuItem::setCustomMenuShow(bool visible)
+    {
+        for(auto child : _children)
+        {
+            if(child != _background
+            && child != _back
+            && child != _forward
+            && child != _backward
+            && child != _pause)
+            {
+                child->setVisible(visible);
+            }
+        }
+    }
+
     DefaultMenuItem::DefaultMenuItem()
     : _backStream(nullptr)
     , _forwardStream(nullptr)

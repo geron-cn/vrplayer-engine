@@ -112,6 +112,15 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_setRenderMenuShow
       menus->showPlayerMenu((bool)ishow);
   }
 
+  JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_setRenderCustomMenuShow
+  (JNIEnv *, jclass, jboolean ishow)
+  {
+      if(!s_scene)
+        return;
+      auto menus = s_scene->getDefMenuItem();
+      menus->setCustomMenuShow((bool)ishow);
+  }
+
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_set2DCameraRotaion
   (JNIEnv *, jclass, jfloat rotaion)
   {

@@ -7,12 +7,14 @@
 #include <android/asset_manager_jni.h>
 
 #include "FileUtils/FileUtils.h"
+#include "FileUtils/FileSystem.h"
 #include "3d/StringTextureUtil.h"
 #include "3d/Label.h"
 #include "3d/Action.h"
 #include "3d/Texture.h"
 #include "3d/MenuItem.h"
 #include "3d/DefaultMenuItem.h"
+#include "3d/Preference.h"
 #include "jnihelper.h"
 #include <random>
 
@@ -112,6 +114,15 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_setRenderMenuShow
       menus->showPlayerMenu((bool)ishow);
   }
 
+  JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_setRenderCustomMenuShow
+  (JNIEnv *, jclass, jboolean ishow)
+  {
+      if(!s_scene)
+        return;
+      auto menus = s_scene->getDefMenuItem();
+      menus->setCustomMenuShow((bool)ishow);
+  }
+
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_set2DCameraRotaion
   (JNIEnv *, jclass, jfloat rotaion)
   {
@@ -123,6 +134,7 @@ JNIEXPORT void JNICALL
 Java_com_vrlive_vrlib_common_JNIHelper_setAssetManager(JNIEnv* env, jclass cls, jobject assetManager)
 {
     vrlive::FileUtils::__assetManager = AAssetManager_fromJava( env, assetManager );
+    vrlive::FileSystem::__assetManager = vrlive::FileUtils::__assetManager;
 }
 
 
@@ -304,6 +316,18 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendSpriteAnimate
     actionsq->release();
     env->ReleaseStringUTFChars(spritePath, str);
 }
+
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_loadPreference
+  (JNIEnv *env, jclass, jstring configPath)
+{
+    const char *str;
+    str = env->GetStringUTFChars(configPath, 0); 
+    vrlive::Preference::loadPreference(str, s_scene);
+    env->ReleaseStringUTFChars(configPath, str);
+}
+
+
 JNIEnv* cacheEnv(JavaVM* jvm) {
     JNIEnv* _env = nullptr;
     // get jni environment

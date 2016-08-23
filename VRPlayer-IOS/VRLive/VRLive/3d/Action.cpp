@@ -100,6 +100,16 @@ namespace vrlive {
     ScaleAction* ScaleAction::create(float scaleFrom, float scaleTo, float duration)
     {
         auto action = new ScaleAction();
+        action->_scaleFrom = Vector3(scaleFrom, scaleFrom, scaleFrom);
+        action->_scaleTo = Vector3(scaleTo, scaleTo, scaleTo);
+        action->_duration = duration;
+        
+        return action;
+    }
+
+    ScaleAction* ScaleAction::create(vrlive::Vector3 scaleFrom, vrlive::Vector3 scaleTo, float duration)
+    {
+        auto action = new ScaleAction();
         action->_scaleFrom = scaleFrom;
         action->_scaleTo = scaleTo;
         action->_duration = duration;
@@ -118,14 +128,16 @@ namespace vrlive {
         }
         if (_target)
         {
-            float s = _scaleFrom + (_scaleTo - _scaleFrom) * ratio;
-            _target->setScale(Vector3(s,s,s));
+            float sx = _scaleFrom.x + (_scaleTo.x - _scaleFrom.x) * ratio;
+            float sy = _scaleFrom.y + (_scaleTo.y - _scaleFrom.y) * ratio;
+            float sz = _scaleFrom.z + (_scaleTo.z - _scaleFrom.z) * ratio;
+            _target->setScale(Vector3(sx,sy,sz));
         }
     }
     
     ScaleAction::ScaleAction()
-    : _scaleFrom(1.f)
-    , _scaleTo(1.f)
+    : _scaleFrom(1.f, 1.f, 1.f)
+    , _scaleTo(1.f, 1.f, 1.f)
     , _duration(1.f)
     {
         

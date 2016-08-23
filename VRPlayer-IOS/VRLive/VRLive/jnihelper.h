@@ -65,12 +65,17 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_set2DCameraRotaion
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_createMenuItem
   (JNIEnv *, jclass, jstring, jstring, jfloat, jfloat, jfloat, jfloat);
 
+  JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_setRenderCustomMenuShow
+  (JNIEnv *, jclass, jboolean);
+
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_removeMenuItem
   (JNIEnv *, jclass, jstring);
 
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_removeLabel
   (JNIEnv *, jclass, jstring);
 
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_loadPreference
+  (JNIEnv *, jclass, jstring);
 
 /*
  * Class:     com_vrlive_vrlib_common_JNIHelper

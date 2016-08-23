@@ -104,6 +104,7 @@ namespace vrlive {
     {
     public:
         static ScaleAction* create(float scaleFrom, float scaleTo, float duration);
+        static ScaleAction* create(Vector3 scaleFrom, Vector3 scaleTo, float duration);
         
         virtual void update(float t);
         
@@ -111,8 +112,8 @@ namespace vrlive {
         ScaleAction();
         virtual ~ScaleAction();
         
-        float _scaleFrom;
-        float _scaleTo;
+        Vector3 _scaleFrom;
+        Vector3 _scaleTo;
         float _duration;
     };
     

@@ -216,4 +216,6 @@ typedef enum{
 
 - (NSString*) version;
 
++ (void) shutDownWhenDisappear: (BOOL) shouldShutDown;
+
 @end

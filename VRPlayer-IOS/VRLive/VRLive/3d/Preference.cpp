@@ -36,6 +36,7 @@ namespace vrlive
 {
     Preference::Preference(const char* prefernceFilePath)
         : _properties(nullptr)
+        , _scene(nullptr)
     {
         _properties = Properties::create(prefernceFilePath);
     }
@@ -56,6 +57,15 @@ namespace vrlive
         Vector3 target;
         action->getVector3("start", &start);
         action->getVector3("target", &target);
+        if(_scene != nullptr)
+        {
+            auto sw  = _scene->getWidth();
+            auto sh  = _scene->getHeight();
+            start.x  = (start.x  - .5f) * sw;
+            start.y  = (start.y  - .5f) * sh;
+            target.x = (target.x - .5f) * sw;
+            target.y = (target.y - .5f) * sh;
+        }
         auto duration = action->getFloat("duration");
         LOG("start %f %f %f ", start.x, start.y, start.z);
         LOG("target %f %f %f ", target.x, target.y, target.z);
@@ -70,6 +80,7 @@ namespace vrlive
         auto count   = action->getInt("count");
         auto interval = action->getFloat("interval");
         auto repeat =   action->getBool("repeat");
+        LOG("-%s- %d %d %f", dir, start, count, interval);
         return FrameSequnceAction::create(dir, start, count, interval, repeat);
     }
 
@@ -132,24 +143,43 @@ namespace vrlive
     {
         LOG("set properties");
         auto name = propers->getString("name");
+        node->setName(name);
         Vector3 scale;
         Vector3 pos;
         propers->getVector3("scale",    &scale);
-        propers->getVector3("position", &pos);
-        auto rotaion = propers->getFloat("rotation");
-        node->setName(name);
-        node->setTranslation(pos);
         node->setScale(scale);
+        if(propers->exists("normalizedpos"))
+        {
+            Vector2 pos2;
+            propers->getVector2("normalizedpos", &pos2);
+             if(_scene != nullptr)
+            {
+                auto sw  = _scene->getWidth();
+                auto sh  = _scene->getHeight();
+                pos.x  = (pos.x  - .5f) * sw;
+                pos.y  = (pos.y  - .5f) * sh;
+                pos.z = 0;
+            }
+        }
+        else
+        { 
+            propers->getVector3("position", &pos);
+        }
+        node->setTranslation(pos);
+        auto rotaion = propers->getFloat("rotation");
         Quaternion quat;
         Quaternion::createFromAxisAngle(Vector3(0,0,1), rotaion, &quat);
         node->setRotation(quat);
-        auto actionsStr = propers->getString("actions");
-        auto acts = getActions(actionsStr);
-        for(auto act : acts)
+        auto actionsStr = propers->getString("actions", "");
+        if(strcmp("", actionsStr) != 0 )
         {
-            LOG("%s run action", node->getName().c_str());
-            node->runAction(act);
-            act->release();
+            auto acts = getActions(actionsStr);
+            for(auto act : acts)
+            {
+                LOG("%s run action", node->getName().c_str());
+                node->runAction(act);
+                act->release();
+            }
         }
     }
 
@@ -179,8 +209,8 @@ namespace vrlive
         propers->getVector4("fontcolor", &fontcolor);
         auto halignment = propers->getInt("halignment");
         auto valignment = propers->getInt("valignment");
-        LOG("%s %d -%s, %f,%f,%f,%f ", text, fontsize, font.c_str(), fontcolor.x, fontcolor.y, fontcolor.z, fontcolor.w);;
-        auto node = Label::create(text, font.c_str(), fontsize, fontcolor, size.x, size.y, (TextHAlignment)halignment, (TextVAlignment)valignment);
+        LOG("%s %d -%s, %f,%f,%f,%f ", text, fontsize, font.c_str(), fontcolor.x, fontcolor.y, fontcolor.z, fontcolor.w);
+        auto node = Label::create(text, font, fontsize, fontcolor, size.x, size.y, (TextHAlignment)halignment, (TextVAlignment)valignment);
         if(!node)
             return nullptr;
         setNodePropers(node, propers);
@@ -190,6 +220,7 @@ namespace vrlive
     Label*    Preference::getSprite(Properties* propers) const
     {
         auto texture = propers->getString("texture");
+        LOG("-%s- ", texture);
         auto node = Label::createWithTexture(texture);
         if(!node)
             return nullptr;
@@ -295,9 +326,10 @@ namespace vrlive
         return getAction(actions, actionID);
     }
 
-    void Preference::loadPreference(Scene* scene) const
+    void Preference::loadPreference(Scene* scene)
     {
         auto menus = _properties->getNamespace("menus");
+        _scene = scene;
         Properties* proper = NULL;
         if(menus)
         while((proper = menus->getNextNamespace()) != NULL)

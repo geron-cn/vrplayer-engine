@@ -44,9 +44,9 @@ public:
 
     virtual ~Preference();
 private:
-    Preference():_properties(nullptr){}
+    Preference():_properties(nullptr), _scene(nullptr){}
 
-    void loadPreference(Scene* scene) const;
+    void loadPreference(Scene* scene);
 
     MenuItem* getMenuItem(Properties* propers) const;
     Label*    getLabel(Properties* propers) const;
@@ -67,6 +67,7 @@ private:
     SequnceAction* getSequnceAction(Properties* action) const;
 
     Properties* _properties;
+    Scene*      _scene;
 };
 
 }

@@ -57,6 +57,9 @@ namespace vrlive
         action->getVector3("start", &start);
         action->getVector3("target", &target);
         auto duration = action->getFloat("duration");
+        LOG("start %f %f %f ", start.x, start.y, start.z);
+        LOG("target %f %f %f ", target.x, target.y, target.z);
+        LOG("duration %f ", duration);
         return MoveLineAction::create(start, target, duration);
     }
 
@@ -144,6 +147,7 @@ namespace vrlive
         auto acts = getActions(actionsStr);
         for(auto act : acts)
         {
+            LOG("%s run action", node->getName().c_str());
             node->runAction(act);
             act->release();
         }
@@ -168,14 +172,15 @@ namespace vrlive
         Vector2 size;
         propers->getVector2("size",     &size);
         auto text = propers->getString("text");
-        auto font = propers->getString("font");
+        std::string font = propers->getString("font");
+        font = font.substr(font.find_first_not_of(" "));
         auto fontsize = propers->getInt("fontsize");
         Vector4 fontcolor;
         propers->getVector4("fontcolor", &fontcolor);
         auto halignment = propers->getInt("halignment");
         auto valignment = propers->getInt("valignment");
-        
-        auto node = Label::create(text, font, fontsize, fontcolor, size.x, size.y, (TextHAlignment)halignment, (TextVAlignment)valignment);
+        LOG("%s %d -%s, %f,%f,%f,%f ", text, fontsize, font.c_str(), fontcolor.x, fontcolor.y, fontcolor.z, fontcolor.w);;
+        auto node = Label::create(text, font.c_str(), fontsize, fontcolor, size.x, size.y, (TextHAlignment)halignment, (TextVAlignment)valignment);
         if(!node)
             return nullptr;
         setNodePropers(node, propers);
@@ -192,32 +197,49 @@ namespace vrlive
         return node;
     }
 
+    void Preference::getAction(std::string nameid, std::vector<Action*>& actions) const
+    {
+        LOG("get nameid %s", nameid.c_str());
+        auto namepos = nameid.find_first_of("#");
+        auto name = nameid.substr(0, namepos);
+        name = name.substr(name.find_first_not_of(" "));
+        auto id = nameid.substr(namepos +1);
+        id = id.substr(0, id.find_last_not_of(" ")+1);
+        LOG("get name and id -%s- -%s-", name.c_str(), id.c_str());
+        //if(strcmp(name, "actions") == 0)
+        if(name == "actions")
+        {
+            auto action = getAction(id.c_str());
+            if(action != nullptr)
+                actions.push_back(action);
+        }
+    }
     std::vector<Action*> Preference::getActions(const std::string& actionsStr) const
     {
-        std::vector<Action*> acts;
 
-        std::string actionStr(actionsStr);
-        LOG("get actions");
+        std::vector<Action*> acts;
+        if("null" ==  actionsStr.substr(actionsStr.find_first_not_of(" ")))
+            return acts;
+        LOG("get actions %s", actionsStr.c_str());
         size_t last = 0;
-        size_t index = actionStr.find_first_of(",", last);
+        size_t index = actionsStr.find_first_of(",", last);
         while(index != std::string::npos)
         {
-            auto nameid = actionStr.substr(last, index - last);
-            char name[50];
-            char id[50];
-            sscanf(nameid.c_str(), "%s#%s", name, id);
-            if(strcmp(name, "actions") == 0)
-            {
-                auto action = getAction(id);
-                if(action != nullptr)
-                    acts.push_back(action);
-            }
-            else if(strcmp(name, "frames") == 0)
-            {
-                // not complted
-                // frames here
-            }
+            auto nameid = actionsStr.substr(last, index - last);
+            last = index + 1;
+            getAction(nameid, acts);
+            //else if(strcmp(name, "frames") == 0)
+            // else if(name == "frames")
+            // {
+            //     // not complted
+            //     // frames here
+            // }
             index = actionsStr.find_first_of(",", last);
+        }
+        if(index - last > 0)
+        {
+            auto nameid = actionsStr.substr(last, index - last);
+            getAction(nameid, acts);
         }
         LOG("get actions end");
         return acts;

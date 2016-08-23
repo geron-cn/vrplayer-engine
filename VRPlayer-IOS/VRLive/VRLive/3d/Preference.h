@@ -55,6 +55,7 @@ private:
 
     Action*   getAction(Properties* actions, const char* actionID) const;
     std::vector<Action*> getActions(const std::string& actionsStr) const;
+    void getAction(std::string nameid, std::vector<Action*>& actions) const;
 
     ScaleAction*    getScaleAction(Properties* action) const;
     MoveLineAction* getMoveLineAction(Properties* action) const;

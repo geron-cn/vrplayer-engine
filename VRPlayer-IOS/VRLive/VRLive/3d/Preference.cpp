@@ -198,7 +198,7 @@ namespace vrlive
 
         std::string actionStr(actionsStr);
         LOG("get actions");
-        size_t last;
+        size_t last = 0;
         size_t index = actionStr.find_first_of(",", last);
         while(index != std::string::npos)
         {

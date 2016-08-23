@@ -24,12 +24,13 @@
 #include "Action.h"
 #include <vector>
 
-
+#ifdef __ANDROID__
 #include <android/log.h>
 #define  LOG_TAG    "FileUtils"
 #ifdef LOG
 #undef LOG
 #define  LOG(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+#endif
 #endif
 
 namespace vrlive

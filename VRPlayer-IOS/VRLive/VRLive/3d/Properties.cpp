@@ -811,44 +811,6 @@ bool Properties::getBool(const char* name, bool defaultValue) const
     return defaultValue;
 }
 
-int Properties::getInt(const char* name) const
-{
-    const char* valueString = getString(name);
-    if (valueString)
-    {
-        int value;
-        int scanned;
-        scanned = sscanf(valueString, "%d", &value);
-        if (scanned != 1)
-        {
-            GP_ERROR("Error attempting to parse property '%s' as an integer.", name);
-            return 0;
-        }
-        return value;
-    }
-
-    return 0;
-}
-
-float Properties::getFloat(const char* name) const
-{
-    const char* valueString = getString(name);
-    if (valueString)
-    {
-        float value;
-        int scanned;
-        scanned = sscanf(valueString, "%f", &value);
-        if (scanned != 1)
-        {
-            GP_ERROR("Error attempting to parse property '%s' as a float.", name);
-            return 0.0f;
-        }
-        return value;
-    }
-
-    return 0.0f;
-}
-
 long Properties::getLong(const char* name) const
 {
     const char* valueString = getString(name);
@@ -1171,6 +1133,19 @@ float getRdFloat(const char* rdstr)
     return 0.0f;
 }
 
+
+//rd(0.0, 0.1)
+int getRdInt(const char* rdstr)
+{
+    if(rdstr)
+    {
+        int l, r;
+        if(sscanf(rdstr, "rd(%d,%d)", &l, &r) == 2)
+            return getRdInt(l, r);
+    }
+    return 0;
+}
+
 std::vector<float> getFloatArray(const char* str)
 {
     std::vector<float> array;
@@ -1298,6 +1273,54 @@ std::vector<int> getIntArray(const char* str)
             array.push_back(f);
     }
     return array;
+}
+
+
+int Properties::getInt(const char* name) const
+{
+    const char* valueString = getString(name);
+    if (valueString)
+    {
+        if(containsRd(valueString))
+        {
+            return getRdInt(valueString);
+        }
+
+        int value;
+        int scanned;
+        scanned = sscanf(valueString, "%d", &value);
+        if (scanned != 1)
+        {
+            GP_ERROR("Error attempting to parse property '%s' as an integer.", name);
+            return 0;
+        }
+        return value;
+    }
+
+    return 0;
+}
+
+float Properties::getFloat(const char* name) const
+{
+    const char* valueString = getString(name);
+    if (valueString)
+    {
+        if(containsRd(valueString))
+        {
+            return getRdFloat(valueString);
+        }
+        float value;
+        int scanned;
+        scanned = sscanf(valueString, "%f", &value);
+        if (scanned != 1)
+        {
+            GP_ERROR("Error attempting to parse property '%s' as a float.", name);
+            return 0.0f;
+        }
+        return value;
+    }
+
+    return 0.0f;
 }
 
 

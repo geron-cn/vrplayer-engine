@@ -18,6 +18,8 @@
 
 - (void) showPlayerHeadControlMenu: (BOOL)show;
 
+- (void) showPlayerCustomMenu: (BOOL)show;
+
 + (void) labelRotation:(int)degree;
 
 @end

@@ -7,6 +7,7 @@
 #include <android/asset_manager_jni.h>
 
 #include "FileUtils/FileUtils.h"
+#include "FileUtils/FileSystem.h"
 #include "3d/StringTextureUtil.h"
 #include "3d/Label.h"
 #include "3d/Action.h"
@@ -124,6 +125,7 @@ JNIEXPORT void JNICALL
 Java_com_vrlive_vrlib_common_JNIHelper_setAssetManager(JNIEnv* env, jclass cls, jobject assetManager)
 {
     vrlive::FileUtils::__assetManager = AAssetManager_fromJava( env, assetManager );
+    vrlive::FileSystem::__assetManager = vrlive::FileUtils::__assetManager;
 }
 
 

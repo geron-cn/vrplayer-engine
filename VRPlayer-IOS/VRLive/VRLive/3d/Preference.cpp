@@ -24,6 +24,14 @@
 #include "Action.h"
 #include <vector>
 
+
+#include <android/log.h>
+#define  LOG_TAG    "FileUtils"
+#ifdef LOG
+#undef LOG
+#define  LOG(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+#endif
+
 namespace vrlive
 {
     Preference::Preference(const char* prefernceFilePath)
@@ -119,6 +127,7 @@ namespace vrlive
 
     void Preference::setNodePropers(Node* node, Properties* propers) const
     {
+        LOG("set properties");
         auto name = propers->getString("name");
         Vector3 scale;
         Vector3 pos;
@@ -188,6 +197,7 @@ namespace vrlive
         std::vector<Action*> acts;
 
         std::string actionStr(actionsStr);
+        LOG("get actions");
         size_t last;
         size_t index = actionStr.find_first_of(",", last);
         while(index != std::string::npos)
@@ -199,7 +209,8 @@ namespace vrlive
             if(strcmp(name, "actions") == 0)
             {
                 auto action = getAction(id);
-                acts.push_back(action);
+                if(action != nullptr)
+                    acts.push_back(action);
             }
             else if(strcmp(name, "frames") == 0)
             {
@@ -208,13 +219,14 @@ namespace vrlive
             }
             index = actionsStr.find_first_of(",", last);
         }
+        LOG("get actions end");
         return acts;
     }
 
     Action* Preference::getAction(Properties* actions, const char* actionID) const
     {
         Action* action = nullptr;
-        auto actionspace = actions->getNamespace("actionID");
+        auto actionspace = actions->getNamespace(actionID);
         auto actionname  = actionspace->getNamespace();
         if(0 == strcmp("scale",actionname))
         {
@@ -270,6 +282,7 @@ namespace vrlive
         {
             if(0 == strcmp("menu", proper->getNamespace()))
             {
+                LOG("load menu %s", proper->getId());
                 auto menu = getMenuItem(proper);
                 scene->getDefMenuItem()->addChild(menu);
                 menu->release();
@@ -282,6 +295,7 @@ namespace vrlive
         {
             if(0 == strcmp("label", proper->getNamespace()))
             {
+                LOG("load label %s", proper->getId());
                 auto label = getLabel(proper);
                 scene->addChild(label);
                 label->release();
@@ -294,6 +308,7 @@ namespace vrlive
         {
             if(0 == strcmp("sprite", proper->getNamespace()))
             {
+                LOG("load sprite %s", proper->getId());
                 auto sprite = getSprite(proper);
                 scene->addChild(sprite);
                 sprite->release();

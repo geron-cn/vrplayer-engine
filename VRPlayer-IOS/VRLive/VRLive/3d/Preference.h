@@ -44,7 +44,7 @@ public:
 
     virtual ~Preference();
 private:
-    Preference():_properties(nullptr), _scene(nullptr){}
+    Preference():_properties(nullptr), _scene(nullptr), _baseDir(""){}
 
     void loadPreference(Scene* scene);
 
@@ -68,6 +68,7 @@ private:
 
     Properties* _properties;
     Scene*      _scene;
+    std::string _baseDir;
 };
 
 }

@@ -37,6 +37,7 @@ namespace vrlive
     Preference::Preference(const char* prefernceFilePath)
         : _properties(nullptr)
         , _scene(nullptr)
+        , _baseDir("")
     {
         _properties = Properties::create(prefernceFilePath);
     }
@@ -76,6 +77,8 @@ namespace vrlive
     FrameSequnceAction* Preference::getSequnceFrameAction(Properties* action) const
     {
         auto dir = action->getString("dirpath", "");
+        if(_baseDir != "")
+            dir = (_baseDir + std::string(dir)).c_str();
         auto start = action->getInt("start");
         auto count   = action->getInt("count");
         auto interval = action->getFloat("interval");
@@ -189,6 +192,8 @@ namespace vrlive
         propers->getVector2("size",     &size);
         
         auto texture = propers->getString("texture");
+        if(_baseDir != "")
+            texture = (_baseDir + std::string(texture)).c_str();
         auto node = MenuItem::create(texture, size.x, size.y);
         if(!node)
             return nullptr;
@@ -220,6 +225,8 @@ namespace vrlive
     Label*    Preference::getSprite(Properties* propers) const
     {
         auto texture = propers->getString("texture");
+        if(_baseDir != "")
+            texture = (_baseDir + std::string(texture)).c_str();
         LOG("-%s- ", texture);
         auto node = Label::createWithTexture(texture);
         if(!node)
@@ -368,6 +375,12 @@ namespace vrlive
    {
        auto prefern = new Preference(preferencefilePath);
        prefern->loadPreference(scene);
+
+        std::string dir(preferencefilePath);
+        auto pos = dir.find_last_of("/");
+        if(pos != std::string::npos)
+            prefern->_baseDir = dir.substr(0, pos + 1);
+
        delete prefern;
    }
 

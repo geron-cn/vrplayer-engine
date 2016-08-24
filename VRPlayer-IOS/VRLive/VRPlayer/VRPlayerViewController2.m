@@ -35,6 +35,7 @@ static ViewMode s_viewMode = VIEW_DISPLAY_AUTODETECT;
 static bool is2DViewDispaying = false;
 
 static BOOL   hasAdvertisement = YES;
+static BOOL shouldShutDownWhenDisappear = YES;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -136,6 +137,7 @@ static BOOL   hasAdvertisement = YES;
     
     self.vrLibrary = [config build];
     videoframe = self.view.frame;
+    shouldShutDownWhenDisappear = YES;
 }
 
 - (void)play
@@ -330,16 +332,23 @@ static const float RATIO_16_9 =  1.77777777777778;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self installMovieNotificationObservers];
-    
-    [player prepareToPlay];
+    if (shouldShutDownWhenDisappear)
+    {
+        [self installMovieNotificationObservers];
+        
+        [player prepareToPlay];
+    }
+    shouldShutDownWhenDisappear = YES;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    [player shutdown];
-    [super viewDidDisappear:animated];
+    if (shouldShutDownWhenDisappear)
+    {
+        [player shutdown];
+        [self removeMovieNotificationObservers];
+    }
     
-    [self removeMovieNotificationObservers];
+    [super viewDidDisappear:animated];
 }
 
 - (void)loadStateDidChange:(NSNotification*)notification
@@ -555,6 +564,16 @@ static const float RATIO_16_9 =  1.77777777777778;
 - (void)AdvertisementOff
 {
     hasAdvertisement = NO;
+}
+
+- (NSString*) version
+{
+    return @"1.8";
+}
+
++ (void) shutDownWhenDisappear: (BOOL) shouldShutDown
+{
+    shouldShutDownWhenDisappear = shouldShutDown;
 }
 
 @end

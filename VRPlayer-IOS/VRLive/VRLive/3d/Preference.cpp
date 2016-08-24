@@ -24,7 +24,6 @@
 #include "Action.h"
 #include <vector>
 
-
 namespace vrlive
 {
     Preference::Preference(const char* prefernceFilePath)

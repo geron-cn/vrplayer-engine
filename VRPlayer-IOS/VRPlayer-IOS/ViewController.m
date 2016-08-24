@@ -36,6 +36,8 @@
 //     url = @"http://vr.donglivr.net/qjdl/qiyiguo/12_05_15_comikazi_v01/mp4_fhd.mp4";
     url = @"http://vr.donglivr.net/qjdl/qiyiguo/StarWars360/mp4_fhd.mp4";
 //    url = @"http://qjdlplay.bravovcloud.com.cn/live/test.m3u8";
+//    url = @"http://vr.donglivr.net/qjdl/qjdl_new/vrbox/vid/3dmovie/movie_2016070801d/mp4_fhd.m3u8";
+//    url = @"http://vr.donglivr.net/qjdl/qjdl_new/vrbox/vid/3dmovie/movie_2016071402/mp4_fhd.mp4";
     
     QGVideoPlayViewController *vc = [[QGVideoPlayViewController alloc] initWithNibName:@"QGVideoPlayViewController" bundle:nil url:[NSURL URLWithString:url] videoTitle:@"test"];
     

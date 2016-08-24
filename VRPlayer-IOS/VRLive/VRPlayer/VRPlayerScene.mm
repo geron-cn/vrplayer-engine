@@ -216,6 +216,22 @@ extern vrlive::Scene* _scene;
     }
 }
 
+- (void) showPlayerCustomMenu: (BOOL)show
+{
+    if (_scene)
+    {
+        _scene->getDefMenuItem()->setCustomMenuShow(show);
+    }
+}
+
+- (void) showCusor: (BOOL)show
+{
+    if (_scene)
+    {
+        _scene->setCursorVisible(show);
+    }
+}
+
 + (void) labelRotation:(int)degree
 {
     vrlive::Label::rotationZ(degree);

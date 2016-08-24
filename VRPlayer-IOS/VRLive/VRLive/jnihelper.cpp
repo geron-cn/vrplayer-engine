@@ -325,14 +325,37 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendSpriteAnimate
     env->ReleaseStringUTFChars(spritePath, str);
 }
 
-
+vrlive::Preference* preference = nullptr;
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_loadPreference
   (JNIEnv *env, jclass, jstring configPath)
 {
     const char *str;
     str = env->GetStringUTFChars(configPath, 0); 
-    vrlive::Preference::loadPreference(str, s_scene);
+    preference = vrlive::Preference::loadPreference(str, s_scene);
     env->ReleaseStringUTFChars(configPath, str);
+}
+
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_destoryPreference
+  (JNIEnv *, jclass)
+  {
+      if(preference != nullptr)
+      {
+          delete preference;
+          preference = nullptr;
+      }
+  }
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_loadNode
+  (JNIEnv *env, jclass, jstring nodename)
+{
+     if(preference == nullptr)
+         return;
+
+    const char *str;
+    str = env->GetStringUTFChars(nodename, 0); 
+    preference->loadNode(str);
+    env->ReleaseStringUTFChars(nodename, str);
 }
 
 

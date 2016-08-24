@@ -224,6 +224,14 @@ extern vrlive::Scene* _scene;
     }
 }
 
+- (void) showCusor: (BOOL)show
+{
+    if (_scene)
+    {
+        _scene->setCursorVisible(show);
+    }
+}
+
 + (void) labelRotation:(int)degree
 {
     vrlive::Label::rotationZ(degree);

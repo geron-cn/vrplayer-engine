@@ -20,8 +20,6 @@
 
 static vrlive::Scene* s_scene = NULL;
 static JNIEnv* s_env = nullptr;
-static JNIEnv* s_env_0 = nullptr;
-static JNIEnv* s_env_1 = nullptr;
 
 static pthread_key_t g_key;
 

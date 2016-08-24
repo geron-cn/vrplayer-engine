@@ -1161,43 +1161,31 @@ std::vector<float> getFloatArray(const char* str)
     {
         *(rdstr + end - start) = *p;
         char character = *(p);
+        p++;
+        end++;
         if(character == '(')
         {
             skipq = true;
-            start = end;
         }
         else if(character == ',')
         {
             if(!skipq)
             {
-                *(rdstr + end - start + 1) = '\0';
+                *(rdstr + end - start) = '\0';
                 float f = 0.0f;
                 if(sscanf(rdstr, "%f", &f) == 1)
                     array.push_back(f);
-
-                restart = true;
-            }
-            else
-            {
-                skipq = false;
+                start = end;
             }
         }
         else if(character == ')')
         {
-            *(rdstr + end - start + 1) = '\0';
-            float l = .0f, r = .0f;
-            if(sscanf(rdstr, "%f, %f", &l, &r) == 2)
-            {
-                array.push_back(getRdFloat(l, r));
-            }
-            restart = true;
-        }
-        p++;
-        end ++;
-        if(restart)
-        {
+            *(rdstr + end - start) = '\0';
+            start = 0;
+            while(*(rdstr + start) == ' ') start++;
+            array.push_back(getRdFloat(rdstr + start));
             start = end;
-            restart = false;
+            skipq = false;
         }
     }
     if(start < end)
@@ -1226,54 +1214,43 @@ std::vector<int> getIntArray(const char* str)
     {
         *(rdstr + end - start) = *p;
         char character = *(p);
+        p++;
+        end++;
         if(character == '(')
         {
             skipq = true;
-            start = end;
         }
         else if(character == ',')
         {
             if(!skipq)
             {
-                *(rdstr + end - start + 1) = '\0';
-                int f = 0.0f;
+                *(rdstr + end - start) = '\0';
+                int f = 0.0;
                 if(sscanf(rdstr, "%d", &f) == 1)
                     array.push_back(f);
-
-                restart = true;
-            }
-            else
-            {
-                skipq = false;
+                start = end;
             }
         }
         else if(character == ')')
         {
-            *(rdstr + end - start + 1) = '\0';
-            int l = .0f, r = .0f;
-            if(sscanf(rdstr, "%d, %d", &l, &r) == 2)
-            {
-                array.push_back(getRdInt(l, r));
-            }
-            restart = true;
-        }
-        p++;
-        end ++;
-        if(restart)
-        {
+            *(rdstr + end - start) = '\0';
+            start = 0;
+            while(*(rdstr + start) == ' ') start++;
+            array.push_back(getRdInt(rdstr + start));
             start = end;
-            restart = false;
+            skipq = false;
         }
     }
     if(start < end)
     {
          *(rdstr + end - start) = '\0';
-        int f = .0f;
+        int f = 0;
         if(sscanf(rdstr, "%d", &f) == 1)
             array.push_back(f);
     }
     return array;
 }
+
 
 
 int Properties::getInt(const char* name) const

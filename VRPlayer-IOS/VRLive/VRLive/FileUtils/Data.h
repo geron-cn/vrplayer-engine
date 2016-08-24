@@ -32,7 +32,7 @@
 namespace vrlive {
 
 
-#define LOG(format, ...)  //
+#define LOG(...)  
 
 class Data
 {

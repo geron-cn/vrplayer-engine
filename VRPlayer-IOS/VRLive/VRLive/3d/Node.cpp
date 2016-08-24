@@ -1,13 +1,11 @@
 #include "Node.h"
 #include "Sprite3D.h"
 #include "Action.h"
+#include "Scene.h"
+#include <math.h> 
 
-
-// for test
-#include "../FileUtils/FileUtils.h"
 
 namespace vrlive {
-   
     Node* Node::create(const std::string& id)
     {
         auto node = new Node();
@@ -18,6 +16,14 @@ namespace vrlive {
     
     void Node::update(Scene* scene)
     {
+        if(_positionDirty && fabs(_normalizedX + 1.f) > 0.00001f && fabs(_normalizedY + 1.f) > 0.00001f)
+        {
+            auto sx = (_normalizedX - .5f) * scene->getWidth();
+            auto sy = (_normalizedY - .5f) * scene->getHeight();
+            _mat.m[12] = sx;
+            _mat.m[13] = sy;
+            _positionDirty = false;
+        }
         for (auto it : _children) {
             it->update(scene);
         }
@@ -53,7 +59,16 @@ namespace vrlive {
         }
         return nullptr;
     }
-    
+
+    Node* Node::getRootParent()
+    {
+        Node* root = _parent;
+        if(_parent == nullptr)
+            return this;
+        else
+            return _parent->getRootParent();
+    }
+
     Matrix Node::getWorldTransformMatrix() const
     {
         if (_parent)
@@ -68,6 +83,9 @@ namespace vrlive {
         _mat.m[12] = pos.x;
         _mat.m[13] = pos.y;
         _mat.m[14] = pos.z;
+
+        _normalizedX = -1.f;
+        _normalizedY = -1.f;
     }
     
     void Node::setRotation(const Quaternion& quat)
@@ -136,7 +154,8 @@ namespace vrlive {
     
     void Node::removeAllChildren()
     {
-        for (auto it : _children) {
+        for (auto it : _children) 
+        {
             it->release();
         }
         _children.erase(_children.begin(), _children.end());
@@ -153,12 +172,14 @@ namespace vrlive {
     : _sprite(nullptr)
     , _parent(nullptr)
     , _isVisible(true)
+    , _normalizedX(-1.f)
+    , _normalizedY(-1.f)
     {
-        
+
     }
+
     Node::~Node()
     {
-        LOG("Node destruct %s", _id.c_str() );
         ActionMgr::getInstance()->removeActionByNode(this);
         
         if (_sprite)
@@ -166,7 +187,13 @@ namespace vrlive {
             _sprite->release();
             _sprite = NULL;
         }
-        LOG("Node %s destruct end",  _id.c_str());
         removeAllChildren();
+    }
+
+    void Node::setNormalized(float normalizedX, float normalizedY)
+    {
+        _positionDirty = true;
+        _normalizedX = normalizedX;
+        _normalizedY = normalizedY;
     }
 }

@@ -174,6 +174,32 @@ Scene::Scene()
     
 }
 
+void Scene::recursiveSetPosDiry(Node* node)
+{
+    for(auto child : node->_children)
+    {
+        child->_positionDirty = true;
+        recursiveSetPosDiry(child);
+    }
+}
+
+void Scene::setWidth(int w)
+{
+    if(_width != w)
+    {
+        _width = w;
+        recursiveSetPosDiry(this);
+    }
+}
+
+void Scene::setHeight(int h)
+{
+    if(_height != h)
+    {
+        _height = h;
+        recursiveSetPosDiry(this);
+    }
+}
 
 Scene::~Scene()
 {

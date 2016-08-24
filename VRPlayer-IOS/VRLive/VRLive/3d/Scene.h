@@ -29,13 +29,13 @@ public:
     
     void setCursorVisible(bool visible);
 
-    void setWidth(int width) { _width = width; }
+    void setWidth(int width);
     
     int getWidth() const { return _width; }
     
     int getHeight() const { return _height; }
     
-    void setHeight(int height) { _height = height; }
+    void setHeight(int height);
     
     DefaultMenuItem* getDefMenuItem() const { return _defMenu; }
     
@@ -45,6 +45,9 @@ protected:
     bool cursorCast(Node* node, const Ray& ray, float* distance, Node* &castnode);
     
     void drawNode(Node* node);
+
+    // recursivelly set children position dirty
+    void recursiveSetPosDiry(Node* node);
     Scene();
     ~Scene();
     

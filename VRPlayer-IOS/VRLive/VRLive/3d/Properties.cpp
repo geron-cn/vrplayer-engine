@@ -3,6 +3,7 @@
 #include "Quaternion.h"
 #include<memory>
 #include<string.h>
+#include <random>
 
 #define GP_ERROR(...)
 #define GP_WARN(...)
@@ -810,44 +811,6 @@ bool Properties::getBool(const char* name, bool defaultValue) const
     return defaultValue;
 }
 
-int Properties::getInt(const char* name) const
-{
-    const char* valueString = getString(name);
-    if (valueString)
-    {
-        int value;
-        int scanned;
-        scanned = sscanf(valueString, "%d", &value);
-        if (scanned != 1)
-        {
-            GP_ERROR("Error attempting to parse property '%s' as an integer.", name);
-            return 0;
-        }
-        return value;
-    }
-
-    return 0;
-}
-
-float Properties::getFloat(const char* name) const
-{
-    const char* valueString = getString(name);
-    if (valueString)
-    {
-        float value;
-        int scanned;
-        scanned = sscanf(valueString, "%f", &value);
-        if (scanned != 1)
-        {
-            GP_ERROR("Error attempting to parse property '%s' as a float.", name);
-            return 0.0f;
-        }
-        return value;
-    }
-
-    return 0.0f;
-}
-
 long Properties::getLong(const char* name) const
 {
     const char* valueString = getString(name);
@@ -1131,10 +1094,252 @@ Properties* getPropertiesFromNamespacePath(Properties* properties, const std::ve
         return properties;
 }
 
+int   getRdInt(int l, int r)
+{
+    std::random_device rd;
+    return rd() % (r -l) + l;
+}
+
+float getRdFloat(float l, float r)
+{
+    std::random_device rd;
+    return (rd() % ((int)(( r -l ) * 1000)) ) / 1000.0 + l;
+}
+
+bool containsRd(const char* str)
+{
+    if(str)
+    {
+        char* p = (char*)str;
+        while(*(p) != '\0' && *(p + 1) != '\0')
+        {
+            if(*(p) == 'r' && *(p + 1) == 'd')
+                return true;
+            p++;
+        }
+    }
+    return false;
+}
+
+//rd(0.0, 0.1)
+float getRdFloat(const char* rdstr)
+{
+    if(rdstr)
+    {
+        float l, r;
+        if(sscanf(rdstr, "rd(%f,%f)", &l, &r) == 2)
+            return getRdFloat(l, r);
+    }
+    return 0.0f;
+}
+
+
+//rd(0.0, 0.1)
+int getRdInt(const char* rdstr)
+{
+    if(rdstr)
+    {
+        int l, r;
+        if(sscanf(rdstr, "rd(%d,%d)", &l, &r) == 2)
+            return getRdInt(l, r);
+    }
+    return 0;
+}
+
+std::vector<float> getFloatArray(const char* str)
+{
+    std::vector<float> array;
+    if(!str)
+        return array;
+
+    char rdstr[30];
+    int start = 0, end = 0;
+    char* p = (char*)str;
+    bool skipq = false;
+    bool restart = false;
+    while((*p) != '\0')
+    {
+        *(rdstr + end - start) = *p;
+        char character = *(p);
+        if(character == '(')
+        {
+            skipq = true;
+            start = end;
+        }
+        else if(character == ',')
+        {
+            if(!skipq)
+            {
+                *(rdstr + end - start + 1) = '\0';
+                float f = 0.0f;
+                if(sscanf(rdstr, "%f", &f) == 1)
+                    array.push_back(f);
+
+                restart = true;
+            }
+            else
+            {
+                skipq = false;
+            }
+        }
+        else if(character == ')')
+        {
+            *(rdstr + end - start + 1) = '\0';
+            float l = .0f, r = .0f;
+            if(sscanf(rdstr, "%f, %f", &l, &r) == 2)
+            {
+                array.push_back(getRdFloat(l, r));
+            }
+            restart = true;
+        }
+        p++;
+        end ++;
+        if(restart)
+        {
+            start = end;
+            restart = false;
+        }
+    }
+    if(start < end)
+    {
+         *(rdstr + end - start) = '\0';
+        float f = .0f;
+        if(sscanf(rdstr, "%f", &f) == 1)
+            array.push_back(f);
+    }
+    return array;
+}
+
+
+std::vector<int> getIntArray(const char* str)
+{
+    std::vector<int> array;
+    if(!str)
+        return array;
+
+    char rdstr[30];
+    int start = 0, end = 0;
+    char* p = (char*)str;
+    bool skipq = false;
+    bool restart = false;
+    while((*p) != '\0')
+    {
+        *(rdstr + end - start) = *p;
+        char character = *(p);
+        if(character == '(')
+        {
+            skipq = true;
+            start = end;
+        }
+        else if(character == ',')
+        {
+            if(!skipq)
+            {
+                *(rdstr + end - start + 1) = '\0';
+                int f = 0.0f;
+                if(sscanf(rdstr, "%d", &f) == 1)
+                    array.push_back(f);
+
+                restart = true;
+            }
+            else
+            {
+                skipq = false;
+            }
+        }
+        else if(character == ')')
+        {
+            *(rdstr + end - start + 1) = '\0';
+            int l = .0f, r = .0f;
+            if(sscanf(rdstr, "%d, %d", &l, &r) == 2)
+            {
+                array.push_back(getRdInt(l, r));
+            }
+            restart = true;
+        }
+        p++;
+        end ++;
+        if(restart)
+        {
+            start = end;
+            restart = false;
+        }
+    }
+    if(start < end)
+    {
+         *(rdstr + end - start) = '\0';
+        int f = .0f;
+        if(sscanf(rdstr, "%d", &f) == 1)
+            array.push_back(f);
+    }
+    return array;
+}
+
+
+int Properties::getInt(const char* name) const
+{
+    const char* valueString = getString(name);
+    if (valueString)
+    {
+        if(containsRd(valueString))
+        {
+            return getRdInt(valueString);
+        }
+
+        int value;
+        int scanned;
+        scanned = sscanf(valueString, "%d", &value);
+        if (scanned != 1)
+        {
+            GP_ERROR("Error attempting to parse property '%s' as an integer.", name);
+            return 0;
+        }
+        return value;
+    }
+
+    return 0;
+}
+
+float Properties::getFloat(const char* name) const
+{
+    const char* valueString = getString(name);
+    if (valueString)
+    {
+        if(containsRd(valueString))
+        {
+            return getRdFloat(valueString);
+        }
+        float value;
+        int scanned;
+        scanned = sscanf(valueString, "%f", &value);
+        if (scanned != 1)
+        {
+            GP_ERROR("Error attempting to parse property '%s' as a float.", name);
+            return 0.0f;
+        }
+        return value;
+    }
+
+    return 0.0f;
+}
+
+
 bool Properties::parseVector2(const char* str, Vector2* out)
 {
    if (str)
    {
+       if(containsRd(str))
+       {
+           auto array = getFloatArray(str);
+           if(out)
+           {
+               out->set(array[0], array[1]);
+               return true;
+           }
+           else
+               out->set(.0f, .0f);
+           return false;
+       }
        float x, y;
        if (sscanf(str, "%f,%f", &x, &y) == 2)
        {
@@ -1157,6 +1362,19 @@ bool Properties::parseVector3(const char* str, Vector3* out)
 {
    if (str)
    {
+       if(containsRd(str))
+       {
+           auto array = getFloatArray(str);
+           if(out)
+           {
+               out->set(array[0], array[1], array[2]);
+               return true;
+           }
+           else
+               out->set(.0f, .0f, .0f);
+           return false;
+       }
+
        float x, y, z;
        if (sscanf(str, "%f,%f,%f", &x, &y, &z) == 3)
        {
@@ -1179,6 +1397,19 @@ bool Properties::parseVector4(const char* str, Vector4* out)
 {
    if (str)
    {
+       if(containsRd(str))
+       {
+           auto array = getFloatArray(str);
+           if(out)
+           {
+               out->set(array[0], array[1], array[2], array[3]);
+               return true;
+           }
+           else
+               out->set(.0f, .0f, .0f, .0f);
+           return false;
+       }
+
        float x, y, z, w;
        if (sscanf(str, "%f,%f,%f,%f", &x, &y, &z, &w) == 4)
        {
@@ -1201,6 +1432,19 @@ bool Properties::parseAxisAngle(const char* str, Quaternion* out)
 {
    if (str)
    {
+        if(containsRd(str))
+       {
+           auto array = getFloatArray(str);
+           if(out)
+           {
+               out->set(Vector3(array[0], array[1], array[2]), MATH_DEG_TO_RAD(array[3]));
+               return true;
+           }
+           else
+               out->set(.0f, .0f, .0f, 1.0f);
+           return false;
+       }
+
        float x, y, z, theta;
        if (sscanf(str, "%f,%f,%f,%f", &x, &y, &z, &theta) == 4)
        {

@@ -44,9 +44,9 @@ public:
 
     virtual ~Preference();
 private:
-    Preference():_properties(nullptr){}
+    Preference():_properties(nullptr), _scene(nullptr), _baseDir(""){}
 
-    void loadPreference(Scene* scene) const;
+    void loadPreference(Scene* scene);
 
     MenuItem* getMenuItem(Properties* propers) const;
     Label*    getLabel(Properties* propers) const;
@@ -55,6 +55,7 @@ private:
 
     Action*   getAction(Properties* actions, const char* actionID) const;
     std::vector<Action*> getActions(const std::string& actionsStr) const;
+    void getAction(std::string nameid, std::vector<Action*>& actions) const;
 
     ScaleAction*    getScaleAction(Properties* action) const;
     MoveLineAction* getMoveLineAction(Properties* action) const;
@@ -66,6 +67,8 @@ private:
     SequnceAction* getSequnceAction(Properties* action) const;
 
     Properties* _properties;
+    Scene*      _scene;
+    std::string _baseDir;
 };
 
 }

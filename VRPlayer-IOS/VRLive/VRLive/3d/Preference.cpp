@@ -37,6 +37,8 @@ namespace vrlive
 {
     Preference::Preference(const char* prefernceFilePath)
         : _properties(nullptr)
+        , _scene(nullptr)
+        , _baseDir("")
     {
         _properties = Properties::create(prefernceFilePath);
     }
@@ -57,17 +59,32 @@ namespace vrlive
         Vector3 target;
         action->getVector3("start", &start);
         action->getVector3("target", &target);
+        if(_scene != nullptr)
+        {
+            auto sw  = _scene->getWidth();
+            auto sh  = _scene->getHeight();
+            start.x  = (start.x  - .5f) * sw;
+            start.y  = (start.y  - .5f) * sh;
+            target.x = (target.x - .5f) * sw;
+            target.y = (target.y - .5f) * sh;
+        }
         auto duration = action->getFloat("duration");
+        LOG("start %f %f %f ", start.x, start.y, start.z);
+        LOG("target %f %f %f ", target.x, target.y, target.z);
+        LOG("duration %f ", duration);
         return MoveLineAction::create(start, target, duration);
     }
 
     FrameSequnceAction* Preference::getSequnceFrameAction(Properties* action) const
     {
         auto dir = action->getString("dirpath", "");
+        if(_baseDir != "")
+            dir = (_baseDir + std::string(dir)).c_str();
         auto start = action->getInt("start");
         auto count   = action->getInt("count");
         auto interval = action->getFloat("interval");
         auto repeat =   action->getBool("repeat");
+        LOG("-%s- %d %d %f", dir, start, count, interval);
         return FrameSequnceAction::create(dir, start, count, interval, repeat);
     }
 
@@ -130,23 +147,43 @@ namespace vrlive
     {
         LOG("set properties");
         auto name = propers->getString("name");
+        node->setName(name);
         Vector3 scale;
         Vector3 pos;
         propers->getVector3("scale",    &scale);
-        propers->getVector3("position", &pos);
-        auto rotaion = propers->getFloat("rotation");
-        node->setName(name);
-        node->setTranslation(pos);
         node->setScale(scale);
+        if(propers->exists("normalizedpos"))
+        {
+            Vector2 pos2;
+            propers->getVector2("normalizedpos", &pos2);
+             if(_scene != nullptr)
+            {
+                auto sw  = _scene->getWidth();
+                auto sh  = _scene->getHeight();
+                pos.x  = (pos2.x  - .5f) * sw;
+                pos.y  = (pos2.y  - .5f) * sh;
+                pos.z = 0;
+            }
+        }
+        else
+        { 
+            propers->getVector3("position", &pos);
+        }
+        node->setTranslation(pos);
+        auto rotaion = propers->getFloat("rotation");
         Quaternion quat;
         Quaternion::createFromAxisAngle(Vector3(0,0,1), rotaion, &quat);
         node->setRotation(quat);
-        auto actionsStr = propers->getString("actions");
-        auto acts = getActions(actionsStr);
-        for(auto act : acts)
+        auto actionsStr = propers->getString("actions", "");
+        if(strcmp("", actionsStr) != 0 )
         {
-            node->runAction(act);
-            act->release();
+            auto acts = getActions(actionsStr);
+            for(auto act : acts)
+            {
+                LOG("%s run action", node->getName().c_str());
+                node->runAction(act);
+                act->release();
+            }
         }
     }
 
@@ -156,6 +193,8 @@ namespace vrlive
         propers->getVector2("size",     &size);
         
         auto texture = propers->getString("texture");
+        if(_baseDir != "")
+            texture = (_baseDir + std::string(texture)).c_str();
         auto node = MenuItem::create(texture, size.x, size.y);
         if(!node)
             return nullptr;
@@ -169,13 +208,14 @@ namespace vrlive
         Vector2 size;
         propers->getVector2("size",     &size);
         auto text = propers->getString("text");
-        auto font = propers->getString("font");
+        std::string font = propers->getString("font");
+        font = font.substr(font.find_first_not_of(" "));
         auto fontsize = propers->getInt("fontsize");
         Vector4 fontcolor;
         propers->getVector4("fontcolor", &fontcolor);
         auto halignment = propers->getInt("halignment");
         auto valignment = propers->getInt("valignment");
-        
+        LOG("%s %d -%s, %f,%f,%f,%f ", text, fontsize, font.c_str(), fontcolor.x, fontcolor.y, fontcolor.z, fontcolor.w);
         auto node = Label::create(text, font, fontsize, fontcolor, size.x, size.y, (TextHAlignment)halignment, (TextVAlignment)valignment);
         if(!node)
             return nullptr;
@@ -186,6 +226,9 @@ namespace vrlive
     Label*    Preference::getSprite(Properties* propers) const
     {
         auto texture = propers->getString("texture");
+        if(_baseDir != "")
+            texture = (_baseDir + std::string(texture)).c_str();
+        LOG("-%s- ", texture);
         auto node = Label::createWithTexture(texture);
         if(!node)
             return nullptr;
@@ -193,32 +236,43 @@ namespace vrlive
         return node;
     }
 
+    void Preference::getAction(std::string nameid, std::vector<Action*>& actions) const
+    {
+        LOG("get nameid %s", nameid.c_str());
+        auto namepos = nameid.find_first_of("#");
+        auto name = nameid.substr(0, namepos);
+        name = name.substr(name.find_first_not_of(" "));
+        auto id = nameid.substr(namepos +1);
+        id = id.substr(0, id.find_last_not_of(" ")+1);
+        LOG("get name and id -%s- -%s-", name.c_str(), id.c_str());
+        //if(strcmp(name, "actions") == 0)
+        if(name == "actions")
+        {
+            auto action = getAction(id.c_str());
+            if(action != nullptr)
+                actions.push_back(action);
+        }
+    }
     std::vector<Action*> Preference::getActions(const std::string& actionsStr) const
     {
-        std::vector<Action*> acts;
 
-        std::string actionStr(actionsStr);
-        LOG("get actions");
+        std::vector<Action*> acts;
+        if("null" ==  actionsStr.substr(actionsStr.find_first_not_of(" ")))
+            return acts;
+        LOG("get actions %s", actionsStr.c_str());
         size_t last = 0;
-        size_t index = actionStr.find_first_of(",", last);
+        size_t index = actionsStr.find_first_of(",", last);
         while(index != std::string::npos)
         {
-            auto nameid = actionStr.substr(last, index - last);
-            char name[50];
-            char id[50];
-            sscanf(nameid.c_str(), "%s#%s", name, id);
-            if(strcmp(name, "actions") == 0)
-            {
-                auto action = getAction(id);
-                if(action != nullptr)
-                    acts.push_back(action);
-            }
-            else if(strcmp(name, "frames") == 0)
-            {
-                // not complted
-                // frames here
-            }
+            auto nameid = actionsStr.substr(last, index - last);
+            last = index + 1;
+            getAction(nameid, acts);
             index = actionsStr.find_first_of(",", last);
+        }
+        if(index - last > 0)
+        {
+            auto nameid = actionsStr.substr(last, index - last);
+            getAction(nameid, acts);
         }
         LOG("get actions end");
         return acts;
@@ -274,9 +328,10 @@ namespace vrlive
         return getAction(actions, actionID);
     }
 
-    void Preference::loadPreference(Scene* scene) const
+    void Preference::loadPreference(Scene* scene)
     {
         auto menus = _properties->getNamespace("menus");
+        _scene = scene;
         Properties* proper = NULL;
         if(menus)
         while((proper = menus->getNextNamespace()) != NULL)
@@ -321,6 +376,12 @@ namespace vrlive
    {
        auto prefern = new Preference(preferencefilePath);
        prefern->loadPreference(scene);
+
+        std::string dir(preferencefilePath);
+        auto pos = dir.find_last_of("/");
+        if(pos != std::string::npos)
+            prefern->_baseDir = dir.substr(0, pos + 1);
+
        delete prefern;
    }
 

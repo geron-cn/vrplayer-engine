@@ -27,6 +27,8 @@ public:
     
     Node* cursorCast();
     
+    void setCursorVisible(bool visible);
+
     void setWidth(int width) { _width = width; }
     
     int getWidth() const { return _width; }

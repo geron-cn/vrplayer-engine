@@ -232,10 +232,14 @@ namespace vrlive {
         action->_curFrame = 0;
         action->_interval = interval;
         
-        
+        auto strl = baseDir.length();
+        auto dir = baseDir;
+        if( strl != 0 && baseDir[strl-1] != '/')
+             dir += "/";
+
         char str[512];
         for (int i = 0; i < count; i++) {
-            sprintf(str, "%s%d%s", baseDir.c_str(), i + baseIdx, ".png");
+            sprintf(str, "%s%d%s", dir.c_str(), i + baseIdx, ".png");
             auto tex = Texture::create(str);
             action->_textures.push_back(tex);
         }

@@ -180,6 +180,16 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_removeMenuItem
   }
 
 
+  JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_setCursorShow
+  (JNIEnv *env, jclass, jboolean visible)
+  {
+      if(s_scene)
+      {
+          s_scene->setCursorVisible(visible);
+      }
+  }
+
+
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_removeLabel
   (JNIEnv *env, jclass, jstring name)
   {

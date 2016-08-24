@@ -38,7 +38,14 @@ namespace vrlive {
         
         return action;
     }
-    
+
+    MoveLineAction* MoveLineAction::create(const Vector3& start, const Vector3& end, float t, bool normalized)
+    {
+        auto action = create(start, end, t);
+        action->_normalized = normalized;
+        return action;
+    }
+
     void MoveLineAction::update(float t)
     {
         Action::update(t);
@@ -53,10 +60,14 @@ namespace vrlive {
             ratio = 1.f;
         }
         Vector3 pos = _start + (_end - _start) * ratio;
-        _target->setTranslation(pos);
+        if(_normalized)
+            _target->setNormalized(pos.x, pos.y);
+        else
+            _target->setTranslation(pos);
     }
     
     MoveLineAction::MoveLineAction()
+        : _normalized(false)
     {
         
     }
@@ -418,8 +429,6 @@ namespace vrlive {
             {
                  LOG("action remove from manager %s", node->getName().c_str());
                 action->setTarget(nullptr);
-//                action->release();
-//                _actions.erase(_actions.begin() + i);
                 LOG("action remove from manager ended ");
             }
         }
@@ -432,9 +441,7 @@ namespace vrlive {
         {
             if (action == _actions[i])
             {
-//                _actions.erase(_actions.begin() + i);
                 action->setTarget(nullptr);
-//                action->release();
             }
         }
     }

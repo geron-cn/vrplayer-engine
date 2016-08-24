@@ -153,6 +153,7 @@ namespace vrlive {
 
     void Label::update(Scene* scene)
     {
+        Node::update(scene);
         int screenWidth = scene->getWidth();
         int screenHeight = scene->getHeight();
         if (_camera2D == nullptr)
@@ -171,11 +172,6 @@ namespace vrlive {
             mat.invert();
             _camera2D->setViewMatrix(mat.m);
         }
-//        if (_normalizedX != -1 && _normalizedY != -1)
-//        {
-//            Vector3 pos(_normalizedX*screenWidth, _normalizedY*screenHeight, 0);
-//            setTranslation(pos);
-//        }
     }
     
     void Label::rotationZ(float angleZ)

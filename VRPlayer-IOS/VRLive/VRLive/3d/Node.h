@@ -72,6 +72,8 @@ namespace vrlive {
         
         bool isVisible() const { return _isVisible; }
         
+        void setNormalized(float normalizedX, float normalizedY);
+
     protected:
         
         
@@ -80,6 +82,8 @@ namespace vrlive {
         virtual ~Node();
         
     protected:
+        Node* getRootParent();
+
         std::string _id;
         Node* _parent;
         std::vector<Node*> _children;
@@ -87,6 +91,10 @@ namespace vrlive {
         Matrix _mat;
         Matrix _scaleMat;
         bool   _isVisible;
+
+        float _normalizedX;
+        float _normalizedY;
+        bool  _positionDirty;
     };
 }
 

@@ -25,13 +25,6 @@
 #include <vector>
 
 
-#include <android/log.h>
-#define  LOG_TAG    "FileUtils"
-#ifdef LOG
-#undef LOG
-#define  LOG(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
-#endif
-
 namespace vrlive
 {
     Preference::Preference(const char* prefernceFilePath)
@@ -58,7 +51,10 @@ namespace vrlive
         Vector3 target;
         action->getVector3("start", &start);
         action->getVector3("target", &target);
-        if(_scene != nullptr)
+        
+        auto duration = action->getFloat("duration");
+        auto normalize = action->getBool("normalized");
+        if(!normalize && _scene != nullptr)
         {
             auto sw  = _scene->getWidth();
             auto sh  = _scene->getHeight();
@@ -67,11 +63,10 @@ namespace vrlive
             target.x = (target.x - .5f) * sw;
             target.y = (target.y - .5f) * sh;
         }
-        auto duration = action->getFloat("duration");
         LOG("start %f %f %f ", start.x, start.y, start.z);
         LOG("target %f %f %f ", target.x, target.y, target.z);
         LOG("duration %f ", duration);
-        return MoveLineAction::create(start, target, duration);
+        return MoveLineAction::create(start, target, duration, normalize);
     }
 
     FrameSequnceAction* Preference::getSequnceFrameAction(Properties* action) const
@@ -147,28 +142,30 @@ namespace vrlive
         LOG("set properties");
         auto name = propers->getString("name");
         node->setName(name);
-        Vector3 scale;
-        Vector3 pos;
+        Vector3 scale(1.f, 1.f, 1.f);
+        Vector3 pos(.0f, .0f, 0.f);
         propers->getVector3("scale",    &scale);
         node->setScale(scale);
         if(propers->exists("normalizedpos"))
         {
             Vector2 pos2;
             propers->getVector2("normalizedpos", &pos2);
-             if(_scene != nullptr)
-            {
-                auto sw  = _scene->getWidth();
-                auto sh  = _scene->getHeight();
-                pos.x  = (pos2.x  - .5f) * sw;
-                pos.y  = (pos2.y  - .5f) * sh;
-                pos.z = 0;
-            }
+            LOG("normalizedpos %f, %f", pos2.x, pos2.y);
+            node->setNormalized(pos2.x, pos2.y);
+            //  if(_scene != nullptr)
+            // {
+            //     auto sw  = _scene->getWidth();
+            //     auto sh  = _scene->getHeight();
+            //     pos.x  = (pos2.x  - .5f) * sw;
+            //     pos.y  = (pos2.y  - .5f) * sh;
+            //     pos.z = 0;
+            // }
         }
         else
         { 
             propers->getVector3("position", &pos);
+            node->setTranslation(pos);
         }
-        node->setTranslation(pos);
         auto rotaion = propers->getFloat("rotation");
         Quaternion quat;
         Quaternion::createFromAxisAngle(Vector3(0,0,1), rotaion, &quat);

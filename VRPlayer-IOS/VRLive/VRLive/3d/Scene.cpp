@@ -100,9 +100,18 @@ void Scene::draw()
         }
     }
     
+    void Scene::setCursorVisible(bool visible)
+    {
+        if(_cursor)
+        {
+            _cursor->setVisible(visible);
+        }
+    }
+
+
     Node* Scene::cursorCast()
     {
-        if (_camera)
+        if (_camera && _cursor->isVisible())
         {
             auto mat = _camera->getInverseViewMatrix();
             Vector3 pos(mat.m[12], mat.m[13], mat.m[14]);

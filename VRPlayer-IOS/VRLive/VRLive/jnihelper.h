@@ -68,6 +68,9 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_createMenuItem
   JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_setRenderCustomMenuShow
   (JNIEnv *, jclass, jboolean);
 
+  JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_setCursorShow
+  (JNIEnv *, jclass, jboolean);
+
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_removeMenuItem
   (JNIEnv *, jclass, jstring);
 

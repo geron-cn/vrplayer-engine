@@ -159,8 +159,8 @@ namespace vrlive
             {
                 auto sw  = _scene->getWidth();
                 auto sh  = _scene->getHeight();
-                pos.x  = (pos.x  - .5f) * sw;
-                pos.y  = (pos.y  - .5f) * sh;
+                pos.x  = (pos2.x  - .5f) * sw;
+                pos.y  = (pos2.y  - .5f) * sh;
                 pos.z = 0;
             }
         }

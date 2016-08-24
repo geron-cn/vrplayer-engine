@@ -83,6 +83,9 @@ namespace vrlive {
         _mat.m[12] = pos.x;
         _mat.m[13] = pos.y;
         _mat.m[14] = pos.z;
+
+        _normalizedX = -1.f;
+        _normalizedY = -1.f;
     }
     
     void Node::setRotation(const Quaternion& quat)

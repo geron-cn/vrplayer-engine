@@ -323,6 +323,32 @@ namespace vrlive
         return getAction(actions, actionID);
     }
 
+
+    void      Preference::loadNode( const char* nodeID)
+    {
+        if(_scene == nullptr)
+            return;
+
+        if(_properties->getNamespace("sprites")->exists(nodeID))
+        {
+            auto sprite = getSprite(nodeID);
+            _scene->addChild(sprite);
+            sprite->release();
+        }
+        else if(_properties->getNamespace("labels")->exists(nodeID))
+        {
+            auto label = getLabel(nodeID);
+            _scene->addChild(label);
+            label->release();
+        }
+        else if(_properties->getNamespace("menus")->exists(nodeID))
+        {
+            auto menu = getMenuItem(nodeID);
+            _scene->getDefMenuItem()->addChild(menu);
+            menu->release();
+        }
+    }
+
     void Preference::loadPreference(Scene* scene)
     {
         auto menus = _properties->getNamespace("menus");
@@ -367,17 +393,19 @@ namespace vrlive
         }
     }
 
-   void Preference::loadPreference(const char* preferencefilePath, Scene* scene)
+   Preference* Preference::loadPreference(const char* preferencefilePath, Scene* scene)
    {
        auto prefern = new Preference(preferencefilePath);
-       prefern->loadPreference(scene);
 
         std::string dir(preferencefilePath);
         auto pos = dir.find_last_of("/");
         if(pos != std::string::npos)
             prefern->_baseDir = dir.substr(0, pos + 1);
 
-       delete prefern;
+       prefern->loadPreference(scene);
+       
+       //delete prefern;
+       return prefern;
    }
 
     Preference::~Preference()

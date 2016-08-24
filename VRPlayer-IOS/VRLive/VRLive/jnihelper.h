@@ -80,6 +80,12 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_removeLabel
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_loadPreference
   (JNIEnv *, jclass, jstring);
 
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_destoryPreference
+  (JNIEnv *, jclass);
+
+JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_loadNode
+  (JNIEnv *, jclass, jstring);
+
 /*
  * Class:     com_vrlive_vrlib_common_JNIHelper
  * Method:    setAssetManager

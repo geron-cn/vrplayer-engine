@@ -31,9 +31,13 @@ class Preference
 {
 public:
 
-    static void loadPreference(const char* preferencefilePath, Scene* scene);
+    static Preference* loadPreference(const char* preferencefilePath, Scene* scene);
 
     Preference(const char* preferenceFilePath);
+
+    // load a node with a unique nodeID
+    void      loadNode(const char* nodeID);
+
     MenuItem* getMenuItem(const char* menuID) const;
     Label*    getLabel(const char* labelID) const;
     Label*    getSprite(const char* spriteID) const;

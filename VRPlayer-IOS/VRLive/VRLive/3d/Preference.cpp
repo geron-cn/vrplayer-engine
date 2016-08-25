@@ -53,15 +53,6 @@ namespace vrlive
         
         auto duration = action->getFloat("duration");
         auto normalize = action->getBool("normalized");
-        if(!normalize && _scene != nullptr)
-        {
-            auto sw  = _scene->getWidth();
-            auto sh  = _scene->getHeight();
-            start.x  = (start.x  - .5f) * sw;
-            start.y  = (start.y  - .5f) * sh;
-            target.x = (target.x - .5f) * sw;
-            target.y = (target.y - .5f) * sh;
-        }
         LOG("start %f %f %f ", start.x, start.y, start.z);
         LOG("target %f %f %f ", target.x, target.y, target.z);
         LOG("duration %f ", duration);

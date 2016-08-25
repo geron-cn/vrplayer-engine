@@ -1,7 +1,6 @@
 
 #include "FileSystem.h"
 #include "Stream.h"
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <memory>
@@ -98,6 +97,21 @@ static bool androidFileExists(const char* filePath)
     return false;
 }
 
+    
+    void FileSystem::getFullPath(const char* path, std::string& fullPath)
+    {
+        if (FileSystem::isAbsolutePath(path))
+        {
+            fullPath.assign(path);
+        }
+        else
+        {
+            fullPath.assign(__resourcePath);
+            fullPath += FileSystem::resolvePath(path);
+        }
+    }
+
+    
 #endif
 
 /** @script{ignore} */
@@ -113,18 +127,7 @@ static std::map<std::string, std::string> __aliases;
  * @param path The path to resolve.
  * @param fullPath The full resolved path. (out param)
  */
-static void getFullPath(const char* path, std::string& fullPath)
-{
-    if (FileSystem::isAbsolutePath(path))
-    {
-        fullPath.assign(path);
-    }
-    else
-    {
-        fullPath.assign(__resourcePath);
-        fullPath += FileSystem::resolvePath(path);
-    }
-}
+    
 
 /**
  * 

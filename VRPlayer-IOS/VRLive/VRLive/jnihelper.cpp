@@ -347,8 +347,15 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_loadNode
          return;
 
     const char *str;
-    str = env->GetStringUTFChars(nodename, 0); 
-    preference->loadNode(str);
+    str = env->GetStringUTFChars(nodename, 0);
+    bool otherpropFile =  vrlive::FileStream::fileExists(str);
+    if(otherpropFile)
+    {
+        auto otherProp = vrlive::Preference::loadPreference(str, s_scene);
+        delete otherProp;
+    }
+    else
+        preference->loadNode(str);
     env->ReleaseStringUTFChars(nodename, str);
 }
 

@@ -9,6 +9,7 @@
 #import "3d/Stream.h"
 #import "3d/Action.h"
 #import "3d/Sprite3D.h"
+#import "3d/Preference.h"
 
 extern vrlive::Scene* _scene;
 
@@ -229,6 +230,15 @@ extern vrlive::Scene* _scene;
     if (_scene)
     {
         _scene->setCursorVisible(show);
+    }
+}
+
+- (void) loadPropertyFile: (NSString*)path
+{
+    if (_scene)
+    {
+        std::string strPath=[path cStringUsingEncoding: NSUTF8StringEncoding];
+        vrlive::Preference::loadPreference(strPath.c_str(), _scene);
     }
 }
 

@@ -24,4 +24,6 @@
 
 + (void) labelRotation:(int)degree;
 
+- (void) loadPropertyFile: (NSString*)path;
+
 @end

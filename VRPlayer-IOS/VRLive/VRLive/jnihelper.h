@@ -38,7 +38,7 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_renderOnChanged
  * Signature: (I)V
  */
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_initRenderScene
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jstring);
 
 /*
  * Class:     com_vrlive_vrlib_common_JNIHelper
@@ -76,12 +76,6 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_removeMenuItem
 
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_removeLabel
   (JNIEnv *, jclass, jstring);
-
-JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_loadPreference
-  (JNIEnv *, jclass, jstring);
-
-JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_destoryPreference
-  (JNIEnv *, jclass);
 
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_loadNode
   (JNIEnv *, jclass, jstring);

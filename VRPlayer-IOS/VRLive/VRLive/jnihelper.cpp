@@ -21,6 +21,8 @@
 static vrlive::Scene* s_scene = NULL;
 static JNIEnv* s_env = nullptr;
 
+vrlive::Preference* preference = nullptr;
+
 static pthread_key_t g_key;
 
 static jmethodID sFindClassMethod;
@@ -74,15 +76,19 @@ Java_com_vrlive_vrlib_common_JNIHelper_renderOnChanged(JNIEnv *env, jobject inst
 }
 
 JNIEXPORT void JNICALL
-Java_com_vrlive_vrlib_common_JNIHelper_initRenderScene(JNIEnv *env, jobject instance) {
+Java_com_vrlive_vrlib_common_JNIHelper_initRenderScene(JNIEnv *env, jobject instance, jstring configPath) {
     // TODO
-    if(s_scene != nullptr)
-        s_scene->release();
+    Java_com_vrlive_vrlib_common_JNIHelper_initClearRender(nullptr, nullptr);
 
-        pthread_t thisthread = pthread_self();
-        LOG("store env 1 pthread_self %p = %ld", env, thisthread);
-        pthread_setspecific(g_key, env);
-        s_scene = vrlive::Scene::create();
+    pthread_t thisthread = pthread_self();
+    LOG("store env 1 pthread_self %p = %ld", env, thisthread);
+    pthread_setspecific(g_key, env);
+    s_scene = vrlive::Scene::create();
+
+    const char *str;
+    str = env->GetStringUTFChars(configPath, 0); 
+    preference = vrlive::Preference::loadPreference(str, s_scene);
+    env->ReleaseStringUTFChars(configPath, str);
 }
 
 JNIEXPORT jstring JNICALL
@@ -98,8 +104,17 @@ Java_com_vrlive_vrlib_common_JNIHelper_checkEvent(JNIEnv *env, jobject instance)
 
 JNIEXPORT void JNICALL
 Java_com_vrlive_vrlib_common_JNIHelper_initClearRender(JNIEnv *env, jobject instance) {
+    if(s_scene != nullptr)
+    {
         s_scene->release();
-        s_scene = NULL;
+        s_scene = nullptr;
+    }
+
+    if(preference != nullptr)
+    {
+        delete preference;
+        preference = nullptr;
+    }
 }
 
 
@@ -324,27 +339,6 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_sendSpriteAnimate
     actionsq->release();
     env->ReleaseStringUTFChars(spritePath, str);
 }
-
-vrlive::Preference* preference = nullptr;
-JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_loadPreference
-  (JNIEnv *env, jclass, jstring configPath)
-{
-    const char *str;
-    str = env->GetStringUTFChars(configPath, 0); 
-    preference = vrlive::Preference::loadPreference(str, s_scene);
-    env->ReleaseStringUTFChars(configPath, str);
-}
-
-
-JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_destoryPreference
-  (JNIEnv *, jclass)
-  {
-      if(preference != nullptr)
-      {
-          delete preference;
-          preference = nullptr;
-      }
-  }
 
 JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_loadNode
   (JNIEnv *env, jclass, jstring nodename)

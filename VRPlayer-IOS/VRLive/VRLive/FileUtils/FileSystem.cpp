@@ -40,6 +40,13 @@
 namespace vrlive
 {
 
+
+/** @script{ignore} */
+static std::string __resourcePath("./");
+static std::string __assetPath("");
+static std::map<std::string, std::string> __aliases;
+
+
 #ifdef __ANDROID__
 #include <unistd.h>
 AAssetManager* FileSystem::__assetManager = nullptr;
@@ -113,11 +120,6 @@ static bool androidFileExists(const char* filePath)
 
     
 #endif
-
-/** @script{ignore} */
-static std::string __resourcePath("./");
-static std::string __assetPath("");
-static std::map<std::string, std::string> __aliases;
 
 /**
  * Gets the fully resolved path.

@@ -8,9 +8,10 @@
 #import <Foundation/Foundation.h>
 
 #include "FileUtils.h"
+#include "FileSystem.h"
 
 namespace vrlive {
-    const std::string FileUtils::resolvePath(const std::string& filepath)
+    std::string _resolvePath(const std::string& filepath)
     {
         if(filepath.empty())
             return "";
@@ -38,5 +39,14 @@ namespace vrlive {
             return std::string("");
         
         return [fullpath UTF8String];
+    }
+    const std::string FileUtils::resolvePath(const std::string& filepath)
+    {
+        return _resolvePath(filepath);
+    }
+    
+    void FileSystem::getFullPath(const char* path, std::string& fullPath)
+    {
+        fullPath = _resolvePath(std::string(path));
     }
 }

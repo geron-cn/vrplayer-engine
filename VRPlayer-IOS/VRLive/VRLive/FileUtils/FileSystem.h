@@ -261,6 +261,8 @@ public:
      */
     static std::string getExtension(const char* path);
 
+    static void getFullPath(const char* path, std::string& fullPath);
+    
 #ifdef __ANDROID__
  static AAssetManager* __assetManager;
 #endif

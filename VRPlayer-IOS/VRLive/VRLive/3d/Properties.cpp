@@ -5,6 +5,7 @@
 #include<string.h>
 #include <random>
 
+#define LOG(...) 
 #define GP_ERROR(...)
 #define GP_WARN(...)
 #define GP_ASSERT(...)

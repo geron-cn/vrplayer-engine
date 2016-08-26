@@ -24,6 +24,7 @@
 #include "Action.h"
 #include <vector>
 
+#define LOG(...) 
 namespace vrlive
 {
     Preference::Preference(const char* prefernceFilePath)

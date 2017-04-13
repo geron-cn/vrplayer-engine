@@ -21,7 +21,7 @@ namespace vrlive {
             delete sprite;
             sprite = nullptr;
         }
-        
+         LOG("Sprite3D created");
         return sprite;
     }
     
@@ -34,7 +34,7 @@ namespace vrlive {
             delete sprite;
             sprite = nullptr;
         }
-        
+        LOG("Sprite3D for model created");
         return sprite;
     }
 

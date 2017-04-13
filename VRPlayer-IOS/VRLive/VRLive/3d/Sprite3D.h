@@ -23,6 +23,8 @@ namespace vrlive {
     public:
         static Sprite3D* create(const std::vector<float>& pos, const std::vector<float>& texCoord, const std::vector<unsigned short>& indices);
         
+        static Sprite3D* create(const std::string &modelPath, const std::string &texturePath);
+
         void setNode(Node* node) { _node = node; }
         
         void setTexture(Texture* texture);
@@ -37,7 +39,9 @@ namespace vrlive {
         
     protected:
         bool init(const std::vector<float>& pos, const std::vector<float>& texCoord, const std::vector<unsigned short>& indices);
-        
+        bool init(const std::vector<float>& pos, const std::vector<float> &normal, const std::vector<float>& texCoord, const std::vector<unsigned short>& indices);
+        bool init(const std::string &modelPath, const std::string &texturePath);
+
         Sprite3D();
         virtual ~Sprite3D();
         

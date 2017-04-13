@@ -29,10 +29,13 @@
 #include <stdint.h> // for ssize_t on android
 #include <string>   // for ssize_t on linux
 
+#include<android/log.h>
+ 
+ 
 namespace vrlive {
 
+#define LOG(...) __android_log_print(ANDROID_LOG_DEBUG,"jni-log" ,__VA_ARGS__) // 定义LOGD类型
 
-#define LOG(...)  
 
 class Data
 {

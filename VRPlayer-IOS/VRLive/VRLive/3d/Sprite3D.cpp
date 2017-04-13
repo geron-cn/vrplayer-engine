@@ -8,7 +8,8 @@
 #include "Matrix.h"
 #include "Node.h"
 #include "Texture.h"
-
+#include "../FileUtils/Data.h"
+#include "tiny_obj_loader.h"
 namespace vrlive {
     
     Sprite3D* Sprite3D::create(const std::vector<float>& pos, const std::vector<float>& texCoord, const std::vector<unsigned short>& indices)
@@ -24,9 +25,30 @@ namespace vrlive {
         return sprite;
     }
     
+    Sprite3D* Sprite3D::create(const std::string &modelPath, const std::string &texturePath)
+    {
+        auto sprite = new Sprite3D();
+        
+        if (!sprite->init(modelPath, texturePath))
+        {
+            delete sprite;
+            sprite = nullptr;
+        }
+        
+        return sprite;
+    }
+
+
     bool Sprite3D::init(const std::vector<float>& pos, const std::vector<float>& texCoord, const std::vector<unsigned short>& indices)
     {
+        LOG("Sprite3D init with three args");
         std::vector<float> normal;
+        return init(pos, normal, texCoord, indices);
+    }
+
+ bool Sprite3D::init(const std::vector<float>& pos, const std::vector<float> &normal, const std::vector<float>& texCoord, const std::vector<unsigned short>& indices)
+ {
+     LOG("Sprite3D init with four args");
         _buffer = VertexBuffer::create(pos, normal, texCoord, indices);
         if (_buffer == nullptr)
             return false;
@@ -58,8 +80,35 @@ namespace vrlive {
         _boundsphere = BoundSphere::create(center, sqrtf(maxdistance) * 0.5f);
         
         _program = GLProgramCache::getInstance()->createOrGet(GLProgramCache::PositionTexCoord);//GLProgram::create(s_vs, s_fs);
+         LOG("end Sprite3D init with four args");
         return true;
+ }
+       
+
+    bool Sprite3D::init(const std::string &modelPath, const std::string &texturePath)
+    {
+        setTexture(Texture::create(texturePath));
+
+        tinyobj::attrib_t attrib;
+        std::vector<tinyobj::shape_t> shapes;
+        std::vector<tinyobj::material_t> materials;
+
+        std::string err;
+        bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, modelPath.c_str());
+        std::vector<unsigned short> indices;
+        for( auto &indxs : shapes)
+        {
+            for(auto & indx : indxs.mesh.indices)
+            {
+                auto indec = (unsigned short)(indx.vertex_index == -1? (indx.texcoord_index == -1? indx.normal_index: indx.texcoord_index) : indx.vertex_index);
+                indices.push_back(indec);
+            }
+        }
+        ret &= init(attrib.vertices, attrib.normals, attrib.texcoords, indices);
+        return ret;
     }
+
+
     
     void Sprite3D::setTexture(Texture* texture)
     {

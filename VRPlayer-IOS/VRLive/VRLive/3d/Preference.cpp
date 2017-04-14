@@ -24,7 +24,6 @@
 #include "Action.h"
 #include <vector>
 
-#define LOG(...) 
 namespace vrlive
 {
     Preference::Preference(const char* prefernceFilePath)
@@ -54,9 +53,9 @@ namespace vrlive
         
         auto duration = action->getFloat("duration");
         auto normalize = action->getBool("normalized");
-        LOG("start %f %f %f ", start.x, start.y, start.z);
-        LOG("target %f %f %f ", target.x, target.y, target.z);
-        LOG("duration %f ", duration);
+        // LOG("start %f %f %f ", start.x, start.y, start.z);
+        // LOG("target %f %f %f ", target.x, target.y, target.z);
+        // LOG("duration %f ", duration);
         return MoveLineAction::create(start, target, duration, normalize);
     }
 
@@ -69,7 +68,7 @@ namespace vrlive
         auto count   = action->getInt("count");
         auto interval = action->getFloat("interval");
         auto repeat =   action->getBool("repeat");
-        LOG("-%s- %d %d %f", dir, start, count, interval);
+        // LOG("-%s- %d %d %f", dir, start, count, interval);
         return FrameSequnceAction::create(dir, start, count, interval, repeat);
     }
 
@@ -130,7 +129,7 @@ namespace vrlive
 
     void Preference::setNodePropers(Node* node, Properties* propers) const
     {
-        LOG("set properties");
+        // LOG("set properties");
         auto name = propers->getString("name");
         node->setName(name);
         Vector3 scale(1.f, 1.f, 1.f);
@@ -141,7 +140,7 @@ namespace vrlive
         {
             Vector2 pos2;
             propers->getVector2("normalizedpos", &pos2);
-            LOG("normalizedpos %f, %f", pos2.x, pos2.y);
+            // LOG("normalizedpos %f, %f", pos2.x, pos2.y);
             node->setNormalized(pos2.x, pos2.y);
             //  if(_scene != nullptr)
             // {
@@ -167,7 +166,7 @@ namespace vrlive
             auto acts = getActions(actionsStr);
             for(auto act : acts)
             {
-                LOG("%s run action", node->getName().c_str());
+                // LOG("%s run action", node->getName().c_str());
                 node->runAction(act);
                 act->release();
             }
@@ -202,7 +201,7 @@ namespace vrlive
         propers->getVector4("fontcolor", &fontcolor);
         auto halignment = propers->getInt("halignment");
         auto valignment = propers->getInt("valignment");
-        LOG("%s %d -%s, %f,%f,%f,%f ", text, fontsize, font.c_str(), fontcolor.x, fontcolor.y, fontcolor.z, fontcolor.w);
+        // LOG("%s %d -%s, %f,%f,%f,%f ", text, fontsize, font.c_str(), fontcolor.x, fontcolor.y, fontcolor.z, fontcolor.w);
         auto node = Label::create(text, font, fontsize, fontcolor, size.x, size.y, (TextHAlignment)halignment, (TextVAlignment)valignment);
         if(!node)
             return nullptr;
@@ -215,7 +214,7 @@ namespace vrlive
         auto texture = propers->getString("texture");
         if(_baseDir != "")
             texture = (_baseDir + std::string(texture)).c_str();
-        LOG("-%s- ", texture);
+        // LOG("-%s- ", texture);
         auto node = Label::createWithTexture(texture);
         if(!node)
             return nullptr;
@@ -225,13 +224,13 @@ namespace vrlive
 
     void Preference::getAction(std::string nameid, std::vector<Action*>& actions) const
     {
-        LOG("get nameid %s", nameid.c_str());
+        // LOG("get nameid %s", nameid.c_str());
         auto namepos = nameid.find_first_of("#");
         auto name = nameid.substr(0, namepos);
         name = name.substr(name.find_first_not_of(" "));
         auto id = nameid.substr(namepos +1);
         id = id.substr(0, id.find_last_not_of(" ")+1);
-        LOG("get name and id -%s- -%s-", name.c_str(), id.c_str());
+        // LOG("get name and id -%s- -%s-", name.c_str(), id.c_str());
         //if(strcmp(name, "actions") == 0)
         if(name == "actions")
         {
@@ -246,7 +245,7 @@ namespace vrlive
         std::vector<Action*> acts;
         if("null" ==  actionsStr.substr(actionsStr.find_first_not_of(" ")))
             return acts;
-        LOG("get actions %s", actionsStr.c_str());
+        // LOG("get actions %s", actionsStr.c_str());
         size_t last = 0;
         size_t index = actionsStr.find_first_of(",", last);
         while(index != std::string::npos)
@@ -261,7 +260,7 @@ namespace vrlive
             auto nameid = actionsStr.substr(last, index - last);
             getAction(nameid, acts);
         }
-        LOG("get actions end");
+        // LOG("get actions end");
         return acts;
     }
 
@@ -351,7 +350,7 @@ namespace vrlive
         {
             if(0 == strcmp("menu", proper->getNamespace()))
             {
-                LOG("load menu %s", proper->getId());
+                // LOG("load menu %s", proper->getId());
                 auto menu = getMenuItem(proper);
                 scene->getDefMenuItem()->addChild(menu);
                 menu->release();
@@ -364,7 +363,7 @@ namespace vrlive
         {
             if(0 == strcmp("label", proper->getNamespace()))
             {
-                LOG("load label %s", proper->getId());
+                // LOG("load label %s", proper->getId());
                 auto label = getLabel(proper);
                 scene->addChild(label);
                 label->release();
@@ -377,7 +376,7 @@ namespace vrlive
         {
             if(0 == strcmp("sprite", proper->getNamespace()))
             {
-                LOG("load sprite %s", proper->getId());
+                // LOG("load sprite %s", proper->getId());
                 auto sprite = getSprite(proper);
                 scene->addChild(sprite);
                 sprite->release();

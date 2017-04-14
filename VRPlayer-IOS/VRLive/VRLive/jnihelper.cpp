@@ -18,6 +18,7 @@
 #include "jnihelper.h"
 #include <random>
 
+#include "3d/Sprite3D.h"
 static vrlive::Scene* s_scene = NULL;
 static JNIEnv* s_env = nullptr;
 
@@ -87,7 +88,20 @@ Java_com_vrlive_vrlib_common_JNIHelper_initRenderScene(JNIEnv *env, jobject inst
 
     const char *str;
     str = env->GetStringUTFChars(configPath, 0); 
-    preference = vrlive::Preference::loadPreference(str, s_scene);
+   // preference = vrlive::Preference::loadPreference(str, s_scene);
+
+    
+LOG("model3d");
+       auto modelNode = vrlive::Node::create("model3d");
+       auto bosssprite = vrlive::Sprite3D::create("boss.obj", "boss.png");
+       LOG("begin create boss node");
+       modelNode->setSprite3D(bosssprite);
+       LOG("end create boss node");
+       modelNode->setTranslation( vrlive::Vector3(0.5f, 0.5f, -20.f));
+       LOG("model3d setted to node");
+       s_scene->addChild(modelNode);
+       modelNode->release();
+
     env->ReleaseStringUTFChars(configPath, str);
 }
 
@@ -178,6 +192,7 @@ JNIEXPORT void JNICALL Java_com_vrlive_vrlib_common_JNIHelper_createMenuItem
        menu->setTranslation(pos);
        scene->getDefMenuItem()->addChild(menu);
        menu->release();
+
        env->ReleaseStringUTFChars(path, pathStr);
        env->ReleaseStringUTFChars(name, nameStr);
   }

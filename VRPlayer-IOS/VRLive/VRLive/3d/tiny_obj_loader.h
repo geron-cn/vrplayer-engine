@@ -44,6 +44,7 @@ THE SOFTWARE.
 #include <map>
 #include <string>
 #include <vector>
+#include "../FileUtils/FileUtils.h"
 
 namespace tinyobj {
 
@@ -1393,7 +1394,9 @@ bool LoadObj(attrib_t *attrib, std::vector<shape_t> *shapes,
 
   std::stringstream errss;
 
-  std::ifstream ifs(filename);
+  auto filedata = vrlive::FileUtils::getInstance()->getFileContent(filename, true);
+  ssize_t filesize;
+  std::istringstream ifs((char*)filedata.takeBuffer(&filesize));
   if (!ifs) {
     errss << "Cannot open file [" << filename << "]" << std::endl;
     if (err) {

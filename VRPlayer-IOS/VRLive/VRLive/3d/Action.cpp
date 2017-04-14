@@ -11,7 +11,6 @@ namespace vrlive {
     void Action::update(float t)
     {
         _curtime += t;
-        LOG("action updated %s", _target->getName().c_str());
     }
     
     Action::Action()
@@ -448,7 +447,6 @@ namespace vrlive {
     
     void ActionMgr::update()
     {
-        LOG("action mgr size: %d", _actions.size());
         double time = Platform::getMachTimeInMilliseconds();
         double t = (time - _lasttime) / 1000.0;
         for (auto action : _actions) {

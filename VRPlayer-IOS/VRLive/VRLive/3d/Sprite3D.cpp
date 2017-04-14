@@ -9,6 +9,7 @@
 #include "Node.h"
 #include "Texture.h"
 #include "../FileUtils/Data.h"
+#include "../FileUtils/FileUtils.h"
 #include "tiny_obj_loader.h"
 namespace vrlive {
     
@@ -33,8 +34,9 @@ namespace vrlive {
         {
             delete sprite;
             sprite = nullptr;
+             LOG("Sprite3D for model created failed");
         }
-        LOG("Sprite3D for model created");
+       
         return sprite;
     }
 
@@ -51,8 +53,9 @@ namespace vrlive {
      LOG("Sprite3D init with four args");
         _buffer = VertexBuffer::create(pos, normal, texCoord, indices);
         if (_buffer == nullptr)
+        {
             return false;
-        
+        }
         size_t count = pos.size() / 3;
         std::vector<Vector3> verts;
         size_t i;
@@ -87,6 +90,7 @@ namespace vrlive {
 
     bool Sprite3D::init(const std::string &modelPath, const std::string &texturePath)
     {
+        LOG("begin load model");
         setTexture(Texture::create(texturePath));
 
         tinyobj::attrib_t attrib;
@@ -95,15 +99,19 @@ namespace vrlive {
 
         std::string err;
         bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, modelPath.c_str());
+        if(!ret) LOG("load obj file failed!!!!");
+        else LOG("load obj file sucess !!!!!!");
         std::vector<unsigned short> indices;
         for( auto &indxs : shapes)
         {
             for(auto & indx : indxs.mesh.indices)
             {
                 auto indec = (unsigned short)(indx.vertex_index == -1? (indx.texcoord_index == -1? indx.normal_index: indx.texcoord_index) : indx.vertex_index);
+                LOG("%f",(float)indec);
                 indices.push_back(indec);
             }
         }
+         LOG("end load model");
         ret &= init(attrib.vertices, attrib.normals, attrib.texcoords, indices);
         return ret;
     }
